@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_oniad_address_admin,oniad.address,model_oniad_address,,1,1,1,1
+access_oniad_address_group_user,oniad.address.user,model_oniad_address,base.group_user,1,1,1,1
+access_oniad_campaign_admin,oniad.campaign,model_oniad_campaign,,1,1,1,1
+access_oniad_campaign_group_user,oniad.campaign.user,model_oniad_campaign,base.group_user,1,1,1,1
+access_oniad_transaction_admin,oniad.transaction,model_oniad_transaction,,1,1,1,1
+access_oniad_transaction_group_user,oniad.transaction.user,model_oniad_transaction,base.group_user,1,1,1,1
+access_oniad_user_admin,oniad.user,model_oniad_user,,1,1,1,1
+access_oniad_user_group_user,oniad.user.user,model_oniad_user,base.group_user,1,1,1,1
+access_oniad_user_tag_admin,oniad.user.tag,model_oniad_user_tag,,1,1,1,1
+access_oniad_user_tag_group_user,oniad.user.tag.user,model_oniad_user_tag,base.group_user,1,1,1,1
+access_oniad_accountmanager_admin,oniad.accountmanager,model_oniad_accountmanager,,1,1,1,1
+access_oniad_accountmanager_group_user,oniad.accountmanager.user,model_oniad_accountmanager,base.group_user,1,1,1,1
+access_oniad_country_state_admin,oniad.country.state,model_oniad_country_state,,1,1,1,1
+access_oniad_country_state_group_user,oniad.country.state.user,model_oniad_country_state,base.group_user,1,1,1,1

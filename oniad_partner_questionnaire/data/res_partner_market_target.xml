@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_partner_market_target_data_1" model="res.partner.market.target">
+        <field name="id">1</field>
+        <field name="name">B2B</field>
+    </record>
+    <record id="res_partner_market_target_data_2" model="res.partner.market.target">
+        <field name="id">2</field>
+        <field name="name">B2C</field>
+    </record>                       
+</odoo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_partner_agency_type_data_1" model="res.partner.agency.type">
+        <field name="id">1</field>
+        <field name="name">Consultor</field>
+    </record>
+    <record id="res_partner_agency_type_data_2" model="res.partner.agency.type">
+        <field name="id">2</field>
+        <field name="name">Micro-agencia</field>
+    </record>
+    <record id="res_partner_agency_type_data_3" model="res.partner.agency.type">
+        <field name="id">3</field>
+        <field name="name">Agencia</field>
+    </record>                   
+</odoo>

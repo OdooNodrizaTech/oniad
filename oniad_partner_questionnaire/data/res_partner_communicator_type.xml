@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_partner_communicator_type_data_1" model="res.partner.communicator.type">
+        <field name="id">1</field>
+        <field name="name">Periodista</field>
+        <field name="influencer">False</field>        
+    </record>
+    <record id="res_partner_communicator_type_data_2" model="res.partner.communicator.type">
+        <field name="id">2</field>
+        <field name="name">Blogger</field>
+        <field name="influencer">False</field>
+    </record>             
+    <record id="res_partner_communicator_type_data_3" model="res.partner.communicator.type">
+        <field name="id">3</field>
+        <field name="name">Influencer</field>
+        <field name="influencer">True</field>
+    </record>       
+</odoo>

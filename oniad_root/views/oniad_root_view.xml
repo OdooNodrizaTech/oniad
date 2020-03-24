@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="oniad_campaign_form_view" model="ir.ui.view">
+        <field name="name">Oniad Campaign</field>
+        <field name="model">oniad.campaign</field>
+        <field name="arch" type="xml">
+            <form string="Oniad Campaign">
+                <header>                                                
+                    <field name="state" widget="statusbar" statusbar_colors='{}'/>
+                </header>                                
+                <sheet string="child">
+                    <group>
+                        <field name="name"/>
+                        <field name="active"/>
+                        <field name="currency_id" invisible="1"/>
+                        <field name="cpm"/>
+                        <field name="cpm_real"/>
+                        <field name="type"/>
+                        <field name="during"/>                        
+                        <field name="pricing"/>
+                        <field name="oniad_user_id"/>
+                        <field name="cpc_price"/>
+                        <field name="frecuency"/>
+                        <field name="brain_active"/>
+                        <field name="budget_daily"/>
+                        <field name="date_start"/>
+                        <field name="date_finish"/>
+                        <field name="timezone"/>
+                        <field name="spent"/>
+                        <field name="spent_at"/>                                                                                                                                                                    
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="oniad_campaign_tree" model="ir.ui.view">
+        <field name="name">Oniad Campaign</field>
+        <field name="model">oniad.campaign</field>            
+        <field name="arch" type="xml">
+            <tree string="Oniad Campaign"> 
+                <field name="name"/>
+                <field name="type"/>
+                <field name="date_start"/>
+                <field name="date_finish"/>
+                <field name="budget_daily"/>
+                <field name="cpm"/>
+                <field name="spent"/>
+                <field name="oniad_user_id"/>
+            </tree>
+        </field>            
+    </record>        
+    <record id="oniad_campaign_type_action" model="ir.actions.act_window">
+        <field name="name">Oniad Campaign</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">oniad.campaign</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="oniad_campaign_tree"/>                
+    </record>
+    <record id="oniad_user_form_view" model="ir.ui.view">
+        <field name="name">Oniad User</field>
+        <field name="model">oniad.user</field>
+        <field name="arch" type="xml">
+            <form string="Oniad User">                                
+                <sheet string="child">
+                    <group>
+                        <field name="name"/>
+                        <field name="partner_id"/>
+                        <field name="oniad_user_id_link" widget="url" />
+                        <field name="currency_id"/>
+                        <field name="lang"/>
+                        <field name="last_name"/>
+                        <field name="uuid"/>
+                        <field name="email"/>
+                        <field name="phone"/>
+                        <field name="iso_code"/>
+                        <field name="timezone"/>
+                        <field name="confirmed"/>
+                        <field name="oniad_address_id"/>
+                        <field name="oniad_accountmanager_id"/>                        
+                        <field name="parent_id"/>
+                        <field name="type"/>
+                        <field name="oniad_managed"/>
+                        <field name="spent_cost"/>
+                        <field name="spent_min_date"/>
+                        <field name="spent_max_date"/>
+                        <field name="last_login"/>                        
+                        <field name="odoo_lead"/>
+                        <field name="welcome_lead_id"/>
+                        <field name="create_date"/>
+                        <field name="tag_ids"/>                                                                                                                                                                                                                                                                                                                         
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="oniad_user_tree" model="ir.ui.view">
+        <field name="name">Oniad User</field>
+        <field name="model">oniad.user</field>            
+        <field name="arch" type="xml">
+            <tree string="Oniad User"> 
+                <field name="name"/>
+                <field name="last_name"/>
+                <field name="type"/>
+                <field name="spent_cost"/>
+                <field name="oniad_accountmanager_id"/>
+                <field name="create_date"/>
+            </tree>
+        </field>            
+    </record>        
+    <record id="oniad_user_type_action" model="ir.actions.act_window">
+        <field name="name">Oniad User</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">oniad.user</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="oniad_user_tree"/>                
+    </record>
+    <record id="oniad_address_form_view" model="ir.ui.view">
+        <field name="name">Oniad Address</field>
+        <field name="model">oniad.address</field>
+        <field name="arch" type="xml">
+            <form string="Oniad Address">                                                
+                <sheet string="child">
+                    <group>
+                        <field name="name"/>
+                        <field name="partner_id"/>
+                        <field name="cp"/>
+                        <field name="cif"/>
+                        <field name="iva"/>
+                        <field name="city"/>
+                        <field name="phone"/>
+                        <field name="address"/>
+                        <field name="country_id"/>
+                        <field name="state_id"/>
+                        <field name="a_number"/>
+                        <field name="res_partner_bank_id"/>
+                        <field name="create_date"/>                                                                                                                                                                                                                                                 
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="oniad_address_tree" model="ir.ui.view">
+        <field name="name">Oniad Address</field>
+        <field name="model">oniad.address</field>            
+        <field name="arch" type="xml">
+            <tree string="Oniad Address"> 
+                <field name="name"/>
+                <field name="cif"/>
+                <field name="cp"/>
+                <field name="city"/>
+                <field name="country_id"/>
+                <field name="state_id"/>
+                <field name="phone"/>
+                <field name="iva"/>
+                <field name="create_date"/>
+            </tree>
+        </field>            
+    </record>        
+    <record id="oniad_address_type_action" model="ir.actions.act_window">
+        <field name="name">Oniad Address</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">oniad.address</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="oniad_address_tree"/>                
+    </record>
+    <record id="oniad_accountmanager_form_view" model="ir.ui.view">
+        <field name="name">Oniad Accountmanager</field>
+        <field name="model">oniad.accountmanager</field>
+        <field name="arch" type="xml">
+            <form string="Oniad Accountmanager">                                                
+                <sheet string="child">
+                    <group>
+                        <field name="email"/>
+                        <field name="user_id"/>                                                                                                                                                                                                                                                                         
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="oniad_accountmanager_tree" model="ir.ui.view">
+        <field name="name">Oniad Accountmanager</field>
+        <field name="model">oniad.accountmanager</field>            
+        <field name="arch" type="xml">
+            <tree string="Oniad Accountmanager"> 
+                <field name="email"/>
+                <field name="user_id"/>
+            </tree>
+        </field>            
+    </record>        
+    <record id="oniad_accountmanager_type_action" model="ir.actions.act_window">
+        <field name="name">Oniad Accountmanager</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">oniad.accountmanager</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="oniad_accountmanager_tree"/>                
+    </record>
+    <record id="oniad_transaction_form_view" model="ir.ui.view">
+        <field name="name">Oniad Transaction</field>
+        <field name="model">oniad.transaction</field>
+        <field name="arch" type="xml">
+            <form string="Oniad Transaction">
+                <header>                                                
+                    <field name="state" widget="statusbar" statusbar_colors='{}'/>
+                </header>                                
+                <sheet string="child">
+                    <group>
+                        <field name="account_payment_id"/>
+                        <field name="currency_id" invisible="1"/>
+                        <field name="amount"/>
+                        <field name="tax"/>
+                        <field name="total"/>
+                        <field name="date"/>
+                        <field name="oniad_user_id"/>
+                        <field name="oniad_address_id"/>                        
+                        <field name="type"/>
+                        <field name="actor"/>
+                        <field name="medium"/>
+                        <field name="subject"/>
+                        <field name="create_date"/>                                                                                                                                                                                                                                
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="oniad_transaction_tree" model="ir.ui.view">
+        <field name="name">Oniad Transaction</field>
+        <field name="model">oniad.transaction</field>            
+        <field name="arch" type="xml">
+            <tree string="Oniad Transaction"> 
+                <field name="oniad_user_id"/>
+                <field name="subject"/>
+                <field name="amount"/>
+                <field name="tax"/>
+                <field name="total"/>
+                <field name="date"/>
+                <field name="account_payment_id"/>
+                <field name="type"/>
+                <field name="actor"/>
+                <field name="medium"/>
+                <field name="create_date"/>
+            </tree>
+        </field>            
+    </record>        
+    <record id="oniad_transaction_type_action" model="ir.actions.act_window">
+        <field name="name">Oniad Transaction</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">oniad.transaction</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="oniad_transaction_tree"/>                
+    </record>
+    <record id="oniad_country_state_form_view" model="ir.ui.view">
+        <field name="name">Oniad Country State</field>
+        <field name="model">oniad.country.state</field>
+        <field name="arch" type="xml">
+            <form string="Oniad Country State">                                
+                <sheet string="child">
+                    <group>
+                        <field name="name"/>
+                        <field name="iso_code"/>
+                        <field name="state_id"/>                                                                                                                                                                                                                                
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="oniad_country_state_tree" model="ir.ui.view">
+        <field name="name">Oniad Country State</field>
+        <field name="model">oniad.country.state</field>            
+        <field name="arch" type="xml">
+            <tree string="Oniad Country State"> 
+                <field name="name"/>
+                <field name="iso_code"/>
+                <field name="state_id"/>                
+            </tree>
+        </field>            
+    </record>        
+    <record id="oniad_country_state_type_action" model="ir.actions.act_window">
+        <field name="name">Oniad Country State</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">oniad.country.state</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="oniad_country_state_tree"/>                
+    </record>             
+    <menuitem 
+        id="menu_odoo_oniad_root" 
+        name="Oniad Root"
+        parent="base.menu_custom" 
+        sequence="47"
+    />
+    <menuitem 
+        action="oniad_campaign_type_action" 
+        name="Oniad Campaign"
+        id="menuitem_oniad_campaign" 
+        parent="menu_odoo_oniad_root"
+    />
+    <menuitem 
+        action="oniad_user_type_action" 
+        name="Oniad User"
+        id="menuitem_oniad_user" 
+        parent="menu_odoo_oniad_root"
+    />
+    <menuitem 
+        action="oniad_accountmanager_type_action" 
+        name="Oniad Accountmanager"
+        id="menuitem_oniad_accountmanager" 
+        parent="menu_odoo_oniad_root"
+    />
+    <menuitem 
+        action="oniad_address_type_action" 
+        name="Oniad Address"
+        id="menuitem_oniad_address" 
+        parent="menu_odoo_oniad_root"
+    />
+    <menuitem 
+        action="oniad_transaction_type_action" 
+        name="Oniad Transaction"
+        id="menuitem_oniad_transaction" 
+        parent="menu_odoo_oniad_root"
+    />
+    <menuitem 
+        action="oniad_country_state_type_action" 
+        name="Oniad Country State"
+        id="menuitem_oniad_country_state" 
+        parent="menu_odoo_oniad_root"
+    />                   
+</odoo>

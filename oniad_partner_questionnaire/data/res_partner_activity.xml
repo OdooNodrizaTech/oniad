@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_partner_activity_data_1" model="res.partner.activity">
+        <field name="id">1</field>
+        <field name="name">Actividad</field>        
+    </record>                           
+</odoo>

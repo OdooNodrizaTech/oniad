@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_payment_oniad_form" model="ir.ui.view">
+        <field name="name">view_payment_oniad_form</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <field name="communication" position="after">	    	
+                <field name="oniad_product_id" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                <field name="oniad_purchase_price" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+	       </field>                        
+        </field>
+    </record>
+</odoo>

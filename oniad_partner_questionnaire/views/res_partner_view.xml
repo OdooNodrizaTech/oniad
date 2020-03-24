@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_oniad_tree" model="ir.ui.view">
+        <field name="name">Add partner extra fields</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <field name="email" position="after">
+                <field name="oa_qt_partner_type" />                                                                
+            </field>            
+        </field>
+    </record>
+    <record id="res_partner_view_oniad_partner_questionnaire" model="ir.ui.view">
+        <field name="name">res.partner.view.oniad_partner_questionnaire</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="priority" eval="20"/>
+        <field name="arch" type="xml">
+            <field name="email" position="after">
+                <field name="oa_qt_partner_type" widget="many2many_checkboxes" />
+                <field name="oa_qt_show_stakeholder_tab" invisible="1" />
+                <field name="oa_qt_show_user_tab" invisible="1" />                
+            </field>                                    
+            <page name="sales_purchases" position="after">
+                <page name="oniad_partner_questionnaire_stakeholder" string="Stakeholder" attrs="{'invisible': [('oa_qt_show_stakeholder_tab','=',False)]}">
+                    <group name="oniad_partner_questionnaire_stakeholder_left" col="1">
+                        <field name="oa_qt_stakeholder_type" widget="many2many_checkboxes" />                        
+                        <field name="oa_qt_is_fan" invisible="1" />
+                        <field name="oa_qt_is_investor" invisible="1" />
+                        <field name="oa_qt_is_teacher" invisible="1" />
+                        <field name="oa_qt_is_association" invisible="1" />
+                        <field name="oa_qt_is_communicator" invisible="1" />
+                        <field name="oa_qt_fan_level" widget="many2many_checkboxes" attrs="{'invisible': [('oa_qt_is_fan','=',False)]}" />
+                        <field name="oa_qt_inversor_type" widget="many2many_checkboxes" attrs="{'invisible': [('oa_qt_is_investor','=',False)]}" />
+                        <field name="oa_qt_educational_center_type" widget="many2many_checkboxes" attrs="{'invisible': [('oa_qt_is_teacher','=',False)]}" />
+                        <field name="oa_qt_formation_type" widget="many2many_checkboxes" attrs="{'invisible': [('oa_qt_is_teacher','=',False)]}" />
+                        <field name="oa_qt_asociation_type" widget="many2many_checkboxes" attrs="{'invisible': [('oa_qt_is_association','=',False)]}" />
+                        <field name="oa_qt_asociation_geo" widget="many2many_checkboxes" attrs="{'invisible': [('oa_qt_is_association','=',False)]}" />
+                        <field name="oa_qt_communicator_type" widget="many2many_checkboxes" attrs="{'invisible': [('oa_qt_is_communicator','=',False)]}" />                        
+                        <field name="oa_qt_is_communicator_influencer" invisible="1" />
+                        <field name="oa_qt_social_network" widget="many2many_checkboxes" attrs="{'invisible': [('oa_qt_is_communicator_influencer','=',False)]}" />
+                        <field name="oa_qt_communication_area" widget="many2many_checkboxes" attrs="{'invisible': [('oa_qt_is_communicator','=',False)]}"/>
+                        <field name="oa_qt_communication_geo" widget="many2many_checkboxes" attrs="{'invisible': [('oa_qt_is_communicator','=',False)]}" />                                                                                                                                                                                                                                                    
+                    </group>                    
+                </page>
+                <page name="oniad_partner_questionnaire_user" string="Usuario" attrs="{'invisible': [('oa_qt_show_user_tab','=',False)]}">
+                    <group name="oniad_partner_questionnaire_user_left" col="1">
+                        <field name="oa_qt_user_type"/>
+                        <field name="oa_qt_customer_type" />
+                        <field name="oa_qt_is_advertiser" invisible="1" />                        
+                        <field name="oa_qt_affiliate" attrs="{'invisible': [('oa_qt_is_advertiser','=',False)]}" />
+                        <field name="oa_qt_is_agency" invisible="1" />
+                        <field name="oa_qt_market_target" widget="many2many_checkboxes" attrs="{'invisible': [('oa_qt_is_advertiser','=',False)]}" />
+                        <field name="oa_qt_sector" attrs="{'invisible': [('oa_qt_is_advertiser','=',False)]}" />
+                        <field name="oa_qt_activity" widget="many2many_checkboxes" attrs="{'invisible': [('oa_qt_is_advertiser','=',False)]}"  domain="[('res_partner_sector_id.id', '=', oa_qt_sector)]" />                        
+                        <field name="oa_qt_agency_type" widget="many2many_checkboxes" attrs="{'invisible': [('oa_qt_is_agency','=',False)]}" />
+                        <field name="oa_qt_agency_activity" widget="many2many_checkboxes" attrs="{'invisible': [('oa_qt_is_agency','=',False)]}" />                                                                                                                                                                                        
+                    </group>                    
+                </page>                                                                
+            </page>
+        </field>
+    </record>
+    <record id="partner_partner_type_action" model="ir.actions.act_window">
+        <field name="name">Tipos de cliente</field>
+        <field name="res_model">res.partner.partner.type</field>
+        <field name="view_mode">tree,form</field>                
+    </record>
+    <record id="partner_stakeholder_type_action" model="ir.actions.act_window">
+        <field name="name">Tipos de stakeholder</field>
+        <field name="res_model">res.partner.stakeholder.type</field>
+        <field name="view_mode">tree,form</field>                
+    </record>
+    <record id="partner_fan_level_action" model="ir.actions.act_window">
+        <field name="name">Niveles de fan</field>
+        <field name="res_model">res.partner.fan.level</field>
+        <field name="view_mode">tree,form</field>                
+    </record>
+    <record id="partner_inversor_type_action" model="ir.actions.act_window">
+        <field name="name">Tipos de inversor</field>
+        <field name="res_model">res.partner.inversor.type</field>
+        <field name="view_mode">tree,form</field>                
+    </record>
+    <record id="partner_educational_center_type_action" model="ir.actions.act_window">
+        <field name="name">Tipos de centro educativo</field>
+        <field name="res_model">res.partner.educational.center.type</field>
+        <field name="view_mode">tree,form</field>                
+    </record>
+    <record id="partner_formation_type_action" model="ir.actions.act_window">
+        <field name="name">Tipos de formacion</field>
+        <field name="res_model">res.partner.formation.type</field>
+        <field name="view_mode">tree,form</field>                
+    </record>
+    <record id="partner_asociation_type_action" model="ir.actions.act_window">
+        <field name="name">Tipos de asociacion</field>
+        <field name="res_model">res.partner.asociation.type</field>
+        <field name="view_mode">tree,form</field>                
+    </record>
+    <record id="partner_asociation_geo_action" model="ir.actions.act_window">
+        <field name="name">Geo de asociacion</field>
+        <field name="res_model">res.partner.asociation.geo</field>
+        <field name="view_mode">tree,form</field>                
+    </record>
+    <record id="partner_social_network_action" model="ir.actions.act_window">
+        <field name="name">Redes sociales</field>
+        <field name="res_model">res.partner.social.network</field>
+        <field name="view_mode">tree,form</field>                
+    </record>
+    <record id="partner_communication_area_action" model="ir.actions.act_window">
+        <field name="name">Ambitos de comunicacion</field>
+        <field name="res_model">res.partner.communication.area</field>
+        <field name="view_mode">tree,form</field>                
+    </record>
+    <record id="partner_communication_geo_action" model="ir.actions.act_window">
+        <field name="name">Geo de comunicacion</field>
+        <field name="res_model">res.partner.communication.geo</field>
+        <field name="view_mode">tree,form</field>                
+    </record>
+    <record id="partner_communicator_type_action" model="ir.actions.act_window">
+        <field name="name">Tipos de comunicadores</field>
+        <field name="res_model">res.partner.communicator.type</field>
+        <field name="view_mode">tree,form</field>                
+    </record>    
+    <record id="partner_user_type_action" model="ir.actions.act_window">
+        <field name="name">Tipos de usuarios</field>
+        <field name="res_model">res.partner.user.type</field>
+        <field name="view_mode">tree,form</field>                
+    </record>
+    <record id="partner_customer_type_action" model="ir.actions.act_window">
+        <field name="name">Tipos de clientes</field>
+        <field name="res_model">res.partner.customer.type</field>
+        <field name="view_mode">tree,form</field>                
+    </record>
+    <record id="partner_agency_type_action" model="ir.actions.act_window">
+        <field name="name">Tipos de agencias</field>
+        <field name="res_model">res.partner.agency.type</field>
+        <field name="view_mode">tree,form</field>                
+    </record>
+    <record id="partner_market_target_action" model="ir.actions.act_window">
+        <field name="name">Mercados objetivos</field>
+        <field name="res_model">res.partner.market.target</field>
+        <field name="view_mode">tree,form</field>                
+    </record>
+    <record id="partner_sector_action" model="ir.actions.act_window">
+        <field name="name">Sectores</field>
+        <field name="res_model">res.partner.sector</field>
+        <field name="view_mode">tree,form</field>                
+    </record>
+    <record id="partner_activity_action" model="ir.actions.act_window">
+        <field name="name">Actividades</field>
+        <field name="res_model">res.partner.activity</field>
+        <field name="view_mode">tree,form</field>                
+    </record>
+    <record id="partner_agency_activity_action" model="ir.actions.act_window">
+        <field name="name">Actividades de agencias</field>
+        <field name="res_model">res.partner.agency.activity</field>
+        <field name="view_mode">tree,form</field>                
+    </record>     
+    <menuitem 
+        id="menu_odoo_oniad_partner_questionnaire" 
+        name="Oniad Partner Questionnaire"
+        parent="base.menu_custom" 
+        sequence="46"
+    />
+    <menuitem 
+        action="partner_partner_type_action" 
+        name="Tipos de cliente"
+        id="menuitem_partner_partner_type" 
+        parent="menu_odoo_oniad_partner_questionnaire"
+    />
+    <menuitem 
+        action="partner_stakeholder_type_action" 
+        name="Tipos de stakeholder"
+        id="menuitem_partner_stakeholder_type" 
+        parent="menu_odoo_oniad_partner_questionnaire"
+    />
+    <menuitem 
+        action="partner_fan_level_action" 
+        name="Niveles de fan"
+        id="menuitem_partner_fan_level" 
+        parent="menu_odoo_oniad_partner_questionnaire"
+    />
+    <menuitem 
+        action="partner_inversor_type_action" 
+        name="Tipos de inversor"
+        id="menuitem_partner_inversor_type" 
+        parent="menu_odoo_oniad_partner_questionnaire"
+    />
+    <menuitem 
+        action="partner_educational_center_type_action" 
+        name="Tipos de centro educativo"
+        id="menuitem_partner_educational_center_type" 
+        parent="menu_odoo_oniad_partner_questionnaire"
+    />
+    <menuitem 
+        action="partner_formation_type_action" 
+        name="Tipos de formacion"
+        id="menuitem_partner_formation_type" 
+        parent="menu_odoo_oniad_partner_questionnaire"
+    />
+    <menuitem 
+        action="partner_asociation_type_action" 
+        name="Tipos de asociacion"
+        id="menuitem_partner_asociation_type" 
+        parent="menu_odoo_oniad_partner_questionnaire"
+    />
+    <menuitem 
+        action="partner_asociation_geo_action" 
+        name="Geo de asociacion"
+        id="menuitem_partner_asociation_geo" 
+        parent="menu_odoo_oniad_partner_questionnaire"
+    />
+    <menuitem 
+        action="partner_social_network_action" 
+        name="Redes sociales"
+        id="menuitem_partner_social_network" 
+        parent="menu_odoo_oniad_partner_questionnaire"
+    />
+    <menuitem 
+        action="partner_communication_area_action" 
+        name="Ambitos de comunicacion"
+        id="menuitem_partner_communication_area" 
+        parent="menu_odoo_oniad_partner_questionnaire"
+    />
+    <menuitem 
+        action="partner_communication_geo_action" 
+        name="Geo de comunicacion"
+        id="menuitem_partner_communication_geo" 
+        parent="menu_odoo_oniad_partner_questionnaire"
+    />
+    <menuitem 
+        action="partner_communicator_type_action" 
+        name="Tipos de comunicadores"
+        id="menuitem_partner_communicator_type" 
+        parent="menu_odoo_oniad_partner_questionnaire"
+    />        
+    <menuitem 
+        action="partner_user_type_action" 
+        name="Tipos de usuario"
+        id="menuitem_partner_user_type" 
+        parent="menu_odoo_oniad_partner_questionnaire"
+    />
+    <menuitem 
+        action="partner_customer_type_action" 
+        name="Tipos de cliente"
+        id="menuitem_partner_customer_type" 
+        parent="menu_odoo_oniad_partner_questionnaire"
+    />
+    <menuitem 
+        action="partner_agency_type_action" 
+        name="Tipos de agencias"
+        id="menuitem_partner_agency_type" 
+        parent="menu_odoo_oniad_partner_questionnaire"
+    />
+    <menuitem 
+        action="partner_market_target_action" 
+        name="Mercados objetivos"
+        id="menuitem_partner_market_target" 
+        parent="menu_odoo_oniad_partner_questionnaire"
+    />
+    <menuitem 
+        action="partner_sector_action" 
+        name="Sectores"
+        id="menuitem_partner_sector" 
+        parent="menu_odoo_oniad_partner_questionnaire"
+    />
+    <menuitem 
+        action="partner_activity_action" 
+        name="Actividades"
+        id="menuitem_partner_activity" 
+        parent="menu_odoo_oniad_partner_questionnaire"
+    />
+    <menuitem 
+        action="partner_agency_activity_action" 
+        name="Actividades de agencias"
+        id="menuitem_partner_agency_activity" 
+        parent="menu_odoo_oniad_partner_questionnaire"
+    />                
+</odoo>

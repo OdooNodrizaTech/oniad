@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="crm_lead_oniad_root" model="ir.ui.view">
+        <field name="name">crm_lead_oniad_root</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_form_view_oppor"/>
+        <field name="arch" type="xml">
+            <field name="user_id" position="after">
+                <field name="oniad_campaign_id"/>
+                <field name="oniad_user_id_link" widget="url"/>                                
+            </field>                        
+        </field>
+    </record>                          
+</odoo>

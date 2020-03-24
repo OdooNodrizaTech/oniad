@@ -1,0 +1,59 @@
+<openerp>
+    <data noupdate="1">
+        <record id="cron_sendinblue_get_attributes" model="ir.cron">
+            <field name="name">Cron Sendinblue Get Attributes</field>
+            <field name="active" eval="True" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="model" eval="'sendinblue.attribute'" />
+            <field name="function" eval="'cron_get_attributes'" />
+            <field name="args" eval="" />
+        </record>        
+        <record id="cron_auto_generate_leads_sendinblue" model="ir.cron">
+            <field name="name">Cron Auto Generate Leads Sendinblue</field>
+            <field name="active" eval="True" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="model" eval="'sendinblue.contact'" />
+            <field name="function" eval="'cron_auto_generate_leads_sendinblue'" />
+            <field name="args" eval="" />
+        </record>
+        <record id="cron_sendinblue_get_contacts" model="ir.cron">
+            <field name="name">Cron Sendinblue Get Contacts</field>
+            <field name="active" eval="True" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="model" eval="'sendinblue.contact'" />
+            <field name="function" eval="'cron_get_contacts'" />
+            <field name="args" eval="" />
+        </record>        
+        <record id="cron_sendinblue_get_folders" model="ir.cron">
+            <field name="name">Cron Sendinblue Get Folders</field>
+            <field name="active" eval="True" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="model" eval="'sendinblue.folder'" />
+            <field name="function" eval="'cron_get_folders'" />
+            <field name="args" eval="" />
+        </record>
+        <record id="cron_sendinblue_get_lists" model="ir.cron">
+            <field name="name">Cron Sendinblue Get Lists</field>
+            <field name="active" eval="True" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="model" eval="'sendinblue.list'" />
+            <field name="function" eval="'cron_get_lists'" />
+            <field name="args" eval="" />
+        </record>                                      
+    </data>
+</openerp>

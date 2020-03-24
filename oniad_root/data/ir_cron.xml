@@ -1,0 +1,103 @@
+<openerp>
+    <data noupdate="1">
+        <record id="cron_action_account_invoices_generate" model="ir.cron">
+            <field name="name">Account Invoice Generate (OniAd Transaction)</field>
+            <field name="active" eval="False" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">months</field>
+            <field name="numbercall">-1</field>
+            <field name="model" eval="'oniad.transaction'" />
+            <field name="function" eval="'cron_action_account_invoices_generate'" />
+            <field name="args" eval="" />
+        </record>
+        <record id="cron_sqs_oniad_accountmanager" model="ir.cron">
+            <field name="name">SQS Oniad Accountmanager</field>
+            <field name="active" eval="False" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="model" eval="'oniad.accountmanager'" />
+            <field name="function" eval="'cron_sqs_oniad_accountmanager'" />
+            <field name="args" eval="" />
+        </record>
+        <record id="cron_sqs_oniad_address" model="ir.cron">
+            <field name="name">SQS Oniad Address</field>
+            <field name="active" eval="False" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="model" eval="'oniad.address'" />
+            <field name="function" eval="'cron_sqs_oniad_address'" />
+            <field name="args" eval="" />
+        </record>
+        <record id="cron_sqs_oniad_campaign" model="ir.cron">
+            <field name="name">SQS Oniad Campaign</field>
+            <field name="active" eval="False" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="model" eval="'oniad.campaign'" />
+            <field name="function" eval="'cron_sqs_oniad_campaign'" />
+            <field name="args" eval="" />
+        </record>
+        <record id="cron_sqs_oniad_campaign_report" model="ir.cron">
+            <field name="name">SQS Oniad Campaign Report</field>
+            <field name="active" eval="False" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="model" eval="'oniad.campaign'" />
+            <field name="function" eval="'cron_sqs_oniad_campaign_report'" />
+            <field name="args" eval="" />
+        </record>
+        <record id="cron_sqs_oniad_country_state" model="ir.cron">
+            <field name="name">SQS Oniad Country State</field>
+            <field name="active" eval="False" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="model" eval="'oniad.country.state'" />
+            <field name="function" eval="'cron_sqs_oniad_country_state'" />
+            <field name="args" eval="" />
+        </record>
+        <record id="cron_sqs_oniad_transaction" model="ir.cron">
+            <field name="name">SQS Oniad transaction</field>
+            <field name="active" eval="False" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="model" eval="'oniad.transaction'" />
+            <field name="function" eval="'cron_sqs_oniad_transaction'" />
+            <field name="args" eval="" />
+        </record>                
+        <record id="cron_sqs_oniad_user" model="ir.cron">
+            <field name="name">SQS Oniad user</field>
+            <field name="active" eval="False" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="model" eval="'oniad.user'" />
+            <field name="function" eval="'cron_sqs_oniad_user'" />
+            <field name="args" eval="" />
+        </record>
+        <record id="cron_sqs_oniad_usertag" model="ir.cron">
+            <field name="name">SQS Oniad usertag</field>
+            <field name="active" eval="False" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="model" eval="'oniad.user'" />
+            <field name="function" eval="'cron_sqs_oniad_usertag'" />
+            <field name="args" eval="" />
+        </record>                                
+    </data>
+</openerp>

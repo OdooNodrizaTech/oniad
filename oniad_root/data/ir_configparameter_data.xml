@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <record id="oniad_stripe_journal_id" model="ir.config_parameter">
+            <field name="key">oniad_stripe_journal_id</field>
+            <field name="value">8</field>
+        </record>
+        <record id="oniad_credit_product_id" model="ir.config_parameter">
+            <field name="key">oniad_credit_product_id</field>
+            <field name="value">6</field>
+        </record>
+        <record id="oniad_service_product_id" model="ir.config_parameter">
+            <field name="key">oniad_service_product_id</field>
+            <field name="value">4</field>
+        </record>
+        <record id="oniad_welcome_lead_template_id" model="ir.config_parameter">
+            <field name="key">oniad_welcome_lead_template_id</field>
+            <field name="value">54</field>
+        </record>
+        <record id="oniad_account_invoice_journal_id" model="ir.config_parameter">
+            <field name="key">oniad_account_invoice_journal_id</field>
+            <field name="value">9</field>
+        </record>
+        <record id="oniad_account_invoice_product" model="ir.config_parameter">
+            <field name="key">oniad_account_invoice_product</field>
+            <field name="value">21</field>
+        </record>            
+    </data>
+</openerp>
