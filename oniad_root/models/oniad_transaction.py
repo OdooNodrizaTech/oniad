@@ -439,7 +439,6 @@ class OniadTransaction(models.Model):
                             'oniad_address_id': partner_payment_by_type_item_0.oniad_transaction_id.oniad_address_id.id,
                             'partner_id': partner.id,
                             'partner_shipping_id': partner.id,
-                            'partner_id_oniad': partner.id,
                             'account_id': partner.property_account_receivable_id.id,
                             'journal_id': oniad_account_invoice_journal_id,#Facturas cliente OniAd
                             'date': date_invoice,
@@ -486,7 +485,6 @@ class OniadTransaction(models.Model):
                                 'oniad_address_id': account_invoice_id_out_invoice.oniad_address_id.id,
                                 'partner_id': account_invoice_id_out_invoice.partner_id.id,
                                 'partner_shipping_id': account_invoice_id_out_invoice.partner_id.id,
-                                'partner_id_oniad': account_invoice_id_out_invoice.partner_id.id,
                                 'account_id': account_invoice_id_out_invoice.partner_id.property_account_receivable_id.id,
                                 'journal_id': account_invoice_id_out_invoice.journal_id.id,
                                 'date': date_invoice,
