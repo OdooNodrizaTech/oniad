@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <record id="oniad_automation_welcome_lead_mail_template_id" model="ir.config_parameter">
+            <field name="key">oniad_automation_welcome_lead_mail_template_id</field>
+            <field name="value">27</field>
+        </record>                                                                   
+    </data>
+</openerp>
