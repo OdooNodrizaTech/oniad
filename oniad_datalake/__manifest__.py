@@ -7,9 +7,7 @@
     'category': 'Tools',
     'license': 'AGPL-3',
     'depends': ['base'],
-    'data': [
-        'views/resources.xml',
-    ],
+    'data': [],
     'installable': True,
     'auto_install': False,    
 }
