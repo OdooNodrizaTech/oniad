@@ -3,60 +3,21 @@ El módulo contiene el desarrollo para implementar funcionalidades relacionadas 
 Se introducen los siguientes datos por defecto en la instalación:
 
 ### res.partner.agency.activity
-```
-<record id="res_partner_agency_activity_data_1" model="res.partner.agency.activity">
-<field name="id">1</field>
-<field name="name">Web / Ecommerce</field>
-</record>
-<record id="res_partner_agency_activity_data_2" model="res.partner.agency.activity">
-<field name="id">2</field>
-<field name="name">ERP / CRM</field>
-</record>
-<record id="res_partner_agency_activity_data_3" model="res.partner.agency.activity">
-<field name="id">3</field>
-<field name="name">SEM / PPC / Social Ads</field>
-</record>
-<record id="res_partner_agency_activity_data_4" model="res.partner.agency.activity">
-<field name="id">4</field>
-<field name="name">RTB / Programatic</field>
-</record>
-<record id="res_partner_agency_activity_data_5" model="res.partner.agency.activity">
-<field name="id">5</field>
-<field name="name">Afiliacion / Email</field>
-</record>
-<record id="res_partner_agency_activity_data_6" model="res.partner.agency.activity">
-<field name="id">6</field>
-<field name="name">Community Management</field>
-</record>
-<record id="res_partner_agency_activity_data_7" model="res.partner.agency.activity">
-<field name="id">7</field>
-<field name="name">Compra de medios</field>
-</record>
-<record id="res_partner_agency_activity_data_8" model="res.partner.agency.activity">
-<field name="id">1</field>
-<field name="name">Diseño gráfico</field>
-</record>
-<record id="res_partner_agency_activity_data_9" model="res.partner.agency.activity">
-<field name="id">9</field>
-<field name="name">Impresion y merchandising</field>
-</record>
-<record id="res_partner_agency_activity_data_10" model="res.partner.agency.activity">
-<field name="id">10</field>
-<field name="name">Branding</field>
-</record>
-<record id="res_partner_agency_activity_data_11" model="res.partner.agency.activity">
-<field name="id">11</field>
-<field name="name">Audiovisual</field>
-</record>
-<record id="res_partner_agency_activity_data_12" model="res.partner.agency.activity">
-<field name="id">12</field>
-<field name="name">Gabinete de prensa</field>
-</record>
-<record id="res_partner_agency_activity_data_13" model="res.partner.agency.activity">
-<field name="id">13</field>
-<field name="name">Eventos</field>
-</record>
-```
+id | name
+--- | ---
+1 | Web / Ecommerce
+2 | ERP / CRM
+3 | SEM / PPC / Social Ads
+4 | RTB / Programatic
+5 | Afiliacion / Email
+6 | Community Management
+7 | Compra de medios
+8 | Diseño gráfico
+9 | Impresion y merchandising
+10 | Branding
+11 | Audiovisual
+12 | Gabinete de prensa
+13 | Eventos
 
 ### res.partner.agency.type
 ```
