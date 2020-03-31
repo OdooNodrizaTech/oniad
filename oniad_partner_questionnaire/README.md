@@ -64,7 +64,7 @@ id | name | influencer
 
 ### res.partner.customer.type
 id | name | advertiser | agency
---- | --- | ---
+--- | --- | --- | ---
 1 | Anunciante | True | False
 2| Agencia | False | True
 
@@ -77,165 +77,61 @@ id | name
 4 | Libre
 
 ### res.partner.fan.level
-```
-<record id="res_partner_fan_level_data_1" model="res.partner.fan.level">
-<field name="id">1</field>
-<field name="name">Believer</field>
-</record>
-<record id="res_partner_fan_level_data_2" model="res.partner.fan.level">
-<field name="id">2</field>
-<field name="name">Embajador</field>
-</record>
-<record id="res_partner_fan_level_data_3" model="res.partner.fan.level">
-<field name="id">3</field>
-<field name="name">Amigo</field>
-</record>
-```
+id | name
+--- | ---
+1 | Believer
+2 | Embajador
+3 | Amigo
 
 ### res.partner.formation.type
-```
-<record id="res_partner_formation_type_data_1" model="res.partner.formation.type">
-<field name="id">1</field>
-<field name="name">Cursos</field>
-</record>
-<record id="res_partner_formation_type_data_2" model="res.partner.formation.type">
-<field name="id">2</field>
-<field name="name">Master</field>
-</record>
-<record id="res_partner_formation_type_data_3" model="res.partner.formation.type">
-<field name="id">3</field>
-<field name="name">Grado</field>
-</record>
-<record id="res_partner_formation_type_data_4" model="res.partner.formation.type">
-<field name="id">4</field>
-<field name="name">A empresas</field>
-</record>
-```
+id | name
+--- | ---
+1 | Cursos
+2 | Master
+3 | Grado
+4 | A empresas
 
 ### res.partner.inversor.type
-```
-<record id="res_partner_inversor_type_data_1" model="res.partner.inversor.type">
-<field name="id">1</field>
-<field name="name">Potencial</field>
-</record>
-<record id="res_partner_inversor_type_data_2" model="res.partner.inversor.type">
-<field name="id">2</field>
-<field name="name">Actual</field>
-</record>
-```
+id | name
+--- | ---
+1 | Potencial
+2 | Actual
 
 ### res.partner.market.target
-```
-<record id="res_partner_market_target_data_1" model="res.partner.market.target">
-<field name="id">1</field>
-<field name="name">B2B</field>
-</record>
-<record id="res_partner_market_target_data_2" model="res.partner.market.target">
-<field name="id">2</field>
-<field name="name">B2C</field>
-</record>
-```
+id | name
+--- | ---
+1 | B2B
+2 | B2C
 
 ### res.partner.partner.type
-```
-<record id="res_partner_partner_type_data_1" model="res.partner.partner.type">
-<field name="id">1</field>
-<field name="name">Stakeholder</field>
-<field name="stakeholder">True</field>
-<field name="user">False</field>
-</record>
-<record id="res_partner_partner_type_data_2" model="res.partner.partner.type">
-<field name="id">2</field>
-<field name="name">Usuario</field>
-<field name="stakeholder">False</field>
-<field name="user">True</field>
-</record>
-```
+id | name | stakeholder | user
+--- | --- | --- | ---
+1 | Stakeholder | True | False
+2 | Usuario | False | True
 
 ### res.partner.social.network
-```
-<record id="res_partner_social_network_data_1" model="res.partner.social.network">
-<field name="id">1</field>
-<field name="name">Linkedin</field>
-</record>
-<record id="res_partner_social_network_data_2" model="res.partner.social.network">
-<field name="id">2</field>
-<field name="name">Twitter</field>
-</record>
-<record id="res_partner_social_network_data_3" model="res.partner.social.network">
-<field name="id">3</field>
-<field name="name">Youtube</field>
-</record>
-<record id="res_partner_social_network_data_4" model="res.partner.social.network">
-<field name="id">4</field>
-<field name="name">Otras</field>
-</record>
-```
+id | name
+--- | ---
+1 | Linkedin
+2 | Twitter
+3 | Youtube
+4 | Otras
 
 ### res.partner.stakeholder.type
-```
-<record id="res_partner_stakeholder_type_data_1" model="res.partner.stakeholder.type">
-<field name="id">1</field>
-<field name="name">Fan</field>
-<field name="fan">True</field>
-<field name="investor">False</field>
-<field name="teacher">False</field>
-<field name="association">False</field>
-<field name="communicator">False</field>
-</record>
-<record id="res_partner_stakeholder_type_data_2" model="res.partner.stakeholder.type">
-<field name="id">2</field>
-<field name="name">Inversor</field>
-<field name="fan">False</field>
-<field name="investor">True</field>
-<field name="teacher">False</field>
-<field name="association">False</field>
-<field name="communicator">False</field>
-</record>
-<record id="res_partner_stakeholder_type_data_3" model="res.partner.stakeholder.type">
-<field name="id">3</field>
-<field name="name">Profesor</field>
-<field name="fan">False</field>
-<field name="investor">False</field>
-<field name="teacher">True</field>
-<field name="association">False</field>
-<field name="communicator">False</field>
-</record>
-<record id="res_partner_stakeholder_type_data_4" model="res.partner.stakeholder.type">
-<field name="id">4</field>
-<field name="name">Asociación</field>
-<field name="fan">False</field>
-<field name="investor">False</field>
-<field name="teacher">False</field>
-<field name="association">True</field>
-<field name="communicator">False</field>
-</record>
-<record id="res_partner_stakeholder_type_data_5" model="res.partner.stakeholder.type">
-<field name="id">5</field>
-<field name="name">Comunicador</field>
-<field name="fan">False</field>
-<field name="investor">False</field>
-<field name="teacher">False</field>
-<field name="association">False</field>
-<field name="communicator">True</field>
-</record>
-```
+id | name | fan | investor | teacher | association | communicator
+--- | --- | --- | --- | --- | --- | ---
+1 | Fan | True | False | False | False | False
+2 | Inversor | False | True | False | False | False
+3 | Profesor | False | False | True | False | False
+4 | Asociación | False | False | False | True | False
+5 | Comunicador | False | False | False | False | True
 
 ### res.partner.user.type
-```
-<record id="res_partner_user_type_data_1" model="res.partner.user.type">
-<field name="id">1</field>
-<field name="name">Potencial</field>
-</record>
-<record id="res_partner_user_type_data_2" model="res.partner.user.type">
-<field name="id">2</field>
-<field name="name">Registrado</field>
-</record>
-<record id="res_partner_user_type_data_3" model="res.partner.user.type">
-<field name="id">3</field>
-<field name="name">Bautizado</field>
-</record>
-```
+id | name
+--- | ---
+1 | Potencial
+2 | Registrado
+3 | Bautizado
  
 En el apartado Configuración > Técnico se añade el apartado "Oniad Partner Questionnaire" con los siguientes apartados:
 
