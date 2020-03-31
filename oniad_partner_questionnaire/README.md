@@ -20,143 +20,61 @@ id | name
 13 | Eventos
 
 ### res.partner.agency.type
-```
-<record id="res_partner_agency_type_data_1" model="res.partner.agency.type">
-<field name="id">1</field>
-<field name="name">Consultor</field>
-</record>
-<record id="res_partner_agency_type_data_2" model="res.partner.agency.type">
-<field name="id">2</field>
-<field name="name">Micro-agencia</field>
-</record>
-<record id="res_partner_agency_type_data_3" model="res.partner.agency.type">
-<field name="id">3</field>
-<field name="name">Agencia</field>
-</record>
-```
+id | name
+--- | ---
+1 | Consultor
+2 | Micro-agencia
+3 | Agencia
 
 ### res.partner.asociation.geo
-```
-<record id="res_partner_asociation_geo_data_1" model="res.partner.asociation.geo">
-<field name="id">1</field>
-<field name="name">Local / regional</field>
-</record>
-<record id="res_partner_asociation_geo_data_2" model="res.partner.asociation.geo">
-<field name="id">2</field>
-<field name="name">Nacional</field>
-</record>
-<record id="res_partner_asociation_geo_data_3" model="res.partner.asociation.geo">
-<field name="id">3</field>
-<field name="name">Internacional</field>
-</record>
-```
+id | name
+--- | ---
+1 | Local / regional
+2 | Nacional
+3 | Internacional
 
 ### res.partner.asociation.type
-```
-<record id="res_partner_asociation_type_data_1" model="res.partner.asociation.type">
-<field name="id">1</field>
-<field name="name">Marketing</field>
-</record>
-<record id="res_partner_asociation_type_data_2" model="res.partner.asociation.type">
-<field name="id">2</field>
-<field name="name">Empresarial</field>
-</record>
-<record id="res_partner_asociation_type_data_3" model="res.partner.asociation.type">
-<field name="id">3</field>
-<field name="name">ONG</field>
-</record>
-```
+id | name
+--- | ---
+1 | Marketing
+2 | Empresarial
+3 | ONG
 
 ### res.partner.communication.area
-```
-<record id="res_partner_communication_area_data_1" model="res.partner.communication.area">
-<field name="id">1</field>
-<field name="name">Generalista</field>
-</record>
-<record id="res_partner_communication_area_data_2" model="res.partner.communication.area">
-<field name="id">2</field>
-<field name="name">Economía / Empresa</field>
-</record>
-<record id="res_partner_communication_area_data_3" model="res.partner.communication.area">
-<field name="id">3</field>
-<field name="name">Emprendedores / Startup</field>
-</record>
-<record id="res_partner_communication_area_data_4" model="res.partner.communication.area">
-<field name="id">4</field>
-<field name="name">Otros</field>
-</record>
-```
+id | name
+--- | ---
+1 | Generalista
+2 | Economía / Empresa
+3 | Emprendedores / Startup
+4 | Otros
 
 ### res.partner.communication.geo
-```
-<record id="res_partner_communication_geo_data_1" model="res.partner.communication.geo">
-<field name="id">1</field>
-<field name="name">Local / Regional</field>
-</record>
-<record id="res_partner_communication_geo_data_2" model="res.partner.communication.geo">
-<field name="id">2</field>
-<field name="name">Nacional</field>
-</record>
-<record id="res_partner_communication_geo_data_3" model="res.partner.communication.geo">
-<field name="id">3</field>
-<field name="name">Internacional</field>
-</record>
-```
+id | name
+--- | ---
+1 | Local / Regional
+2 | Nacional
+3 | Internacional
 
 ### res.partner.communicator.type
-```
-<record id="res_partner_communicator_type_data_1" model="res.partner.communicator.type">
-<field name="id">1</field>
-<field name="name">Periodista</field>
-<field name="influencer">False</field>
-</record>
-<record id="res_partner_communicator_type_data_2" model="res.partner.communicator.type">
-<field name="id">2</field>
-<field name="name">Blogger</field>
-<field name="influencer">False</field>
-</record>
-<record id="res_partner_communicator_type_data_3" model="res.partner.communicator.type">
-<field name="id">3</field>
-<field name="name">Influencer</field>
-<field name="influencer">True</field>
-</record>
-```
+id | name | influencer
+--- | --- | ---
+1 | Periodista | False
+2  Blogger | False
+3| Influencer | True
 
 ### res.partner.customer.type
-```
-<record id="res_partner_customer_type_data_1" model="res.partner.customer.type">
-<field name="id">1</field>
-<field name="name">Anunciante</field>
-<field name="advertiser">True</field>
-<field name="agency">False</field>
-</record>
-<record id="res_partner_customer_type_data_2" model="res.partner.customer.type">
-<field name="id">2</field>
-<field name="name">Agencia</field>
-<field name="advertiser">False</field>
-<field name="agency">True</field>
-</record>
-```
+id | name | advertiser | agency
+--- | --- | ---
+1 | Anunciante | True | False
+2| Agencia | False | True
 
 ### res.partner.educational.center.type
-```
-<record id="res_partner_educational_center_type_data_1" model="res.partner.educational.center.type">
-<field name="id">1</field>
-<field name="name">Academia</field>
-</record>
-<record id="res_partner_educational_center_type_data_2" model="res.partner.educational.center.type">
-<field name="id">2</field>
-<field name="name">Escuela de negocios</field>
-</record>
-<record id="res_partner_educational_center_type_data_3" model="res.partner.educational.center.type">
-<field name="id">3</field>
-<field name="name">Universidad</field>
-</record>
-<record id="res_partner_educational_center_type_data_4" model="res.partner.educational.center.type">
-<field name="id">4</field>
-<field name="name">Libre</field>
-</record>
-```
+id | name
+--- | ---
+1 | Academia
+2 | Escuela de negocios
+3 | Universidad
+4 | Libre
 
 ### res.partner.fan.level
 ```
