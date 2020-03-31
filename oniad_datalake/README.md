@@ -17,15 +17,11 @@ ses_datalake_test
 
 Frecuencia: 1 vez cada día
 
-Hora: 11:00
-
 Descripción: Envía a los diferentes SNS (https://grupoarelux.atlassian.net/wiki/spaces/O/pages/323879466/Google+Analytics) un mensaje con los parámetros correspondientes respecto a la fecha de ay
 
 
 ### Cron Generate Google Analytics Reports All Year - Datalake 
 
 Frecuencia: 1 vez cada año
-
-Hora: 11:00
 
 Descripción: Envía a los diferentes SNS (https://grupoarelux.atlassian.net/wiki/spaces/O/pages/323879466/Google+Analytics) un mensaje con los parámetros correspondientes respecto a todos los días (hasta la fecha) del año actual.
