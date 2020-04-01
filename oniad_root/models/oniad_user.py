@@ -288,14 +288,64 @@ class OniadUser(models.Model):
     
     @api.one
     def write(self, vals):
+        #user_id_old
+        user_id_old = 0
+        if self.partner_id.id>0:
+            if self.partner_id.user_id.id>0:
+                user_id_old = self.partner_id.user_id.id
         #write 
         return_write = super(OniadUser, self).write(vals)                        
         #operations
         self.check_res_partner()
         self.check_welcome_lead()
         self.check_sleep_lead()
+        #user_id_new
+        user_id_new = 0
+        if self.partner_id.id>0:
+            if self.partner_id.user_id.id>0:
+                user_id_new = self.partner_id.user_id.id
+        #reasign_crm_leads
+        if user_id_new>0:
+            if user_id_old!=user_id_new:
+                self.reasign_crm_leads()
         #return
         return return_write
+            
+    @api.one
+    def reasign_crm_leads(self):
+        if self.partner_id.id>0:
+            if self.partner_id.user_id.id>0:
+                crm_lead_ids = self.env['crm.lead'].search(
+                    [
+                        ('partner_id', '=', self.partner_id.id),
+                        ('type', '=', 'opportunity'),
+                        ('active', '=', True),
+                        ('probability', '>', 0),
+                        ('probability', '<', 100)                  
+                    ]
+                )
+                if len(crm_lead_ids)>0:
+                    for crm_lead_id in crm_lead_ids:
+                        crm_lead_id.user_id = self.partner_id.user_id.id
+                        #mail_followers (remove all) > fix remove aditional res.user incorrect
+                        mail_followers_ids = self.env['mail.followers'].search(
+                            [
+                                ('res_model', '=', 'crm.lead'), 
+                                ('res_id', '=', crm_lead_id.id)
+                            ]
+                        )
+                        if len(mail_followers_ids)>0:
+                            for mail_followers_id in mail_followers_ids:
+                                if mail_followers_id.partner_id.id != crm_lead_id.partner_id.id:
+                                    mail_followers_id.unlink()
+                        #add_new (user_id)
+                        mail_followers_vals = {
+                            'res_model': 'crm.lead',
+                            'res_id': crm_lead_id.id,
+                            'partner_id': crm_lead_id.user_id.partner_id.id,
+                            'subtype_ids': [(4, [1])]
+                        }
+                        mail_followers_obj = self.env['mail.followers'].sudo().create(mail_followers_vals)                                    
     
     @api.multi    
     def cron_sqs_oniad_user(self, cr=None, uid=False, context=None):
