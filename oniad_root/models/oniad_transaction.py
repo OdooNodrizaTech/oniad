@@ -377,136 +377,141 @@ class OniadTransaction(models.Model):
         
         date_invoice = end_date
         if end_date.day==31 and end_date.month==12:
-            date_invoice = date_invoice + relativedelta(days=-1)        
-        #oniad_transaction_ids
-        oniad_transaction_ids = self.env['oniad.transaction'].search(
-            [
-                ('id', '>', 94),#Fix eliminar los de 2017
-                ('id', 'not in', (1743, 52076, 52270, 52271, 52281)),#Fix transacciones devueltas por stripe 'raras'
-                ('type', '=', 'TYPE_CREDIT'),
-                ('state', '=', 'STATUS_COMPLETED'),
-                ('actor', '=', 'ACTOR_ONIAD'),
-                ('medium', '=', 'MEDIUM_STRIPE'),
-                ('subject', 'in', ('SUBJECT_CHARGE', 'SUBJECT_REFUND')),                
-                ('account_payment_id', '!=', False),
-                ('account_payment_id.journal_id', '=', oniad_stripe_journal_id),
-                ('account_payment_id.state', 'in', ('posted', 'sent')),
-                ('account_payment_id.payment_type', 'in', ('inbound', 'outbound')),
-                ('account_payment_id.payment_date', '<=', end_date.strftime("%Y-%m-%d")),
-                ('date', '>=', '2020-01-01')#Fix que quitaremos cuando queramos facturas las negativas 'viejas'
-            ]
-        )
-        if len(oniad_transaction_ids)>0:
-            partner_payments = {}
-            for oniad_transaction_id in oniad_transaction_ids:
-                payment_with_invoice = False 
-                for account_invoice in oniad_transaction_id.account_payment_id._get_invoices():
-                    payment_with_invoice = True
-                    
-                if payment_with_invoice==False:
-                    if oniad_transaction_id.account_payment_id.partner_id.id not in partner_payments:
-                        partner_payments[oniad_transaction_id.account_payment_id.partner_id.id] = []
-                    #append
-                    partner_payments[oniad_transaction_id.account_payment_id.partner_id.id].append(oniad_transaction_id.account_payment_id)
-            #operations            
-            _logger.info('Facturas a crear: '+str(len(partner_payments)))            
-            if len(partner_payments)>0:
-                count = 0                
-                #for
-                for partner_id, partner_payments_item in partner_payments.items():                    
-                    count += 1
-                    #types
-                    partner_payments_by_type = {'inbound': [],'outbound': []}
-                    payment_types_item_amount = {'inbound': 0, 'outbound': 0}
-                    #calculate_total and by_type
-                    for partner_payment_item in partner_payments_item:
-                        #amount
-                        payment_types_item_amount[str(partner_payment_item.payment_type)] += partner_payment_item.amount
-                        #add_items
-                        partner_payments_by_type[str(partner_payment_item.payment_type)].append(partner_payment_item)
-                    #operations
-                    #inbound
-                    if payment_types_item_amount['inbound']>0:
-                        #partner_payment_by_type_item_0
-                        partner_payment_by_type_item_0 = partner_payments_by_type['inbound'][0]
-                        #partner
-                        partner = partner_payment_by_type_item_0.partner_id
-                        #percent                
-                        percent = (float(count)/float(len(partner_payments)))*100
-                        percent = "{0:.2f}".format(percent)                                    
-                        #account.invoice
-                        account_invoice_vals = {
-                            'oniad_address_id': partner_payment_by_type_item_0.oniad_transaction_id.oniad_address_id.id,
-                            'partner_id': partner.id,
-                            'partner_shipping_id': partner.id,
-                            'account_id': partner.property_account_receivable_id.id,
-                            'journal_id': oniad_account_invoice_journal_id,#Facturas cliente OniAd
-                            'date': date_invoice,
-                            'date_invoice': date_invoice,
-                            'date_due': date_invoice,
-                            'state': 'draft',
-                            'comment': ' ',
-                            'currency_id': partner_payment_by_type_item_0.currency_id.id                                         
-                        }
-                        #user_id (el del partner_payment_by_type_item_0 > oniad_user_id > partner_id > user_id)
-                        if partner_payment_by_type_item_0.oniad_transaction_id.id>0:
-                            if partner_payment_by_type_item_0.oniad_transaction_id.oniad_user_id.id>0:
-                                if partner_payment_by_type_item_0.oniad_transaction_id.oniad_user_id.partner_id.id>0:
-                                    if partner_payment_by_type_item_0.oniad_transaction_id.oniad_user_id.partner_id.user_id.id>0:
-                                        account_invoice_vals['user_id'] = partner_payment_by_type_item_0.oniad_transaction_id.oniad_user_id.partner_id.user_id.id
-                        #continue
-                        _logger.info('Prepararmos para generar al partner_id '+str(account_invoice_vals['partner_id'])+" y al partner_shipping_id "+str(partner.id))            
-                        account_invoice_obj = self.env['account.invoice'].sudo().create(account_invoice_vals)
-                        _logger.info('Factura '+str(account_invoice_obj.id)+' creada correctamente')                        
-                        #oniad_root_complete_data
-                        account_invoice_obj.oniad_root_complete_data(product, partner_payments_by_type['inbound'])                                                
-                        #logger_percent
-                        _logger.info(str(percent)+'% ('+str(count)+'/'+str(len(partner_payments))+')')
-                    #outbound
-                    if payment_types_item_amount['outbound']>0:
-                        #partner_payment_by_type_item_0
-                        partner_payment_by_type_item_0 = partner_payments_by_type['outbound'][0]
-                        #search out_invoice
-                        account_invoice_ids_out_invoice = self.env['account.invoice'].search(
-                            [
-                                ('type', '=', 'out_invoice'),
-                                ('partner_id', '=', partner_payment_by_type_item_0.partner_id.id),
-                                ('amount_total', '>=', payment_types_item_amount['outbound'])
-                            ], order="date_invoice desc"
-                        )
-                        if len(account_invoice_ids_out_invoice)>0:
-                            account_invoice_id_out_invoice = account_invoice_ids_out_invoice[0]
-                            _logger.info('Creamos la negativa respecto a la encontrada '+str(account_invoice_id_out_invoice.id))
+            date_invoice = date_invoice + relativedelta(days=-1)
+        #account_invoice_line
+        account_invoice_line_ids = self.env['account.invoice.line'].search([('oniad_transaction_id', '!=', False)])
+        if len(account_invoice_line_ids)>0:
+            oniad_transaction_ids_mapped = account_invoice_line_ids.mapped('oniad_transaction_id')                                              
+            #oniad_transaction_ids
+            oniad_transaction_ids = self.env['oniad.transaction'].search(
+                [
+                    ('id', '>', 94),#Fix eliminar los de 2017
+                    ('id', 'not in', (1743, 52076, 52270, 52271, 52281)),#Fix transacciones devueltas por stripe 'raras'
+                    ('type', '=', 'TYPE_CREDIT'),
+                    ('state', '=', 'STATUS_COMPLETED'),
+                    ('actor', '=', 'ACTOR_ONIAD'),
+                    ('medium', '=', 'MEDIUM_STRIPE'),
+                    ('subject', 'in', ('SUBJECT_CHARGE', 'SUBJECT_REFUND')),                
+                    ('account_payment_id', '!=', False),
+                    ('account_payment_id.journal_id', '=', oniad_stripe_journal_id),
+                    ('account_payment_id.state', 'in', ('posted', 'sent')),
+                    ('account_payment_id.payment_type', 'in', ('inbound', 'outbound')),
+                    ('account_payment_id.payment_date', '<=', end_date.strftime("%Y-%m-%d")),
+                    ('date', '>=', '2020-01-01'),#Fix que quitaremos cuando queramos facturas las negativas 'viejas'
+                    ('id', 'not in', oniad_transaction_ids_mapped.ids)
+                ]
+            )
+            if len(oniad_transaction_ids)>0:
+                partner_payments = {}
+                for oniad_transaction_id in oniad_transaction_ids:
+                    payment_with_invoice = False 
+                    for account_invoice in oniad_transaction_id.account_payment_id._get_invoices():
+                        payment_with_invoice = True
+                        
+                    if payment_with_invoice==False:
+                        if oniad_transaction_id.account_payment_id.partner_id.id not in partner_payments:
+                            partner_payments[oniad_transaction_id.account_payment_id.partner_id.id] = []
+                        #append
+                        partner_payments[oniad_transaction_id.account_payment_id.partner_id.id].append(oniad_transaction_id.account_payment_id)
+                #operations            
+                _logger.info('Facturas a crear: '+str(len(partner_payments)))            
+                if len(partner_payments)>0:
+                    count = 0                
+                    #for
+                    for partner_id, partner_payments_item in partner_payments.items():                    
+                        count += 1
+                        #types
+                        partner_payments_by_type = {'inbound': [],'outbound': []}
+                        payment_types_item_amount = {'inbound': 0, 'outbound': 0}
+                        #calculate_total and by_type
+                        for partner_payment_item in partner_payments_item:
+                            #amount
+                            payment_types_item_amount[str(partner_payment_item.payment_type)] += partner_payment_item.amount
+                            #add_items
+                            partner_payments_by_type[str(partner_payment_item.payment_type)].append(partner_payment_item)
+                        #operations
+                        #inbound
+                        if payment_types_item_amount['inbound']>0:
+                            #partner_payment_by_type_item_0
+                            partner_payment_by_type_item_0 = partner_payments_by_type['inbound'][0]
+                            #partner
+                            partner = partner_payment_by_type_item_0.partner_id
                             #percent                
                             percent = (float(count)/float(len(partner_payments)))*100
                             percent = "{0:.2f}".format(percent)                                    
-                            #account_invoice_vals
+                            #account.invoice
                             account_invoice_vals = {
-                                'oniad_address_id': account_invoice_id_out_invoice.oniad_address_id.id,
-                                'partner_id': account_invoice_id_out_invoice.partner_id.id,
-                                'partner_shipping_id': account_invoice_id_out_invoice.partner_id.id,
-                                'account_id': account_invoice_id_out_invoice.partner_id.property_account_receivable_id.id,
-                                'journal_id': account_invoice_id_out_invoice.journal_id.id,
+                                'oniad_address_id': partner_payment_by_type_item_0.oniad_transaction_id.oniad_address_id.id,
+                                'partner_id': partner.id,
+                                'partner_shipping_id': partner.id,
+                                'account_id': partner.property_account_receivable_id.id,
+                                'journal_id': oniad_account_invoice_journal_id,#Facturas cliente OniAd
                                 'date': date_invoice,
                                 'date_invoice': date_invoice,
                                 'date_due': date_invoice,
                                 'state': 'draft',
-                                'type': 'out_refund',
-                                'origin': account_invoice_id_out_invoice.number,
-                                'name': 'Devolucion',
                                 'comment': ' ',
-                                'currency_id': account_invoice_id_out_invoice.currency_id.id                                         
+                                'currency_id': partner_payment_by_type_item_0.currency_id.id                                         
                             }
-                            #user_id
-                            if account_invoice_id_out_invoice.user_id.id>0:
-                                account_invoice_vals['user_id'] = account_invoice_id_out_invoice.user_id.id                                            
+                            #user_id (el del partner_payment_by_type_item_0 > oniad_user_id > partner_id > user_id)
+                            if partner_payment_by_type_item_0.oniad_transaction_id.id>0:
+                                if partner_payment_by_type_item_0.oniad_transaction_id.oniad_user_id.id>0:
+                                    if partner_payment_by_type_item_0.oniad_transaction_id.oniad_user_id.partner_id.id>0:
+                                        if partner_payment_by_type_item_0.oniad_transaction_id.oniad_user_id.partner_id.user_id.id>0:
+                                            account_invoice_vals['user_id'] = partner_payment_by_type_item_0.oniad_transaction_id.oniad_user_id.partner_id.user_id.id
                             #continue
-                            _logger.info('Prepararmos para generar al partner_id '+str(account_invoice_vals['partner_id'])+" y al partner_shipping_id "+str(account_invoice_vals['partner_id']))            
+                            _logger.info('Prepararmos para generar al partner_id '+str(account_invoice_vals['partner_id'])+" y al partner_shipping_id "+str(partner.id))            
                             account_invoice_obj = self.env['account.invoice'].sudo().create(account_invoice_vals)
-                            _logger.info('Factura '+str(account_invoice_obj.id)+' creada correctamente')
+                            _logger.info('Factura '+str(account_invoice_obj.id)+' creada correctamente')                        
                             #oniad_root_complete_data
-                            account_invoice_obj.oniad_root_complete_data(product, partner_payments_by_type['outbound'])                            
+                            account_invoice_obj.oniad_root_complete_data(product, partner_payments_by_type['inbound'])                                                
                             #logger_percent
-                            _logger.info(str(percent)+'% ('+str(count)+'/'+str(len(partner_payments))+')')                                
-                        else:
-                            _logger.info('NO se ha encontrado ninguna factura positiva de importe superior - DEBERIA SER TOTALMENTE IMPOSIBLE')
+                            _logger.info(str(percent)+'% ('+str(count)+'/'+str(len(partner_payments))+')')
+                        #outbound
+                        if payment_types_item_amount['outbound']>0:
+                            #partner_payment_by_type_item_0
+                            partner_payment_by_type_item_0 = partner_payments_by_type['outbound'][0]
+                            #search out_invoice
+                            account_invoice_ids_out_invoice = self.env['account.invoice'].search(
+                                [
+                                    ('type', '=', 'out_invoice'),
+                                    ('partner_id', '=', partner_payment_by_type_item_0.partner_id.id),
+                                    ('amount_total', '>=', payment_types_item_amount['outbound'])
+                                ], order="date_invoice desc"
+                            )
+                            if len(account_invoice_ids_out_invoice)>0:
+                                account_invoice_id_out_invoice = account_invoice_ids_out_invoice[0]
+                                _logger.info('Creamos la negativa respecto a la encontrada '+str(account_invoice_id_out_invoice.id))
+                                #percent                
+                                percent = (float(count)/float(len(partner_payments)))*100
+                                percent = "{0:.2f}".format(percent)                                    
+                                #account_invoice_vals
+                                account_invoice_vals = {
+                                    'oniad_address_id': account_invoice_id_out_invoice.oniad_address_id.id,
+                                    'partner_id': account_invoice_id_out_invoice.partner_id.id,
+                                    'partner_shipping_id': account_invoice_id_out_invoice.partner_id.id,
+                                    'account_id': account_invoice_id_out_invoice.partner_id.property_account_receivable_id.id,
+                                    'journal_id': account_invoice_id_out_invoice.journal_id.id,
+                                    'date': date_invoice,
+                                    'date_invoice': date_invoice,
+                                    'date_due': date_invoice,
+                                    'state': 'draft',
+                                    'type': 'out_refund',
+                                    'origin': account_invoice_id_out_invoice.number,
+                                    'name': 'Devolucion',
+                                    'comment': ' ',
+                                    'currency_id': account_invoice_id_out_invoice.currency_id.id                                         
+                                }
+                                #user_id
+                                if account_invoice_id_out_invoice.user_id.id>0:
+                                    account_invoice_vals['user_id'] = account_invoice_id_out_invoice.user_id.id                                            
+                                #continue
+                                _logger.info('Prepararmos para generar al partner_id '+str(account_invoice_vals['partner_id'])+" y al partner_shipping_id "+str(account_invoice_vals['partner_id']))            
+                                account_invoice_obj = self.env['account.invoice'].sudo().create(account_invoice_vals)
+                                _logger.info('Factura '+str(account_invoice_obj.id)+' creada correctamente')
+                                #oniad_root_complete_data
+                                account_invoice_obj.oniad_root_complete_data(product, partner_payments_by_type['outbound'])                            
+                                #logger_percent
+                                _logger.info(str(percent)+'% ('+str(count)+'/'+str(len(partner_payments))+')')                                
+                            else:
+                                _logger.info('NO se ha encontrado ninguna factura positiva de importe superior - DEBERIA SER TOTALMENTE IMPOSIBLE')
