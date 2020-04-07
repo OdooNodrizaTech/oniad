@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models, tools
 import json
+import dateutil.parser
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -169,20 +170,15 @@ class OniadCampaign(models.Model):
                         #date_start
                         if 'date_start' in message_body:
                             if message_body['date_start']!='':
-                                data_oniad_campaign['date_start'] = str(message_body['date_start'])                
+                                date_start = dateutil.parser.parse(str(message_body['date_start']))
+                                date_start = date_start.replace() - date_start.utcoffset()
+                                data_oniad_campaign['date_start'] = date_start.strftime("%Y-%m-%d %H:%M:%S")                
                         #date_finish
                         if 'date_finish' in message_body:
                             if message_body['date_finish']!='':
-                                data_oniad_campaign['date_finish'] = str(message_body['date_finish'])
-                        #fields_type_date                                                                            
-                        fields_type_date = ['date_start', 'date_finish']
-                        for field_type_date in fields_type_date:
-                            if field_type_date in data_oniad_campaign:
-                                if 'T' in data_oniad_campaign[field_type_date]:
-                                    field_item_split = data_oniad_campaign[field_type_date].split('T')                            
-                                    field_item_split2 = field_item_split[1].split('+')
-                                    field_new = field_item_split[0]+' '+field_item_split2[0]
-                                    data_oniad_campaign[field_type_date] = field_new
+                                date_finish = dateutil.parser.parse(str(message_body['date_finish']))
+                                date_finish = date_finish.replace() - date_finish.utcoffset()
+                                data_oniad_campaign['date_finish'] = date_finish.strftime("%Y-%m-%d %H:%M:%S")
                         #add_id
                         if previously_found==False:
                             data_oniad_campaign['id'] = int(message_body['id'])
@@ -269,15 +265,10 @@ class OniadCampaign(models.Model):
                         else:
                             oniad_campaign_id = oniad_campaign_ids[0]
                             oniad_campaign_id.spent = message_body['spent']
-                            #oniad_campaign_id.spent_at = message_body['spent_at']
                             #spent_at
-                            spent_at = message_body['spent_at']
-                            if 'T' in message_body['spent_at']:
-                                spent_at_item_split = message_body['spent_at'].split('T')                            
-                                spent_at_item_split2 = spent_at_item_split[1].split('+')
-                                spent_at = spent_at_item_split[0]+' '+spent_at_item_split2[0]
-                            #update spent_at                                
-                            oniad_campaign_id.spent_at = spent_at
+                            spent_at = dateutil.parser.parse(str(message_body['spent_at']))
+                            spent_at = spent_at.replace() - spent_at.utcoffset()
+                            oniad_campaign_id.spent_at = spent_at.strftime("%Y-%m-%d %H:%M:%S")                            
                     #final_operations
                     _logger.info(result_message)
                     #remove_message                

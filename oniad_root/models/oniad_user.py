@@ -4,6 +4,7 @@ from odoo import api, fields, models, tools
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
 import pytz
+import dateutil.parser
 import json
 
 import logging
@@ -421,12 +422,16 @@ class OniadUser(models.Model):
                         #created_at
                         if 'created_at' in message_body:
                             if message_body['created_at']!=None:
-                                data_oniad_user['create_date'] = str(message_body['created_at'])
+                                created_at = dateutil.parser.parse(str(message_body['created_at']))
+                                created_at = created_at.replace() - created_at.utcoffset()
+                                data_oniad_user['create_date'] = created_at.strftime("%Y-%m-%d %H:%M:%S")
                         #last_login
                         if 'last_login' in message_body:
                             if message_body['last_login']!=None:
                                 if message_body['last_login']!='':
-                                    data_oniad_user['last_login'] = str(message_body['last_login'])
+                                    last_login = dateutil.parser.parse(str(message_body['last_login']))
+                                    last_login = last_login.replace() - last_login.utcoffset()
+                                    data_oniad_user['last_login'] = last_login.strftime("%Y-%m-%d %H:%M:%S")
                         #fields_need_check
                         fields_need_check = ['last_name', 'phone', 'timezone', 'parent_id', 'confirmed']
                         for field_need_check in fields_need_check:
@@ -493,16 +498,7 @@ class OniadUser(models.Model):
                                     if 'odoo_lead' in message_body['context']:
                                         if message_body['context']['odoo_lead']!='':                    
                                             if message_body['context']['odoo_lead']!=None:
-                                                data_oniad_user['odoo_lead'] = str(message_body['context']['odoo_lead'])
-                        #fields_type_date                                                                            
-                        fields_type_date = ['spent_min_date', 'spent_max_date', 'last_login', 'create_date']
-                        for field_type_date in fields_type_date:
-                            if field_type_date in data_oniad_user:
-                                if 'T' in data_oniad_user[field_type_date]:
-                                    field_item_split = data_oniad_user[field_type_date].split('T')                            
-                                    field_item_split2 = field_item_split[1].split('+')
-                                    field_new = field_item_split[0]+' '+field_item_split2[0]
-                                    data_oniad_user[field_type_date] = field_new
+                                                data_oniad_user['odoo_lead'] = str(message_body['context']['odoo_lead'])                        
                         #add_id
                         if previously_found==False:
                             data_oniad_user['id'] = int(message_body['id'])

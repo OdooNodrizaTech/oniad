@@ -2,6 +2,7 @@
 from odoo import api, fields, models, tools
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
+import dateutil.parser
 import json
 
 import logging
@@ -306,24 +307,18 @@ class OniadTransaction(models.Model):
                             'actor': str(message_body['actor_origin']),
                             'medium': str(message_body['medium_type']),
                             'subject': str(message_body['subject']),
-                            'date': str(message_body['completed_at']),
-                            'create_date': str(message_body['completed_at'])
                         }
+                        #completed_at
+                        completed_at = dateutil.parser.parse(str(message_body['completed_at']))
+                        completed_at = completed_at.replace() - completed_at.utcoffset()
+                        data_oniad_transaction['date'] = completed_at.strftime("%Y-%m-%d %H:%M:%S")
+                        data_oniad_transaction['create_date'] = completed_at.strftime("%Y-%m-%d %H:%M:%S")
                         #fix prevent error oniad_user_id
                         if data_oniad_transaction['oniad_user_id']=='0':
                             del data_oniad_transaction['oniad_user_id']
                             #result
                             result_message['statusCode'] = 500
-                            result_message['return_body'] = 'El campo oniad_user_id no puede ser 0'
-                        #fields_type_date                                                                            
-                        fields_type_date = ['date', 'create_date']
-                        for field_type_date in fields_type_date:
-                            if field_type_date in data_oniad_transaction:
-                                if 'T' in data_oniad_transaction[field_type_date]:
-                                    field_item_split = data_oniad_transaction[field_type_date].split('T')                            
-                                    field_item_split2 = field_item_split[1].split('+')
-                                    field_new = field_item_split[0]+' '+field_item_split2[0]
-                                    data_oniad_transaction[field_type_date] = field_new
+                            result_message['return_body'] = 'El campo oniad_user_id no puede ser 0'                        
                         #add_id
                         if previously_found==False:
                             data_oniad_transaction['id'] = int(message_body['id'])
