@@ -8,6 +8,9 @@ oniad_service_product_id
 oniad_welcome_lead_template_id
 oniad_account_invoice_journal_id
 oniad_account_invoice_product
+oniad_payment_mode_id_with_credit_limit
+oniad_payment_term_id_default_with_credit_limit
+
 ``` 
 
 ### odoo.conf
@@ -165,3 +168,9 @@ oniad-odoo-command-oniad-usertag | Prod
 oniad-odoo_dev-command-oniad-usertag | Dev
 
 y realiza las operaciones de creación/actualización respecto a los elementos del modelo: oniad.user
+
+### Oniad User Auto Generate Welcome Lead id
+Frecuencia: 1 vez cada hora
+
+Descripción:
+Respecto a todos los oniad_user que tengan partner_id creado y estos tengan user_id (comercial) asignado y de tipo user o agency se creará el lead de bienvenida (ya sea respecto a teléfono o email)
