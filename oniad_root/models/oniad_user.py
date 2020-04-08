@@ -550,6 +550,7 @@ class OniadUser(models.Model):
             ]
         )    
         if len(oniad_user_ids)>0:
+            _logger.info(len(oniad_user_ids))
             for oniad_user_id in oniad_user_ids:
                 oniad_user_id.action_generate_welcome_lead()
                 
@@ -570,7 +571,7 @@ class OniadUser(models.Model):
                                 diff = datetime.strptime(str(current_date.strftime("%Y-%m-%d %H:%M:%S")), '%Y-%m-%d %H:%M:%S') - datetime.strptime(str(self.create_date), '%Y-%m-%d %H:%M:%S')
                                 dateTimeDifferenceInHours = diff.total_seconds() / 3600
                                 if dateTimeDifferenceInHours>=1:
-                                    need_check = True
+                                    need_check = True                                        
 
                             if need_check==True:
                                 crm_lead_ids = self.env['crm.lead'].search(
@@ -582,8 +583,8 @@ class OniadUser(models.Model):
                                     ]
                                 )
                                 if len(crm_lead_ids)>0:
-                                    for crm_lead_id in crm_lead_ids:
-                                        self.welcome_lead_id = crm_lead_id.id
+                                    crm_lead_id = crm_lead_ids[0]
+                                    self.welcome_lead_id = crm_lead_id.id
                                 else:
                                     oniad_welcome_lead_template_id = int(self.env['ir.config_parameter'].sudo().get_param('oniad_welcome_lead_template_id'))
                                     #es necesario crear lead
