@@ -95,8 +95,13 @@ class OniadAddress(models.Model):
                 'acc_number': self.a_number,
                 'partner_id': self.partner_id.id,
             }
-            res_partner_bank_obj = self.env['res.partner.bank'].sudo().create(partner_bank_vals)
-            if res_partner_bank_obj.id>0:
+            #search
+            res_partner_bank_ids = self.env['res.partner.bank'].search([('acc_number', '=', self.a_number)])
+            if len(res_partner_bank_ids)>0:
+                _logger.info('MUY RARO que ya exista esa cuenta bancaria a otro cliente')
+            else:            
+                res_partner_bank_obj = self.env['res.partner.bank'].sudo().create(partner_bank_vals)
+                #update
                 self.res_partner_bank_id = res_partner_bank_obj.id
                                             
     @api.model
@@ -181,7 +186,10 @@ class OniadAddress(models.Model):
                                 if message_body[field_need_check]!='':
                                     if message_body[field_need_check]!=None:
                                         if field_need_check in ['city', 'address']:
-                                            data_oniad_address[field_need_check] = str(message_body[field_need_check].encode('utf-8'))
+                                            try:
+                                                data_oniad_address[field_need_check] = str(message_body[field_need_check].encode('utf-8'))
+                                            except:
+                                                data_oniad_address[field_need_check] = str(message_body[field_need_check])
                                         else:
                                             data_oniad_address[field_need_check] = str(message_body[field_need_check])
                         #country_id

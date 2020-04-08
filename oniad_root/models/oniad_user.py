@@ -154,79 +154,7 @@ class OniadUser(models.Model):
                 if res_partner_obj.id>0:
                     self.partner_id = res_partner_obj.id                    
         else:
-            self.partner_id.update(partner_vals)    
-    
-    @api.one
-    def check_welcome_lead(self):
-        if self.welcome_lead_id.id==0:
-            if self.type in ['user', 'agency']:
-                if self.partner_id.id>0:
-                    if self.partner_id.user_id.id>0:
-                        if self.create_date>='2020-02-12':
-                            #define
-                            current_date = datetime.now(pytz.timezone('Europe/Madrid'))
-                            #need_check
-                            need_check = False
-                            if self.phone!=False:
-                                need_check = True
-                            else:
-                                diff = datetime.strptime(str(current_date.strftime("%Y-%m-%d %H:%M:%S")), '%Y-%m-%d %H:%M:%S') - datetime.strptime(str(self.create_date), '%Y-%m-%d %H:%M:%S')
-                                dateTimeDifferenceInHours = diff.total_seconds() / 3600
-                                if dateTimeDifferenceInHours>=2:
-                                    need_check = True
-
-                            if need_check==True:
-                                crm_lead_ids = self.env['crm.lead'].search(
-                                    [
-                                        ('partner_id', '=', self.partner_id.id),
-                                        ('lead_oniad_type', '=', 'welcome'),
-                                        ('type', '=', 'opportunity'),
-                                        ('commercial_activity_type', '=', 'account')
-                                    ]
-                                )
-                                if len(crm_lead_ids)>0:
-                                    for crm_lead_id in crm_lead_ids:
-                                        self.welcome_lead_id = crm_lead_id.id
-                                else:
-                                    oniad_welcome_lead_template_id = int(self.env['ir.config_parameter'].sudo().get_param('oniad_welcome_lead_template_id'))
-                                    #es necesario crear lead
-                                    crm_lead_vals = {
-                                        'partner_id': self.partner_id.id,
-                                        'lead_oniad_type': 'welcome',
-                                        'type': 'opportunity',
-                                        'commercial_activity_type': 'account',
-                                        'active': True,
-                                        'probability': 10,
-                                        'team_id': 1,#Equipo de ventas por defecto
-                                        'stage_id': 1,#Sin contactar
-                                        'name': 'Hola, quiero ayudarte a mejorar tus campañas',
-                                        'description': 'Presentarse y ayudar a nuevos clientes',
-                                        'color': 5
-                                    }
-                                    #phone
-                                    if self.phone!=False:
-                                        crm_lead_vals['phone'] = str(self.phone)
-                                    #user_id
-                                    if self.oniad_accountmanager_id.id>0:
-                                        if self.oniad_accountmanager_id.user_id.id>0:
-                                            crm_lead_vals['user_id'] = self.oniad_accountmanager_id.user_id.id
-                                    #create
-                                    if 'user_id' in crm_lead_vals:
-                                        crm_lead_obj = self.env['crm.lead'].sudo(crm_lead_vals['user_id']).create(crm_lead_vals)#Fix create simullate user_id
-                                    else:
-                                        crm_lead_obj = self.env['crm.lead'].sudo().create(crm_lead_vals)
-                                    #si corresponde enviamos un email
-                                    if 'phone' not in crm_lead_vals:
-                                        #enviamos_email
-                                        crm_lead_obj.action_send_mail_with_template_id(oniad_welcome_lead_template_id)#Plantilla Iniciativa/Oportunidad: BIENVENIDO/A A ONiAd (id=54)
-                                        #update
-                                        crm_lead_obj.stage_id=2#Ayuda ofrecida
-                                        next_activity_id_date_action = current_date + relativedelta(days=7)
-                                        crm_lead_obj.title_action = 'Revisar contacto usuario'
-                                        crm_lead_obj.next_activity_id = 3#Tarea
-                                        crm_lead_obj.date_action = next_activity_id_date_action
-                                    #update
-                                    self.welcome_lead_id = crm_lead_obj.id
+            self.partner_id.update(partner_vals)
     
     @api.one
     def check_sleep_lead(self):
@@ -283,7 +211,6 @@ class OniadUser(models.Model):
         return_item = super(OniadUser, self).create(values)
         #operations
         return_item.check_res_partner()
-        return_item.check_welcome_lead()
         #return
         return return_item
     
@@ -298,7 +225,6 @@ class OniadUser(models.Model):
         return_write = super(OniadUser, self).write(vals)                        
         #operations
         self.check_res_partner()
-        self.check_welcome_lead()
         self.check_sleep_lead()
         #user_id_new
         user_id_new = 0
@@ -449,6 +375,12 @@ class OniadUser(models.Model):
                         if 'parent_id' in data_oniad_user:
                             if data_oniad_user['parent_id']=='0':
                                 del data_oniad_user['parent_id']
+                        #check parent_id exists
+                        if 'parent_id' in data_oniad_user:
+                            oniad_user_ids = self.env['oniad.user'].search([('id', '=', data_oniad_user['parent_id'])])
+                            if len(oniad_user_ids)==0:
+                                result_message['statusCode'] = 500
+                                result_message['return_body'] = 'No existe el user (del parent_id) '+str(data_oniad_user['parent_id'])                                
                         #address_id
                         if 'address_id' in message_body:
                             if message_body['address_id']!='':
@@ -526,7 +458,7 @@ class OniadUser(models.Model):
                             QueueUrl=sqs_oniad_user_url,
                             ReceiptHandle=message['ReceiptHandle']
                         )
-            
+                
     @api.multi    
     def cron_sqs_oniad_usertag(self, cr=None, uid=False, context=None):
         _logger.info('cron_sqs_oniad_usertag')
@@ -604,6 +536,95 @@ class OniadUser(models.Model):
                             ReceiptHandle=message['ReceiptHandle']
                         )        
         
+    @api.multi    
+    def cron_oniad_user_auto_generate_welcome_lead_id(self, cr=None, uid=False, context=None):
+        _logger.info('cron_oniad_user_auto_generate_welcome_lead_id')
+        
+        oniad_user_ids = self.env['oniad.user'].search(
+            [
+                ('partner_id', '!=', False),
+                ('partner_id.user_id', '!=', False),
+                ('type', 'in', ('user', 'agency')),
+                ('welcome_lead_id', '=', False),
+                ('create_date', '>=', '2020-02-12')
+            ]
+        )    
+        if len(oniad_user_ids)>0:
+            for oniad_user_id in oniad_user_ids:
+                oniad_user_id.action_generate_welcome_lead()
+                
+    @api.one
+    def action_generate_welcome_lead(self):
+        if self.welcome_lead_id.id==0:
+            if self.type in ['user', 'agency']:
+                if self.partner_id.id>0:
+                    if self.partner_id.user_id.id>0:
+                        if self.create_date>='2020-02-12':
+                            #define
+                            current_date = datetime.now(pytz.timezone('Europe/Madrid'))
+                            #need_check
+                            need_check = False
+                            if self.phone!=False:
+                                need_check = True
+                            else:
+                                diff = datetime.strptime(str(current_date.strftime("%Y-%m-%d %H:%M:%S")), '%Y-%m-%d %H:%M:%S') - datetime.strptime(str(self.create_date), '%Y-%m-%d %H:%M:%S')
+                                dateTimeDifferenceInHours = diff.total_seconds() / 3600
+                                if dateTimeDifferenceInHours>=1:
+                                    need_check = True
+
+                            if need_check==True:
+                                crm_lead_ids = self.env['crm.lead'].search(
+                                    [
+                                        ('partner_id', '=', self.partner_id.id),
+                                        ('lead_oniad_type', '=', 'welcome'),
+                                        ('type', '=', 'opportunity'),
+                                        ('commercial_activity_type', '=', 'account')
+                                    ]
+                                )
+                                if len(crm_lead_ids)>0:
+                                    for crm_lead_id in crm_lead_ids:
+                                        self.welcome_lead_id = crm_lead_id.id
+                                else:
+                                    oniad_welcome_lead_template_id = int(self.env['ir.config_parameter'].sudo().get_param('oniad_welcome_lead_template_id'))
+                                    #es necesario crear lead
+                                    crm_lead_vals = {
+                                        'partner_id': self.partner_id.id,
+                                        'lead_oniad_type': 'welcome',
+                                        'type': 'opportunity',
+                                        'commercial_activity_type': 'account',
+                                        'active': True,
+                                        'probability': 10,
+                                        'team_id': 1,#Equipo de ventas por defecto
+                                        'stage_id': 1,#Sin contactar
+                                        'name': 'Hola, quiero ayudarte a mejorar tus campañas',
+                                        'description': 'Presentarse y ayudar a nuevos clientes',
+                                        'color': 5
+                                    }
+                                    #phone
+                                    if self.phone!=False:
+                                        crm_lead_vals['phone'] = str(self.phone)
+                                    #user_id
+                                    if self.oniad_accountmanager_id.id>0:
+                                        if self.oniad_accountmanager_id.user_id.id>0:
+                                            crm_lead_vals['user_id'] = self.oniad_accountmanager_id.user_id.id
+                                    #create
+                                    if 'user_id' in crm_lead_vals:
+                                        crm_lead_obj = self.env['crm.lead'].sudo(crm_lead_vals['user_id']).create(crm_lead_vals)#Fix create simullate user_id
+                                    else:
+                                        crm_lead_obj = self.env['crm.lead'].sudo().create(crm_lead_vals)
+                                    #si corresponde enviamos un email
+                                    if 'phone' not in crm_lead_vals:
+                                        #enviamos_email
+                                        crm_lead_obj.action_send_mail_with_template_id(oniad_welcome_lead_template_id)#Plantilla Iniciativa/Oportunidad: BIENVENIDO/A A ONiAd (id=54)
+                                        #update
+                                        crm_lead_obj.stage_id=2#Ayuda ofrecida
+                                        next_activity_id_date_action = current_date + relativedelta(days=7)
+                                        crm_lead_obj.title_action = 'Revisar contacto usuario'
+                                        crm_lead_obj.next_activity_id = 3#Tarea
+                                        crm_lead_obj.date_action = next_activity_id_date_action
+                                    #update
+                                    self.welcome_lead_id = crm_lead_obj.id                
+    
     @api.one
     def action_send_mail_with_template_id(self, template_id=False):
         if template_id!=False:                                        

@@ -98,6 +98,17 @@
             <field name="model" eval="'oniad.user'" />
             <field name="function" eval="'cron_sqs_oniad_usertag'" />
             <field name="args" eval="" />
+        </record>
+        <record id="cron_oniad_user_auto_generate_welcome_lead_id" model="ir.cron">
+            <field name="name">Oniad User Auto Generate Welcome Lead id</field>
+            <field name="active" eval="False" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="model" eval="'oniad.user'" />
+            <field name="function" eval="'cron_oniad_user_auto_generate_welcome_lead_id'" />
+            <field name="args" eval="" />
         </record>                                
     </data>
 </openerp>

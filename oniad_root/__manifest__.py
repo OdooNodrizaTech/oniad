@@ -6,7 +6,7 @@
     'website': 'https://nodrizatech.com/',
     'category': 'Tools',
     'license': 'AGPL-3',
-    'depends': ['base', 'crm', 'survey', 'account'],
+    'depends': ['base', 'crm', 'sale', 'survey', 'account', 'partner_financial_risk'],
     'data': [
         'data/ir_cron.xml',
         'data/ir_configparameter_data.xml',

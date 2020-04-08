@@ -11,4 +11,5 @@ import oniad_transaction
 import oniad_user
 import oniad_user_tag
 import res_partner
+import sale_order_line
 import survey_user_input

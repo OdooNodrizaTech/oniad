@@ -24,6 +24,14 @@
         <record id="oniad_account_invoice_product" model="ir.config_parameter">
             <field name="key">oniad_account_invoice_product</field>
             <field name="value">21</field>
+        </record>
+        <record id="oniad_payment_mode_id_with_credit_limit" model="ir.config_parameter">
+            <field name="key">oniad_payment_mode_id_with_credit_limit</field>
+            <field name="value">1</field>
+        </record>
+        <record id="oniad_payment_term_id_default_with_credit_limit" model="ir.config_parameter">
+            <field name="key">oniad_payment_term_id_default_with_credit_limit</field>
+            <field name="value">3</field>
         </record>            
     </data>
 </openerp>

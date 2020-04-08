@@ -11,3 +11,13 @@ class AccountInvoiceLine(models.Model):
         comodel_name='oniad.transaction',
         string='Oniad Transaction'
     )
+    
+    @api.model
+    def create(self, values):
+        return_object = super(AccountInvoiceLine, self).create(values)
+        #sale_line_ids (oniad_transaction_id)
+        for sale_line_id in return_object.sale_line_ids:
+            if sale_line_id.oniad_transaction_id.id>0:
+                return_object.oniad_transaction_id = sale_line_id.oniad_transaction_id.id                                                     
+        #return                            
+        return return_object
