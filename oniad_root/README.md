@@ -26,6 +26,14 @@ sqs_oniad_user_url=https://sqs.eu-west-1.amazonaws.com/534422648921/oniad-odoo_d
 sqs_oniad_usertag_url=https://sqs.eu-west-1.amazonaws.com/534422648921/oniad-odoo_dev-command-oniad-usertag
 ``` 
 
+Existen URls públicas para usuarios logeados en Odoo:
+
+http://deverp.oniad.com/oniad_address/7
+http://deverp.oniad.com/oniad_user/1
+
+Que re-direccionarán al res.partner que corresponda.
+
+
 ## Crones
 
 ### Account Invoice Generate (OniAd Transaction) 
