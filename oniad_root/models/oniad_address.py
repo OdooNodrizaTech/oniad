@@ -65,8 +65,16 @@ class OniadAddress(models.Model):
             'street': self.address,
             'zip': self.cp,
             'state_id': self.state_id.id,
-            'vat': str(self.country_id.code.upper())+str(self.cif)             
+            'vat': str(self.country_id.code.upper())+str(self.cif),
+            'property_account_position_id': 1,             
         }
+        #property_account_position_id=3 (Regimen Extracomunitario / Canarias, Ceuta y Melilla)
+        property_account_position_id_3 = [443, 456, 431, 449]
+        if partner_vals['state_id'] in property_account_position_id_3:
+            partner_vals['property_account_position_id'] = 3
+        #Fix Andorra
+        if partner_vals['country_id']==1:
+            partner_vals['property_account_position_id'] = 3
         #phone
         if self.phone!=False:
             first_char_phone = self.phone[:1]

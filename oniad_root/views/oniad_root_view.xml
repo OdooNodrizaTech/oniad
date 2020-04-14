@@ -275,7 +275,8 @@
             <tree string="Oniad Country State"> 
                 <field name="name"/>
                 <field name="iso_code"/>
-                <field name="state_id"/>                
+                <field name="state_id"/>
+                <field name="create_date"/>                
             </tree>
         </field>            
     </record>        

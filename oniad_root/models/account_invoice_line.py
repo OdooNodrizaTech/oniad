@@ -18,6 +18,13 @@ class AccountInvoiceLine(models.Model):
         #sale_line_ids (oniad_transaction_id)
         for sale_line_id in return_object.sale_line_ids:
             if sale_line_id.oniad_transaction_id.id>0:
-                return_object.oniad_transaction_id = sale_line_id.oniad_transaction_id.id                                                     
+                return_object.oniad_transaction_id = sale_line_id.oniad_transaction_id.id
+        #Fix
+        if return_object.oniad_transaction_id.id>0:
+            return_object._onchange_product_id()
+            return_object._onchange_account_id()
+            #update
+            return_object.price_unit = return_object.oniad_transaction_id.amount
+            return_object.price_subtotal = return_object.oniad_transaction_id.total                                                                                            
         #return                            
         return return_object

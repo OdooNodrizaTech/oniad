@@ -80,14 +80,14 @@ class OniadTransaction(models.Model):
     subject = fields.Selection(
         selection=[
             ('SUBJECT_CHARGE','Pago ONiAD'), 
-            ('SUBJECT_VOUCHER','Cup�n aplicado'),
-            ('SUBJECT_BANNERS','Dise�o de creatividades'),
-            ('SUBJECT_COMPENSATION','Compensaci�n comercial'),
-            ('SUBJECT_GIFT','Promoci�n'),
+            ('SUBJECT_VOUCHER','Cupón aplicado'),
+            ('SUBJECT_BANNERS','Diseño de creatividades'),
+            ('SUBJECT_COMPENSATION','Compensación comercial'),
+            ('SUBJECT_GIFT','Promoción'),
             ('SUBJECT_REFUND','Reembolso'),
-            ('SUBJECT_CONVERT_COMMISSION_TO_CREDIT','Comisi�n Afiliado a cr�dito'),
-            ('SUBJECT_CONVERT_AGENCYCOMMISSION_TO_CREDIT','Comisi�n Partner a cr�dito'),
-            ('SUBJECT_SETTLEMENT','Liquidaci�n'),
+            ('SUBJECT_CONVERT_COMMISSION_TO_CREDIT','Comisión Afiliado a crédito'),
+            ('SUBJECT_CONVERT_AGENCYCOMMISSION_TO_CREDIT','Comisión Partner a crédito'),
+            ('SUBJECT_SETTLEMENT','Liquidación'),
             ('SUBJECT_TRANSFER','Transferencia'),
             ('SUBJECT_COMMISSION_RECOMMENDED','Programa de recomendados'),
             ('SUBJECT_COMMISSION_AGENCY','Programa de Partners'),
@@ -190,9 +190,9 @@ class OniadTransaction(models.Model):
                     'partner_shipping_id': self.oniad_address_id.partner_id.id,
                     'account_id': self.oniad_address_id.partner_id.property_account_receivable_id.id,
                     'journal_id': oniad_account_invoice_journal_id,#Facturas cliente OniAd
-                    'date': self.date,
-                    'date_invoice': self.date,
-                    'date_due': self.date,
+                    #'date': self.date,
+                    #'date_invoice': self.date,
+                    #'date_due': self.date,
                     'state': 'draft',
                     'comment': ' ',
                     'currency_id': self.currency_id.id,
@@ -201,49 +201,58 @@ class OniadTransaction(models.Model):
                     'payment_term_id': oniad_payment_term_id_default_with_credit_limit,#Termino de pago por defecto para GiroVentas
                     'invoice_with_risk': True,
                 }
+                #check_account_payment_mode
+                allow_create = True
+                account_payment_mode_id = self.env['account.payment.mode'].browse(account_invoice_vals['payment_mode_id'])
+                if account_payment_mode_id.payment_method_id.mandate_required==True:
+                    #search
+                    if self.oniad_address_id.res_partner_bank_id.id>0:
+                        if len(self.oniad_address_id.res_partner_bank_id.mandate_ids)>0:
+                            for mandate_id in self.oniad_address_id.res_partner_bank_id.mandate_ids:
+                                if 'mandate_id' not in account_invoice_vals:
+                                    if mandate_id.state=='valid':
+                                        account_invoice_vals['mandate_id'] = mandate_id.id
+                                        account_invoice_vals['partner_bank_id'] = mandate_id.partner_bank_id.id
+                    #check_continue
+                    if 'mandate_id' not in account_invoice_vals:
+                        allow_create = False
+                        _logger.info('No tiene mandatos bancario, no se puede crear la factura')                                        
                 #payment_term_id
                 if self.oniad_address_id.partner_id.customer_payment_mode_id.id>0:
                     if self.oniad_address_id.partner_id.customer_payment_mode_id.id==oniad_payment_mode_id_with_credit_limit:#Solo SI es giro ventas pondremos su payment_term_id                
                         if self.oniad_address_id.partner_id.property_payment_term_id.id>0:
                             account_invoice_vals['payment_term_id'] = self.oniad_address_id.partner_id.property_payment_term_id.id
                 #fiscal_position_id
-                if self.oniad_address_id.partner_id.fiscal_position_id.id>0:
-                    account_invoice_vals['fiscal_position_id'] = self.oniad_address_id.partner_id.fiscal_position_id.id
+                if self.oniad_address_id.partner_id.property_account_position_id.id>0:
+                    account_invoice_vals['fiscal_position_id'] = self.oniad_address_id.partner_id.property_account_position_id.id
                 #user_id
                 if self.oniad_user_id.partner_id.id>0:
                     if self.oniad_user_id.partner_id.user_id.id>0:
                         account_invoice_vals['user_id'] = self.oniad_user_id.partner_id.user_id.id
                         #team_id
                         if self.oniad_user_id.partner_id.user_id.sale_team_id.id>0:
-                            account_invoice_vals['team_id'] = self.oniad_user_id.partner_id.user_id.sale_team_id.id
+                            account_invoice_vals['team_id'] = self.oniad_user_id.partner_id.user_id.sale_team_id.id                            
                 #create
-                account_invoice_obj = self.env['account.invoice'].sudo().create(account_invoice_vals)
-                #lines
-                account_invoice_line_vals = {
-                    'invoice_id': account_invoice_obj.id,
-                    'oniad_transaction_id': self.id,
-                    'name': communication,
-                    'quantity': 1,
-                    'price_unit': self.total,
-                    'account_id': product.property_account_income_id.id,
-                    'purchase_price': self.total*0.5,
-                    'currency_id': self.currency_id.id,
-                    'product_id': oniad_product_id                      
-                }                 
-                account_invoice_line_obj = self.env['account.invoice.line'].sudo().create(account_invoice_line_vals)
-                account_invoice_line_obj._onchange_product_id()
-                account_invoice_line_obj._onchange_account_id()                
-                #price
-                price_unit = self.total/((account_invoice_line_obj.invoice_line_tax_ids.amount/100)+1)
-                account_invoice_line_obj.update({
-                    'price_unit': round(price_unit,4),
-                    'name': communication,
-                    'price_subtotal': price_unit
-                })
-                account_invoice_obj.compute_taxes()
-                #valid
-                account_invoice_obj.action_invoice_open()
-                #el sns se realizaria cuando la factura se validara (generando el PDF y guardandolo en un bucket de S3 y enviando el SNS correspondiente con toda la informacion)
+                if allow_create==True:#Prevent mandate_id NULL
+                    account_invoice_obj = self.env['account.invoice'].sudo().create(account_invoice_vals)
+                    #lines
+                    account_invoice_line_vals = {
+                        'invoice_id': account_invoice_obj.id,
+                        'oniad_transaction_id': self.id,
+                        'name': communication,
+                        'quantity': 1,
+                        'price_unit': self.amount,
+                        'account_id': product.property_account_income_id.id,
+                        'purchase_price': self.total*0.5,
+                        'currency_id': self.currency_id.id,
+                        'product_id': oniad_product_id                      
+                    }                 
+                    account_invoice_line_obj = self.env['account.invoice.line'].sudo().create(account_invoice_line_vals)
+                    #compute_taxes
+                    account_invoice_obj.compute_taxes()
+                    #valid
+                    account_invoice_obj.action_invoice_open()
+                    #el sns se realizaria cuando la factura se validara (generando el PDF y guardandolo en un bucket de S3 y enviando el SNS correspondiente con toda la informacion)
         #need_create_sale_order
         if need_create_sale_order==True:
             #check_if_need_create
@@ -268,8 +277,8 @@ class OniadTransaction(models.Model):
                 if self.oniad_address_id.partner_id.property_payment_term_id.id>0:
                     sale_order_vals['payment_term_id'] = self.oniad_address_id.partner_id.property_payment_term_id.id
                 #fiscal_position_id
-                if self.oniad_address_id.partner_id.fiscal_position_id.id>0:
-                    sale_order_vals['fiscal_position_id'] = self.oniad_address_id.partner_id.fiscal_position_id.id                    
+                if self.oniad_address_id.partner_id.property_account_position_id.id>0:
+                    sale_order_vals['fiscal_position_id'] = self.oniad_address_id.partner_id.property_account_position_id.id                    
                 #user_id
                 if self.oniad_user_id.partner_id.id>0:
                     if self.oniad_user_id.partner_id.user_id.id>0:
@@ -284,26 +293,16 @@ class OniadTransaction(models.Model):
                     'order_id': sale_order_obj.id,
                     'oniad_transaction_id': self.id,
                     'name': communication,
-                    'quantity': 1,
-                    'price_unit': self.total,
-                    'account_id': product.property_account_income_id.id,
+                    'product_qty': 1,
+                    'price_unit': self.amount,
+                    'price_subtotal': self.total,
                     'purchase_price': self.total*0.5,
                     'currency_id': self.currency_id.id,
                     'product_id': oniad_product_id                      
                 }                 
-                sale_order_line_obj = self.env['sale.order.line'].sudo().create(sale_order_line_vals)
-                sale_order_line_obj._onchange_product_id()
-                sale_order_line_obj._onchange_account_id()                
-                #price
-                price_unit = self.total/((sale_order_line_obj.tax_id.amount/100)+1)
-                sale_order_obj.update({
-                    'price_unit': round(price_unit,4),
-                    'name': communication,
-                    'price_subtotal': price_unit
-                })
-                sale_order_obj.compute_taxes()
+                sale_order_line_obj = self.env['sale.order.line'].sudo().create(sale_order_line_vals)  
                 #valid
-                #generate_pdf                                                     
+                sale_order_obj.state = 'sent'#generate_pdf                        
     
     @api.model
     def create(self, values):
@@ -539,9 +538,33 @@ class OniadTransaction(models.Model):
                             #continue
                             _logger.info('Prepararmos para generar al partner_id '+str(account_invoice_vals['partner_id'])+" y al partner_shipping_id "+str(partner.id))            
                             account_invoice_obj = self.env['account.invoice'].sudo().create(account_invoice_vals)
-                            _logger.info('Factura '+str(account_invoice_obj.id)+' creada correctamente')                        
-                            #oniad_root_complete_data
-                            account_invoice_obj.oniad_root_complete_data(product, partner_payments_by_type['inbound'])                                                
+                            _logger.info('Factura '+str(account_invoice_obj.id)+' creada correctamente')
+                            #account.invoice.lines (creamos las lineas segun los pagos partner_payments_by_type['inbound'])                        
+                            for account_payment_id in partner_payments_by_type['inbound']:
+                                #account_invoice_line_vals
+                                account_invoice_line_vals = {
+                                    'invoice_id': account_invoice_obj.id,
+                                    'oniad_transaction_id': account_payment_id.oniad_transaction_id.id,
+                                    'product_id': product.id,#Producto Gasto
+                                    'name': account_payment_id.communication,
+                                    'quantity': 1,
+                                    'price_unit': account_payment_id.amount,
+                                    'account_id': product.property_account_income_id.id,
+                                    'purchase_price': account_payment_id.oniad_purchase_price,
+                                    'currency_id': account_payment_id.currency_id.id                     
+                                }
+                                #oniad_product_id
+                                if account_payment_id.oniad_product_id.id>0:
+                                    account_invoice_line_vals['product_id'] = account_payment_id.oniad_product_id.id 
+                                #create
+                                account_invoice_line_obj = self.env['account.invoice.line'].sudo().create(account_invoice_line_vals)
+                            #Fix check totals
+                            account_invoice_obj.compute_taxes()
+                            #operations
+                            if account_invoice_obj.partner_id.vat!=False and account_invoice_obj.partner_id.vat!="":
+                                account_invoice_obj.action_invoice_open()
+                                _logger.info('Factura '+str(account_invoice_obj.id)+' validada correctamente')                
+                                account_invoice_obj.action_auto_create_message_slack()#slack.message                                                
                             #logger_percent
                             _logger.info(str(percent)+'% ('+str(count)+'/'+str(len(partner_payments))+')')
                         #outbound
@@ -586,8 +609,32 @@ class OniadTransaction(models.Model):
                                 _logger.info('Prepararmos para generar al partner_id '+str(account_invoice_vals['partner_id'])+" y al partner_shipping_id "+str(account_invoice_vals['partner_id']))            
                                 account_invoice_obj = self.env['account.invoice'].sudo().create(account_invoice_vals)
                                 _logger.info('Factura '+str(account_invoice_obj.id)+' creada correctamente')
-                                #oniad_root_complete_data
-                                account_invoice_obj.oniad_root_complete_data(product, partner_payments_by_type['outbound'])                            
+                                #account.invoice.lines (creamos las lineas segun los pagos partner_payments_by_type['outbound'])                        
+                                for account_payment_id in partner_payments_by_type['outbound']:
+                                    #account_invoice_line_vals
+                                    account_invoice_line_vals = {
+                                        'invoice_id': account_invoice_obj.id,
+                                        'oniad_transaction_id': account_payment_id.oniad_transaction_id.id,
+                                        'product_id': product.id,#Producto Gasto
+                                        'name': account_payment_id.communication,
+                                        'quantity': 1,
+                                        'price_unit': account_payment_id.amount,
+                                        'account_id': product.property_account_income_id.id,
+                                        'purchase_price': account_payment_id.oniad_purchase_price,
+                                        'currency_id': account_payment_id.currency_id.id                     
+                                    }
+                                    #oniad_product_id
+                                    if account_payment_id.oniad_product_id.id>0:
+                                        account_invoice_line_vals['product_id'] = account_payment_id.oniad_product_id.id 
+                                    #create
+                                    account_invoice_line_obj = self.env['account.invoice.line'].sudo().create(account_invoice_line_vals)
+                                #Fix check totals
+                                account_invoice_obj.compute_taxes()
+                                #operations
+                                if account_invoice_obj.partner_id.vat!=False and account_invoice_obj.partner_id.vat!="":
+                                    account_invoice_obj.action_invoice_open()
+                                    _logger.info('Factura '+str(account_invoice_obj.id)+' validada correctamente')                
+                                    account_invoice_obj.action_auto_create_message_slack()#slack.message                            
                                 #logger_percent
                                 _logger.info(str(percent)+'% ('+str(count)+'/'+str(len(partner_payments))+')')                                
                             else:

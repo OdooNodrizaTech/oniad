@@ -83,6 +83,23 @@ class OniadCountryState(models.Model):
                             'name': str(message_body['name'].encode('utf-8')),
                             'iso_code': str(message_body['iso_code'])
                         }
+                        #Fix iso_code
+                        if '-' in data_oniad_country_state['iso_code']:
+                            iso_code_split = data_oniad_country_state['iso_code'].split('-')
+                            res_country_ids = self.env['res.country'].search([('code', '=', str(iso_code_split[0]))])
+                            if len(res_country_ids)>0:
+                                res_country_id = res_country_ids[0]
+                                #search_state
+                                res_country_state_ids = self.env['res.country.state'].search(
+                                    [
+                                        ('code', '=', str(iso_code_split[1])),
+                                        ('country_id', '=', res_country_id.id)
+                                    ]
+                                )
+                                if len(res_country_state_ids)>0:
+                                    res_country_state_id = res_country_state_ids[0]
+                                    #add_state_id
+                                    data_oniad_country_state['state_id'] = res_country_state_id.id     
                         #add_id
                         if previously_found==False:
                             data_oniad_country_state['id'] = int(message_body['id'])                                            
