@@ -22,6 +22,14 @@ class OniadCountryState(models.Model):
         comodel_name='res.country.state',
         string='Provincia'
     )
+    country_id = fields.Many2one(
+        comodel_name='res.country',
+        string='Pais'
+    )
+    fiscal_position_id = fields.Many2one(
+        comodel_name='account.fiscal.position',
+        string='Posicion fiscal'
+    )
     
     @api.multi    
     def cron_sqs_oniad_country_state(self, cr=None, uid=False, context=None):
@@ -81,7 +89,8 @@ class OniadCountryState(models.Model):
                         #params
                         data_oniad_country_state = {
                             'name': str(message_body['name'].encode('utf-8')),
-                            'iso_code': str(message_body['iso_code'])
+                            'iso_code': str(message_body['iso_code']),
+                            'fiscal_position_id': 1,
                         }
                         #Fix iso_code
                         if '-' in data_oniad_country_state['iso_code']:
@@ -89,6 +98,8 @@ class OniadCountryState(models.Model):
                             res_country_ids = self.env['res.country'].search([('code', '=', str(iso_code_split[0]))])
                             if len(res_country_ids)>0:
                                 res_country_id = res_country_ids[0]
+                                #add_country_id
+                                data_oniad_country_state['country_id'] = res_country_id.id
                                 #search_state
                                 res_country_state_ids = self.env['res.country.state'].search(
                                     [

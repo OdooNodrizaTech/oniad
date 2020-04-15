@@ -12,13 +12,13 @@
                     <group>
                         <field name="name"/>
                         <field name="active"/>
-                        <field name="currency_id" invisible="1"/>
+                        <field name="currency_id" invisible="1" options='{"no_create": True, "no_create_edit": True}'/>
                         <field name="cpm"/>
                         <field name="cpm_real"/>
                         <field name="type"/>
                         <field name="during"/>                        
                         <field name="pricing"/>
-                        <field name="oniad_user_id"/>
+                        <field name="oniad_user_id" options='{"no_create": True, "no_create_edit": True}'/>
                         <field name="cpc_price"/>
                         <field name="frecuency"/>
                         <field name="brain_active"/>
@@ -65,9 +65,9 @@
                 <sheet string="child">
                     <group>
                         <field name="name"/>
-                        <field name="partner_id"/>
+                        <field name="partner_id" options='{"no_create": True, "no_create_edit": True}'/>
                         <field name="oniad_user_id_link" widget="url" />
-                        <field name="currency_id"/>
+                        <field name="currency_id" options='{"no_create": True, "no_create_edit": True}'/>
                         <field name="lang"/>
                         <field name="last_name"/>
                         <field name="uuid"/>
@@ -76,9 +76,9 @@
                         <field name="iso_code"/>
                         <field name="timezone"/>
                         <field name="confirmed"/>
-                        <field name="oniad_address_id"/>
-                        <field name="oniad_accountmanager_id"/>                        
-                        <field name="parent_id"/>
+                        <field name="oniad_address_id" options='{"no_create": True, "no_create_edit": True}'/>
+                        <field name="oniad_accountmanager_id" options='{"no_create": True, "no_create_edit": True}'/>                        
+                        <field name="parent_id" options='{"no_create": True, "no_create_edit": True}'/>
                         <field name="type"/>
                         <field name="oniad_managed"/>
                         <field name="spent_cost"/>
@@ -86,7 +86,7 @@
                         <field name="spent_max_date"/>
                         <field name="last_login"/>                        
                         <field name="odoo_lead"/>
-                        <field name="welcome_lead_id"/>
+                        <field name="welcome_lead_id" options='{"no_create": True, "no_create_edit": True}'/>
                         <field name="create_date"/>
                         <field name="tag_ids"/>                                                                                                                                                                                                                                                                                                                         
                     </group>
@@ -131,10 +131,11 @@
                         <field name="city"/>
                         <field name="phone"/>
                         <field name="address"/>
-                        <field name="country_id"/>
-                        <field name="state_id"/>
+                        <field name="country_id" options='{"no_create": True, "no_create_edit": True}'/>
+                        <field name="state_id" options='{"no_create": True, "no_create_edit": True}'/>
+                        <field name="fiscal_position_id" options='{"no_create": True, "no_create_edit": True}'/>
                         <field name="a_number"/>
-                        <field name="res_partner_bank_id"/>
+                        <field name="res_partner_bank_id" options='{"no_create": True, "no_create_edit": True}'/>
                         <field name="create_date"/>                                                                                                                                                                                                                                                 
                     </group>
                 </sheet>
@@ -152,6 +153,7 @@
                 <field name="city"/>
                 <field name="country_id"/>
                 <field name="state_id"/>
+                <field name="fiscal_position_id"/>                
                 <field name="phone"/>
                 <field name="iva"/>
                 <field name="create_date"/>
@@ -186,7 +188,7 @@
         <field name="arch" type="xml">
             <tree string="Oniad Accountmanager"> 
                 <field name="email"/>
-                <field name="user_id"/>
+                <field name="user_id" options='{"no_create": True, "no_create_edit": True}'/>
             </tree>
         </field>            
     </record>        
@@ -231,13 +233,13 @@
         <field name="model">oniad.transaction</field>            
         <field name="arch" type="xml">
             <tree string="Oniad Transaction"> 
-                <field name="oniad_user_id"/>
+                <field name="oniad_user_id" options='{"no_create": True, "no_create_edit": True}'/>
                 <field name="subject"/>
                 <field name="amount"/>
                 <field name="tax"/>
                 <field name="total"/>
                 <field name="date"/>
-                <field name="account_payment_id"/>
+                <field name="account_payment_id" options='{"no_create": True, "no_create_edit": True}'/>
                 <field name="type"/>
                 <field name="actor"/>
                 <field name="medium"/>
@@ -262,7 +264,9 @@
                     <group>
                         <field name="name"/>
                         <field name="iso_code"/>
-                        <field name="state_id"/>                                                                                                                                                                                                                                
+                        <field name="state_id" options='{"no_create": True, "no_create_edit": True}'/>
+                        <field name="country_id" options='{"no_create": True, "no_create_edit": True}'/>
+                        <field name="fiscal_position_id" options='{"no_create": True, "no_create_edit": True}'/>
                     </group>
                 </sheet>
             </form>
@@ -276,6 +280,8 @@
                 <field name="name"/>
                 <field name="iso_code"/>
                 <field name="state_id"/>
+                <field name="country_id" />
+                <field name="fiscal_position_id" />
                 <field name="create_date"/>                
             </tree>
         </field>            

@@ -45,6 +45,10 @@ class OniadAddress(models.Model):
         comodel_name='res.country.state',
         string='Provincia'
     )
+    fiscal_position_id = fields.Many2one(
+        comodel_name='account.fiscal.position',
+        string='Posicion fiscal'
+    )
     a_number = fields.Char(
         string='A number'
     )
@@ -66,15 +70,8 @@ class OniadAddress(models.Model):
             'zip': self.cp,
             'state_id': self.state_id.id,
             'vat': str(self.country_id.code.upper())+str(self.cif),
-            'property_account_position_id': 1,             
-        }
-        #property_account_position_id=3 (Regimen Extracomunitario / Canarias, Ceuta y Melilla)
-        property_account_position_id_3 = [443, 456, 431, 449]
-        if partner_vals['state_id'] in property_account_position_id_3:
-            partner_vals['property_account_position_id'] = 3
-        #Fix Andorra
-        if partner_vals['country_id']==1:
-            partner_vals['property_account_position_id'] = 3
+            'property_account_position_id': self.fiscal_position_id             
+        }        
         #phone
         if self.phone!=False:
             first_char_phone = self.phone[:1]
@@ -185,7 +182,8 @@ class OniadAddress(models.Model):
                             previously_found = True
                         #params
                         data_oniad_address = {
-                            'name': str(message_body['name'].encode('utf-8'))
+                            'name': str(message_body['name'].encode('utf-8')),
+                            'fiscal_position_id': 1
                         }
                         #fields_need_check
                         fields_need_check = ['cp', 'cif', 'iva', 'city', 'phone', 'address', 'a_number']
@@ -213,7 +211,10 @@ class OniadAddress(models.Model):
                                 oniad_country_state_ids = self.env['oniad.country.state'].search([('iso_code', '=', str(message_body['state']))])
                                 if len(oniad_country_state_ids)>0:
                                     oniad_country_state_id = oniad_country_state_ids[0]
-                                    data_oniad_address['state_id'] = oniad_country_state_id.id                        
+                                    #state_id
+                                    data_oniad_address['state_id'] = oniad_country_state_id.id
+                                    #fiscal_position_id
+                                    data_oniad_address['fiscal_position_id'] = oniad_country_state_id.fiscal_position_id.id
                         #add_id
                         if previously_found==False:
                             data_oniad_address['id'] = int(message_body['id'])                                            
