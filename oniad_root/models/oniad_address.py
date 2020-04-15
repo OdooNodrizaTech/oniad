@@ -60,6 +60,7 @@ class OniadAddress(models.Model):
     @api.one
     def check_res_partner(self):
         _logger.info('check_res_partner')
+        #vals
         partner_vals = {
             'name': self.name,
             'customer': True,

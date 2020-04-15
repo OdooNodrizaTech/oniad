@@ -50,4 +50,4 @@ class ResPartner(models.Model):
         for record in self:
             if record.id>0:
                 if record.oniad_user_id.id>0: 
-                    record.oniad_user_id_link = 'https://platform.oniad.com/backend/admin/supadmin/card/'+str(record.oniad_user_id.id)        
+                    record.oniad_user_id_link = 'https://platform.oniad.com/backend/admin/supadmin/card/'+str(record.oniad_user_id.id)                                    
