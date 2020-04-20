@@ -225,7 +225,7 @@ class OniadUser(models.Model):
         return_write = super(OniadUser, self).write(vals)                        
         #operations
         self.check_res_partner()
-        self.check_sleep_lead()
+        #self.check_sleep_lead()
         #user_id_new
         user_id_new = 0
         if self.partner_id.id>0:
