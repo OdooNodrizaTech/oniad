@@ -21,10 +21,10 @@ class OniadCountryState(models.Model):
     state_id = fields.Many2one(
         comodel_name='res.country.state',
         string='Provincia'
-    )
-    country_id = fields.Many2one(
-        comodel_name='res.country',
-        string='Pais'
+    )    
+    oniad_country_id = fields.Many2one(
+        comodel_name='oniad.country',
+        string='Oniad Country'
     )
     fiscal_position_id = fields.Many2one(
         comodel_name='account.fiscal.position',
@@ -90,27 +90,32 @@ class OniadCountryState(models.Model):
                         data_oniad_country_state = {
                             'name': str(message_body['name'].encode('utf-8')),
                             'iso_code': str(message_body['iso_code']),
+                            'oniad_country_id': int(message_body['country_id']),
                             'fiscal_position_id': 1,
                         }
-                        #Fix iso_code
-                        if '-' in data_oniad_country_state['iso_code']:
-                            iso_code_split = data_oniad_country_state['iso_code'].split('-')
-                            res_country_ids = self.env['res.country'].search([('code', '=', str(iso_code_split[0]))])
-                            if len(res_country_ids)>0:
-                                res_country_id = res_country_ids[0]
-                                #add_country_id
-                                data_oniad_country_state['country_id'] = res_country_id.id
-                                #search_state
-                                res_country_state_ids = self.env['res.country.state'].search(
-                                    [
-                                        ('code', '=', str(iso_code_split[1])),
-                                        ('country_id', '=', res_country_id.id)
-                                    ]
-                                )
-                                if len(res_country_state_ids)>0:
-                                    res_country_state_id = res_country_state_ids[0]
-                                    #add_state_id
-                                    data_oniad_country_state['state_id'] = res_country_state_id.id     
+                        #oniad_country_id
+                        if 'oniad_country_id' in data_oniad_country_state:
+                            if data_oniad_country_state['oniad_country_id']>0:                            
+                                oniad_country_ids = self.env['oniad.country'].search([('id', '=', int(data_oniad_country_state['oniad_country_id']))])
+                                if len(oniad_country_ids)==0:
+                                    result_message['statusCode'] = 500
+                                    result_message['return_body'] = 'No existe el country_id='+str(data_oniad_country_state['oniad_country_id'])
+                                else:                                
+                                    oniad_country_id = oniad_country_ids[0]
+                                    data_oniad_country_state['country_id'] = oniad_country_id.country_id.id
+                                    #search_state_id
+                                    if '-' in data_oniad_country_state['iso_code']:
+                                        iso_code_split = data_oniad_country_state['iso_code'].split('-')
+                                        res_country_state_ids = self.env['res.country.state'].search(
+                                            [
+                                                ('code', '=', str(iso_code_split[1])),
+                                                ('country_id', '=', oniad_country_id.country_id.id)
+                                            ]
+                                        )
+                                        if len(res_country_state_ids)>0:
+                                            res_country_state_id = res_country_state_ids[0]
+                                            #add_state_id
+                                            data_oniad_country_state['state_id'] = res_country_state_id.id                                                            
                         #add_id
                         if previously_found==False:
                             data_oniad_country_state['id'] = int(message_body['id'])                                            

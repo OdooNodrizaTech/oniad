@@ -6,6 +6,7 @@ import crm_lead
 import oniad_accountmanager
 import oniad_address
 import oniad_campaign
+import oniad_country
 import oniad_country_state
 import oniad_transaction
 import oniad_user

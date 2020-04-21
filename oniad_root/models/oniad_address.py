@@ -16,6 +16,14 @@ class OniadAddress(models.Model):
         comodel_name='res.partner',
         string='Contacto'
     )
+    oniad_country_id = fields.Many2one(
+        comodel_name='oniad.country',
+        string='Oniad Country'
+    )
+    oniad_country_state_id = fields.Many2one(
+        comodel_name='oniad.country.state',
+        string='Oniad Country State'
+    )
     name = fields.Char(
         string='Nombre'
     )
@@ -188,6 +196,8 @@ class OniadAddress(models.Model):
                         #params
                         data_oniad_address = {
                             'name': str(message_body['name'].encode('utf-8')),
+                            'oniad_country_id': int(message_body['country_id']),
+                            'oniad_country_state_id': int(message_body['state_id']),
                             'fiscal_position_id': 1
                         }
                         #fields_need_check
@@ -203,29 +213,27 @@ class OniadAddress(models.Model):
                                                 data_oniad_address[field_need_check] = str(message_body[field_need_check])
                                         else:
                                             data_oniad_address[field_need_check] = str(message_body[field_need_check])
-                        #country_id
-                        if 'country' in message_body:
-                            if message_body['country']!='':
-                                res_country_ids = self.env['res.country'].search([('code', '=', str(message_body['country']))])
-                                if len(res_country_ids)>0:
-                                    res_country_id = res_country_ids[0]
-                                    data_oniad_address['country_id'] = res_country_id.id
-                        #state
-                        if 'state' in message_body:
-                            if message_body['state']!='':
-                                if 'country_id' in data_oniad_address:
-                                    oniad_country_state_ids = self.env['oniad.country.state'].search(
-                                        [
-                                            ('iso_code', '=', str(message_body['state'])),
-                                            ('country_id', '=', data_oniad_address['country_id'])
-                                        ]
-                                    )
-                                    if len(oniad_country_state_ids)>0:
-                                        oniad_country_state_id = oniad_country_state_ids[0]
-                                        #state_id
-                                        data_oniad_address['state_id'] = oniad_country_state_id.id
-                                        #fiscal_position_id
-                                        data_oniad_address['fiscal_position_id'] = oniad_country_state_id.fiscal_position_id.id
+                        #oniad_country_id
+                        if 'oniad_country_id' in data_oniad_address:
+                            if data_oniad_address['oniad_country_id']>0:                            
+                                oniad_country_ids = self.env['oniad.country'].search([('id', '=', int(data_oniad_address['oniad_country_id']))])
+                                if len(oniad_country_ids)==0:
+                                    result_message['statusCode'] = 500
+                                    result_message['return_body'] = 'No existe el country_id='+str(data_oniad_address['oniad_country_id'])
+                                else:                                
+                                    oniad_country_id = oniad_country_ids[0]
+                                    data_oniad_address['country_id'] = oniad_country_id.country_id.id
+                        #state_id
+                        if 'oniad_country_state_id' in data_oniad_address:
+                            if data_oniad_address['oniad_country_state_id']>0:
+                                oniad_country_state_ids = self.env['oniad.country.state'].search([('id', '=', int(data_oniad_address['oniad_country_state_id']))])
+                                if len(oniad_country_state_ids)==0:
+                                    result_message['statusCode'] = 500
+                                    result_message['return_body'] = 'No existe el state_id='+str(data_oniad_address['oniad_country_state_id'])
+                                else:                                
+                                    oniad_country_state_id = oniad_country_state_ids[0]
+                                    data_oniad_address['state_id'] = oniad_country_state_id.state_id.id
+                                    data_oniad_address['fiscal_position_id'] = oniad_country_state_id.fiscal_position_id.id
                         #add_id
                         if previously_found==False:
                             data_oniad_address['id'] = int(message_body['id'])

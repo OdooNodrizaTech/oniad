@@ -125,6 +125,8 @@
                     <group>
                         <field name="name"/>
                         <field name="partner_id"/>
+                        <field name="oniad_country_id" options='{"no_create": True, "no_create_edit": True}'/>
+                        <field name="oniad_country_state_id" options='{"no_create": True, "no_create_edit": True}'/>
                         <field name="cp"/>
                         <field name="cif"/>
                         <field name="iva"/>
@@ -267,7 +269,7 @@
                         <field name="name"/>
                         <field name="iso_code"/>
                         <field name="state_id" options='{"no_create": True, "no_create_edit": True}'/>
-                        <field name="country_id" options='{"no_create": True, "no_create_edit": True}'/>
+                        <field name="oniad_country_id" options='{"no_create": True, "no_create_edit": True}'/>
                         <field name="fiscal_position_id" options='{"no_create": True, "no_create_edit": True}'/>
                     </group>
                 </sheet>
@@ -282,7 +284,7 @@
                 <field name="name"/>
                 <field name="iso_code"/>
                 <field name="state_id"/>
-                <field name="country_id" />
+                <field name="oniad_country_id" />
                 <field name="fiscal_position_id" />
                 <field name="create_date"/>                
             </tree>
@@ -295,6 +297,41 @@
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="oniad_country_state_tree"/>                
+    </record>
+    <record id="oniad_country_form_view" model="ir.ui.view">
+        <field name="name">Oniad Country</field>
+        <field name="model">oniad.country</field>
+        <field name="arch" type="xml">
+            <form string="Oniad Country">                                
+                <sheet string="child">
+                    <group>
+                        <field name="name"/>
+                        <field name="iso_code"/>
+                        <field name="country_id" options='{"no_create": True, "no_create_edit": True}'/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="oniad_country_tree" model="ir.ui.view">
+        <field name="name">Oniad Country</field>
+        <field name="model">oniad.country</field>            
+        <field name="arch" type="xml">
+            <tree string="Oniad Country"> 
+                <field name="name"/>
+                <field name="iso_code"/>
+                <field name="country_id" />
+                <field name="create_date"/>                
+            </tree>
+        </field>            
+    </record>        
+    <record id="oniad_country_type_action" model="ir.actions.act_window">
+        <field name="name">Oniad Country</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">oniad.country</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="oniad_country_tree"/>                
     </record>             
     <menuitem 
         id="menu_odoo_oniad_root" 
@@ -330,6 +367,12 @@
         action="oniad_transaction_type_action" 
         name="Oniad Transaction"
         id="menuitem_oniad_transaction" 
+        parent="menu_odoo_oniad_root"
+    />
+    <menuitem 
+        action="oniad_country_type_action" 
+        name="Oniad Country"
+        id="menuitem_oniad_country" 
         parent="menu_odoo_oniad_root"
     />
     <menuitem 

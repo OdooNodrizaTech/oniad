@@ -11,5 +11,7 @@ access_oniad_user_tag_admin,oniad.user.tag,model_oniad_user_tag,,1,1,1,1
 access_oniad_user_tag_group_user,oniad.user.tag.user,model_oniad_user_tag,base.group_user,1,1,1,1
 access_oniad_accountmanager_admin,oniad.accountmanager,model_oniad_accountmanager,,1,1,1,1
 access_oniad_accountmanager_group_user,oniad.accountmanager.user,model_oniad_accountmanager,base.group_user,1,1,1,1
+access_oniad_country_admin,oniad.country,model_oniad_country,,1,1,1,1
+access_oniad_country_group_user,oniad.country.user,model_oniad_country,base.group_user,1,1,1,1
 access_oniad_country_state_admin,oniad.country.state,model_oniad_country_state,,1,1,1,1
 access_oniad_country_state_group_user,oniad.country.state.user,model_oniad_country_state,base.group_user,1,1,1,1

@@ -55,6 +55,17 @@
             <field name="function" eval="'cron_sqs_oniad_campaign_report'" />
             <field name="args" eval="" />
         </record>
+        <record id="cron_sqs_oniad_country" model="ir.cron">
+            <field name="name">SQS Oniad Country</field>
+            <field name="active" eval="False" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="model" eval="'oniad.country'" />
+            <field name="function" eval="'cron_sqs_oniad_country'" />
+            <field name="args" eval="" />
+        </record>
         <record id="cron_sqs_oniad_country_state" model="ir.cron">
             <field name="name">SQS Oniad Country State</field>
             <field name="active" eval="False" />
