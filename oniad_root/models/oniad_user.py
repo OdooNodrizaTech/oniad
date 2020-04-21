@@ -519,14 +519,15 @@ class OniadUser(models.Model):
                             oniad_user_id = oniad_user_ids[0]
                             #tag_ids
                             if len(message_body['tags'])>0:
-                                tag_ids = []
+                                oniad_user_tag_ids_real = []
                                 for tag in message_body['tags']:
-                                    tag_ids.append({                                                                
-                                        'tag': str(tag)
-                                    })
+                                    oniad_user_tag_ids = self.env['oniad.user.tag'].search([('tag', '=', str(tag))])
+                                    if len(oniad_user_tag_ids)>0:
+                                        oniad_user_tag_id = oniad_user_tag_ids[0]
+                                        oniad_user_tag_ids_real.append(int(oniad_user_tag_id.id))                                    
                                 #update  
-                                result_message['tag_ids'] = tag_ids                                                 
-                                oniad_user_id.tag_ids = tag_ids
+                                result_message['tag_ids'] = oniad_user_tag_ids_real                                                 
+                                oniad_user_id.tag_ids = [(6, 0, oniad_user_tag_ids_real)]
                     #final_operations
                     _logger.info(result_message)                                
                     #remove_message
