@@ -242,7 +242,6 @@ class OniadAddress(models.Model):
                         return_check_vat = self.partner_id.sudo().check_vat_custom(vat_need_check)
                         if return_check_vat==False:
                             self.check_vat_error(vat_need_check, message_body['id'])
-                            result_message['statusCode'] = 500
                             result_message['return_body'] = 'Error en el el campo CIF'
                         else:                                                                                                   
                             #final_operations
