@@ -57,6 +57,10 @@ class OniadAddress(models.Model):
         string='Cuenta bancaria'
     )
     
+    @api.model
+    def check_vat_error(self, vat, id):
+        _logger.info('El vat '+str(vat)+' del oniad_address_id='+str(id)+' es incorrecto')
+    
     @api.one
     def check_res_partner(self):
         _logger.info('check_res_partner')
@@ -72,7 +76,7 @@ class OniadAddress(models.Model):
             'state_id': self.state_id.id,
             'vat': str(self.country_id.code.upper())+str(self.cif),
             'property_account_position_id': self.fiscal_position_id             
-        }        
+        }                   
         #phone
         if self.phone!=False:
             first_char_phone = self.phone[:1]
@@ -209,26 +213,40 @@ class OniadAddress(models.Model):
                         #state
                         if 'state' in message_body:
                             if message_body['state']!='':
-                                oniad_country_state_ids = self.env['oniad.country.state'].search([('iso_code', '=', str(message_body['state']))])
-                                if len(oniad_country_state_ids)>0:
-                                    oniad_country_state_id = oniad_country_state_ids[0]
-                                    #state_id
-                                    data_oniad_address['state_id'] = oniad_country_state_id.id
-                                    #fiscal_position_id
-                                    data_oniad_address['fiscal_position_id'] = oniad_country_state_id.fiscal_position_id.id
+                                if 'country_id' in data_oniad_address:
+                                    oniad_country_state_ids = self.env['oniad.country.state'].search(
+                                        [
+                                            ('iso_code', '=', str(message_body['state'])),
+                                            ('country_id', '=', data_oniad_address['country_id'])
+                                        ]
+                                    )
+                                    if len(oniad_country_state_ids)>0:
+                                        oniad_country_state_id = oniad_country_state_ids[0]
+                                        #state_id
+                                        data_oniad_address['state_id'] = oniad_country_state_id.id
+                                        #fiscal_position_id
+                                        data_oniad_address['fiscal_position_id'] = oniad_country_state_id.fiscal_position_id.id
                         #add_id
                         if previously_found==False:
-                            data_oniad_address['id'] = int(message_body['id'])                                            
-                        #final_operations
-                        result_message['data'] = data_oniad_address
-                        _logger.info(result_message)
-                        #create-write
-                        if previously_found==False:                            
-                            oniad_address_obj = self.env['oniad.address'].sudo().create(data_oniad_address)
-                        else:
-                            oniad_address_id = oniad_address_ids[0]
-                            #write
-                            oniad_address_id.write(data_oniad_address)                                                    
+                            data_oniad_address['id'] = int(message_body['id'])
+                        #check_cif
+                        vat_need_check = str(message_body['country'].upper())+str(data_oniad_address['cif'])                                                    
+                        return_check_vat = self.partner_id.sudo().check_vat_custom(vat_need_check)
+                        if return_check_vat==False:
+                            self.check_vat_error(vat_need_check, message_body['id'])
+                            result_message['statusCode'] = 500
+                            result_message['return_body'] = 'Error en el el campo CIF'
+                        else:                                                                                                   
+                            #final_operations
+                            result_message['data'] = data_oniad_address
+                            _logger.info(result_message)
+                            #create-write
+                            if previously_found==False:                            
+                                oniad_address_obj = self.env['oniad.address'].sudo().create(data_oniad_address)
+                            else:
+                                oniad_address_id = oniad_address_ids[0]
+                                #write
+                                oniad_address_id.write(data_oniad_address)                                                    
                     #remove_message                
                     if result_message['statusCode']==200:                
                         response_delete_message = sqs.delete_message(

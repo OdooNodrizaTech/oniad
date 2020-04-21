@@ -19,6 +19,14 @@ class OniadTransaction(models.Model):
         comodel_name='account.payment',
         string='Pago'
     )
+    sale_order_id = fields.Many2one(
+        comodel_name='sale.order',
+        string='Presupuesto'
+    )
+    account_invoice_id = fields.Many2one(
+        comodel_name='account.invoice',
+        string='Factura'
+    )
     currency_id = fields.Many2one(
         comodel_name='res.currency',
         string='Moneda'
@@ -174,8 +182,7 @@ class OniadTransaction(models.Model):
         #operations need_create_account_invoice
         if need_create_account_invoice==True:
             #check_if_need_create
-            account_invoice_line_ids = self.env['account.invoice.line'].search([('oniad_transaction_id', '=', self.id)])
-            if len(account_invoice_line_ids)==0:
+            if self.account_invoice_id.id==0:
                 #define
                 oniad_account_invoice_journal_id = int(self.env['ir.config_parameter'].sudo().get_param('oniad_account_invoice_journal_id'))
                 oniad_product_id = int(self.env['ir.config_parameter'].sudo().get_param('oniad_credit_product_id'))
@@ -252,12 +259,12 @@ class OniadTransaction(models.Model):
                     account_invoice_obj.compute_taxes()
                     #valid
                     account_invoice_obj.action_invoice_open()
-                    #el sns se realizaria cuando la factura se validara (generando el PDF y guardandolo en un bucket de S3 y enviando el SNS correspondiente con toda la informacion)
+                    #save account_invoice_id
+                    self.account_invoice_id = account_invoice_obj.id
         #need_create_sale_order
         if need_create_sale_order==True:
             #check_if_need_create
-            sale_order_line_ids = self.env['sale.order.line'].search([('oniad_transaction_id', '=', self.id)])
-            if len(sale_order_line_ids)==0:
+            if self.sale_order_id.id==0:
                 #define
                 oniad_product_id = int(self.env['ir.config_parameter'].sudo().get_param('oniad_credit_product_id'))
                 product = self.env['product.product'].search([('id','=',oniad_product_id)])
@@ -302,7 +309,9 @@ class OniadTransaction(models.Model):
                 }                 
                 sale_order_line_obj = self.env['sale.order.line'].sudo().create(sale_order_line_vals)  
                 #valid
-                sale_order_obj.state = 'sent'#generate_pdf                        
+                sale_order_obj.state = 'sent'#generate_pdf
+                #save sale_order_id
+                self.sale_order_id = sale_order_obj.id                         
     
     @api.model
     def create(self, values):
