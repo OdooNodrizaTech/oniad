@@ -20,6 +20,7 @@ sqs_oniad_accountmanager_url=https://sqs.eu-west-1.amazonaws.com/534422648921/on
 sqs_oniad_address_url=https://sqs.eu-west-1.amazonaws.com/534422648921/oniad-odoo_dev-command-oniad-address
 sqs_oniad_campaign_url=https://sqs.eu-west-1.amazonaws.com/534422648921/oniad-odoo_dev-command-oniad-campaign
 sqs_oniad_campaign_report_url=https://sqs.eu-west-1.amazonaws.com/534422648921/oniad-odoo_dev-command-oniad-campaign-report
+sqs_oniad_country_url=https://sqs.eu-west-1.amazonaws.com/534422648921/oniad-odoo_dev-command-oniad-country
 sqs_oniad_country_state_url=https://sqs.eu-west-1.amazonaws.com/534422648921/oniad-odoo_dev-command-oniad-country-state
 sqs_oniad_transaction_url=https://sqs.eu-west-1.amazonaws.com/534422648921/oniad-odoo_dev-command-oniad-transaction
 sqs_oniad_user_url=https://sqs.eu-west-1.amazonaws.com/534422648921/oniad-odoo_dev-command-oniad-user
@@ -124,6 +125,19 @@ oniad-odoo-command-oniad-campaign-report | Prod
 oniad-odoo_dev-command-oniad-campaign-report | Dev
 
 y realiza las operaciones de actualización respecto a los elementos del modelo: oniad.campaign
+
+### SQS Oniad Country
+Frecuencia: 1 vez cada 5 minutos
+
+Descripción: 
+
+Consulta los SQS
+nombre | entorno
+--- | ---
+oniad-odoo-command-oniad-country | Prod
+oniad-odoo_dev-command-oniad-country | Dev
+
+y realiza las operaciones de creación/actualización respecto a los elementos del modelo: oniad.country
 
 ### SQS Oniad Country State
 Frecuencia: 1 vez cada 5 minutos
