@@ -275,6 +275,7 @@ class OniadTransaction(models.Model):
                     'partner_shipping_id': self.oniad_user_id.partner_id.id,
                     'partner_invoice_id': self.oniad_address_id.partner_id.id,
                     'state': 'sent',
+                    'note': '',
                     'currency_id': self.currency_id.id,                                         
                 }
                 #payment_mode_id
