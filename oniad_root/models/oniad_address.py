@@ -137,7 +137,70 @@ class OniadAddress(models.Model):
         self.check_res_partner()
         #return    
         return return_write
-        
+    
+    
+    @api.one
+    def action_send_sns(self):
+        _logger.info('action_send_sns')
+
+        action_response = True            
+        #define
+        ses_sqs_url = tools.config.get('ses_sqs_url')
+        AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')        
+        AWS_SECRET_ACCESS_KEY = tools.config.get('aws_secret_key_id')
+        AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')
+        s3_bucket_docs_oniad_com = tools.config.get('s3_bucket_docs_oniad_com')                        
+        #boto3
+        sns = boto3.client(
+            'sns',
+            region_name=AWS_SMS_REGION_NAME, 
+            aws_access_key_id=AWS_ACCESS_KEY_ID,
+            aws_secret_access_key= AWS_SECRET_ACCESS_KEY
+        )        
+        #message
+        message = {
+            'id': int(self.id),
+            'payment_mode_id': {
+                'id': int(self.partner_id.customer_payment_mode_id.id),
+                'name': str(self.partner_id.customer_payment_mode_id.name)
+            },
+            'payment_term_id': {
+                'id': int(self.partner_id.property_payment_term_id.id),
+                'name': str(self.partner_id.property_payment_term_id.name)
+            },
+            'custom_day_due_1': int(self.partner_id.custom_day_due_1),
+            'custom_day_due_2': int(self.partner_id.custom_day_due_2),
+            'custom_day_due_3': int(self.partner_id.custom_day_due_3),
+            'custom_day_due_4': int(self.partner_id.custom_day_due_4)
+        }
+        _logger.info(message)
+        #enviroment
+        enviroment = 'dev'
+        web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        if '//erp.oniad.com' in web_base_url:
+            enviroment = 'prod'                    
+        #sns_name            
+        sns_name = 'oniad-platform-command-odoo-oniad-address'
+        if enviroment=='dev':
+            sns_name = 'oniad-platform_dev-command-odoo-oniad-address'
+        #publish
+        response = sns.publish(
+            TopicArn='arn:aws:sns:eu-west-1:534422648921:'+str(sns_name),
+            Message=json.dumps(message, indent=2),
+            MessageAttributes={
+                'Headers': {
+                    'DataType': 'String',
+                    'StringValue': json.dumps([{'type': 'Oniad\\Domain\\Odoo\\OdooPaymentDataEvent'},[]])
+                }
+            }                                
+        )
+        if 'MessageId' not in response:
+            action_response = False
+        else:
+            _logger.info(sns_name)                        
+        #return
+        return action_response
+            
     @api.multi    
     def cron_sqs_oniad_address(self, cr=None, uid=False, context=None):
         _logger.info('cron_sqs_oniad_address')

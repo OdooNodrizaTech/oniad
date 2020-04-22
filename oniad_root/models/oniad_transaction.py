@@ -187,10 +187,7 @@ class OniadTransaction(models.Model):
                 oniad_account_invoice_journal_id = int(self.env['ir.config_parameter'].sudo().get_param('oniad_account_invoice_journal_id'))
                 oniad_product_id = int(self.env['ir.config_parameter'].sudo().get_param('oniad_credit_product_id'))
                 product = self.env['product.product'].search([('id','=',oniad_product_id)])
-                communication = dict(self.fields_get(allfields=['subject'])['subject']['selection'])[self.subject]
-                #define2
-                oniad_payment_mode_id_with_credit_limit = int(self.env['ir.config_parameter'].sudo().get_param('oniad_payment_mode_id_with_credit_limit'))
-                oniad_payment_term_id_default_with_credit_limit = int(self.env['ir.config_parameter'].sudo().get_param('oniad_payment_term_id_default_with_credit_limit'))                                
+                communication = dict(self.fields_get(allfields=['subject'])['subject']['selection'])[self.subject]                                
                 #creamos una factura con la linea de esta transaccion
                 account_invoice_vals = {
                     'partner_id': self.oniad_address_id.partner_id.id,
@@ -204,31 +201,27 @@ class OniadTransaction(models.Model):
                     'comment': ' ',
                     'currency_id': self.currency_id.id,
                     'oniad_address_id': self.oniad_address_id.id,
-                    'payment_mode_id': oniad_payment_mode_id_with_credit_limit,#GiroVentas
-                    'payment_term_id': oniad_payment_term_id_default_with_credit_limit,#Termino de pago por defecto para GiroVentas
-                    'invoice_with_risk': True,
                 }
-                #check_account_payment_mode
-                allow_create = True
-                account_payment_mode_id = self.env['account.payment.mode'].browse(account_invoice_vals['payment_mode_id'])
-                if account_payment_mode_id.payment_method_id.mandate_required==True:
-                    #search
-                    if self.oniad_address_id.res_partner_bank_id.id>0:
-                        if len(self.oniad_address_id.res_partner_bank_id.mandate_ids)>0:
-                            for mandate_id in self.oniad_address_id.res_partner_bank_id.mandate_ids:
-                                if 'mandate_id' not in account_invoice_vals:
-                                    if mandate_id.state=='valid':
-                                        account_invoice_vals['mandate_id'] = mandate_id.id
-                                        account_invoice_vals['partner_bank_id'] = mandate_id.partner_bank_id.id
-                    #check_continue
-                    if 'mandate_id' not in account_invoice_vals:
-                        allow_create = False
-                        _logger.info('No tiene mandatos bancario, no se puede crear la factura')                                        
-                #payment_term_id
+                #payment_mode_id
                 if self.oniad_address_id.partner_id.customer_payment_mode_id.id>0:
-                    if self.oniad_address_id.partner_id.customer_payment_mode_id.id==oniad_payment_mode_id_with_credit_limit:#Solo SI es giro ventas pondremos su payment_term_id                
-                        if self.oniad_address_id.partner_id.property_payment_term_id.id>0:
-                            account_invoice_vals['payment_term_id'] = self.oniad_address_id.partner_id.property_payment_term_id.id
+                    account_invoice_vals['payment_mode_id'] = self.oniad_address_id.partner_id.customer_payment_mode_id.id
+                    #check_mandate_required
+                    if self.oniad_address_id.partner_id.customer_payment_mode_id.mandate_required==True:
+                        #search
+                        if self.oniad_address_id.res_partner_bank_id.id>0:
+                            if len(self.oniad_address_id.res_partner_bank_id.mandate_ids)>0:
+                                for mandate_id in self.oniad_address_id.res_partner_bank_id.mandate_ids:
+                                    if 'mandate_id' not in account_invoice_vals:
+                                        if mandate_id.state=='valid':
+                                            account_invoice_vals['mandate_id'] = mandate_id.id
+                                            account_invoice_vals['partner_bank_id'] = mandate_id.partner_bank_id.id
+                        #check_continue
+                        if 'mandate_id' not in account_invoice_vals:
+                            allow_create = False
+                            _logger.info('No tiene mandatos bancario, no se puede crear la factura')                                         
+                #payment_term_id                
+                if self.oniad_address_id.partner_id.property_payment_term_id.id>0:
+                    account_invoice_vals['payment_term_id'] = self.oniad_address_id.partner_id.property_payment_term_id.id
                 #fiscal_position_id
                 if self.oniad_address_id.partner_id.property_account_position_id.id>0:
                     account_invoice_vals['fiscal_position_id'] = self.oniad_address_id.partner_id.property_account_position_id.id

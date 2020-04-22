@@ -73,4 +73,31 @@ class ResPartner(models.Model):
             return True
         else:
             _logger.info("Importing VAT Number [%s] is not valid !" % vat_number)
-            return False                                                        
+            return False
+            
+    @api.one
+    def write(self, vals):
+        send_sns_oniad_address_id_custom = False        
+        #customer_payment_mode_id
+        if 'customer_payment_mode_id' in vals:
+            customer_payment_mode_id_old = self.customer_payment_mode_id.id
+        #property_payment_term_id            
+        if 'property_payment_term_id' in vals:
+            property_payment_term_id_old = self.property_payment_term_id.id            
+        #super                                                               
+        return_object = super(ResPartner, self).write(vals)
+        #customer_payment_mode_id
+        if 'customer_payment_mode_id' in vals:
+            if self.customer_payment_mode_id.id!=customer_payment_mode_id_old:
+                send_sns_oniad_address_id_custom = True
+        #property_payment_term_id
+        if 'property_payment_term_id' in vals:
+            if self.property_payment_term_id.id!=property_payment_term_id_old:
+                send_sns_oniad_address_id_custom = True                
+        #send
+        if send_sns_oniad_address_id_custom==True:
+            if self.oniad_address_id.id>0:
+                #Como ha cambiado el customer_payment_mode_id o property_payment_term_id enviamos
+                self.oniad_address_id.action_send_sns()
+        #return
+        return return_object                                                                 
