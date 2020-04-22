@@ -295,7 +295,10 @@ class OniadTransaction(models.Model):
                         if self.oniad_user_id.partner_id.user_id.sale_team_id.id>0:
                             sale_order_vals['team_id'] = self.oniad_user_id.partner_id.user_id.sale_team_id.id                 
                 #create
-                sale_order_obj = self.env['sale.order'].sudo().create(sale_order_vals)
+                if 'user_id' in sale_order_vals:
+                    sale_order_obj = self.env['sale.order'].sudo(sale_order_vals['user_id']).create(sale_order_vals)
+                else:
+                    sale_order_obj = self.env['sale.order'].sudo().create(sale_order_vals)
                 #lines
                 sale_order_line_vals = {
                     'order_id': sale_order_obj.id,
@@ -308,7 +311,7 @@ class OniadTransaction(models.Model):
                     'currency_id': self.currency_id.id,
                     'product_id': oniad_product_id                      
                 }                 
-                sale_order_line_obj = self.env['sale.order.line'].sudo().create(sale_order_line_vals)  
+                sale_order_line_obj = self.env['sale.order.line'].sudo(sale_order_obj.create_uid).create(sale_order_line_vals)  
                 #valid
                 sale_order_obj.state = 'sent'#generate_pdf
                 #save sale_order_id
