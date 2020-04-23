@@ -15,6 +15,7 @@
         'views/crm_lead.xml',
         'views/oniad_root_view.xml',
         'views/res_partner_view.xml',
+        'views/sale_order_view.xml',
         'views/survey_user_input.xml',
         'security/ir.model.access.csv',
     ],
