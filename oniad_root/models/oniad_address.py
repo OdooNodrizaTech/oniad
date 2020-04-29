@@ -95,6 +95,10 @@ class OniadAddress(models.Model):
                 partner_vals['phone'] = self.phone                
         #operations
         if self.partner_id.id==0:
+            #customer_payment_mode_id
+            partner_vals['customer_payment_mode_id'] = 1#Transferencia
+            #property_payment_term_id
+            partner_vals['property_payment_term_id'] = 1#Pago inmediato
             #check_if_need_create of previously exists
             vat_need_check = str(self.country_id.code)+str(self.cif)            
             res_partner_ids = self.env['res.partner'].search([('is_company', '=', True),('vat', '=', vat_need_check)])
@@ -106,6 +110,13 @@ class OniadAddress(models.Model):
                 if res_partner_obj.id>0:
                     self.partner_id = res_partner_obj.id
         else:
+            #customer_payment_mode_id
+            if self.partner_id.customer_payment_mode_id.id==0:
+                partner_vals['customer_payment_mode_id'] = 1#Transferencia
+            #property_payment_term_id
+            if self.partner_id.property_payment_term_id.id==0:
+                partner_vals['property_payment_term_id'] = 1#Pago inmediato                
+            #update
             self.partner_id.update(partner_vals)
         #res_partner_bank_id
         if self.a_number!=False and self.res_partner_bank_id.id==0:
