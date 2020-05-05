@@ -70,6 +70,16 @@ class OniadAddress(models.Model):
         _logger.info('El vat '+str(vat)+' del oniad_address_id='+str(id)+' es incorrecto')
     
     @api.one
+    def define_user_id_in_res_partner(self):
+        if self.partner_id.id>0:
+            oniad_user_ids = self.env['oniad.user'].search([('oniad_address_id', '=', self.id)])
+            if len(oniad_user_ids)>0:
+                oniad_user_id = oniad_user_ids[0]
+                if oniad_user_id.oniad_accountmanager_id.id>0:
+                    if oniad_user_id.oniad_accountmanager_id.user_id.id>0:
+                        self.partner_id.user_id = oniad_user_id.oniad_accountmanager_id.user_id.id
+                
+    @api.one
     def check_res_partner(self):
         _logger.info('check_res_partner')
         #vals
@@ -84,7 +94,7 @@ class OniadAddress(models.Model):
             'state_id': self.state_id.id,
             'vat': str(self.country_id.code.upper())+str(self.cif),
             'property_account_position_id': self.fiscal_position_id             
-        }                   
+        }
         #phone
         if self.phone!=False:
             first_char_phone = self.phone[:1]
@@ -92,7 +102,7 @@ class OniadAddress(models.Model):
             if first_char_phone in mobile_first_chars:
                 partner_vals['mobile'] = self.phone
             else:
-                partner_vals['phone'] = self.phone                
+                partner_vals['phone'] = self.phone        
         #operations
         if self.partner_id.id==0:
             #customer_payment_mode_id
@@ -118,6 +128,8 @@ class OniadAddress(models.Model):
                 partner_vals['property_payment_term_id'] = 1#Pago inmediato                
             #update
             self.partner_id.update(partner_vals)
+        #define_user_id_in_res_partner
+        self.define_user_id_in_res_partner()
         #res_partner_bank_id
         if self.a_number!=False and self.res_partner_bank_id.id==0:
             partner_bank_vals = {

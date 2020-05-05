@@ -155,6 +155,9 @@ class OniadUser(models.Model):
                     self.partner_id = res_partner_obj.id                    
         else:
             self.partner_id.update(partner_vals)
+        #Fix define_user_id_in_res_partner
+        if self.oniad_address_id.id>0:
+            self.oniad_address_id.define_user_id_in_res_partner()            
     
     @api.one
     def check_sleep_lead(self):
