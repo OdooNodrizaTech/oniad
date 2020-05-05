@@ -13,4 +13,3 @@ nombre | version
 [oniad_root](oniad_root/) | 10.0.1.0.0
 [oniad_sendinblue](oniad_sendinblue/) | 10.0.1.0.0
 [oniad_surveymonkey](oniad_surveymonkey/) | 10.0.1.0.0
-[res_oniad](res_oniad/) | 10.0.1.0.0
