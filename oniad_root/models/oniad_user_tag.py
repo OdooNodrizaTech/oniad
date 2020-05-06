@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models
 
-from dateutil.relativedelta import relativedelta
-from datetime import datetime
-import pytz
-
 import logging
 _logger = logging.getLogger(__name__)
 

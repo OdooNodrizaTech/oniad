@@ -2,10 +2,7 @@
 import logging
 _logger = logging.getLogger(__name__)
 
-from openerp import api, models, fields
-
-from dateutil.relativedelta import relativedelta
-from datetime import datetime
+from odoo import api, models, fields
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'

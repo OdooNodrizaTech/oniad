@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openerp import api, models, fields
+from odoo import api, models, fields
 
 class ResPartnerCommunicationArea(models.Model):
     _name = 'res.partner.communication.area'

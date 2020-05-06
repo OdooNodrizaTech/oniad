@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="crm_lead_oniad_root" model="ir.ui.view">
-        <field name="name">crm_lead_oniad_root</field>
+    <record id="oniad_root_crm_case_form_view_oppor" model="ir.ui.view">
+        <field name="name">oniad_root_crm_case_form_view_oppor</field>
         <field name="model">crm.lead</field>
         <field name="inherit_id" ref="crm.crm_case_form_view_oppor"/>
         <field name="arch" type="xml">

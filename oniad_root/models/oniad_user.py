@@ -277,8 +277,8 @@ class OniadUser(models.Model):
                         }
                         mail_followers_obj = self.env['mail.followers'].sudo().create(mail_followers_vals)                                    
     
-    @api.multi    
-    def cron_sqs_oniad_user(self, cr=None, uid=False, context=None):
+    @api.model    
+    def cron_sqs_oniad_user(self):
         _logger.info('cron_sqs_oniad_user')
         
         sqs_oniad_user_url = tools.config.get('sqs_oniad_user_url')
@@ -462,8 +462,8 @@ class OniadUser(models.Model):
                             ReceiptHandle=message['ReceiptHandle']
                         )
                 
-    @api.multi    
-    def cron_sqs_oniad_usertag(self, cr=None, uid=False, context=None):
+    @api.model    
+    def cron_sqs_oniad_usertag(self):
         _logger.info('cron_sqs_oniad_usertag')
         
         sqs_oniad_usertag_url = tools.config.get('sqs_oniad_usertag_url')
@@ -540,8 +540,8 @@ class OniadUser(models.Model):
                             ReceiptHandle=message['ReceiptHandle']
                         )        
         
-    @api.multi    
-    def cron_oniad_user_auto_generate_welcome_lead_id(self, cr=None, uid=False, context=None):
+    @api.model    
+    def cron_oniad_user_auto_generate_welcome_lead_id(self):
         _logger.info('cron_oniad_user_auto_generate_welcome_lead_id')
         
         oniad_user_ids = self.env['oniad.user'].search(

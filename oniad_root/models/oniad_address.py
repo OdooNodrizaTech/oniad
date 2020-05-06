@@ -224,8 +224,8 @@ class OniadAddress(models.Model):
         #return
         return action_response
             
-    @api.multi    
-    def cron_sqs_oniad_address(self, cr=None, uid=False, context=None):
+    @api.model    
+    def cron_sqs_oniad_address(self):
         _logger.info('cron_sqs_oniad_address')
         
         sqs_oniad_address_url = tools.config.get('sqs_oniad_address_url')

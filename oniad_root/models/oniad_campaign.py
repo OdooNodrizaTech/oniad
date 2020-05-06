@@ -87,8 +87,8 @@ class OniadCampaign(models.Model):
         string='Spent At'
     )
     
-    @api.multi    
-    def cron_sqs_oniad_campaign(self, cr=None, uid=False, context=None):
+    @api.model    
+    def cron_sqs_oniad_campaign(self):
         _logger.info('cron_sqs_oniad_campaign')
         
         sqs_oniad_campaign_url = tools.config.get('sqs_oniad_campaign_url')
@@ -207,8 +207,8 @@ class OniadCampaign(models.Model):
                             ReceiptHandle=message['ReceiptHandle']
                         )
     
-    @api.multi    
-    def cron_sqs_oniad_campaign_report(self, cr=None, uid=False, context=None):
+    @api.model    
+    def cron_sqs_oniad_campaign_report(self):
         _logger.info('cron_sqs_oniad_campaign_report')
         
         sqs_oniad_campaign_report_url = tools.config.get('sqs_oniad_campaign_report_url')

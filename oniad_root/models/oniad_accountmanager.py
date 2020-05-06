@@ -31,8 +31,8 @@ class OniadAccountmanager(models.Model):
         string='Email'
     )
     
-    @api.multi    
-    def cron_sqs_oniad_accountmanager(self, cr=None, uid=False, context=None):
+    @api.model    
+    def cron_sqs_oniad_accountmanager(self):
         _logger.info('cron_sqs_oniad_accountmanager')
         
         sqs_oniad_accountmanager_url = tools.config.get('sqs_oniad_accountmanager_url')

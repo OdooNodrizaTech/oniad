@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
-import account_invoice
-import account_invoice_line
-import account_payment
-import crm_lead
-import oniad_accountmanager
-import oniad_address
-import oniad_campaign
-import oniad_country
-import oniad_country_state
-import oniad_transaction
-import oniad_user
-import oniad_user_tag
-import res_partner
-import sale_order_line
-import survey_user_input
+from . import account_invoice
+from . import account_invoice_line
+from . import account_payment
+from . import crm_lead
+from . import oniad_accountmanager
+from . import oniad_address
+from . import oniad_campaign
+from . import oniad_country
+from . import oniad_country_state
+from . import oniad_transaction
+from . import oniad_user
+from . import oniad_user_tag
+from . import res_partner
+from . import sale_order_line
+from . import survey_user_input

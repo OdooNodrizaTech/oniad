@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data noupdate="1">
         <record id="oniad_stripe_journal_id" model="ir.config_parameter">
             <field name="key">oniad_stripe_journal_id</field>
@@ -26,4 +26,4 @@
             <field name="value">21</field>
         </record>                    
     </data>
-</openerp>
+</odoo>

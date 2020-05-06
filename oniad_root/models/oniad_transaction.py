@@ -113,7 +113,7 @@ class OniadTransaction(models.Model):
         if self.id>94:#Fix eliminar los de 2017
             if self.id not in stranger_ids_need_skip:
                 if self.type!='TYPE_COMMISSION':
-                    if self.subject in ['SUBJECT_CHARGE', 'SUBJECT_REFUND']:
+                    if self.subject in ['SUBJECT_CHARGE', 'SUBJECT_REFUND', 'SUBJECT_BANNERS']:
                         if self.medium=='MEDIUM_STRIPE':
                             if self.create_date>'2020-01-01':
                                 need_create_account_payment = True
@@ -326,8 +326,8 @@ class OniadTransaction(models.Model):
         #return    
         return return_write            
     
-    @api.multi    
-    def cron_sqs_oniad_transaction(self, cr=None, uid=False, context=None):
+    @api.model    
+    def cron_sqs_oniad_transaction(self):
         _logger.info('cron_sqs_oniad_transaction')
         
         sqs_oniad_transaction_url = tools.config.get('sqs_oniad_transaction_url')
@@ -444,8 +444,8 @@ class OniadTransaction(models.Model):
                             ReceiptHandle=message['ReceiptHandle']
                         )
             
-    @api.multi    
-    def cron_action_account_invoices_generate(self, cr=None, uid=False, context=None):
+    @api.model    
+    def cron_action_account_invoices_generate(self):
         _logger.info('cron_action_account_invoices_generate')   
         #define
         oniad_stripe_journal_id = int(self.env['ir.config_parameter'].sudo().get_param('oniad_stripe_journal_id'))

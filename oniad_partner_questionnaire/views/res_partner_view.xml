@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="view_partner_oniad_tree" model="ir.ui.view">
-        <field name="name">Add partner extra fields</field>
+    <record id="oniad_partner_questionnaire_view_partner_tree" model="ir.ui.view">
+        <field name="name">oniad_partner_questionnaire_view_partner_tree</field>
         <field name="model">res.partner</field>
+        <field name="priority">20</field>
         <field name="inherit_id" ref="base.view_partner_tree"/>
         <field name="arch" type="xml">
             <field name="email" position="after">
@@ -10,13 +11,13 @@
             </field>            
         </field>
     </record>
-    <record id="res_partner_view_oniad_partner_questionnaire" model="ir.ui.view">
-        <field name="name">res.partner.view.oniad_partner_questionnaire</field>
+    <record id="oniad_partner_questionnaire_view_partner_form" model="ir.ui.view">
+        <field name="name">oniad_partner_questionnaire_view_partner_form</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form" />
         <field name="priority" eval="20"/>
         <field name="arch" type="xml">
-            <field name="email" position="after">
+            <field name="website" position="before">
                 <field name="oa_qt_partner_type" widget="many2many_checkboxes" />
                 <field name="oa_qt_show_stakeholder_tab" invisible="1" />
                 <field name="oa_qt_show_user_tab" invisible="1" />                

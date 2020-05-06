@@ -31,8 +31,8 @@ class OniadCountryState(models.Model):
         string='Posicion fiscal'
     )
     
-    @api.multi    
-    def cron_sqs_oniad_country_state(self, cr=None, uid=False, context=None):
+    @api.model    
+    def cron_sqs_oniad_country_state(self):
         _logger.info('cron_sqs_oniad_country_state')
         
         sqs_oniad_country_state_url = tools.config.get('sqs_oniad_country_state_url')

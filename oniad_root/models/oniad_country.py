@@ -23,8 +23,8 @@ class OniadCountry(models.Model):
         string='Pais'
     )    
     
-    @api.multi    
-    def cron_sqs_oniad_country(self, cr=None, uid=False, context=None):
+    @api.model    
+    def cron_sqs_oniad_country(self):
         _logger.info('cron_sqs_oniad_country')
         
         sqs_oniad_country_url = tools.config.get('sqs_oniad_country_url')

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo> 
-    <record id="survey_user_input_oniad_root_form" model="ir.ui.view">
+    <record id="oniad_root_survey_user_input_form" model="ir.ui.view">
+        <field name="name">oniad_root_survey_user_input_form</field>
         <field name="model">survey.user_input</field>
         <field name="inherit_id" ref="survey.survey_user_input_form"/>
         <field name="arch" type="xml">
