@@ -113,7 +113,7 @@ class OniadTransaction(models.Model):
         if self.id>94:#Fix eliminar los de 2017
             if self.id not in stranger_ids_need_skip:
                 if self.type!='TYPE_COMMISSION':
-                    if self.subject in ['SUBJECT_CHARGE', 'SUBJECT_REFUND']:
+                    if self.subject in ['SUBJECT_CHARGE', 'SUBJECT_REFUND', 'SUBJECT_BANNERS']:
                         if self.medium=='MEDIUM_STRIPE':
                             if self.create_date>'2020-01-01':
                                 need_create_account_payment = True
