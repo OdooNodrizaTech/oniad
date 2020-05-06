@@ -187,7 +187,8 @@ class OniadTransaction(models.Model):
                 oniad_account_invoice_journal_id = int(self.env['ir.config_parameter'].sudo().get_param('oniad_account_invoice_journal_id'))
                 oniad_product_id = int(self.env['ir.config_parameter'].sudo().get_param('oniad_credit_product_id'))
                 product = self.env['product.product'].search([('id','=',oniad_product_id)])
-                communication = dict(self.fields_get(allfields=['subject'])['subject']['selection'])[self.subject]                                
+                communication = dict(self.fields_get(allfields=['subject'])['subject']['selection'])[self.subject]
+                allow_create = True                                
                 #creamos una factura con la linea de esta transaccion
                 account_invoice_vals = {
                     'partner_id': self.oniad_address_id.partner_id.id,
@@ -206,7 +207,7 @@ class OniadTransaction(models.Model):
                 if self.oniad_address_id.partner_id.customer_payment_mode_id.id>0:
                     account_invoice_vals['payment_mode_id'] = self.oniad_address_id.partner_id.customer_payment_mode_id.id
                     #check_mandate_required
-                    if self.oniad_address_id.partner_id.customer_payment_mode_id.mandate_required==True:
+                    if self.oniad_address_id.partner_id.customer_payment_mode_id.payment_method_id.mandate_required==True:
                         #search
                         if self.oniad_address_id.res_partner_bank_id.id>0:
                             if len(self.oniad_address_id.res_partner_bank_id.mandate_ids)>0:
