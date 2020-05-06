@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sendinblue_attribute_action" model="ir.actions.act_window">
+        <field name="name">Sendinblue Atributos</field>
+        <field name="res_model">sendinblue.attribute</field>
+        <field name="view_mode">tree,form</field>                
+    </record>
+    <record id="sendinblue_contact_action" model="ir.actions.act_window">
+        <field name="name">Sendinblue Contactos</field>
+        <field name="res_model">sendinblue.contact</field>
+        <field name="view_mode">tree,form</field>                
+    </record>
+    <record id="sendinblue_enumeration_action" model="ir.actions.act_window">
+        <field name="name">Sendinblue Enumeration</field>
+        <field name="res_model">sendinblue.enumeration</field>
+        <field name="view_mode">tree,form</field>                
+    </record>
+    <record id="sendinblue_folder_action" model="ir.actions.act_window">
+        <field name="name">Sendinblue Carpetas</field>
+        <field name="res_model">sendinblue.folder</field>
+        <field name="view_mode">tree,form</field>                
+    </record>
+    <record id="sendinblue_list_action" model="ir.actions.act_window">
+        <field name="name">Sendinblue Listas</field>
+        <field name="res_model">sendinblue.list</field>
+        <field name="view_mode">tree,form</field>                
+    </record>     
+    <menuitem 
+        id="menu_odoo_oniad_sendinblue" 
+        name="Oniad Sendinblue"
+        parent="base.menu_custom" 
+        sequence="47"
+    />
+    <menuitem 
+        action="sendinblue_attribute_action" 
+        name="Sendinblue Atributos"
+        id="menuitem_odoo_oniad_sendinblue_attribute" 
+        parent="menu_odoo_oniad_sendinblue"
+    />
+    <menuitem 
+        action="sendinblue_contact_action" 
+        name="Sendinblue Contactos"
+        id="menuitem_odoo_oniad_sendinblue_contact" 
+        parent="menu_odoo_oniad_sendinblue"
+    />
+    <menuitem 
+        action="sendinblue_enumeration_action" 
+        name="Sendinblue Enumeration"
+        id="menuitem_odoo_oniad_sendinblue_enumeration" 
+        parent="menu_odoo_oniad_sendinblue"
+    />
+    <menuitem 
+        action="sendinblue_folder_action" 
+        name="Sendinblue Carpetas"
+        id="menuitem_odoo_oniad_sendinblue_folder" 
+        parent="menu_odoo_oniad_sendinblue"
+    />
+    <menuitem 
+        action="sendinblue_list_action" 
+        name="Sendinblue Listas"
+        id="menuitem_odoo_oniad_sendinblue_list" 
+        parent="menu_odoo_oniad_sendinblue"
+    />                    
+</odoo>

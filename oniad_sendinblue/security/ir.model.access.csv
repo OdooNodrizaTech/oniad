@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sendinblue_attribute_admin,sendinblue.attribute,model_sendinblue_attribute,,1,1,1,1
+access_sendinblue_attribute_group_user,sendinblue.attribute.user,model_sendinblue_attribute,base.group_user,1,1,1,1
+access_sendinblue_contact_admin,sendinblue.contact,model_sendinblue_contact,,1,1,1,1
+access_sendinblue_contact_group_user,sendinblue.contact.user,model_sendinblue_contact,base.group_user,1,1,1,1
+access_sendinblue_enumeration_admin,sendinblue.enumeration,model_sendinblue_enumeration,,1,1,1,1
+access_sendinblue_enumeration_group_user,sendinblue.enumeration.user,model_sendinblue_enumeration,base.group_user,1,1,1,1
+access_sendinblue_folder_admin,sendinblue.folder,model_sendinblue_folder,,1,1,1,1
+access_sendinblue_folder_group_user,sendinblue.folder.user,model_sendinblue_folder,base.group_user,1,1,1,1
+access_sendinblue_list_admin,sendinblue.list,model_sendinblue_list,,1,1,1,1
+access_sendinblue_list_group_user,sendinblue.list.user,model_sendinblue_list,base.group_user,1,1,1,1
