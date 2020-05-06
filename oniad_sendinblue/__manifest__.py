@@ -15,7 +15,7 @@
         'security/ir.model.access.csv',
     ],
     'external_dependencies': {
-        'python' : ['sib_api_v3_sdk'],
+        'python3' : ['sib_api_v3_sdk'],
     },    
     'installable': True,
     'auto_install': False,    
