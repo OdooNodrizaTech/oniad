@@ -3,6 +3,7 @@ from odoo import api, models, fields
 
 class ResPartnerStakeholderType(models.Model):
     _name = 'res.partner.stakeholder.type'
+    _description = 'Res Partner Stakeholder Type'
 
     name = fields.Char(
         string="Nombre"

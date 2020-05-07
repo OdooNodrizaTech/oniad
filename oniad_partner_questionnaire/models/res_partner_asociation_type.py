@@ -3,6 +3,7 @@ from odoo import api, models, fields
 
 class ResPartnerAsociationType(models.Model):
     _name = 'res.partner.asociation.type'
+    _description = 'Res Partner Asociation Type'
 
     name = fields.Char(
         string="Nombre"

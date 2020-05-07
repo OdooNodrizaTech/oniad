@@ -3,6 +3,7 @@ from odoo import api, models, fields
 
 class ResPartnerCommunicatorType(models.Model):
     _name = 'res.partner.communicator.type'
+    _description = 'Res Partner Communicator Type'
 
     name = fields.Char(
         string="Nombre"

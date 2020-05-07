@@ -3,6 +3,7 @@ from odoo import api, models, fields
 
 class ResPartnerActivity(models.Model):
     _name = 'res.partner.activity'
+    _description = 'Res Partner Activity'
 
     name = fields.Char(
         string="Nombre"

@@ -5,7 +5,8 @@ import logging
 _logger = logging.getLogger(__name__)
 
 class SendinblueContactAttribute(models.Model):
-    _name = 'sendinblue.contact.attribute'    
+    _name = 'sendinblue.contact.attribute'
+    _description = 'Sendinblue Contact Attribute'    
     
     sendinblue_contact_id = fields.Many2one(
         comodel_name='sendinblue.contact',

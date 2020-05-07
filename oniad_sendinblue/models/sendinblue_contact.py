@@ -7,7 +7,8 @@ _logger = logging.getLogger(__name__)
 from ..sendinblue.web_service import SendinblueWebService
 
 class SendinblueContact(models.Model):
-    _name = 'sendinblue.contact'    
+    _name = 'sendinblue.contact'
+    _description = 'Sendinblue Contact'    
     
     sendinblue_id = fields.Char(        
         string='Sendinblue Id'
