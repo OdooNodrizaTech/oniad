@@ -7,6 +7,7 @@ Addons
 ----------------
 nombre | version
 --- | ---
+[oniad_account_invoice_valid_auto_paid](oniad_account_invoice_valid_auto_paid/) | 12.0.1.0.0
 [oniad_automation](oniad_automation/) | 12.0.1.0.0
 [oniad_datalake](oniad_datalake/) | 12.0.1.0.0
 [oniad_partner_questionnaire](oniad_partner_questionnaire/) | 12.0.1.0.0
