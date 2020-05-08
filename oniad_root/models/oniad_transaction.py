@@ -554,7 +554,7 @@ class OniadTransaction(models.Model):
                                     'oniad_transaction_id': account_payment_id.oniad_transaction_id.id,
                                     'product_id': product.id,#Producto Gasto
                                     'name': account_payment_id.communication,
-                                    'quantity': 1,
+                                    'quantity': 1,                                    
                                     'price_unit': account_payment_id.amount,
                                     'account_id': product.property_account_income_id.id,
                                     'purchase_price': account_payment_id.oniad_purchase_price,
@@ -565,6 +565,8 @@ class OniadTransaction(models.Model):
                                     account_invoice_line_vals['product_id'] = account_payment_id.oniad_product_id.id 
                                 #create
                                 account_invoice_line_obj = self.env['account.invoice.line'].sudo().create(account_invoice_line_vals)
+                                #name
+                                account_invoice_line_obj.name = account_payment_id.communication 
                             #Fix check totals
                             account_invoice_obj.compute_taxes()
                             #operations
@@ -635,6 +637,8 @@ class OniadTransaction(models.Model):
                                         account_invoice_line_vals['product_id'] = account_payment_id.oniad_product_id.id 
                                     #create
                                     account_invoice_line_obj = self.env['account.invoice.line'].sudo().create(account_invoice_line_vals)
+                                    #name
+                                    account_invoice_line_obj.name = account_payment_id.communication
                                 #Fix check totals
                                 account_invoice_obj.compute_taxes()
                                 #operations
