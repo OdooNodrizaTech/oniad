@@ -109,6 +109,33 @@ id | name | stakeholder | user
 1 | Stakeholder | True | False
 2 | Usuario | False | True
 
+### res.partner.sector
+id | name
+--- | ---
+93 | Banca
+94 | Belleza
+95 | Coches
+96 | Construccion
+97 | Deportes
+98 | Despachos
+99 | Empresas de transporte
+100 | Enseñanza
+101 | Hogar
+102 | Hotel
+103 | Informática
+104 | Jardinería
+105 | Muebles
+106 | Ocio
+107 | Pisos
+108 | Profesionales
+109 | Publicidad
+110 | Restaurantes
+111 | Salud
+112 | Seguridad
+113 | Seguros
+114 | Servicio a empresas
+115 | Viajes
+
 ### res.partner.social.network
 id | name
 --- | ---
