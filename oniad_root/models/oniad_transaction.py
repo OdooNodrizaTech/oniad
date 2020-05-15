@@ -115,7 +115,7 @@ class OniadTransaction(models.Model):
                 if self.type!='TYPE_COMMISSION':
                     if self.subject in ['SUBJECT_CHARGE', 'SUBJECT_REFUND', 'SUBJECT_BANNERS']:
                         if self.medium=='MEDIUM_STRIPE':
-                            if self.create_date>'2020-01-01':
+                            if self.create_date.strftime("%Y-%m-%d")>'2020-01-01':
                                 need_create_account_payment = True
         #need_create_account_invoice | need_create_sale_order
         need_create_account_invoice = False
@@ -126,7 +126,7 @@ class OniadTransaction(models.Model):
                 if self.type!='TYPE_COMMISSION':
                     if self.subject in ['SUBJECT_CHARGE', 'SUBJECT_REFUND']:
                         if self.medium=='MEDIUM_OFFLINE':
-                            if self.create_date>'2020-02-12':
+                            if self.create_date.strftime("%Y-%m-%d")>'2020-02-12':
                                 if self.oniad_address_id.partner_id.credit_limit>0:
                                     need_create_account_invoice = True
                                 else:
