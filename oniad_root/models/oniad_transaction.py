@@ -195,9 +195,9 @@ class OniadTransaction(models.Model):
                     'partner_shipping_id': self.oniad_address_id.partner_id.id,
                     'account_id': self.oniad_address_id.partner_id.property_account_receivable_id.id,
                     'journal_id': oniad_account_invoice_journal_id,#Facturas cliente OniAd
-                    #'date': self.date,
-                    #'date_invoice': self.date,
-                    #'date_due': self.date,
+                    #'date': self.date.strftime("%Y-%m-%d"),
+                    #'date_invoice': self.date.strftime("%Y-%m-%d"),
+                    #'date_due': self.date.strftime("%Y-%m-%d"),
                     'state': 'draft',
                     'comment': ' ',
                     'currency_id': self.currency_id.id,
@@ -488,7 +488,7 @@ class OniadTransaction(models.Model):
                 partner_payments = {}
                 for oniad_transaction_id in oniad_transaction_ids:
                     payment_with_invoice = False 
-                    for account_invoice in oniad_transaction_id.account_payment_id._get_invoices():
+                    if oniad_transaction_id.account_payment_id.has_invoices==True:
                         payment_with_invoice = True
                         
                     if payment_with_invoice==False:
@@ -529,9 +529,9 @@ class OniadTransaction(models.Model):
                                 'partner_shipping_id': partner.id,
                                 'account_id': partner.property_account_receivable_id.id,
                                 'journal_id': oniad_account_invoice_journal_id,#Facturas cliente OniAd
-                                'date': date_invoice,
-                                'date_invoice': date_invoice,
-                                'date_due': date_invoice,
+                                'date': date_invoice.strftime("%Y-%m-%d"),
+                                'date_invoice': date_invoice.strftime("%Y-%m-%d"),
+                                'date_due': date_invoice.strftime("%Y-%m-%d"),
                                 'state': 'draft',
                                 'comment': ' ',
                                 'currency_id': partner_payment_by_type_item_0.currency_id.id                                         
@@ -601,9 +601,9 @@ class OniadTransaction(models.Model):
                                     'partner_shipping_id': account_invoice_id_out_invoice.partner_id.id,
                                     'account_id': account_invoice_id_out_invoice.partner_id.property_account_receivable_id.id,
                                     'journal_id': account_invoice_id_out_invoice.journal_id.id,
-                                    'date': date_invoice,
-                                    'date_invoice': date_invoice,
-                                    'date_due': date_invoice,
+                                    'date': date_invoice.strftime("%Y-%m-%d"),
+                                    'date_invoice': date_invoice.strftime("%Y-%m-%d"),
+                                    'date_due': date_invoice.strftime("%Y-%m-%d"),
                                     'state': 'draft',
                                     'type': 'out_refund',
                                     'origin': account_invoice_id_out_invoice.number,
