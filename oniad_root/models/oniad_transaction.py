@@ -161,7 +161,7 @@ class OniadTransaction(models.Model):
                 #communication                
                     subjects_with_date = ['SUBJECT_CHARGE', 'SUBJECT_REFUND']
                     if self.subject in subjects_with_date:
-                        date_explode = self.date.split('-')
+                        date_explode = self.date.strftime("%Y-%m-%d").split('-')
                         account_payment_vals['communication'] += ' '+str(date_explode[2])+'/'+str(date_explode[1])+'/'+str(date_explode[0])           
                 #SUBJECT_REFUND            
                 if self.subject=='SUBJECT_REFUND':

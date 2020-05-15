@@ -111,14 +111,16 @@ class OniadUser(models.Model):
     @api.one
     def check_res_partner(self):
         partner_vals = {
-            'name': str(self.name.encode('utf-8')),
+            #'name': str(self.name.encode('utf-8')),
+            'name': self.name,
             'customer': True,
             'email': self.email,             
             'lang': str(self.lang)
         }
         #lastname
         if self.last_name!=False:
-            partner_vals['name'] = str(self.name.encode('utf-8'))+' '+str(self.last_name.encode('utf-8'))
+            #partner_vals['name'] = str(self.name.encode('utf-8'))+' '+str(self.last_name.encode('utf-8'))
+            partner_vals['name'] += self.last_name
         #phone
         if self.phone!=False:
             first_char_phone = self.phone[:1]
