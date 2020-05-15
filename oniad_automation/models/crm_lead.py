@@ -36,7 +36,7 @@ class CrmLead(models.Model):
                 'record_name': mail_compose_message_vals['record_name'],
                 'no_auto_thread': False,                     
             })                                         
-            mail_compose_message_obj.send_mail_action()                                                                                                                
+            mail_compose_message_obj.send_mail()                                                                                                                
             return True
 
     @api.model    

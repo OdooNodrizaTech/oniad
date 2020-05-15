@@ -566,7 +566,7 @@ class OniadUser(models.Model):
             if self.type in ['user', 'agency']:
                 if self.partner_id.id>0:
                     if self.partner_id.user_id.id>0:
-                        if self.create_date>='2020-02-12':
+                        if self.create_date.strftime("%Y-%m-%d")>='2020-02-12':
                             #define
                             current_date = datetime.now(pytz.timezone('Europe/Madrid'))
                             #need_check
@@ -574,7 +574,7 @@ class OniadUser(models.Model):
                             if self.phone!=False:
                                 need_check = True
                             else:
-                                diff = datetime.strptime(str(current_date.strftime("%Y-%m-%d %H:%M:%S")), '%Y-%m-%d %H:%M:%S') - datetime.strptime(str(self.create_date), '%Y-%m-%d %H:%M:%S')
+                                diff = datetime.strptime(str(current_date.strftime("%Y-%m-%d %H:%M:%S")), '%Y-%m-%d %H:%M:%S') - datetime.strptime(str(self.create_date.strftime("%Y-%m-%d %H:%M:%S")), '%Y-%m-%d %H:%M:%S')
                                 dateTimeDifferenceInHours = diff.total_seconds() / 3600
                                 if dateTimeDifferenceInHours>=1:
                                     need_check = True                                        
