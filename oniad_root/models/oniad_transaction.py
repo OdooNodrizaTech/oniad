@@ -181,8 +181,8 @@ class OniadTransaction(models.Model):
                     self.account_payment_id.post()
         #operations need_create_account_invoice
         if need_create_account_invoice==True:
-            #check_if_need_create
-            if self.account_invoice_id.id==0:
+            #check_if_need_create (prevent create invoice and previousely create sale_order because later assign risk)
+            if self.sale_order_id.id==0 and self.account_invoice_id.id==0:
                 #define
                 oniad_account_invoice_journal_id = int(self.env['ir.config_parameter'].sudo().get_param('oniad_account_invoice_journal_id'))
                 oniad_product_id = int(self.env['ir.config_parameter'].sudo().get_param('oniad_credit_product_id'))
