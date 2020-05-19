@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from . import res_partner
 from . import res_partner_partner_type
 from . import res_partner_stakeholder_type
