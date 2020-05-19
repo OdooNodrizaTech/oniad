@@ -569,6 +569,7 @@ class OniadUser(models.Model):
                         if self.create_date.strftime("%Y-%m-%d")>='2020-02-12':
                             #define
                             current_date = datetime.now(pytz.timezone('Europe/Madrid'))
+                            mail_activity_date_deadline = current_date + relativedelta(days=7)
                             #need_check
                             need_check = False
                             if self.phone!=False:
@@ -625,10 +626,23 @@ class OniadUser(models.Model):
                                         crm_lead_obj.action_send_mail_with_template_id(oniad_welcome_lead_template_id)#Plantilla Iniciativa/Oportunidad: BIENVENIDO/A A ONiAd (id=54)
                                         #update
                                         crm_lead_obj.stage_id=2#Ayuda ofrecida
-                                        next_activity_id_date_action = current_date + relativedelta(days=7)
-                                        crm_lead_obj.title_action = 'Revisar contacto usuario'
-                                        crm_lead_obj.next_activity_id = 3#Tarea
-                                        crm_lead_obj.date_action = next_activity_id_date_action
+                                    #mail_activity
+                                    if 'user_id' in crm_lead_vals:
+                                        ir_model_ids = self.env['ir.model'].search([('model', '=', 'crm.lead')])
+                                        if len(ir_model_ids)>0:
+                                            ir_model_item = ir_model_ids[0]
+                                            #vals
+                                            mail_activity_vals = {
+                                                'active': True,
+                                                'res_model': ir_model_item.model,
+                                                'res_model_id': ir_model_item.id,
+                                                'res_id': crm_lead_obj.id,
+                                                'activity_type_id': 3,#Tarea
+                                                'user_id': crm_lead_vals['user_id'],
+                                                'date_deadline': mail_activity_date_deadline.strftime("%Y-%m-%d"),
+                                                'summary': 'Revisar contacto usuario'
+                                            }
+                                            mail_activity_obj = self.env['mail.activity'].sudo(crm_lead_vals['user_id']).create(mail_activity_vals)
                                     #update
                                     self.welcome_lead_id = crm_lead_obj.id                
     
