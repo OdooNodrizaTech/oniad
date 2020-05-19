@@ -7,6 +7,9 @@
     'category': 'Tools',
     'license': 'AGPL-3',
     'depends': ['base', 'mail', 'base_vat', 'custom_day_due', 'crm', 'sale', 'survey', 'account', 'partner_financial_risk', 'website', 'mail_activity_done'],
+    'external_dependencies': {
+        'python3' : ['boto3'],
+    },
     'data': [
         'data/ir_cron.xml',
         'data/ir_configparameter_data.xml',
