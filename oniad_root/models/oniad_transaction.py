@@ -627,9 +627,8 @@ class OniadTransaction(models.Model):
                                         'product_id': product.id,#Producto Gasto
                                         'name': account_payment_id.communication,
                                         'quantity': 1,
-                                        'price_unit': account_payment_id.amount,
+                                        'price_unit': account_payment_id.amount*-1,
                                         'account_id': product.property_account_income_id.id,
-                                        'purchase_price': account_payment_id.oniad_purchase_price,
                                         'currency_id': account_payment_id.currency_id.id                     
                                     }
                                     #oniad_product_id
