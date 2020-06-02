@@ -470,7 +470,7 @@ class OniadTransaction(models.Model):
                 [
                     ('id', '>', 94),#Fix eliminar los de 2017
                     ('id', 'not in', (1743, 52076, 52270, 52271, 52281)),#Fix transacciones devueltas por stripe 'raras'
-                    ('type', '=', 'TYPE_CREDIT'),
+                    ('type', 'in', ('TYPE_CREDIT', 'TYPE_SERVICE')),
                     ('state', '=', 'STATUS_COMPLETED'),
                     ('actor', '=', 'ACTOR_ONIAD'),
                     ('medium', '=', 'MEDIUM_STRIPE'),
