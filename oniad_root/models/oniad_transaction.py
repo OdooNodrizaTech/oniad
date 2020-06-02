@@ -474,7 +474,7 @@ class OniadTransaction(models.Model):
                     ('state', '=', 'STATUS_COMPLETED'),
                     ('actor', '=', 'ACTOR_ONIAD'),
                     ('medium', '=', 'MEDIUM_STRIPE'),
-                    ('subject', 'in', ('SUBJECT_CHARGE', 'SUBJECT_REFUND')),                
+                    ('subject', 'in', ('SUBJECT_CHARGE', 'SUBJECT_BANNERS', 'SUBJECT_REFUND')),
                     ('account_payment_id', '!=', False),
                     ('account_payment_id.journal_id', '=', oniad_stripe_journal_id),
                     ('account_payment_id.state', 'in', ('posted', 'sent')),
