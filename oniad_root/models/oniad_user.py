@@ -117,7 +117,7 @@ class OniadUser(models.Model):
             'lang': str(self.lang)
         }
         #name
-        if self.name != False:
+        if self.name!=False and self.name!='':
             partner_vals['name'] = self.name
         #lastname
         if self.last_name!=False:
