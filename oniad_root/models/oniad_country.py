@@ -97,9 +97,9 @@ class OniadCountry(models.Model):
                         if previously_found==False:                            
                             oniad_country_state_obj = self.env['oniad.country'].sudo().create(data_oniad_country)
                         else:
-                            oniad_country_state_id = oniad_country_state_ids[0]
+                            oniad_country_id = oniad_country_ids[0]
                             #write
-                            oniad_country_state_id.write(data_oniad_country)                                                    
+                            oniad_country_id.write(data_oniad_country)
                     #final_operations
                     result_message['data'] = data_oniad_country
                     _logger.info(result_message)
