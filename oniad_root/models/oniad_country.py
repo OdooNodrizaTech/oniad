@@ -21,7 +21,12 @@ class OniadCountry(models.Model):
     country_id = fields.Many2one(
         comodel_name='res.country',
         string='Pais'
-    )    
+    )
+    fiscal_position_id = fields.Many2one(
+        comodel_name='account.fiscal.position',
+        string='Posicion fiscal',
+        help='Solo se usara esta posicion fiscal cuando no tenga provincia la direccion, de lo contrario se usara la posicial fiscal de la provincia'
+    )
     
     @api.model    
     def cron_sqs_oniad_country(self):

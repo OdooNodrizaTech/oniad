@@ -93,7 +93,7 @@ class OniadAddress(models.Model):
             'zip': self.cp,
             'state_id': self.state_id.id,
             'vat': str(self.country_id.code.upper())+str(self.cif),
-            'property_account_position_id': self.fiscal_position_id             
+            'property_account_position_id': self.fiscal_position_id.id
         }
         #phone
         if self.phone!=False:
@@ -309,6 +309,7 @@ class OniadAddress(models.Model):
                                 else:                                
                                     oniad_country_id = oniad_country_ids[0]
                                     data_oniad_address['country_id'] = oniad_country_id.country_id.id
+                                    data_oniad_address['fiscal_position_id'] = oniad_country_id.fiscal_position_id.id
                         #state_id
                         if 'oniad_country_state_id' in data_oniad_address:
                             if data_oniad_address['oniad_country_state_id']>0:
