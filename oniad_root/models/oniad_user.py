@@ -546,16 +546,21 @@ class OniadUser(models.Model):
     @api.multi    
     def cron_oniad_user_auto_generate_welcome_lead_id(self, cr=None, uid=False, context=None):
         _logger.info('cron_oniad_user_auto_generate_welcome_lead_id')
-        
+
+        current_date = datetime.today()
+        start_date = current_date + relativedelta(days=-8)
+        end_date = current_date
+
         oniad_user_ids = self.env['oniad.user'].search(
             [
                 ('partner_id', '!=', False),
                 ('partner_id.user_id', '!=', False),
                 ('type', 'in', ('user', 'agency')),
                 ('welcome_lead_id', '=', False),
-                ('create_date', '>=', '2020-02-12')
+                ('create_date', '>=', start_date.strftime("%Y-%m-%d")),
+                ('create_date', '<=', end_date.strftime("%Y-%m-%d"))
             ]
-        )    
+        )
         if len(oniad_user_ids)>0:
             _logger.info(len(oniad_user_ids))
             for oniad_user_id in oniad_user_ids:
@@ -577,7 +582,7 @@ class OniadUser(models.Model):
                             else:
                                 diff = datetime.strptime(str(current_date.strftime("%Y-%m-%d %H:%M:%S")), '%Y-%m-%d %H:%M:%S') - datetime.strptime(str(self.create_date), '%Y-%m-%d %H:%M:%S')
                                 dateTimeDifferenceInHours = diff.total_seconds() / 3600
-                                if dateTimeDifferenceInHours>=1:
+                                if dateTimeDifferenceInHours>=1 and dateTimeDifferenceInHours<200:
                                     need_check = True                                        
 
                             if need_check==True:
