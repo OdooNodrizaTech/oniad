@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 import res_partner
 import res_partner_partner_type
 import res_partner_stakeholder_type
