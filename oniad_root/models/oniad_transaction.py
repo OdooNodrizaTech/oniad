@@ -628,10 +628,13 @@ class OniadTransaction(models.Model):
                                         'product_id': product.id,#Producto Gasto
                                         'name': account_payment_id.communication,
                                         'quantity': 1,
-                                        'price_unit': account_payment_id.amount*-1,
+                                        'price_unit': account_payment_id.amount,
                                         'account_id': product.property_account_income_id.id,
                                         'currency_id': account_payment_id.currency_id.id                     
                                     }
+                                    # Fix price_unit (prevent negative)
+                                    if account_invoice_line_vals['price_unit'] < 0:
+                                        account_invoice_line_vals['price_unit'] = account_invoice_line_vals['price_unit'] * -1
                                     #oniad_product_id
                                     if account_payment_id.oniad_product_id.id>0:
                                         account_invoice_line_vals['product_id'] = account_payment_id.oniad_product_id.id 
