@@ -7,11 +7,28 @@ _logger = logging.getLogger(__name__)
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
-    
+
     oniad_address_id = fields.Many2one(
         comodel_name='oniad.address',
-        string='Oniad Address'
-    )          
+        compute='_oniad_address_id',
+        string='Oniad Address',
+        store=True
+    )
+    oniad_transaction_count = fields.Integer(
+        compute='_compute_oniad_transaction_count',
+        string="Oniad Transactions",
+    )
+
+    def _compute_oniad_transaction_count(self):
+        for item in self:
+            item.oniad_transaction_count = len(self.env['oniad.transaction'].search([('account_invoice_id', '=', item.id)]))
+
+    @api.depends('partner_id.oniad_address_id')
+    def _oniad_address_id(self):
+        for item in self:
+            if item.id > 0:
+                if item.partner_id.oniad_address_id.id > 0:
+                    item.oniad_address_id = item.partner_id.oniad_address_id.id
         
     @api.multi
     def compute_taxes(self):

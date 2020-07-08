@@ -202,7 +202,6 @@ class OniadTransaction(models.Model):
                     'state': 'draft',
                     'comment': ' ',
                     'currency_id': self.currency_id.id,
-                    'oniad_address_id': self.oniad_address_id.id,
                 }
                 #payment_mode_id
                 if self.oniad_address_id.partner_id.customer_payment_mode_id.id>0:
@@ -525,7 +524,6 @@ class OniadTransaction(models.Model):
                             percent = "{0:.2f}".format(percent)                                    
                             #account.invoice
                             account_invoice_vals = {
-                                'oniad_address_id': partner_payment_by_type_item_0.oniad_transaction_id.oniad_address_id.id,
                                 'partner_id': partner.id,
                                 'partner_shipping_id': partner.id,
                                 'account_id': partner.property_account_receivable_id.id,
@@ -597,7 +595,6 @@ class OniadTransaction(models.Model):
                                 percent = "{0:.2f}".format(percent)                                    
                                 #account_invoice_vals
                                 account_invoice_vals = {
-                                    'oniad_address_id': account_invoice_id_out_invoice.oniad_address_id.id,
                                     'partner_id': account_invoice_id_out_invoice.partner_id.id,
                                     'partner_shipping_id': account_invoice_id_out_invoice.partner_id.id,
                                     'account_id': account_invoice_id_out_invoice.partner_id.property_account_receivable_id.id,

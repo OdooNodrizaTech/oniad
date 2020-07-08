@@ -12,18 +12,31 @@ class CrmLead(models.Model):
         comodel_name='oniad.campaign',
         string='Oniad Campaign'
     )
+    oniad_user_id = fields.Many2one(
+        comodel_name='oniad.user',
+        string='Oniad User'
+    )
     oniad_user_id_link = fields.Char(
         compute='_oniad_user_id_link',
         string='OniAd User',
         store=False
     )
-    
-    @api.multi        
+
+    @api.model
+    def create(self, values):
+        return_object = super(CrmLead, self).create(values)
+        #oniad_user_id
+        if return_object.partner_id.id>0:
+            if return_object.partner_id.oniad_user_id.id>0:
+                return_object.oniad_user_id = return_object.partner_id.oniad_user_id.id
+        #return
+        return return_object
+
+    @api.multi
     def _oniad_user_id_link(self):
-        for record in self:
-            if record.partner_id.id>0:
-                if record.partner_id.oniad_user_id.id>0:
-                    record.oniad_user_id_link = 'https://platform.oniad.com/backend/admin/supadmin/card/'+str(record.partner_id.oniad_user_id.id)
+        for item in self:
+            if item.oniad_user_id.id>0:
+                record.oniad_user_id_link = 'https://platform.oniad.com/backend/admin/supadmin/card/' + str(item.oniad_user_id.id)
 
     @api.one
     def action_send_mail_with_template_id(self, template_id=False):

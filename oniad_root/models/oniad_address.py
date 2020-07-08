@@ -65,6 +65,33 @@ class OniadAddress(models.Model):
         comodel_name='res.partner.bank',
         string='Cuenta bancaria'
     )
+    oniad_transaction_count = fields.Integer(
+        compute='_compute_oniad_transaction_count',
+        string="Oniad Transactions",
+    )
+    sale_order_count = fields.Integer(
+        compute='_compute_sale_order_count',
+        string="Sale Orders",
+    )
+    account_invoice_count = fields.Integer(
+        compute='_compute_account_invoice_count',
+        string="Account Invoices",
+    )
+
+    def _compute_oniad_transaction_count(self):
+        for item in self:
+            item.oniad_transaction_count = len(self.env['oniad.transaction'].search([('oniad_address_id', '=', item.id)]))
+
+    def _compute_sale_order_count(self):
+        for item in self:
+            item.sale_order_count = 0
+            if item.partner_id.id>0:
+                _logger.info(item.partner_id.id)
+                item.sale_order_count = len(self.env['sale.order'].search([('partner_invoice_id', '=', item.partner_id.id)]))
+
+    def _compute_account_invoice_count(self):
+        for item in self:
+            item.account_invoice_count = len(self.env['account.invoice'].search([('oniad_address_id', '=', item.id)]))
     
     @api.model
     def check_vat_error(self, vat, id):
@@ -85,6 +112,7 @@ class OniadAddress(models.Model):
         _logger.info('check_res_partner')
         #vals
         partner_vals = {
+            'oniad_address_id': self.id,
             'name': self.name,
             'customer': True,
             'is_company': True,

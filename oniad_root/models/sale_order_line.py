@@ -15,7 +15,7 @@ class SaleOrderLine(models.Model):
     
     @api.model
     def create(self, values):
-        return_object = super(SaleOrderLine, self).create(values)        
+        return_object = super(SaleOrderLine, self).create(values)
         #Fix
         if return_object.oniad_transaction_id.id>0:
             return_object.product_id_change()
