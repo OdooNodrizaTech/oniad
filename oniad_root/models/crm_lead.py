@@ -43,8 +43,7 @@ class CrmLead(models.Model):
                 mail_compose_message_obj = self.env['mail.compose.message'].with_context().sudo().create(
                     mail_compose_message_vals)
 
-            return_onchange_template_id = mail_compose_message_obj.onchange_template_id(mail_template_item.id,
-                                                                                        'comment', 'crm.lead', self.id)
+            return_onchange_template_id = mail_compose_message_obj.onchange_template_id(mail_template_item.id, 'comment', 'crm.lead', self.id)
 
             mail_compose_message_obj.update({
                 'author_id': mail_compose_message_vals['author_id'],

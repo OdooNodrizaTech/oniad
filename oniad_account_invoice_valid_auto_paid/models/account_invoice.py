@@ -32,7 +32,7 @@ class AccountInvoice(models.Model):
                         if len(oniad_transaction_ids)>0:
                             for oniad_transaction_id in oniad_transaction_ids:
                                 if oniad_transaction_id.account_payment_id.payment_type=='inbound':
-                                    for move_line_id in oniad_transaction_id.account_payment_id.move_line_ids:                        
+                                    for move_line_id in oniad_transaction_id.account_payment_id.move_line_ids:
                                         if move_line_id.credit>0:
                                             _logger.info('Factura '+str(obj.id)+' pre-asignar asiento contable '+str(move_line_id.id)+ ' del pago '+str(oniad_transaction_id.account_payment_id.id))
                                             obj.assign_outstanding_credit(move_line_id.id)

@@ -67,7 +67,6 @@ class SurveymonkeyQuestion(models.Model):
                             'text': row['text']                                                                                                                                                                                             
                         }                        
                         surveymonkey_question_row_obj = self.env['surveymonkey.question.row'].sudo().create(surveymonkey_question_row_vals)
-                        
             #choices
             if 'choices' in answers:
                 for choice in answers['choices']:
