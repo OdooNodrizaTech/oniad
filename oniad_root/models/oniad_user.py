@@ -96,22 +96,56 @@ class OniadUser(models.Model):
         string='Welcome Lead Id'
     )
     tag_ids = fields.One2many('oniad.user.tag', 'oniad_user_id', string='Tags')
-    
+
     oniad_user_id_link = fields.Char(
         compute='_oniad_user_id_link',
         string='OniAd User',
         store=False
-    )            
-    
-    @api.multi        
+    )
+    oniad_user_count = fields.Integer(
+        compute='_compute_oniad_user_count',
+        string="Oniad Users",
+    )
+    oniad_transaction_count = fields.Integer(
+        compute='_compute_oniad_transaction_count',
+        string="Oniad Transactions",
+    )
+    oniad_campaign_count = fields.Integer(
+        compute='_compute_oniad_campaign_count',
+        string="Oniad Campaigns",
+    )
+    crm_lead_opportunity_count = fields.Integer(
+        compute='_compute_crm_lead_opportunity_count',
+        string="Crm Leads",
+    )
+
+    @api.multi
     def _oniad_user_id_link(self):
         for record in self:
-            if record.id>0: 
-                record.oniad_user_id_link = 'https://platform.oniad.com/backend/admin/supadmin/card/'+str(record.id)
+            if record.id > 0:
+                record.oniad_user_id_link = 'https://platform.oniad.com/backend/admin/supadmin/card/' + str(record.id)
+
+    def _compute_oniad_user_count(self):
+        for item in self:
+            item.oniad_user_count = len(self.env['oniad.user'].search([('parent_id', '=', item.id)]))
+
+    def _compute_oniad_transaction_count(self):
+        for item in self:
+            item.oniad_transaction_count = len(self.env['oniad.transaction'].search([('oniad_user_id', '=', item.id)]))
+
+    def _compute_oniad_campaign_count(self):
+        for item in self:
+            item.oniad_campaign_count = len(self.env['oniad.campaign'].search([('oniad_user_id', '=', item.id)]))
+
+    def _compute_crm_lead_opportunity_count(self):
+        for item in self:
+            item.crm_lead_opportunity_count = len(
+                self.env['crm.lead'].search([('type', '=', 'opportunity'), ('partner_id', '=', item.partner_id.id)]))
         
     @api.one
     def check_res_partner(self):
         partner_vals = {
+            'oniad_user_id': self.id,
             'name': str(self.email),
             'customer': True,
             'email': self.email,             

@@ -9,7 +9,7 @@
             <field name="category_id" position="after">
                 <field name="oniad_user_id" invisible="1" />
                 <field name="oniad_user_id_link" widget="url" attrs="{'invisible': [('oniad_user_id','=',0)]}" />                
-            </field>            
+            </field>
         </field>
      </record>      
 </odoo>
