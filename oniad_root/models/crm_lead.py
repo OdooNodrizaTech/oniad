@@ -36,7 +36,7 @@ class CrmLead(models.Model):
     def _oniad_user_id_link(self):
         for item in self:
             if item.oniad_user_id.id>0:
-                record.oniad_user_id_link = 'https://platform.oniad.com/backend/admin/supadmin/card/' + str(item.oniad_user_id.id)
+                item.oniad_user_id_link = 'https://platform.oniad.com/backend/admin/supadmin/card/' + str(item.oniad_user_id.id)
 
     @api.one
     def action_send_mail_with_template_id(self, template_id=False):
