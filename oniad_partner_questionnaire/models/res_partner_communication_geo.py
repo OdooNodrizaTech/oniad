@@ -7,5 +7,5 @@ class ResPartnerCommunicationGeo(models.Model):
     _description = 'Res Partner Communication Geo'
 
     name = fields.Char(
-        string="Nombre"
+        string="Name"
     )     

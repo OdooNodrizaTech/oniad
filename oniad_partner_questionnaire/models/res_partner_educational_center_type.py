@@ -7,5 +7,5 @@ class ResPartnerEducationalCenterType(models.Model):
     _description = 'Res Partner Educational Center Type'
 
     name = fields.Char(
-        string="Nombre"
+        string="Name"
     )     

@@ -7,5 +7,5 @@ class ResPartnerInversorType(models.Model):
     _description = 'Res Partner Inversor Type'
 
     name = fields.Char(
-        string="Nombre"
+        string="Name"
     )     

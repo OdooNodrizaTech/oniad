@@ -7,5 +7,5 @@ class ResPartnerCommunicationArea(models.Model):
     _description = 'Res Partner Communication Area'
 
     name = fields.Char(
-        string="Nombre"
+        string="Name"
     )     

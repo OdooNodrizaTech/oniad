@@ -7,5 +7,5 @@ class ResPartnerAgencyType(models.Model):
     _description = 'Res Partner Agency Type'
 
     name = fields.Char(
-        string="Nombre"
+        string="Name"
     )     

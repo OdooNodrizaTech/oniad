@@ -7,5 +7,5 @@ class ResPartnerMarketTarget(models.Model):
     _description = 'Res Partner Market Target'
 
     name = fields.Char(
-        string="Nombre"
+        string="Name"
     )     

@@ -7,7 +7,7 @@ class ResPartnerCommunicatorType(models.Model):
     _description = 'Res Partner Communicator Type'
 
     name = fields.Char(
-        string="Nombre"
+        string="Name"
     )
     influencer = fields.Boolean(
         string="Influencer"

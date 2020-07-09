@@ -10,7 +10,7 @@ class ResPartnerCustom(models.Model):
     
     oa_qt_partner_type = fields.Many2many(
         comodel_name='res.partner.partner.type',         
-        string='Tipo de contacto',
+        string='Partner type',
     ) 
     
     @api.onchange('oa_qt_partner_type')
@@ -45,7 +45,7 @@ class ResPartnerCustom(models.Model):
             
     oa_qt_stakeholder_type = fields.Many2many(
         comodel_name='res.partner.stakeholder.type',         
-        string='Tipo de Stakeholder',
+        string='Stakeholder type',
     )
     
     @api.onchange('oa_qt_stakeholder_type')
@@ -124,37 +124,37 @@ class ResPartnerCustom(models.Model):
     
     oa_qt_fan_level = fields.Many2many(
         comodel_name='res.partner.fan.level',         
-        string='Nivel de fan',
+        string='Fan level',
     )
     oa_qt_inversor_type = fields.Many2many(
         comodel_name='res.partner.inversor.type',         
-        string='Tipo de inversor',
+        string='Inversor type',
     )
     oa_qt_educational_center_type = fields.Many2many(
         comodel_name='res.partner.educational.center.type',         
-        string='Tipo de centro educativo',
+        string='Educational center type',
     )
     oa_qt_formation_type = fields.Many2many(
         comodel_name='res.partner.formation.type',         
-        string='Tipo de formation',
+        string='Formation type',
     )
     oa_qt_asociation_type = fields.Many2many(
         comodel_name='res.partner.asociation.type',         
-        string='Tipo de asociacion',
+        string='Association type',
     )
     oa_qt_asociation_geo = fields.Many2many(
         comodel_name='res.partner.asociation.geo',         
-        string='Geo de asociacion',
+        string='Asociation geo',
     )
     oa_qt_communicator_type = fields.Many2many(
         comodel_name='res.partner.communicator.type',         
-        string='Tipo de comunicador',
+        string='Communicator type',
     )
     @api.onchange('oa_qt_communicator_type')
     def change_oa_qt_communicator_type(self):       
        self._get_oa_qt_is_communicator_influencer()#fix
     
-    #calculate field oa_qt_is_communicator_influencer       
+    #calculate field oa_qt_is_communicator_influencer
     oa_qt_is_communicator_influencer = fields.Boolean(
         compute='_get_oa_qt_is_communicator_influencer',
         store=False
@@ -169,25 +169,25 @@ class ResPartnerCustom(models.Model):
     
     oa_qt_social_network = fields.Many2many(
         comodel_name='res.partner.social.network',         
-        string='Red social',
+        string='Social network',
     )
     oa_qt_communication_area = fields.Many2many(
         comodel_name='res.partner.communication.area',         
-        string='Ambito de comunicacion',
+        string='Communication area',
     )
     oa_qt_communication_geo = fields.Many2many(
         comodel_name='res.partner.communication.geo',         
-        string='Geo de comunicacion',
+        string='Communication geo',
     )    
     
     
     oa_qt_user_type = fields.Many2one(
         comodel_name='res.partner.user.type',         
-        string='Tipo de Usuario',
+        string='User type',
     )
     oa_qt_customer_type = fields.Many2one(
         comodel_name='res.partner.customer.type',         
-        string='Tipo de Cliente',
+        string='Customer type',
     )
     
     @api.onchange('oa_qt_customer_type')
@@ -210,7 +210,7 @@ class ResPartnerCustom(models.Model):
     
     oa_qt_agency_type = fields.Many2many(
         comodel_name='res.partner.agency.type',         
-        string='Tipo de agencia',
+        string='Agency type',
     )    
     #calculate field oa_qt_is_advertiser       
     oa_qt_is_advertiser = fields.Boolean(
@@ -226,11 +226,11 @@ class ResPartnerCustom(models.Model):
                     partner_obj.oa_qt_is_advertiser = True        
     
     oa_qt_affiliate = fields.Boolean(
-        string="Afiliado"
+        string="Affiliate"
     )
     oa_qt_market_target = fields.Many2many(
         comodel_name='res.partner.market.target',         
-        string='Mercado objetivo',
+        string='Market target',
     )
     oa_qt_sector = fields.Many2one(
         comodel_name='res.partner.sector',         
@@ -238,9 +238,9 @@ class ResPartnerCustom(models.Model):
     )
     oa_qt_activity = fields.Many2many(
         comodel_name='res.partner.activity',         
-        string='Actividad',
+        string='Activity',
     )
     oa_qt_agency_activity = fields.Many2many(
         comodel_name='res.partner.agency.activity',         
-        string='Actividad de agencia',
+        string='Agency activity',
     )                                         

@@ -7,5 +7,5 @@ class ResPartnerFanLevel(models.Model):
     _description = 'Res Partner Fan Level'
 
     name = fields.Char(
-        string="Nombre"
+        string="Name"
     )     

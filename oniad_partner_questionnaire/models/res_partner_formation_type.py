@@ -7,5 +7,5 @@ class ResPartnerFormationType(models.Model):
     _description = 'Res Partner Formation Type'
 
     name = fields.Char(
-        string="Nombre"
+        string="Name"
     )     

@@ -7,5 +7,5 @@ class ResPartnerUserType(models.Model):
     _description = 'res.partner.user.type'
 
     name = fields.Char(
-        string="Nombre"
+        string="Name"
     )     

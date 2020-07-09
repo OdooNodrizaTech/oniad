@@ -7,5 +7,5 @@ class ResPartnerSector(models.Model):
     _description = 'Res Partner Sector'
 
     name = fields.Char(
-        string="Nombre"
+        string="Name"
     )     

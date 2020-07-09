@@ -7,7 +7,7 @@ class ResPartnerActivity(models.Model):
     _description = 'Res Partner Activity'
 
     name = fields.Char(
-        string="Nombre"
+        string="Name"
     )
     res_partner_sector_id = fields.Many2one(
         comodel_name='res.partner.sector',         

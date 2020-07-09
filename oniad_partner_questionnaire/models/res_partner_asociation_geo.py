@@ -7,5 +7,5 @@ class ResPartnerAsociationGeo(models.Model):
     _description = 'Res Partner Asociation Geo'
 
     name = fields.Char(
-        string="Nombre"
+        string="Name"
     )     

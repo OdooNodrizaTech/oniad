@@ -7,20 +7,20 @@ class ResPartnerStakeholderType(models.Model):
     _description = 'Res Partner Stakeholder Type'
 
     name = fields.Char(
-        string="Nombre"
+        string="Name"
     )
     fan = fields.Boolean(
         string="Fan"
     )
     investor = fields.Boolean(
-        string="Inversor"
+        string="Inverstor"
     )    
     teacher = fields.Boolean(
-        string="Profesor"
+        string="Teacher"
     )
     association = fields.Boolean(
-        string="Asociacion"
+        string="Association"
     )
     communicator = fields.Boolean(
-        string="Comunicador"
+        string="Communicator"
     )     

@@ -45,7 +45,7 @@
                         <field name="oa_qt_communication_geo" widget="many2many_checkboxes" attrs="{'invisible': [('oa_qt_is_communicator','=',False)]}" />                                                                                                                                                                                                                                                    
                     </group>                    
                 </page>
-                <page name="oniad_partner_questionnaire_user" string="Usuario" attrs="{'invisible': [('oa_qt_show_user_tab','=',False)]}">
+                <page name="oniad_partner_questionnaire_user" string="User" attrs="{'invisible': [('oa_qt_show_user_tab','=',False)]}">
                     <group name="oniad_partner_questionnaire_user_left" col="1">
                         <field name="oa_qt_user_type" options='{"no_create": True, "no_create_edit": True}'/>
                         <field name="oa_qt_customer_type" options='{"no_create": True, "no_create_edit": True}' />
@@ -63,97 +63,97 @@
         </field>
     </record>
     <record id="partner_partner_type_action" model="ir.actions.act_window">
-        <field name="name">Tipos de cliente</field>
+        <field name="name">Partner types</field>
         <field name="res_model">res.partner.partner.type</field>
         <field name="view_mode">tree,form</field>                
     </record>
     <record id="partner_stakeholder_type_action" model="ir.actions.act_window">
-        <field name="name">Tipos de stakeholder</field>
+        <field name="name">Stakeholder types</field>
         <field name="res_model">res.partner.stakeholder.type</field>
         <field name="view_mode">tree,form</field>                
     </record>
     <record id="partner_fan_level_action" model="ir.actions.act_window">
-        <field name="name">Niveles de fan</field>
+        <field name="name">Fan levels</field>
         <field name="res_model">res.partner.fan.level</field>
         <field name="view_mode">tree,form</field>                
     </record>
     <record id="partner_inversor_type_action" model="ir.actions.act_window">
-        <field name="name">Tipos de inversor</field>
+        <field name="name">Inversor types</field>
         <field name="res_model">res.partner.inversor.type</field>
         <field name="view_mode">tree,form</field>                
     </record>
     <record id="partner_educational_center_type_action" model="ir.actions.act_window">
-        <field name="name">Tipos de centro educativo</field>
+        <field name="name">Educational center types</field>
         <field name="res_model">res.partner.educational.center.type</field>
         <field name="view_mode">tree,form</field>                
     </record>
     <record id="partner_formation_type_action" model="ir.actions.act_window">
-        <field name="name">Tipos de formacion</field>
+        <field name="name">Formation types</field>
         <field name="res_model">res.partner.formation.type</field>
         <field name="view_mode">tree,form</field>                
     </record>
     <record id="partner_asociation_type_action" model="ir.actions.act_window">
-        <field name="name">Tipos de asociacion</field>
+        <field name="name">Asociation types</field>
         <field name="res_model">res.partner.asociation.type</field>
         <field name="view_mode">tree,form</field>                
     </record>
     <record id="partner_asociation_geo_action" model="ir.actions.act_window">
-        <field name="name">Geo de asociacion</field>
+        <field name="name">Asociation geos</field>
         <field name="res_model">res.partner.asociation.geo</field>
         <field name="view_mode">tree,form</field>                
     </record>
     <record id="partner_social_network_action" model="ir.actions.act_window">
-        <field name="name">Redes sociales</field>
+        <field name="name">Social networks</field>
         <field name="res_model">res.partner.social.network</field>
         <field name="view_mode">tree,form</field>                
     </record>
     <record id="partner_communication_area_action" model="ir.actions.act_window">
-        <field name="name">Ambitos de comunicacion</field>
+        <field name="name">Communication areas</field>
         <field name="res_model">res.partner.communication.area</field>
         <field name="view_mode">tree,form</field>                
     </record>
     <record id="partner_communication_geo_action" model="ir.actions.act_window">
-        <field name="name">Geo de comunicacion</field>
+        <field name="name">Communication geos</field>
         <field name="res_model">res.partner.communication.geo</field>
         <field name="view_mode">tree,form</field>                
     </record>
     <record id="partner_communicator_type_action" model="ir.actions.act_window">
-        <field name="name">Tipos de comunicadores</field>
+        <field name="name">Communicator types</field>
         <field name="res_model">res.partner.communicator.type</field>
         <field name="view_mode">tree,form</field>                
     </record>    
     <record id="partner_user_type_action" model="ir.actions.act_window">
-        <field name="name">Tipos de usuarios</field>
+        <field name="name">User types</field>
         <field name="res_model">res.partner.user.type</field>
         <field name="view_mode">tree,form</field>                
     </record>
     <record id="partner_customer_type_action" model="ir.actions.act_window">
-        <field name="name">Tipos de clientes</field>
+        <field name="name">Customer types</field>
         <field name="res_model">res.partner.customer.type</field>
         <field name="view_mode">tree,form</field>                
     </record>
     <record id="partner_agency_type_action" model="ir.actions.act_window">
-        <field name="name">Tipos de agencias</field>
+        <field name="name">Agencty types</field>
         <field name="res_model">res.partner.agency.type</field>
         <field name="view_mode">tree,form</field>                
     </record>
     <record id="partner_market_target_action" model="ir.actions.act_window">
-        <field name="name">Mercados objetivos</field>
+        <field name="name">Market targets</field>
         <field name="res_model">res.partner.market.target</field>
         <field name="view_mode">tree,form</field>                
     </record>
     <record id="partner_sector_action" model="ir.actions.act_window">
-        <field name="name">Sectores</field>
+        <field name="name">Sectors</field>
         <field name="res_model">res.partner.sector</field>
         <field name="view_mode">tree,form</field>                
     </record>
     <record id="partner_activity_action" model="ir.actions.act_window">
-        <field name="name">Actividades</field>
+        <field name="name">Activities</field>
         <field name="res_model">res.partner.activity</field>
         <field name="view_mode">tree,form</field>                
     </record>
     <record id="partner_agency_activity_action" model="ir.actions.act_window">
-        <field name="name">Actividades de agencias</field>
+        <field name="name">Agency activities</field>
         <field name="res_model">res.partner.agency.activity</field>
         <field name="view_mode">tree,form</field>                
     </record>     
@@ -165,115 +165,115 @@
     />
     <menuitem 
         action="partner_partner_type_action" 
-        name="Tipos de cliente"
+        name="Partner types"
         id="menuitem_partner_partner_type" 
         parent="menu_odoo_oniad_partner_questionnaire"
     />
     <menuitem 
         action="partner_stakeholder_type_action" 
-        name="Tipos de stakeholder"
+        name="Stakeholder types"
         id="menuitem_partner_stakeholder_type" 
         parent="menu_odoo_oniad_partner_questionnaire"
     />
     <menuitem 
         action="partner_fan_level_action" 
-        name="Niveles de fan"
+        name="Fan levels"
         id="menuitem_partner_fan_level" 
         parent="menu_odoo_oniad_partner_questionnaire"
     />
     <menuitem 
         action="partner_inversor_type_action" 
-        name="Tipos de inversor"
+        name="Invensor types"
         id="menuitem_partner_inversor_type" 
         parent="menu_odoo_oniad_partner_questionnaire"
     />
     <menuitem 
         action="partner_educational_center_type_action" 
-        name="Tipos de centro educativo"
+        name="Educational center types"
         id="menuitem_partner_educational_center_type" 
         parent="menu_odoo_oniad_partner_questionnaire"
     />
     <menuitem 
         action="partner_formation_type_action" 
-        name="Tipos de formacion"
+        name="Formation types"
         id="menuitem_partner_formation_type" 
         parent="menu_odoo_oniad_partner_questionnaire"
     />
     <menuitem 
         action="partner_asociation_type_action" 
-        name="Tipos de asociacion"
+        name="Asociation types"
         id="menuitem_partner_asociation_type" 
         parent="menu_odoo_oniad_partner_questionnaire"
     />
     <menuitem 
         action="partner_asociation_geo_action" 
-        name="Geo de asociacion"
+        name="Asociation geos"
         id="menuitem_partner_asociation_geo" 
         parent="menu_odoo_oniad_partner_questionnaire"
     />
     <menuitem 
         action="partner_social_network_action" 
-        name="Redes sociales"
+        name="Social networks"
         id="menuitem_partner_social_network" 
         parent="menu_odoo_oniad_partner_questionnaire"
     />
     <menuitem 
         action="partner_communication_area_action" 
-        name="Ambitos de comunicacion"
+        name="Communication areas"
         id="menuitem_partner_communication_area" 
         parent="menu_odoo_oniad_partner_questionnaire"
     />
     <menuitem 
         action="partner_communication_geo_action" 
-        name="Geo de comunicacion"
+        name="Communication geos"
         id="menuitem_partner_communication_geo" 
         parent="menu_odoo_oniad_partner_questionnaire"
     />
     <menuitem 
         action="partner_communicator_type_action" 
-        name="Tipos de comunicadores"
+        name="Communicator types"
         id="menuitem_partner_communicator_type" 
         parent="menu_odoo_oniad_partner_questionnaire"
     />        
     <menuitem 
         action="partner_user_type_action" 
-        name="Tipos de usuario"
+        name="User types"
         id="menuitem_partner_user_type" 
         parent="menu_odoo_oniad_partner_questionnaire"
     />
     <menuitem 
         action="partner_customer_type_action" 
-        name="Tipos de cliente"
+        name="Customer types"
         id="menuitem_partner_customer_type" 
         parent="menu_odoo_oniad_partner_questionnaire"
     />
     <menuitem 
         action="partner_agency_type_action" 
-        name="Tipos de agencias"
+        name="Agency types"
         id="menuitem_partner_agency_type" 
         parent="menu_odoo_oniad_partner_questionnaire"
     />
     <menuitem 
         action="partner_market_target_action" 
-        name="Mercados objetivos"
+        name="Market targets"
         id="menuitem_partner_market_target" 
         parent="menu_odoo_oniad_partner_questionnaire"
     />
     <menuitem 
         action="partner_sector_action" 
-        name="Sectores"
+        name="Sectors"
         id="menuitem_partner_sector" 
         parent="menu_odoo_oniad_partner_questionnaire"
     />
     <menuitem 
         action="partner_activity_action" 
-        name="Actividades"
+        name="Activities"
         id="menuitem_partner_activity" 
         parent="menu_odoo_oniad_partner_questionnaire"
     />
     <menuitem 
         action="partner_agency_activity_action" 
-        name="Actividades de agencias"
+        name="Agency activities"
         id="menuitem_partner_agency_activity" 
         parent="menu_odoo_oniad_partner_questionnaire"
     />                

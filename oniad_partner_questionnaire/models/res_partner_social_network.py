@@ -7,5 +7,5 @@ class ResPartnerSocialNetwork(models.Model):
     _description = 'Res Partner Social Network'
 
     name = fields.Char(
-        string="Nombre"
+        string="Name"
     )     

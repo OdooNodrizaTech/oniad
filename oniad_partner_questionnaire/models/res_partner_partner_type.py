@@ -7,11 +7,11 @@ class ResPartnerPartnerType(models.Model):
     _description = 'Res Partner partner Type'
 
     name = fields.Char(
-        string="Nombre"
+        string="Name"
     )
     stakeholder = fields.Boolean(
         string="Stakeholder"
     )
     user = fields.Boolean(
-        string="Usuario"
+        string="User"
     ) 

@@ -7,11 +7,11 @@ class ResPartnerCustomerType(models.Model):
     _description = 'Res Partner Customer Type'
 
     name = fields.Char(
-        string="Nombre"
+        string="Name"
     )     
     advertiser = fields.Boolean(
-        string="Anunciante"
+        string="Advertiser"
     )
     agency = fields.Boolean(
-        string="Agencia"
+        string="Agency"
     )
