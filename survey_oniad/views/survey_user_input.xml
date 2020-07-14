@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="survey_oniad_survey_user_input_tree" model="ir.ui.view">
+        <field name="model">survey.user_input</field>
+        <field name="inherit_id" ref="survey.survey_user_input_tree"/>
+        <field name="arch" type="xml">
+            <field name="state" position="before">                
+                <field name="oniad_campaign_id" />
+                <field name="oniad_user_id" />                
+            </field>
+        </field>
+    </record> 
+    <record id="survey_oniad_survey_user_input_form" model="ir.ui.view">
+        <field name="model">survey.user_input</field>
+        <field name="inherit_id" ref="survey.survey_user_input_form"/>
+        <field name="arch" type="xml">            
+            <field name="test_entry" position="before">
+                <field name="oniad_campaign_id" />
+                <field name="oniad_user_id" />                
+            </field>
+        </field>
+    </record>          
+</odoo>
