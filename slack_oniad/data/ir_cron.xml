@@ -1,0 +1,15 @@
+<openerp>
+    <data noupdate="1">
+        <record id="cron_action_leads_date_deadline_today" model="ir.cron">
+            <field name="name">Leads Date Deadline Today</field>
+            <field name="active" eval="True" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="model" eval="'crm.lead'" />
+            <field name="function" eval="'cron_action_leads_date_deadline_today'" />
+            <field name="args" eval="" />
+        </record>
+    </data>
+</openerp>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>    
+    <record id="sale_oniad_view_order_form" model="ir.ui.view">
+        <field name="name">sale_oniad_view_order_form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">            
+            <xpath expr="//button[@name='action_cancel']" position="after">
+                <button name="action_send_sns_multi" type="object" string="Enviar SNS" attrs="{'invisible':[('state', 'in', ('draft','cancel'))]}"  groups="base.group_no_one" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

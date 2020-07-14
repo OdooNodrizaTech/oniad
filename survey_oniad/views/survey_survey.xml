@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="survey_oniad_survey_tree" model="ir.ui.view">
+        <field name="model">survey.survey</field>
+        <field name="inherit_id" ref="survey.survey_tree"/>
+        <field name="arch" type="xml">
+            <field name="title" position="before">                
+                <field name="survey_lead_oniad_type" />
+                <field name="oniad_user_type" />                                
+            </field>
+        </field>
+    </record> 
+    <record id="survey_oniad_survey_form" model="ir.ui.view">
+        <field name="model">survey.survey</field>
+        <field name="inherit_id" ref="survey.survey_form"/>
+        <field name="arch" type="xml">
+            <field name="quizz_mode" position="before">
+                <field name="survey_lead_oniad_type" attrs="{'invisible': [('survey_subtype','!=','why_not')]}" />
+                <field name="oniad_user_type" attrs="{'invisible': [('survey_subtype','=','why_not')]}" />
+                <field name="oniad_campaign_spent_limit_from" attrs="{'invisible': [('survey_subtype','=','why_not')]}" />                                
+            </field>            
+        </field>
+    </record>      
+</odoo>
