@@ -24,6 +24,8 @@ class AccountInvoiceLine(models.Model):
         if return_object.oniad_transaction_id.id>0:
             return_object._onchange_product_id()
             return_object._onchange_account_id()
+            # Fix account_invoice_id in oniad_transaction_id
+            return_object.oniad_transaction_id.account_invoice_id = return_object.invoice_id.id
             #update
             return_object.price_unit = return_object.oniad_transaction_id.amount
             return_object.price_subtotal = return_object.oniad_transaction_id.total                                                                                            
