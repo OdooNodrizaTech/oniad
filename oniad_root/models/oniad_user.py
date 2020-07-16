@@ -17,6 +17,7 @@ from botocore.exceptions import ClientError
 class OniadUser(models.Model):
     _name = 'oniad.user'
     _description = 'Oniad User'
+    _rec_name = 'id'
     
     partner_id = fields.Many2one(
         comodel_name='res.partner',
