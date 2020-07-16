@@ -15,4 +15,4 @@ class SurveyUserinput(models.Model):
     oniad_user_id = fields.Many2one(
         comodel_name='oniad.user',        
         string='Oniad User'
-    )    
+    )
