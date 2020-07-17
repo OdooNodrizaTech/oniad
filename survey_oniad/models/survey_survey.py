@@ -126,7 +126,7 @@ class SurveySurvey(models.Model):
                     )
                 else:
                     oniad_user_ids = self.env['oniad.user'].search([('id', 'in', oniad_user_ids_filter.ids)])                                
-        #oniad_user_ids                
+        #oniad_user_ids
         return oniad_user_ids
     
     @api.one    
@@ -138,10 +138,13 @@ class SurveySurvey(models.Model):
             'month': 30,
             'year': 365
         }
+        survey_frequence_days_item = survey_frequence_days[self.survey_frequence]
         current_date = datetime.now(pytz.timezone('Europe/Madrid'))
         oniad_user_ids = False
         
         if self.automation_difference_days>0:
+            #spent_min_date_filter (Lleva trabajando con nosotros + x dias
+            spent_min_date_filter = current_date + relativedelta(days=-survey_frequence_days_item)
             #date_filters
             date_filter_end = current_date
             date_filter_start = current_date + relativedelta(days=-self.automation_difference_days)                        
@@ -149,7 +152,8 @@ class SurveySurvey(models.Model):
             if self.oniad_user_type=='all':
                 oniad_transaction_ids = self.env['oniad.transaction'].search(
                     [ 
-                        ('oniad_user_id.partner_id', '!=', False),                                        
+                        ('oniad_user_id.partner_id', '!=', False),
+                        ('oniad_user_id.spent_min_date', '<=', spent_min_date_filter.strftime("%Y-%m-%d")),
                         ('date', '>', date_filter_start.strftime("%Y-%m-%d")),
                         ('date', '<', date_filter_end.strftime("%Y-%m-%d")),                
                     ]
@@ -158,7 +162,8 @@ class SurveySurvey(models.Model):
                 oniad_transaction_ids = self.env['oniad.transaction'].search(
                     [ 
                         ('oniad_user_id.partner_id', '!=', False),
-                        ('oniad_user_id.type', '=', self.oniad_user_type),                                        
+                        ('oniad_user_id.type', '=', self.oniad_user_type),
+                        ('oniad_user_id.spent_min_date', '<=', spent_min_date_filter.strftime("%Y-%m-%d")),
                         ('date', '>', date_filter_start.strftime("%Y-%m-%d")),
                         ('date', '<', date_filter_end.strftime("%Y-%m-%d")),                
                     ]
@@ -168,7 +173,8 @@ class SurveySurvey(models.Model):
                     [ 
                         ('oniad_user_id.partner_id', '!=', False),
                         ('oniad_user_id.type', '=', 'user'),
-                        ('oniad_user_id.parent_id', '=', False),                                        
+                        ('oniad_user_id.parent_id', '=', False),
+                        ('oniad_user_id.spent_min_date', '<=', spent_min_date_filter.strftime("%Y-%m-%d")),
                         ('date', '>', date_filter_start.strftime("%Y-%m-%d")),
                         ('date', '<', date_filter_end.strftime("%Y-%m-%d")),                
                     ]
@@ -178,7 +184,8 @@ class SurveySurvey(models.Model):
                     [ 
                         ('oniad_user_id.partner_id', '!=', False),
                         ('oniad_user_id.type', '=', 'user'),
-                        ('oniad_user_id.parent_id', '!=', False),                                        
+                        ('oniad_user_id.parent_id', '!=', False),
+                        ('oniad_user_id.spent_min_date', '<=', spent_min_date_filter.strftime("%Y-%m-%d")),
                         ('date', '>', date_filter_start.strftime("%Y-%m-%d")),
                         ('date', '<', date_filter_end.strftime("%Y-%m-%d")),                
                     ]
@@ -187,7 +194,8 @@ class SurveySurvey(models.Model):
                 oniad_transaction_ids = self.env['oniad.transaction'].search(
                     [ 
                         ('oniad_user_id.partner_id', '!=', False),
-                        ('oniad_user_id.type', 'in', ('user', 'client_own')),                                        
+                        ('oniad_user_id.type', 'in', ('user', 'client_own')),
+                        ('oniad_user_id.spent_min_date', '<=', spent_min_date_filter.strftime("%Y-%m-%d")),
                         ('date', '>', date_filter_start.strftime("%Y-%m-%d")),
                         ('date', '<', date_filter_end.strftime("%Y-%m-%d")),                
                     ]
@@ -236,7 +244,6 @@ class SurveySurvey(models.Model):
                     #operations
                     oniad_user_ids_final = []                            
                     b = datetime.strptime(date_filter_end.strftime("%Y-%m-%d"), "%Y-%m-%d")
-                    survey_frequence_days_item = survey_frequence_days[self.survey_frequence]
                     for oniad_user_id in oniad_user_ids_max_date_survey_user_input:
                         oniad_user_id_item = oniad_user_ids_max_date_survey_user_input[oniad_user_id]
                         #checks
@@ -248,9 +255,9 @@ class SurveySurvey(models.Model):
                             difference_days = delta.days                                                                                                            
                             if difference_days>=survey_frequence_days_item:
                                 oniad_user_ids_final.append(oniad_user_id)                                    
-                    #final                                                                    
+                    #final
                     oniad_user_ids = self.env['oniad.user'].search([('id', 'in', oniad_user_ids_final)])                                           
-        #return            
+        #return
         return oniad_user_ids                            
     
     @api.one    
@@ -322,7 +329,7 @@ class SurveySurvey(models.Model):
     
     @api.one    
     def send_survey_real_satisfaction_mail(self):
-        oniad_user_ids = self.get_oniad_user_ids_first_spent()[0]#Fix multi                                        
+        oniad_user_ids = self.get_oniad_user_ids_first_spent()[0]#Fix multi
         #operations
         if len(oniad_user_ids)>0:
             for oniad_user_id in oniad_user_ids:
@@ -354,7 +361,7 @@ class SurveySurvey(models.Model):
     
     @api.one    
     def send_survey_real_satisfaction_recurrent_mail(self):
-        oniad_user_ids = self.get_oniad_user_ids_recurrent()[0]#Fix multi                                        
+        oniad_user_ids = self.get_oniad_user_ids_recurrent()[0]#Fix multi
         #operations
         if oniad_user_ids!=False:
             if len(oniad_user_ids)>0:
@@ -387,7 +394,7 @@ class SurveySurvey(models.Model):
     
     @api.multi    
     def send_survey_real_by_oniad_user_id(self, survey_survey, partner_id, oniad_user_id):
-        #survey_mail_compose_message_vals                                                                                                                                                    
+        #survey_mail_compose_message_vals
         survey_mail_compose_message_vals = {
             'auto_delete_message': False,
             'template_id': survey_survey.mail_template_id.id,
@@ -407,7 +414,7 @@ class SurveySurvey(models.Model):
         #Fix
         partner_id_partial = (4, partner_id.id)
         survey_mail_compose_message_vals['partner_ids'].append(partner_id_partial)            
-        #survey_mail_compose_message_obj                                                                                                    
+        #survey_mail_compose_message_obj
         survey_mail_compose_message_obj = self.env['survey.mail.compose.message'].sudo().create(survey_mail_compose_message_vals)                
         survey_mail_compose_message_obj.oniad_send_partner_mails({
             partner_id.id: {'oniad_user_id': oniad_user_id}
@@ -415,7 +422,7 @@ class SurveySurvey(models.Model):
         
     @api.multi    
     def send_survey_real_by_oniad_campaign_id(self, survey_survey, partner_id, oniad_campaign_id):
-        #survey_mail_compose_message_vals                                                                                                                                                    
+        #survey_mail_compose_message_vals
         survey_mail_compose_message_vals = {
             'auto_delete_message': False,
             'template_id': survey_survey.mail_template_id.id,
@@ -435,7 +442,7 @@ class SurveySurvey(models.Model):
         #Fix
         partner_id_partial = (4, partner_id.id)
         survey_mail_compose_message_vals['partner_ids'].append(partner_id_partial)            
-        #survey_mail_compose_message_obj                                                                                                    
+        #survey_mail_compose_message_obj
         survey_mail_compose_message_obj = self.env['survey.mail.compose.message'].sudo().create(survey_mail_compose_message_vals)                
         survey_mail_compose_message_obj.oniad_send_partner_mails({
             partner_id.id: {'oniad_campaign_id': oniad_campaign_id}
