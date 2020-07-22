@@ -1,0 +1,1158 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* oniad_root
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0-20200514\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-07-22 08:23+0000\n"
+"PO-Revision-Date: 2020-07-22 08:23+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_address__a_number
+msgid "A number"
+msgstr "Nº de cuenta"
+
+#. module: oniad_root
+#: selection:oniad.transaction,actor:0
+msgid "Account"
+msgstr "Cuenta"
+
+#. module: oniad_root
+#: model:ir.cron,name:oniad_root.cron_action_account_invoices_generate
+msgid "Account Invoice Generate (OniAd Transaction)"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_address__account_invoice_count
+msgid "Account Invoices"
+msgstr "Facturas"
+
+#. module: oniad_root
+#: model:ir.ui.menu,name:oniad_root.menuitem_oniad_accountmanager
+msgid "Accountmanager"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_campaign_active
+msgid "Active"
+msgstr "Activo"
+
+#. module: oniad_root
+#: selection:oniad.campaign,state:0
+msgid "Activo"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_transaction_actor
+msgid "Actor"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.ui.menu,name:oniad_root.menuitem_oniad_address
+msgid "Address"
+msgstr "Dirección"
+
+#. module: oniad_root
+#: code:addons/oniad_root/models/oniad_user.py:500
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_user.py:500
+#, python-format
+msgid "Address %s does not exist"
+msgstr "La dirección %s no existe"
+
+#. module: oniad_root
+#: selection:oniad.transaction,actor:0
+#: selection:oniad.user,type:0
+msgid "Agency"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_transaction_amount
+msgid "Amount"
+msgstr "Importe"
+
+#. module: oniad_root
+#: model:ir.cron,cron_name:oniad_root.cron_action_account_invoices_generate
+#: model:ir.cron,cron_name:oniad_root.cron_oniad_user_auto_generate_welcome_lead_id
+#: model:ir.cron,cron_name:oniad_root.cron_sqs_oniad_accountmanager
+#: model:ir.cron,cron_name:oniad_root.cron_sqs_oniad_address
+#: model:ir.cron,cron_name:oniad_root.cron_sqs_oniad_campaign
+#: model:ir.cron,cron_name:oniad_root.cron_sqs_oniad_campaign_report
+#: model:ir.cron,cron_name:oniad_root.cron_sqs_oniad_country
+#: model:ir.cron,cron_name:oniad_root.cron_sqs_oniad_country_state
+#: model:ir.cron,cron_name:oniad_root.cron_sqs_oniad_transaction
+#: model:ir.cron,cron_name:oniad_root.cron_sqs_oniad_user
+#: model:ir.cron,cron_name:oniad_root.cron_sqs_oniad_usertag
+msgid "Base: Auto-vacuum internal data"
+msgstr "Base: Limpieza automática de datos internos"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_campaign__brain_active
+msgid "Brain active"
+msgstr "Brain activo"
+
+#. module: oniad_root
+#: selection:oniad.transaction,medium:0
+msgid "Braintree"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_campaign__budget_daily
+msgid "Budget daily"
+msgstr "Presupuesto diario"
+
+#. module: oniad_root
+#: model:ir.ui.menu,name:oniad_root.menuitem_oniad_campaign
+msgid "Campaign"
+msgstr "Campaña"
+
+#. module: oniad_root
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_user_form_view
+msgid "Campaigns"
+msgstr "Campañas"
+
+#. module: oniad_root
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_campaign_search
+msgid "Campañas"
+msgstr ""
+
+#. module: oniad_root
+#: selection:oniad.transaction,state:0
+msgid "Cancelled"
+msgstr "Cancelado"
+
+#. module: oniad_root
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_user_form_view
+msgid "Childrens"
+msgstr "Hijos"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_address_cif
+msgid "Cif"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_address_city
+msgid "Ciudad"
+msgstr ""
+
+#. module: oniad_root
+#: selection:oniad.user,type:0
+msgid "Client own"
+msgstr "Cliente propio"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_address_cp
+msgid "Codigo postal"
+msgstr "Código postal"
+
+#. module: oniad_root
+#: selection:oniad.transaction,subject:0
+msgid "Comisión Afiliado a crédito"
+msgstr ""
+
+#. module: oniad_root
+#: selection:oniad.transaction,subject:0
+msgid "Comisión Partner a crédito"
+msgstr ""
+
+#. module: oniad_root
+#: selection:oniad.transaction,type:0
+msgid "Commission"
+msgstr ""
+
+#. module: oniad_root
+#: selection:oniad.transaction,subject:0
+msgid "Compensación comercial"
+msgstr ""
+
+#. module: oniad_root
+#: selection:oniad.transaction,state:0
+msgid "Completed"
+msgstr "Completada"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user_confirmed
+msgid "Confirmed"
+msgstr "Confirmado"
+
+#. module: oniad_root
+#: model:ir.model,name:oniad_root.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_address__partner_id
+msgid "Contacto"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_country__country_id
+#: model:ir.ui.menu,name:oniad_root.menuitem_oniad_country
+msgid "Country"
+msgstr "País"
+
+#. module: oniad_root
+#: model:ir.ui.menu,name:oniad_root.menuitem_oniad_country_state
+msgid "Country State"
+msgstr "Provincia"
+
+#. module: oniad_root
+#: code:addons/oniad_root/models/oniad_country_state.py:126
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_country_state.py:126
+#, python-format
+msgid "Country_id=%s does not exist"
+msgstr "El país country_id=%s no existe"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_campaign__cpc_price
+msgid "Cpc price"
+msgstr "Precio cpc"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_campaign_cpm
+msgid "Cpm"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_campaign__cpm_real
+msgid "Cpm real"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_accountmanager__create_uid
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_address__create_uid
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_campaign__create_uid
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_country__create_uid
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_country_state__create_uid
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_transaction__create_uid
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user__create_uid
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user_tag__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_accountmanager__create_date
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_address__create_date
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_campaign__create_date
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_country__create_date
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_country_state__create_date
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_transaction__create_date
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user__create_date
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user_tag__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: oniad_root
+#: selection:oniad.transaction,type:0
+msgid "Credit"
+msgstr "Haber"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user__crm_lead_opportunity_count
+msgid "Crm Leads"
+msgstr "Leads"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_address__res_partner_bank_id
+msgid "Cuenta bancaria"
+msgstr ""
+
+#. module: oniad_root
+#: selection:oniad.transaction,subject:0
+msgid "Cupón aplicado"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_campaign__currency_id
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_transaction__currency_id
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user__currency_id
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_transaction_date
+msgid "Date"
+msgstr "Fecha"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_campaign__date_finish
+msgid "Date finish"
+msgstr "Fecha fin"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_campaign__date_start
+msgid "Date start"
+msgstr "Fecha de inicio"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_address_address
+msgid "Direccion"
+msgstr "Dirección"
+
+#. module: oniad_root
+#: selection:oniad.transaction,subject:0
+msgid "Diseño de creatividades"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_accountmanager__display_name
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_address__display_name
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_campaign__display_name
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_country__display_name
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_country_state__display_name
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_transaction__display_name
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user__display_name
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user_tag__display_name
+msgid "Display Name"
+msgstr "Nombre a mostrar"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_campaign_during
+msgid "Duration (daus)"
+msgstr "Duración (días)"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_accountmanager_email
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user_email
+msgid "Email"
+msgstr "Correo electrónico"
+
+#. module: oniad_root
+#: selection:oniad.campaign,state:0
+msgid "En revision"
+msgstr "En revisión"
+
+#. module: oniad_root
+#: code:addons/oniad_root/models/oniad_address.py:385
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_address.py:385
+#, python-format
+msgid "Error in CIF field"
+msgstr "Error en el campo del CIF"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_country__fiscal_position_id
+msgid "Fiscal position"
+msgstr "Posición fiscal"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_campaign_frecuency
+msgid "Frecuency"
+msgstr "Frecuencia"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_accountmanager_id
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_address_id
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_campaign_id
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_country_id
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_country_state_id
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_transaction_id
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user_id
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user_tag_id
+msgid "ID"
+msgstr ""
+
+#. module: oniad_root
+#: selection:oniad.campaign,state:0
+msgid "Imcompleto"
+msgstr ""
+
+#. module: oniad_root
+#: code:addons/oniad_root/models/res_partner.py:51
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/res_partner.py:51
+#, python-format
+msgid "Importing VAT Number [%s] is not valid !"
+msgstr "¡Importar el número de IVA [%s] no es válido!"
+
+#. module: oniad_root
+#: selection:oniad.campaign,state:0
+msgid "Inactivo"
+msgstr ""
+
+#. module: oniad_root
+#: selection:oniad.transaction,medium:0
+msgid "Internal"
+msgstr "Interno"
+
+#. module: oniad_root
+#: model:ir.model,name:oniad_root.model_account_invoice
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_transaction__account_invoice_id
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: oniad_root
+#: code:addons/oniad_root/models/oniad_transaction.py:565
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_transaction.py:565
+#, python-format
+msgid "Invoice %s created successfully"
+msgstr "Factura %s creada correctamente"
+
+#. module: oniad_root
+#: code:addons/oniad_root/models/oniad_transaction.py:592
+#: code:addons/oniad_root/models/oniad_transaction.py:674
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_transaction.py:592
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_transaction.py:674
+#, python-format
+msgid "Invoice %s successfully validated"
+msgstr "Factura %s validada correctamente"
+
+#. module: oniad_root
+#: model:ir.model,name:oniad_root.model_account_invoice_line
+msgid "Invoice Line"
+msgstr "Linea de Factura"
+
+#. module: oniad_root
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_address_form_view
+msgid "Invoices"
+msgstr "Facturas"
+
+#. module: oniad_root
+#: code:addons/oniad_root/models/oniad_transaction.py:515
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_transaction.py:515
+#, python-format
+msgid "Invoices to create: %s"
+msgstr "Facturas a crear: %s"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_country__iso_code
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_country_state__iso_code
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user__iso_code
+msgid "Iso Code"
+msgstr "Código ISO"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_address_iva
+msgid "Iva"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user_lang
+msgid "Lang"
+msgstr "Idioma"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user__last_login
+msgid "Last Login"
+msgstr "Último login"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_accountmanager____last_update
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_address____last_update
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_campaign____last_update
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_country____last_update
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_country_state____last_update
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_transaction____last_update
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user____last_update
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user_tag____last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_accountmanager__write_uid
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_address__write_uid
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_campaign__write_uid
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_country__write_uid
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_country_state__write_uid
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_transaction__write_uid
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user__write_uid
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user_tag__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_accountmanager__write_date
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_address__write_date
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_campaign__write_date
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_country__write_date
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_country_state__write_date
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_transaction__write_date
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user__write_date
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user_tag__write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user__last_name
+msgid "Lastname"
+msgstr "Apellidos"
+
+#. module: oniad_root
+#: model:ir.model,name:oniad_root.model_crm_lead
+msgid "Lead/Opportunity"
+msgstr "Iniciativa/Oportunidad"
+
+#. module: oniad_root
+#: selection:oniad.transaction,subject:0
+msgid "Liquidación"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_transaction_medium
+msgid "Medium"
+msgstr "Media"
+
+#. module: oniad_root
+#: code:addons/oniad_root/models/oniad_transaction.py:684
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_transaction.py:684
+#, python-format
+msgid "NO positive invoice of higher amount found - SHOULD BE FULLY IMPOSSIBLE"
+msgstr "NO se encuentra una factura positiva de mayor cantidad - DEBE SER TOTALMENTE IMPOSIBLE"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_campaign_name
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_country_name
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_country_state_name
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user_name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: oniad_root
+#: code:addons/oniad_root/models/oniad_transaction.py:221
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_transaction.py:221
+#, python-format
+msgid "No bank mandates, invoice cannot be created"
+msgstr "No hay mandatos bancarios, no se puede crear la factura"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_address_name
+msgid "Nombre"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user__odoo_lead
+msgid "Odoo Lead"
+msgstr ""
+
+#. module: oniad_root
+#: selection:oniad.transaction,medium:0
+msgid "Offline"
+msgstr "Desconectado"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_crm_lead__oniad_user_id_link
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user__oniad_user_id_link
+#: model:ir.model.fields,field_description:oniad_root.field_res_partner__oniad_user_id_link
+#: model:ir.model.fields,field_description:oniad_root.field_res_users__oniad_user_id_link
+msgid "OniAd User"
+msgstr ""
+
+#. module: oniad_root
+#: selection:oniad.transaction,actor:0
+msgid "Oniad"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user__oniad_accountmanager_id
+msgid "Oniad Account Manager"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.actions.act_window,name:oniad_root.oniad_accountmanager_type_action
+#: model:ir.model,name:oniad_root.model_oniad_accountmanager
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_accountmanager_form_view
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_accountmanager_tree
+msgid "Oniad Accountmanager"
+msgstr "Oniad Account Manager"
+
+#. module: oniad_root
+#: model:ir.actions.act_window,name:oniad_root.oniad_address_type_action
+#: model:ir.model,name:oniad_root.model_oniad_address
+#: model:ir.model.fields,field_description:oniad_root.field_account_invoice__oniad_address_id
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_transaction__oniad_address_id
+#: model:ir.model.fields,field_description:oniad_root.field_res_partner__oniad_address_id
+#: model:ir.model.fields,field_description:oniad_root.field_res_users__oniad_address_id
+#: model:ir.model.fields,field_description:oniad_root.field_sale_order__oniad_address_id
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_address_form_view
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_address_tree
+msgid "Oniad Address"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.actions.act_window,name:oniad_root.oniad_campaign_type_action
+#: model:ir.model,name:oniad_root.model_oniad_campaign
+#: model:ir.model.fields,field_description:oniad_root.field_crm_lead__oniad_campaign_id
+#: model:ir.model.fields,field_description:oniad_root.field_survey_user_input__oniad_campaign_id
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_campaign_form_view
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_campaign_tree
+msgid "Oniad Campaign"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user__oniad_campaign_count
+msgid "Oniad Campaigns"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.actions.act_window,name:oniad_root.oniad_country_type_action
+#: model:ir.model,name:oniad_root.model_oniad_country
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_address__oniad_country_id
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_country_state__oniad_country_id
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_country_form_view
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_country_tree
+msgid "Oniad Country"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.actions.act_window,name:oniad_root.oniad_country_state_type_action
+#: model:ir.model,name:oniad_root.model_oniad_country_state
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_address__oniad_country_state_id
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_country_state_form_view
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_country_state_tree
+msgid "Oniad Country State"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user__oniad_managed
+msgid "Oniad Managed"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.ui.menu,name:oniad_root.menu_odoo_oniad_root
+msgid "Oniad Root"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model,name:oniad_root.model_oniad_tag
+msgid "Oniad Tag"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.actions.act_window,name:oniad_root.oniad_transaction_type_action
+#: model:ir.model,name:oniad_root.model_oniad_transaction
+#: model:ir.model.fields,field_description:oniad_root.field_account_invoice_line__oniad_transaction_id
+#: model:ir.model.fields,field_description:oniad_root.field_account_payment__oniad_transaction_id
+#: model:ir.model.fields,field_description:oniad_root.field_sale_order_line__oniad_transaction_id
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_transaction_form_view
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_transaction_tree
+msgid "Oniad Transaction"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_account_invoice__oniad_transaction_count
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_address__oniad_transaction_count
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user__oniad_transaction_count
+#: model:ir.model.fields,field_description:oniad_root.field_sale_order__oniad_transaction_count
+msgid "Oniad Transactions"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.actions.act_window,name:oniad_root.oniad_user_type_action
+#: model:ir.model,name:oniad_root.model_oniad_user
+#: model:ir.model.fields,field_description:oniad_root.field_account_payment__oniad_user_id
+#: model:ir.model.fields,field_description:oniad_root.field_crm_lead__oniad_user_id
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_campaign__oniad_user_id
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_transaction__oniad_user_id
+#: model:ir.model.fields,field_description:oniad_root.field_res_partner__oniad_user_id
+#: model:ir.model.fields,field_description:oniad_root.field_res_users__oniad_user_id
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_user_form_view
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_user_tree
+msgid "Oniad User"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.cron,name:oniad_root.cron_oniad_user_auto_generate_welcome_lead_id
+msgid "Oniad User Auto Generate Welcome Lead id"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user_tag__oniad_user_id
+msgid "Oniad User Id"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model,name:oniad_root.model_oniad_user_tag
+msgid "Oniad User Tag"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user__oniad_user_count
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_user_search
+msgid "Oniad Users"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user__oniad_address_id
+msgid "Oniad address"
+msgstr ""
+
+#. module: oniad_root
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_transaction_search
+msgid "Onikad Transactions"
+msgstr ""
+
+#. module: oniad_root
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_user_form_view
+msgid "Opportunities"
+msgstr "Oportunidades"
+
+#. module: oniad_root
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_address_form_view
+msgid "Orders"
+msgstr "Pedidos"
+
+#. module: oniad_root
+#: selection:oniad.transaction,subject:0
+msgid "Pago ONiAD"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_address__country_id
+msgid "Pais"
+msgstr "País"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user__parent_id
+msgid "Parent"
+msgstr "Padre"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user__partner_id
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: oniad_root
+#: selection:oniad.campaign,state:0
+msgid "Pausada"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_transaction__account_payment_id
+msgid "Payment"
+msgstr "Pagos"
+
+#. module: oniad_root
+#: model:ir.model,name:oniad_root.model_account_payment
+msgid "Payments"
+msgstr "Pagos"
+
+#. module: oniad_root
+#: selection:oniad.transaction,state:0
+msgid "Pending"
+msgstr "Pendiente"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user_phone
+msgid "Phone"
+msgstr "Teléfono"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_address__fiscal_position_id
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_country_state__fiscal_position_id
+msgid "Posicion fiscal"
+msgstr "Posición fiscal"
+
+#. module: oniad_root
+#: code:addons/oniad_root/models/oniad_transaction.py:560
+#: code:addons/oniad_root/models/oniad_transaction.py:640
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_transaction.py:560
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_transaction.py:640
+#, python-format
+msgid "Prepare to generate partner_id %s and partner_shipping_id %s"
+msgstr "Preparar para generar partner_id %s y partner_shipping_id %s"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_campaign_pricing
+msgid "Price"
+msgstr "Precio"
+
+#. module: oniad_root
+#: selection:oniad.transaction,subject:0
+msgid "Programa de Afiliados"
+msgstr "Programa de afiliados"
+
+#. module: oniad_root
+#: selection:oniad.transaction,subject:0
+msgid "Programa de Partners"
+msgstr "Programa de partners"
+
+#. module: oniad_root
+#: selection:oniad.transaction,subject:0
+msgid "Programa de recomendados"
+msgstr ""
+
+#. module: oniad_root
+#: selection:oniad.transaction,subject:0
+msgid "Promoción"
+msgstr ""
+
+#. module: oniad_root
+#: selection:oniad.campaign,type:0
+msgid "Prospeccion"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_address__state_id
+msgid "Provincia"
+msgstr ""
+
+#. module: oniad_root
+#: selection:oniad.transaction,subject:0
+msgid "Reembolso"
+msgstr ""
+
+#. module: oniad_root
+#: selection:oniad.campaign,type:0
+msgid "Retargeting Email"
+msgstr ""
+
+#. module: oniad_root
+#: selection:oniad.campaign,type:0
+msgid "Retargeting Web"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.cron,name:oniad_root.cron_sqs_oniad_accountmanager
+msgid "SQS Oniad Accountmanager"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.cron,name:oniad_root.cron_sqs_oniad_address
+msgid "SQS Oniad Address"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.cron,name:oniad_root.cron_sqs_oniad_campaign
+msgid "SQS Oniad Campaign"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.cron,name:oniad_root.cron_sqs_oniad_campaign_report
+msgid "SQS Oniad Campaign Report"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.cron,name:oniad_root.cron_sqs_oniad_country
+msgid "SQS Oniad Country"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.cron,name:oniad_root.cron_sqs_oniad_country_state
+msgid "SQS Oniad Country State"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.cron,name:oniad_root.cron_sqs_oniad_transaction
+msgid "SQS Oniad transaction"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.cron,name:oniad_root.cron_sqs_oniad_user
+msgid "SQS Oniad user"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.cron,name:oniad_root.cron_sqs_oniad_usertag
+msgid "SQS Oniad usertag"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model,name:oniad_root.model_sale_order
+msgid "Sale Order"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_address__sale_order_count
+msgid "Sale Orders"
+msgstr "Pedidos de venta"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_transaction__sale_order_id
+msgid "Sale order"
+msgstr "Pedido"
+
+#. module: oniad_root
+#: model:ir.model,name:oniad_root.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Línea de pedido de venta"
+
+#. module: oniad_root
+#: selection:oniad.transaction,type:0
+msgid "Service"
+msgstr "Servicio"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_campaign_spent
+msgid "Spent"
+msgstr "Gasto"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_campaign__spent_at
+msgid "Spent At"
+msgstr "Fecha gasto"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user__spent_cost
+msgid "Spent Cost"
+msgstr "Coste gasto"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user__spent_max_date
+msgid "Spent Max Date"
+msgstr "Gasto fecha máxima"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user__spent_min_date
+msgid "Spent Min Date"
+msgstr "Gasto fecha mínima"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_campaign_state
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_country_state__state_id
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_transaction_state
+msgid "State"
+msgstr "Estado"
+
+#. module: oniad_root
+#: selection:oniad.transaction,medium:0
+msgid "Stripe"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_transaction_subject
+msgid "Subject"
+msgstr "Asunto"
+
+#. module: oniad_root
+#: model:ir.model,name:oniad_root.model_survey_user_input
+msgid "Survey User Input"
+msgstr "Entrada de usuario de la encuesta"
+
+#. module: oniad_root
+#: model:ir.model,name:oniad_root.model_survey_user_input_line
+msgid "Survey User Input Line"
+msgstr "Línea de entrada de usuario de la encuesta"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user_tag_tag
+msgid "Tag"
+msgstr "Etiqueta"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user__tag_ids
+msgid "Tags"
+msgstr "Etiquetas"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_transaction_tax
+msgid "Tax"
+msgstr "Impuesto"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_address_phone
+msgid "Telefono"
+msgstr ""
+
+#. module: oniad_root
+#: selection:oniad.campaign,state:0
+msgid "Terminada"
+msgstr ""
+
+#. module: oniad_root
+#: code:addons/oniad_root/models/oniad_accountmanager.py:71
+#: code:addons/oniad_root/models/oniad_address.py:315
+#: code:addons/oniad_root/models/oniad_campaign.py:137
+#: code:addons/oniad_root/models/oniad_campaign.py:265
+#: code:addons/oniad_root/models/oniad_country.py:78
+#: code:addons/oniad_root/models/oniad_country_state.py:81
+#: code:addons/oniad_root/models/oniad_transaction.py:376
+#: code:addons/oniad_root/models/oniad_user.py:369
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_accountmanager.py:71
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_address.py:315
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_campaign.py:137
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_campaign.py:265
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_country.py:78
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_country_state.py:81
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_transaction.py:376
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_user.py:369
+#, python-format
+msgid "The field does not exist %s"
+msgstr "El campo %s no existe"
+
+#. module: oniad_root
+#: code:addons/oniad_root/models/oniad_user.py:568
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_user.py:568
+#, python-format
+msgid "The field% s does not exist"
+msgstr "El campo %s no existe"
+
+#. module: oniad_root
+#: code:addons/oniad_root/models/oniad_transaction.py:431
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_transaction.py:431
+#, python-format
+msgid "The oniad_address_id field cannot be 0"
+msgstr "El campo oniad_address_id no puede ser 0"
+
+#. module: oniad_root
+#: code:addons/oniad_root/models/oniad_transaction.py:440
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_transaction.py:440
+#, python-format
+msgid "The oniad_address_id=%s does not exist"
+msgstr "El oniad_address_id=%s no existe"
+
+#. module: oniad_root
+#: code:addons/oniad_root/models/oniad_transaction.py:412
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_transaction.py:412
+#, python-format
+msgid "The oniad_user_id field cannot be 0"
+msgstr "El campo oniad_user_id no puede ser 0"
+
+#. module: oniad_root
+#: code:addons/oniad_root/models/oniad_transaction.py:426
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_transaction.py:426
+#, python-format
+msgid "The oniad_user_id=%s does not exist"
+msgstr "El oniad_user_id=%s no existe"
+
+#. module: oniad_root
+#: code:addons/oniad_root/models/oniad_address.py:97
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_address.py:97
+#, python-format
+msgid "The vat %s of the oniad_address_id =% s is incorrect"
+msgstr "El NIF %s del oniad_address_id=%s no es correcto"
+
+#. module: oniad_root
+#: model:ir.model.fields,help:oniad_root.field_oniad_country__fiscal_position_id
+msgid "This fiscal position will only be used when the address has no province, otherwise the fiscal fiscal position of the province will be used"
+msgstr "Esta posición fiscal solo se usará cuando la dirección no tenga provincia; de lo contrario, se usará la posición fiscal fiscal de la provincia"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_campaign_timezone
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user_timezone
+msgid "Timezone"
+msgstr "Zona horaria"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_campaign_type
+msgid "Tipo"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_transaction_total
+msgid "Total"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.ui.menu,name:oniad_root.menuitem_oniad_transaction
+msgid "Transaction"
+msgstr "Transacción"
+
+#. module: oniad_root
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_address_form_view
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_root_invoice_form
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_root_view_order_form
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_user_form_view
+msgid "Transactions"
+msgstr "Transacciones"
+
+#. module: oniad_root
+#: selection:oniad.transaction,subject:0
+msgid "Transferencia"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_transaction_type
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user_type
+msgid "Type"
+msgstr "Tipo"
+
+#. module: oniad_root
+#: model:ir.ui.menu,name:oniad_root.menuitem_oniad_user
+#: selection:oniad.transaction,actor:0
+#: selection:oniad.user,type:0
+msgid "User"
+msgstr "Usuario"
+
+#. module: oniad_root
+#: code:addons/oniad_root/models/oniad_user.py:436
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_user.py:436
+#, python-format
+msgid "User (parent_id) %s does not exist"
+msgstr "Usuario (parent_id) %s no existe"
+
+#. module: oniad_root
+#: code:addons/oniad_root/models/oniad_user.py:595
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_user.py:595
+#, python-format
+msgid "User_id=%s not found"
+msgstr "User_id=%s no existe"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_accountmanager__user_id
+msgid "Usuario"
+msgstr ""
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user_uuid
+msgid "Uuid"
+msgstr ""
+
+#. module: oniad_root
+#: code:addons/oniad_root/models/oniad_address.py:183
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_address.py:183
+#, python-format
+msgid "VERY STRANGE that this bank account already exists to another client"
+msgstr "MUY EXTRAÑO que esta cuenta bancaria ya exista para otro cliente"
+
+#. module: oniad_root
+#: selection:oniad.campaign,type:0
+msgid "Video"
+msgstr ""
+
+#. module: oniad_root
+#: code:addons/oniad_root/models/oniad_transaction.py:616
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_transaction.py:616
+#, python-format
+msgid "We create the negative with respect to the found %s"
+msgstr "Creamos la negativa con respecto al %s encontrado"
+
+#. module: oniad_root
+#: model:ir.model.fields,field_description:oniad_root.field_oniad_user__welcome_lead_id
+msgid "Welcome Lead Id"
+msgstr ""
+
+#. module: oniad_root
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_accountmanager_form_view
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_address_form_view
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_campaign_form_view
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_country_form_view
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_country_state_form_view
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_transaction_form_view
+#: model_terms:ir.ui.view,arch_db:oniad_root.oniad_user_form_view
+msgid "child"
+msgstr ""
+
+#. module: oniad_root
+#: code:addons/oniad_root/models/oniad_address.py:361
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_address.py:361
+#, python-format
+msgid "country_id=%s does not exist"
+msgstr "country_id=%s no existe"
+
+#. module: oniad_root
+#: code:addons/oniad_root/models/oniad_campaign.py:283
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_campaign.py:283
+#, python-format
+msgid "oniad_campaign_id=%s not found"
+msgstr "oniad_campaign_id=%s no existe"
+
+#. module: oniad_root
+#: code:addons/oniad_root/models/oniad_campaign.py:199
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_campaign.py:199
+#, python-format
+msgid "oniad_user_id=%s field does not exist"
+msgstr "oniad_user_id=%s no existe"
+
+#. module: oniad_root
+#: code:addons/oniad_root/models/oniad_address.py:376
+#: code:addonsOdooNodrizaTech/oniad/12.0/oniad_root/models/oniad_address.py:376
+#, python-format
+msgid "state_id=%s does not exist"
+msgstr "state_id=%s no existe"
+
