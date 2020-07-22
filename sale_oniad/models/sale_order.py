@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 import logging
 _logger = logging.getLogger(__name__)
@@ -24,8 +23,12 @@ class SaleOrder(models.Model):
     
     @api.model    
     def cron_sale_order_uuid_generate(self):
-        sale_order_ids = self.env['sale.order'].search([('uuid', '=', False)])
-        if len(sale_order_ids)>0:
+        sale_order_ids = self.env['sale.order'].search(
+            [
+                ('uuid', '=', False)
+            ]
+        )
+        if sale_order_ids:
             for sale_order_id in sale_order_ids:
                 sale_order_id.uuid = uuid.uuid4()
     
@@ -37,10 +40,10 @@ class SaleOrder(models.Model):
                 ('state', 'in', ('sent', 'sale', 'done'))
             ]
         )
-        if len(sale_order_ids)>0:
-            _logger.info('Total='+str(len(sale_order_ids)))
+        if sale_order_ids:
+            _logger.info('Total=%s' % len(sale_order_ids))
             for sale_order_id in sale_order_ids:
-                _logger.info('Enviando SNS '+str(sale_order_id.id))
+                _logger.info('Enviando SNS %s ' % sale_order_id.id)
                 sale_order_id.action_send_sns(False)
     
     @api.model    
@@ -51,61 +54,64 @@ class SaleOrder(models.Model):
                 ('state', 'in', ('sent', 'sale', 'done'))
             ]
         )
-        if len(sale_order_ids)>0:
+        if sale_order_ids:
             _logger.info(len(sale_order_ids))            
             for sale_order_id in sale_order_ids:
-                _logger.info('Generando presupuesto '+str(sale_order_id.id))
-                #sale_order_id.action_upload_pdf_to_s3()
+                _logger.info('Generando presupuesto %s' % sale_order_id.id)
+                # sale_order_id.action_upload_pdf_to_s3()
                 sale_order_id.action_send_sns(False)
                     
     @api.one
     def action_upload_pdf_to_s3(self):
         if self.state in ['sent', 'sale', 'done']:
-            #define
-            AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')        
+            # define
+            AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')
             AWS_SECRET_ACCESS_KEY = tools.config.get('aws_secret_key_id')
             AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')
             s3_bucket_docs_oniad_com = tools.config.get('s3_bucket_docs_oniad_com')        
-            #boto3
+            # boto3
             s3 = boto3.client(
                 's3',
                 region_name=AWS_SMS_REGION_NAME, 
                 aws_access_key_id=AWS_ACCESS_KEY_ID,
                 aws_secret_access_key= AWS_SECRET_ACCESS_KEY
             )
-            #get_pdf
-            #report_sale_pdf_content = self.env['report'].get_pdf([self.id], 'sale.report_saleorder')Old odoo10
+            # get_pdf
             report_sale_pdf_content = self.env.ref('sale.action_report_saleorder').sudo().render_qweb_pdf([self.id])[0]
-            #put_object        
-            response_put_object = s3.put_object(Body=report_sale_pdf_content, Bucket=s3_bucket_docs_oniad_com, Key='sale-order/'+str(self.uuid)+'.pdf')
+            # put_object
+            response_put_object = s3.put_object(
+                Body=report_sale_pdf_content,
+                Bucket=s3_bucket_docs_oniad_com,
+                Key='sale-order/%s.pdf' % self.uuid
+            )
 
     @api.multi
     def action_send_sns_multi(self):
         for item in self:
-            _logger.info('Enviando SNS ' + str(item.id))
+            _logger.info('Enviando SNS %s'  % item.id)
             item.action_send_sns(False)
 
     @api.one
     def action_send_sns(self, regenerate_pdf=True):
         if self.state in ['sent', 'sale', 'done']:
             action_response = True
-            #action_upload_pdf_to_s3
-            if regenerate_pdf==True:
+            # action_upload_pdf_to_s3
+            if regenerate_pdf:
                 self.action_upload_pdf_to_s3()
-            #define
+            # define
             ses_sqs_url = tools.config.get('ses_sqs_url')
             AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')        
             AWS_SECRET_ACCESS_KEY = tools.config.get('aws_secret_key_id')
             AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')
             s3_bucket_docs_oniad_com = tools.config.get('s3_bucket_docs_oniad_com')                        
-            #boto3
+            # boto3
             sns = boto3.client(
                 'sns',
                 region_name=AWS_SMS_REGION_NAME, 
                 aws_access_key_id=AWS_ACCESS_KEY_ID,
                 aws_secret_access_key= AWS_SECRET_ACCESS_KEY
             )        
-            #message        
+            # message
             message = {
                 'id': int(self.id),
                 'uuid': str(self.uuid),
@@ -117,12 +123,12 @@ class SaleOrder(models.Model):
                 'amount_untaxed': self.amount_untaxed,
                 'amount_tax': self.amount_tax,
                 'amount_total': self.amount_total,
-                'url_pdf': 'https://docs.oniad.com/sale-order/'+str(self.uuid)+'.pdf',
-                's3_pdf': str(s3_bucket_docs_oniad_com)+'/sale-order/'+str(self.uuid)+'.pdf',
+                'url_pdf': 'https://docs.oniad.com/sale-order/%s.pdf' % self.uuid,
+                's3_pdf': str(s3_bucket_docs_oniad_com)+'/sale-order/%s.pdf' % self.uuid,
                 'order_line': []
             }
-            #order_line
-            if len(self.order_line)>0:
+            # order_line
+            if self.order_line:
                 for order_line_item in self.order_line:
                     message_order_line_id = {
                         'name': str(order_line_item.name.encode('utf-8')),
@@ -133,16 +139,16 @@ class SaleOrder(models.Model):
                         'oniad_transaction_id': int(order_line_item.oniad_transaction_id.id)
                     }
                     message['order_line'].append(message_order_line_id)
-            #enviroment
+            # enviroment
             enviroment = 'dev'
             web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
             if '//erp.oniad.com' in web_base_url:
                 enviroment = 'prod'                    
-            #sns_name            
+            # sns_name
             sns_name = 'oniad-platform-command-odoo-sale-order'
-            if enviroment=='dev':
+            if enviroment == 'dev':
                 sns_name = 'oniad-platform_dev-command-odoo-sale-order'
-            #publish
+            # publish
             response = sns.publish(
                 TopicArn='arn:aws:sns:eu-west-1:534422648921:'+str(sns_name),
                 Message=json.dumps(message, indent=2),
@@ -155,16 +161,16 @@ class SaleOrder(models.Model):
             )
             if 'MessageId' not in response:
                 action_response = False        
-            #return
+            # return
             return action_response
     
     @api.one
     def write(self, vals):      
-        #super                                                               
+        # super
         return_object = super(SaleOrder, self).write(vals)
-        #check_if_paid
-        if vals.get('state')=='sent':
-            #action_send_sns
+        # check_if_paid
+        if vals.get('state') == 'sent':
+            # action_send_sns
             self.action_send_sns(True)
-        #return
+        # return
         return return_object                    

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 import logging
 _logger = logging.getLogger(__name__)
@@ -28,7 +27,7 @@ class SendinblueWebService():
         self.api_instance_account_api = sib_api_v3_sdk.AccountApi(sib_api_v3_sdk.ApiClient(configuration))
         self.api_instance_contacts_api = sib_api_v3_sdk.ContactsApi(sib_api_v3_sdk.ApiClient(configuration))        
     
-    #get_attributes    
+    # get_attributes
     def get_attributes(self):
         response = {
             'errors': True,
@@ -37,7 +36,7 @@ class SendinblueWebService():
         }
         
         try:
-            #api_response = self.api_instance_account_api.get_account()
+            # api_response = self.api_instance_account_api.get_account()
             api_response = self.api_instance_contacts_api.get_attributes()
             response['response'] = api_response
             response['errors'] = False            
@@ -46,7 +45,7 @@ class SendinblueWebService():
             
         return response
         
-    #get_folders    
+    # get_folders
     def get_folders(self):
         response = {
             'errors': True,
@@ -55,7 +54,7 @@ class SendinblueWebService():
         }
         
         try:
-            #api_response = self.api_instance_account_api.get_account()
+            # api_response = self.api_instance_account_api.get_account()
             api_response = self.api_instance_contacts_api.get_folders(10, 0)
             response['response'] = api_response
             response['errors'] = False            
@@ -64,7 +63,7 @@ class SendinblueWebService():
             
         return response            
     
-    #get_lists    
+    # get_lists
     def get_lists(self):
         response = {
             'errors': True,
@@ -81,7 +80,7 @@ class SendinblueWebService():
             
         return response
         
-    #get_contacts    
+    # get_contacts
     def get_contacts(self, limit=1000):
         response = {
             'errors': True,
@@ -91,7 +90,7 @@ class SendinblueWebService():
         
         try:
             api_response = self.api_instance_contacts_api.get_contacts(limit=10, offset=0)
-            if api_response!=False:
+            if api_response:
                 total_pages_calculate = float(api_response.count)/float(limit)
                 total_pages_calculate = "{0:.2f}".format(total_pages_calculate)
                 total_pages_calculate_split = total_pages_calculate.split('.')
@@ -105,11 +104,11 @@ class SendinblueWebService():
                 
                 for i in range(1, total_pages_calculate+1):
                     offset = 0
-                    if i>1:
+                    if i > 1:
                         offset = limit*i
                         offset = offset-limit    
                     response_page = self.get_contacts_real(limit, offset)
-                    if response_page!=False:
+                    if response_page:
                         response['response']['contacts'].extend(response_page.contacts)
                                     
                 response['errors'] = False            

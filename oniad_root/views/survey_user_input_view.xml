@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<odoo> 
+<odoo>
+
     <record id="oniad_root_survey_user_input_form" model="ir.ui.view">
         <field name="name">oniad_root_survey_user_input_form</field>
         <field name="model">survey.user_input</field>
@@ -9,5 +10,6 @@
                 <field name="oniad_campaign_id" />
             </field>            
         </field>
-    </record>          
+    </record>
+
 </odoo>

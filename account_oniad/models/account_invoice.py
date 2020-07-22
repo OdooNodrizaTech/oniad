@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 import logging
 _logger = logging.getLogger(__name__)
 
-from odoo import api, models, fields, tools
+from odoo import api, models, fields, tools, _
 from odoo.exceptions import Warning
 import uuid
 
@@ -14,13 +13,13 @@ class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
             
     margin = fields.Monetary(         
-        string='Margen'
+        string='Margin'
     )
     #override date
     date = fields.Date(
-        string='Fecha contable',
+        string='Date',
         copy=False,
-        help="Dejar vacio para usar la fecha de factura",
+        help="Leave empty to use the invoice date",
         track_visibility='always',
         readonly=True, 
         states={'draft': [('readonly', False)]}
@@ -38,7 +37,7 @@ class AccountInvoice(models.Model):
     @api.model    
     def cron_account_invoice_uuid_generate(self):
         account_invoice_ids = self.env['account.invoice'].search([('uuid', '=', False)])
-        if len(account_invoice_ids)>0:
+        if account_invoice_ids:
             for account_invoice_id in account_invoice_ids:
                 account_invoice_id.uuid = uuid.uuid4()
     
@@ -52,10 +51,10 @@ class AccountInvoice(models.Model):
                 ('date_invoice', '>=', '2020-01-01')
             ]
         )
-        if len(account_invoice_ids)>0:
-            _logger.info('Total='+str(len(account_invoice_ids)))
+        if account_invoice_ids:
+            _logger.info('Total=%s' % len(account_invoice_ids))
             for account_invoice_id in account_invoice_ids:
-                _logger.info('Enviando SNS '+str(account_invoice_id.id))
+                _logger.info('Enviando SNS %s' % account_invoice_id.id)
                 account_invoice_id.action_send_sns(False)
     
     @api.model    
@@ -67,42 +66,42 @@ class AccountInvoice(models.Model):
                 ('type', 'in', ('out_invoice', 'out_refund'))
             ]
         )
-        if len(account_invoice_ids)>0:
+        if account_invoice_ids:
             _logger.info(len(account_invoice_ids))            
             for account_invoice_id in account_invoice_ids:
-                _logger.info('Generando factura '+str(account_invoice_id.id))
-                #account_invoice_id.action_upload_pdf_to_s3()
+                _logger.info('Generando factura %s' % account_invoice_id.id)
+                # account_invoice_id.action_upload_pdf_to_s3()
                 account_invoice_id.action_send_sns(False)
                     
     @api.one
     def action_upload_pdf_to_s3(self):
         if self.state in ['open', 'paid']:
             if self.type in ['out_invoice', 'out_refund']:
-                #define
-                AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')        
+                # define
+                AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')
                 AWS_SECRET_ACCESS_KEY = tools.config.get('aws_secret_key_id')
                 AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')
                 s3_bucket_docs_oniad_com = tools.config.get('s3_bucket_docs_oniad_com')        
-                #boto3
+                # boto3
                 s3 = boto3.client(
                     's3',
                     region_name=AWS_SMS_REGION_NAME, 
                     aws_access_key_id=AWS_ACCESS_KEY_ID,
                     aws_secret_access_key= AWS_SECRET_ACCESS_KEY
                 )
-                #get_pdf
-                #pdf = request.env['report'].sudo().get_pdf([invoice_id], 'account.report_invoice') Old odoo10
+                # get_pdf
+                # pdf = request.env['report'].sudo().get_pdf([invoice_id], 'account.report_invoice') Old odoo10
                 try:
                     report_invoice_pdf_content = self.env.ref('account.account_invoices_without_payment').sudo().render_qweb_pdf([self.id])[0]
                     # put_object
                     response_put_object = s3.put_object(Body=report_invoice_pdf_content, Bucket=s3_bucket_docs_oniad_com, Key='account-invoice/' + str(self.uuid) + '.pdf')
                 except:
-                    _logger.info('Errir al generar el PDF de la factura '+str(self.id))
+                    _logger.info('Errir al generar el PDF de la factura %s' % self.id)
 
     @api.multi
     def action_send_sns_multi(self):
         for item in self:
-            _logger.info('Enviando SNS ' + str(item.id))
+            _logger.info('Enviando SNS %s' % item.id)
             item.action_send_sns(False)
 
     @api.one
@@ -110,23 +109,23 @@ class AccountInvoice(models.Model):
         if self.state in ['open', 'paid']:
             if self.type in ['out_invoice', 'out_refund']:
                 action_response = True
-                #action_upload_pdf_to_s3
-                if regenerate_pdf==True:
+                # action_upload_pdf_to_s3
+                if regenerate_pdf:
                     self.action_upload_pdf_to_s3()
-                #define
+                # define
                 ses_sqs_url = tools.config.get('ses_sqs_url')
                 AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')        
                 AWS_SECRET_ACCESS_KEY = tools.config.get('aws_secret_key_id')
                 AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')
                 s3_bucket_docs_oniad_com = tools.config.get('s3_bucket_docs_oniad_com')                        
-                #boto3
+                # boto3
                 sns = boto3.client(
                     'sns',
                     region_name=AWS_SMS_REGION_NAME, 
                     aws_access_key_id=AWS_ACCESS_KEY_ID,
                     aws_secret_access_key= AWS_SECRET_ACCESS_KEY
                 )        
-                #message        
+                # message
                 message = {
                     'id': int(self.id),
                     'uuid': str(self.uuid),
@@ -159,8 +158,8 @@ class AccountInvoice(models.Model):
                     'tax_line_ids': [],
                     'payment_ids': []
                 }
-                #invoice_line_ids
-                if len(self.invoice_line_ids)>0:
+                # invoice_line_ids
+                if self.invoice_line_ids:
                     for invoice_line_id in self.invoice_line_ids:
                         message_invoice_line_id = {
                             'name': str(invoice_line_id.name.encode('utf-8')),
@@ -171,8 +170,8 @@ class AccountInvoice(models.Model):
                             'oniad_transaction_id': int(invoice_line_id.oniad_transaction_id.id)
                         }
                         message['invoice_line_ids'].append(message_invoice_line_id)
-                #tax_line_ids
-                if len(self.tax_line_ids)>0:
+                # tax_line_ids
+                if self.tax_line_ids:
                     for tax_line_id in self.tax_line_ids:
                         message_tax_line_id = {
                             'name': str(tax_line_id.name.encode('utf-8')),
@@ -180,8 +179,8 @@ class AccountInvoice(models.Model):
                             'amount': tax_line_id.amount,
                         }
                         message['tax_line_ids'].append(message_tax_line_id)
-                #payment_ids
-                if len(self.payment_ids)>0:
+                # payment_ids
+                if self.payment_ids:
                     for payment_id in self.payment_ids:
                         message_payment_id = {
                             'id': int(payment_id.id),
@@ -191,16 +190,16 @@ class AccountInvoice(models.Model):
                             'oniad_transaction_id': int(payment_id.oniad_transaction_id.id)
                         }
                         message['payment_ids'].append(message_payment_id)
-                #enviroment
+                # enviroment
                 enviroment = 'dev'
                 web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
                 if '//erp.oniad.com' in web_base_url:
                     enviroment = 'prod'                    
-                #sns_name            
+                # sns_name
                 sns_name = 'oniad-platform-command-odoo-account-invoice'
-                if enviroment=='dev':
+                if enviroment == 'dev':
                     sns_name = 'oniad-platform_dev-command-odoo-account-invoice'
-                #publish
+                # publish
                 response = sns.publish(
                     TopicArn='arn:aws:sns:eu-west-1:534422648921:'+str(sns_name),
                     Message=json.dumps(message, indent=2),
@@ -211,23 +210,23 @@ class AccountInvoice(models.Model):
                         }
                     }                                
                 )
-                #logger
+                # logger
                 _logger.info({
                     'enviroment': enviroment,
                     'sns_name': sns_name
                 })
-                #check
+                # check
                 if 'MessageId' not in response:
                     action_response = False
                 else:
                     _logger.info(sns_name)                           
-                #return
+                # return
                 return action_response
     
     @api.one
     def action_calculate_margin(self):
         if self.id>0:
-            if self.invoice_line_ids!=False:
+            if self.invoice_line_ids:
                 margin_total = 0            
                 for invoice_line_id in self.invoice_line_ids:
                     margin_total = margin_total + invoice_line_id.purchase_price
@@ -236,28 +235,28 @@ class AccountInvoice(models.Model):
     
     @api.one
     def write(self, vals):      
-        #super                                                               
+        # super
         return_object = super(AccountInvoice, self).write(vals)
-        #check_if_paid
-        if vals.get('state')=='paid':
+        # check_if_paid
+        if vals.get('state') == 'paid':
             #action_send_sns
             self.action_send_sns(True)
-        #return
+        # return
         return return_object
     
     @api.multi
     def action_invoice_open(self):
-        if self.partner_id.vat==False:
-            raise Warning("Es necesario definir un CIF/NIF para el cliente de la factura.\n")
-        elif self.type=="in_invoice" and self.reference==False:
-            raise Warning("Es necesario definir una referencia de proveedor para validar la factura de compra.\n")            
+        if self.partner_id.vat == False:
+            raise Warning(_('It is necessary to define a CIF / NIF for the customer of the invoice'))
+        elif self.type == "in_invoice" and self.reference == False:
+            raise Warning(_('It is necessary to define a supplier reference to validate the purchase invoic'))
         else:
             return_object = super(AccountInvoice, self).action_invoice_open()
             for account_invoice_item in self:            
-                account_invoice_item.action_calculate_margin()#Fix calculate margin            
-            #action_send_sns
+                account_invoice_item.action_calculate_margin()# Fix calculate margin
+            # action_send_sns
             account_invoice_item.action_send_sns(True)
-            #return                            
+            # return
             return return_object        
                     
     @api.one    

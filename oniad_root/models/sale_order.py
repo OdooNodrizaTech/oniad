@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+
 from odoo import api, fields, models
 
-import logging
-_logger = logging.getLogger(__name__)
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
@@ -27,5 +25,5 @@ class SaleOrder(models.Model):
     def _oniad_address_id(self):
         for item in self:
             if item.id > 0:
-                if item.partner_invoice_id.oniad_address_id.id>0:
+                if item.partner_invoice_id.oniad_address_id:
                     item.oniad_address_id = item.partner_invoice_id.oniad_address_id.id

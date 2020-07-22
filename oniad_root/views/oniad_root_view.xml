@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
     <record id="oniad_campaign_form_view" model="ir.ui.view">
         <field name="name">Oniad Campaign</field>
         <field name="model">oniad.campaign</field>
@@ -33,6 +34,7 @@
             </form>
         </field>
     </record>
+
     <record id="oniad_campaign_tree" model="ir.ui.view">
         <field name="name">Oniad Campaign</field>
         <field name="model">oniad.campaign</field>            
@@ -49,6 +51,7 @@
             </tree>
         </field>            
     </record>
+
     <record id="oniad_campaign_search" model="ir.ui.view">
         <field name="name">oniad_campaign_search</field>
         <field name="model">oniad.campaign</field>
@@ -58,6 +61,7 @@
             </search>
         </field>
     </record>
+
     <record id="oniad_campaign_type_action" model="ir.actions.act_window">
         <field name="name">Oniad Campaign</field>
         <field name="type">ir.actions.act_window</field>
@@ -67,6 +71,7 @@
         <field name="view_id" ref="oniad_campaign_tree"/>
         <field name="search_view_id" ref="oniad_campaign_search"/>
     </record>
+
     <record id="oniad_user_form_view" model="ir.ui.view">
         <field name="name">Oniad User</field>
         <field name="model">oniad.user</field>
@@ -75,16 +80,16 @@
                 <sheet string="child">
                     <div class="oe_button_box" name="button_box">
                         <button class="oe_stat_button" type="action" name="%(oniad_root.oniad_user_type_action)d" icon="fa-bars"  context="{'search_default_parent_id': active_id}">
-                            <field string="Hijos" name="oniad_user_count" widget="statinfo"/>
+                            <field string="Childrens" name="oniad_user_count" widget="statinfo"/>
                         </button>
                         <button class="oe_stat_button" type="action" name="%(oniad_root.oniad_transaction_type_action)d" icon="fa-bars"  context="{'search_default_oniad_user_id': active_id}">
-                            <field string="Transacciones" name="oniad_transaction_count" widget="statinfo"/>
+                            <field string="Transactions" name="oniad_transaction_count" widget="statinfo"/>
                         </button>
                         <button class="oe_stat_button" type="action" name="%(oniad_root.oniad_campaign_type_action)d" icon="fa-bars"  context="{'search_default_oniad_user_id': active_id}">
-                            <field string="Campañas" name="oniad_campaign_count" widget="statinfo"/>
+                            <field string="Campaigns" name="oniad_campaign_count" widget="statinfo"/>
                         </button>
                         <button class="oe_stat_button" type="action" name="%(crm.crm_lead_opportunities)d" icon="fa-star"  context="{'search_default_oniad_user_id': active_id}">
-                            <field string="Oportunidades" name="crm_lead_opportunity_count" widget="statinfo"/>
+                            <field string="Opportunities" name="crm_lead_opportunity_count" widget="statinfo"/>
                         </button>
                     </div>
                     <group>
@@ -119,6 +124,7 @@
             </form>
         </field>
     </record>
+
     <record id="oniad_user_tree" model="ir.ui.view">
         <field name="name">Oniad User</field>
         <field name="model">oniad.user</field>            
@@ -133,15 +139,17 @@
             </tree>
         </field>            
     </record>
+
     <record id="oniad_user_search" model="ir.ui.view">
         <field name="name">oniad_user_search</field>
         <field name="model">oniad.user</field>
         <field name="arch" type="xml">
-            <search string="Usuarios">
+            <search string="Oniad Users">
                 <field name="parent_id"/>
             </search>
         </field>
     </record>
+
     <record id="oniad_user_type_action" model="ir.actions.act_window">
         <field name="name">Oniad User</field>
         <field name="type">ir.actions.act_window</field>
@@ -151,6 +159,7 @@
         <field name="view_id" ref="oniad_user_tree"/>
         <field name="search_view_id" ref="oniad_user_search"/>
     </record>
+
     <record id="oniad_address_form_view" model="ir.ui.view">
         <field name="name">Oniad Address</field>
         <field name="model">oniad.address</field>
@@ -159,13 +168,13 @@
                 <sheet string="child">
                     <div class="oe_button_box" name="button_box">
                         <button class="oe_stat_button" type="action" name="%(oniad_root.oniad_transaction_type_action)d" icon="fa-bars"  context="{'search_default_oniad_address_id': active_id}">
-                            <field string="Transacciones" name="oniad_transaction_count" widget="statinfo"/>
+                            <field string="Transactions" name="oniad_transaction_count" widget="statinfo"/>
                         </button>
                         <button class="oe_stat_button" type="action" name="%(sale.action_quotations_with_onboarding)d" icon="fa-usd"  context="{'search_default_oniad_address_id': active_id}">
-                            <field string="Presupuestos" name="sale_order_count" widget="statinfo"/>
+                            <field string="Orders" name="sale_order_count" widget="statinfo"/>
                         </button>
                         <button class="oe_stat_button" type="action" name="%(account.action_invoice_tree1)d" icon="fa-pencil-square-o"  context="{'search_default_oniad_address_id': active_id}">
-                            <field string="Facturas" name="account_invoice_count" widget="statinfo"/>
+                            <field string="Invoices" name="account_invoice_count" widget="statinfo"/>
                         </button>
                     </div>
                     <group>
@@ -190,6 +199,7 @@
             </form>
         </field>
     </record>
+
     <record id="oniad_address_tree" model="ir.ui.view">
         <field name="name">Oniad Address</field>
         <field name="model">oniad.address</field>            
@@ -207,7 +217,8 @@
                 <field name="create_date"/>
             </tree>
         </field>            
-    </record>        
+    </record>
+
     <record id="oniad_address_type_action" model="ir.actions.act_window">
         <field name="name">Oniad Address</field>
         <field name="type">ir.actions.act_window</field>
@@ -216,6 +227,7 @@
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="oniad_address_tree"/>                
     </record>
+
     <record id="oniad_accountmanager_form_view" model="ir.ui.view">
         <field name="name">Oniad Accountmanager</field>
         <field name="model">oniad.accountmanager</field>
@@ -230,6 +242,7 @@
             </form>
         </field>
     </record>
+
     <record id="oniad_accountmanager_tree" model="ir.ui.view">
         <field name="name">Oniad Accountmanager</field>
         <field name="model">oniad.accountmanager</field>            
@@ -239,7 +252,8 @@
                 <field name="user_id"/>
             </tree>
         </field>            
-    </record>        
+    </record>
+
     <record id="oniad_accountmanager_type_action" model="ir.actions.act_window">
         <field name="name">Oniad Accountmanager</field>
         <field name="type">ir.actions.act_window</field>
@@ -248,6 +262,7 @@
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="oniad_accountmanager_tree"/>                
     </record>
+
     <record id="oniad_transaction_form_view" model="ir.ui.view">
         <field name="name">Oniad Transaction</field>
         <field name="model">oniad.transaction</field>
@@ -278,6 +293,7 @@
             </form>
         </field>
     </record>
+
     <record id="oniad_transaction_tree" model="ir.ui.view">
         <field name="name">Oniad Transaction</field>
         <field name="model">oniad.transaction</field>            
@@ -297,11 +313,12 @@
             </tree>
         </field>            
     </record>
+
     <record id="oniad_transaction_search" model="ir.ui.view">
         <field name="name">oniad_transaction_search</field>
         <field name="model">oniad.transaction</field>
         <field name="arch" type="xml">
-            <search string="Transacciones">
+            <search string="Onikad Transactions">
                 <field name="oniad_user_id"/>
                 <field name="oniad_address_id"/>
                 <field name="account_invoice_id"/>
@@ -309,6 +326,7 @@
             </search>
         </field>
     </record>
+
     <record id="oniad_transaction_type_action" model="ir.actions.act_window">
         <field name="name">Oniad Transaction</field>
         <field name="type">ir.actions.act_window</field>
@@ -318,6 +336,7 @@
         <field name="view_id" ref="oniad_transaction_tree"/>
         <field name="search_view_id" ref="oniad_transaction_search"/>
     </record>
+
     <record id="oniad_country_state_form_view" model="ir.ui.view">
         <field name="name">Oniad Country State</field>
         <field name="model">oniad.country.state</field>
@@ -335,6 +354,7 @@
             </form>
         </field>
     </record>
+
     <record id="oniad_country_state_tree" model="ir.ui.view">
         <field name="name">Oniad Country State</field>
         <field name="model">oniad.country.state</field>            
@@ -348,7 +368,8 @@
                 <field name="create_date"/>                
             </tree>
         </field>            
-    </record>        
+    </record>
+
     <record id="oniad_country_state_type_action" model="ir.actions.act_window">
         <field name="name">Oniad Country State</field>
         <field name="type">ir.actions.act_window</field>
@@ -357,6 +378,7 @@
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="oniad_country_state_tree"/>                
     </record>
+
     <record id="oniad_country_form_view" model="ir.ui.view">
         <field name="name">Oniad Country</field>
         <field name="model">oniad.country</field>
@@ -373,6 +395,7 @@
             </form>
         </field>
     </record>
+
     <record id="oniad_country_tree" model="ir.ui.view">
         <field name="name">Oniad Country</field>
         <field name="model">oniad.country</field>            
@@ -384,7 +407,8 @@
                 <field name="create_date"/>                
             </tree>
         </field>            
-    </record>        
+    </record>
+
     <record id="oniad_country_type_action" model="ir.actions.act_window">
         <field name="name">Oniad Country</field>
         <field name="type">ir.actions.act_window</field>
@@ -392,7 +416,8 @@
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="oniad_country_tree"/>                
-    </record>             
+    </record>
+
     <menuitem 
         id="menu_odoo_oniad_root" 
         name="Oniad Root"
@@ -401,43 +426,43 @@
     />
     <menuitem 
         action="oniad_campaign_type_action" 
-        name="Oniad Campaign"
+        name="Campaign"
         id="menuitem_oniad_campaign" 
         parent="menu_odoo_oniad_root"
     />
     <menuitem 
         action="oniad_user_type_action" 
-        name="Oniad User"
+        name="User"
         id="menuitem_oniad_user" 
         parent="menu_odoo_oniad_root"
     />
     <menuitem 
         action="oniad_accountmanager_type_action" 
-        name="Oniad Accountmanager"
+        name="Accountmanager"
         id="menuitem_oniad_accountmanager" 
         parent="menu_odoo_oniad_root"
     />
     <menuitem 
         action="oniad_address_type_action" 
-        name="Oniad Address"
+        name="Address"
         id="menuitem_oniad_address" 
         parent="menu_odoo_oniad_root"
     />
     <menuitem 
         action="oniad_transaction_type_action" 
-        name="Oniad Transaction"
+        name="Transaction"
         id="menuitem_oniad_transaction" 
         parent="menu_odoo_oniad_root"
     />
     <menuitem 
         action="oniad_country_type_action" 
-        name="Oniad Country"
+        name="Country"
         id="menuitem_oniad_country" 
         parent="menu_odoo_oniad_root"
     />
     <menuitem 
         action="oniad_country_state_type_action" 
-        name="Oniad Country State"
+        name="Country State"
         id="menuitem_oniad_country_state" 
         parent="menu_odoo_oniad_root"
     />                   

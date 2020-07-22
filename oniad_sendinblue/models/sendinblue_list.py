@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 from odoo import api, fields, models
 
@@ -15,13 +14,13 @@ class SendinblueList(models.Model):
         string='Sendinblue Id'
     )
     name = fields.Char(        
-        string='Nombre'
+        string='Name'
     )
     total_blacklisted = fields.Integer(        
         string='Total blacklisted'
     )
     total_subscribers = fields.Integer(        
-        string='Total suscriptores'
+        string='Total subscribers'
     )
     sendinblue_folder_id = fields.Many2one(
         comodel_name='sendinblue.folder',
@@ -32,17 +31,25 @@ class SendinblueList(models.Model):
     def cron_get_lists(self):
         sendinblue_web_service = SendinblueWebService(self.env.user.company_id, self.env)
         return_get_lists = sendinblue_web_service.get_lists()
-        if return_get_lists['errors']==False:
-            if return_get_lists['response'].count>0:
+        if return_get_lists['errors'] == False:
+            if return_get_lists['response'].count > 0:
                 for list_item in return_get_lists['response'].lists:
-                    sendinblue_list_ids = self.env['sendinblue.list'].search([('sendinblue_id', '=', list_item['id'])])
-                    #sendinblue_folder_id
+                    sendinblue_list_ids = self.env['sendinblue.list'].search(
+                        [
+                            ('sendinblue_id', '=', list_item['id'])
+                        ]
+                    )
+                    # sendinblue_folder_id
                     sendinblue_folder_id = 0
-                    sendinblue_folder_ids = self.env['sendinblue.folder'].search([('sendinblue_id', '=', list_item['folderId'])])
-                    if len(sendinblue_folder_ids)>0:
+                    sendinblue_folder_ids = self.env['sendinblue.folder'].search(
+                        [
+                            ('sendinblue_id', '=', list_item['folderId'])
+                        ]
+                    )
+                    if sendinblue_folder_ids:
                         sendinblue_folder_id = sendinblue_folder_ids[0]['id']
                         
-                    if len(sendinblue_list_ids)>0:
+                    if sendinblue_list_ids:
                         sendinblue_list_obj = sendinblue_list_ids[0]
                         
                         sendinblue_list_obj.update({
@@ -53,11 +60,11 @@ class SendinblueList(models.Model):
                             'sendinblue_folder_id': sendinblue_folder_id,
                         })                        
                     else:
-                        sendinblue_list_vals = {
+                        vals = {
                             'sendinblue_id': list_item['id'],
                             'name': list_item['name'],
                             'total_blacklisted': list_item['totalBlacklisted'],
                             'total_subscribers': list_item['totalSubscribers'],
                             'sendinblue_folder_id': sendinblue_folder_id                                                                                                                 
                         }                        
-                        sendinblue_list_obj = self.env['sendinblue.list'].sudo().create(sendinblue_list_vals)                                       
+                        self.env['sendinblue.list'].sudo().create(vals)

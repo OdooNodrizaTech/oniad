@@ -15,7 +15,7 @@ class SendinblueFolder(models.Model):
         string='Sendinblue Id'
     )
     name = fields.Char(        
-        string='Nombre'
+        string='Name'
     )
     total_blacklisted = fields.Integer(        
         string='Total blacklisted'
@@ -24,18 +24,22 @@ class SendinblueFolder(models.Model):
         string='Total suscriptores'
     )
     unique_subscribers = fields.Integer(        
-        string='Suscriptores unicos'
+        string='Unique subscribers'
     )
     
     @api.model    
     def cron_get_folders(self):
         sendinblue_web_service = SendinblueWebService(self.env.user.company_id, self.env)
         return_get_folders = sendinblue_web_service.get_folders()
-        if return_get_folders['errors']==False:
-            if return_get_folders['response'].count>0:
+        if return_get_folders['errors'] == False:
+            if return_get_folders['response'].count > 0:
                 for folder in return_get_folders['response'].folders:
-                    sendinblue_folder_ids = self.env['sendinblue.folder'].search([('sendinblue_id', '=', folder['id'])])
-                    if len(sendinblue_folder_ids)>0:
+                    sendinblue_folder_ids = self.env['sendinblue.folder'].search(
+                        [
+                            ('sendinblue_id', '=', folder['id'])
+                        ]
+                    )
+                    if sendinblue_folder_ids:
                         sendinblue_folder_obj = sendinblue_folder_ids[0]
                         
                         sendinblue_folder_obj.update({
@@ -46,11 +50,11 @@ class SendinblueFolder(models.Model):
                             'unique_subscribers': folder['uniqueSubscribers'],
                         })                        
                     else:
-                        sendinblue_folder_vals = {
+                        vals = {
                             'sendinblue_id': folder['id'],
                             'name': folder['name'],
                             'total_blacklisted': folder['totalBlacklisted'],
                             'total_subscribers': folder['totalSubscribers'],
                             'unique_subscribers': folder['uniqueSubscribers']                                                                                                                 
                         }                        
-                        sendinblue_folder_obj = self.env['sendinblue.folder'].sudo().create(sendinblue_folder_vals)
+                        self.env['sendinblue.folder'].sudo().create(vals)

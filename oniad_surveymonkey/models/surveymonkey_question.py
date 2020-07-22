@@ -1,10 +1,7 @@
-# -*- coding: utf-8 -*-
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-from odoo import api, fields, models
-from datetime import datetime
 
-import logging
-_logger = logging.getLogger(__name__)
+from odoo import api, fields, models
+
 
 class SurveymonkeyQuestion(models.Model):
     _name = 'surveymonkey.question'
@@ -55,25 +52,33 @@ class SurveymonkeyQuestion(models.Model):
     
     @api.one    
     def process_answers(self, answers=False):
-        if answers!=False:
+        if answers:
             if 'rows' in answers:
                 for row in answers['rows']:
-                    surveymonkey_question_row_ids = self.env['surveymonkey.question.row'].search([('row_id', '=', row['id'])])
-                    if len(surveymonkey_question_row_ids)==0:
-                        surveymonkey_question_row_vals = {
+                    surveymonkey_question_row_ids = self.env['surveymonkey.question.row'].search(
+                        [
+                            ('row_id', '=', row['id'])
+                        ]
+                    )
+                    if len(surveymonkey_question_row_ids) == 0:
+                        vals = {
                             'row_id': row['id'],
                             'surveymonkey_question_id': self.id,
                             'position': row['position'],
                             'text': row['text']                                                                                                                                                                                             
                         }                        
-                        surveymonkey_question_row_obj = self.env['surveymonkey.question.row'].sudo().create(surveymonkey_question_row_vals)
+                        self.env['surveymonkey.question.row'].sudo().create(vals)
                         
-            #choices
+            # choices
             if 'choices' in answers:
                 for choice in answers['choices']:
-                    surveymonkey_question_choice_ids = self.env['surveymonkey.question.choice'].search([('choice_id', '=', choice['id'])])
-                    if len(surveymonkey_question_choice_ids)==0:
-                        surveymonkey_question_choice_vals = {
+                    surveymonkey_question_choice_ids = self.env['surveymonkey.question.choice'].search(
+                        [
+                            ('choice_id', '=', choice['id'])
+                        ]
+                    )
+                    if len(surveymonkey_question_choice_ids) == 0:
+                        vals = {
                             'choice_id': choice['id'],
                             'surveymonkey_question_id': self.id,
                             'position': choice['position'],
@@ -82,6 +87,6 @@ class SurveymonkeyQuestion(models.Model):
                         }
                         #description
                         if 'description' in choice:
-                            surveymonkey_question_choice_vals['description'] = choice['description']
+                            vals['description'] = choice['description']
                                                 
-                        surveymonkey_question_choice_obj = self.env['surveymonkey.question.choice'].sudo().create(surveymonkey_question_choice_vals)
+                        self.env['surveymonkey.question.choice'].sudo().create(vals)

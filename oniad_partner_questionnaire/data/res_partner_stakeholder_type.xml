@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
     <record id="res_partner_stakeholder_type_data_1" model="res.partner.stakeholder.type">
         <field name="id">1</field>
         <field name="name">Fan</field>
@@ -9,6 +10,7 @@
         <field name="association">False</field>
         <field name="communicator">False</field>
     </record>
+
     <record id="res_partner_stakeholder_type_data_2" model="res.partner.stakeholder.type">
         <field name="id">2</field>
         <field name="name">Inversor</field>
@@ -18,6 +20,7 @@
         <field name="association">False</field>
         <field name="communicator">False</field>        
     </record>
+
     <record id="res_partner_stakeholder_type_data_3" model="res.partner.stakeholder.type">
         <field name="id">3</field>
         <field name="name">Profesor</field>
@@ -26,7 +29,8 @@
         <field name="teacher">True</field>
         <field name="association">False</field>
         <field name="communicator">False</field>        
-    </record>        
+    </record>
+
     <record id="res_partner_stakeholder_type_data_4" model="res.partner.stakeholder.type">
         <field name="id">4</field>
         <field name="name">Asociación</field>
@@ -36,6 +40,7 @@
         <field name="association">True</field>
         <field name="communicator">False</field>        
     </record>
+
     <record id="res_partner_stakeholder_type_data_5" model="res.partner.stakeholder.type">
         <field name="id">5</field>
         <field name="name">Comunicador</field>
@@ -45,4 +50,5 @@
         <field name="association">False</field>
         <field name="communicator">True</field>        
     </record>
+
 </odoo>

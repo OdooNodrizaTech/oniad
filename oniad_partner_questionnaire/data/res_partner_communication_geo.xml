@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
     <record id="res_partner_communication_geo_data_1" model="res.partner.communication.geo">
         <field name="id">1</field>
         <field name="name">Local / Regional</field>
     </record>
+
     <record id="res_partner_communication_geo_data_2" model="res.partner.communication.geo">
         <field name="id">2</field>
         <field name="name">Nacional</field>
-    </record>             
+    </record>
+
     <record id="res_partner_communication_geo_data_3" model="res.partner.communication.geo">
         <field name="id">3</field>
         <field name="name">Internacional</field>
-    </record>       
+    </record>
+
 </odoo>

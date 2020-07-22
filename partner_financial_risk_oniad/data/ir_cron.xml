@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="1">
+
     <record id="cron_oniad_address_credit_limit_send_sns_custom" forcecreate="True" model="ir.cron">
         <field name="name">Oniad Address Credit Limit Send Sns Custom</field>
         <field name="active" eval="False"/>
@@ -12,4 +13,5 @@
         <field name="state">code</field>
         <field name="code">model.cron_oniad_address_credit_limit_send_sns_custom()</field>
     </record>
+
 </odoo>

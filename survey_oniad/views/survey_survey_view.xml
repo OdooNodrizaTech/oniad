@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+
     <record id="survey_oniad_survey_tree" model="ir.ui.view">
         <field name="model">survey.survey</field>
         <field name="inherit_id" ref="survey.survey_tree"/>
@@ -9,7 +10,8 @@
                 <field name="oniad_user_type" />                                
             </field>
         </field>
-    </record> 
+    </record>
+
     <record id="survey_oniad_survey_form" model="ir.ui.view">
         <field name="model">survey.survey</field>
         <field name="inherit_id" ref="survey.survey_form"/>
@@ -20,5 +22,6 @@
                 <field name="oniad_campaign_spent_limit_from" attrs="{'invisible': [('survey_subtype','=','why_not')]}" />                                
             </field>            
         </field>
-    </record>      
+    </record>
+
 </odoo>

@@ -1,53 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
     <record id="res_partner_agency_activity_data_1" model="res.partner.agency.activity">
         <field name="id">1</field>
         <field name="name">Web / Ecommerce</field>
     </record>
+
     <record id="res_partner_agency_activity_data_2" model="res.partner.agency.activity">
         <field name="id">2</field>
         <field name="name">ERP / CRM</field>
-    </record>                       
+    </record>
+
     <record id="res_partner_agency_activity_data_3" model="res.partner.agency.activity">
         <field name="id">3</field>
         <field name="name">SEM / PPC / Social Ads</field>
     </record>
+
     <record id="res_partner_agency_activity_data_4" model="res.partner.agency.activity">
         <field name="id">4</field>
         <field name="name">RTB / Programatic</field>
     </record>
+
     <record id="res_partner_agency_activity_data_5" model="res.partner.agency.activity">
         <field name="id">5</field>
         <field name="name">Afiliacion / Email</field>
     </record>
+
     <record id="res_partner_agency_activity_data_6" model="res.partner.agency.activity">
         <field name="id">6</field>
         <field name="name">Community Management</field>
     </record>
+
     <record id="res_partner_agency_activity_data_7" model="res.partner.agency.activity">
         <field name="id">7</field>
         <field name="name">Compra de medios</field>
     </record>
+
     <record id="res_partner_agency_activity_data_8" model="res.partner.agency.activity">
         <field name="id">1</field>
         <field name="name">Diseño gráfico</field>
     </record>
+
     <record id="res_partner_agency_activity_data_9" model="res.partner.agency.activity">
         <field name="id">9</field>
         <field name="name">Impresion y merchandising</field>
     </record>
+
     <record id="res_partner_agency_activity_data_10" model="res.partner.agency.activity">
         <field name="id">10</field>
         <field name="name">Branding</field>
     </record>
+
     <record id="res_partner_agency_activity_data_11" model="res.partner.agency.activity">
         <field name="id">11</field>
         <field name="name">Audiovisual</field>
     </record>
+
     <record id="res_partner_agency_activity_data_12" model="res.partner.agency.activity">
         <field name="id">12</field>
         <field name="name">Gabinete de prensa</field>
     </record>
+
     <record id="res_partner_agency_activity_data_13" model="res.partner.agency.activity">
         <field name="id">13</field>
         <field name="name">Eventos</field>

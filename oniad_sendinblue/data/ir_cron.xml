@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="1">
+
     <record id="cron_sendinblue_get_attributes" forcecreate="True" model="ir.cron">
         <field name="name">Cron Sendinblue Get Attributes</field>
         <field name="active" eval="False"/>
@@ -12,6 +13,7 @@
         <field name="state">code</field>
         <field name="code">model.cron_get_attributes()</field>
     </record>
+
     <record id="cron_auto_generate_leads_sendinblue" forcecreate="True" model="ir.cron">
         <field name="name">Cron Auto Generate Leads Sendinblue</field>
         <field name="active" eval="False"/>
@@ -24,6 +26,7 @@
         <field name="state">code</field>
         <field name="code">model.cron_auto_generate_leads_sendinblue()</field>
     </record>
+
     <record id="cron_sendinblue_get_contacts" forcecreate="True" model="ir.cron">
         <field name="name">Cron Sendinblue Get Contacts</field>
         <field name="active" eval="False"/>
@@ -36,6 +39,7 @@
         <field name="state">code</field>
         <field name="code">model.cron_get_contacts()</field>
     </record>
+
     <record id="cron_sendinblue_get_folders" forcecreate="True" model="ir.cron">
         <field name="name">Cron Sendinblue Get Folders</field>
         <field name="active" eval="False"/>
@@ -48,6 +52,7 @@
         <field name="state">code</field>
         <field name="code">model.cron_get_folders()</field>
     </record>
+
     <record id="cron_sendinblue_get_lists" forcecreate="True" model="ir.cron">
         <field name="name">Cron Sendinblue Get Lists</field>
         <field name="active" eval="False"/>
@@ -60,4 +65,5 @@
         <field name="state">code</field>
         <field name="code">model.cron_get_lists()</field>
     </record>
+
 </odoo>

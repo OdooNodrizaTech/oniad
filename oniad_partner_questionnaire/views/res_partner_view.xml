@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <odoo>
+
     <record id="oniad_partner_questionnaire_view_partner_tree" model="ir.ui.view">
         <field name="name">oniad_partner_questionnaire_view_partner_tree</field>
         <field name="model">res.partner</field>
@@ -12,6 +13,7 @@
             </field>            
         </field>
     </record>
+
     <record id="oniad_partner_questionnaire_view_partner_form" model="ir.ui.view">
         <field name="name">oniad_partner_questionnaire_view_partner_form</field>
         <field name="model">res.partner</field>
@@ -62,101 +64,121 @@
             </page>
         </field>
     </record>
+
     <record id="partner_partner_type_action" model="ir.actions.act_window">
         <field name="name">Partner types</field>
         <field name="res_model">res.partner.partner.type</field>
         <field name="view_mode">tree,form</field>                
     </record>
+
     <record id="partner_stakeholder_type_action" model="ir.actions.act_window">
         <field name="name">Stakeholder types</field>
         <field name="res_model">res.partner.stakeholder.type</field>
         <field name="view_mode">tree,form</field>                
     </record>
+
     <record id="partner_fan_level_action" model="ir.actions.act_window">
         <field name="name">Fan levels</field>
         <field name="res_model">res.partner.fan.level</field>
         <field name="view_mode">tree,form</field>                
     </record>
+
     <record id="partner_inversor_type_action" model="ir.actions.act_window">
         <field name="name">Inversor types</field>
         <field name="res_model">res.partner.inversor.type</field>
         <field name="view_mode">tree,form</field>                
     </record>
+
     <record id="partner_educational_center_type_action" model="ir.actions.act_window">
         <field name="name">Educational center types</field>
         <field name="res_model">res.partner.educational.center.type</field>
         <field name="view_mode">tree,form</field>                
     </record>
+
     <record id="partner_formation_type_action" model="ir.actions.act_window">
         <field name="name">Formation types</field>
         <field name="res_model">res.partner.formation.type</field>
         <field name="view_mode">tree,form</field>                
     </record>
+
     <record id="partner_asociation_type_action" model="ir.actions.act_window">
         <field name="name">Asociation types</field>
         <field name="res_model">res.partner.asociation.type</field>
         <field name="view_mode">tree,form</field>                
     </record>
+
     <record id="partner_asociation_geo_action" model="ir.actions.act_window">
         <field name="name">Asociation geos</field>
         <field name="res_model">res.partner.asociation.geo</field>
         <field name="view_mode">tree,form</field>                
     </record>
+
     <record id="partner_social_network_action" model="ir.actions.act_window">
         <field name="name">Social networks</field>
         <field name="res_model">res.partner.social.network</field>
         <field name="view_mode">tree,form</field>                
     </record>
+
     <record id="partner_communication_area_action" model="ir.actions.act_window">
         <field name="name">Communication areas</field>
         <field name="res_model">res.partner.communication.area</field>
         <field name="view_mode">tree,form</field>                
     </record>
+
     <record id="partner_communication_geo_action" model="ir.actions.act_window">
         <field name="name">Communication geos</field>
         <field name="res_model">res.partner.communication.geo</field>
         <field name="view_mode">tree,form</field>                
     </record>
+
     <record id="partner_communicator_type_action" model="ir.actions.act_window">
         <field name="name">Communicator types</field>
         <field name="res_model">res.partner.communicator.type</field>
         <field name="view_mode">tree,form</field>                
-    </record>    
+    </record>
+
     <record id="partner_user_type_action" model="ir.actions.act_window">
         <field name="name">User types</field>
         <field name="res_model">res.partner.user.type</field>
         <field name="view_mode">tree,form</field>                
     </record>
+
     <record id="partner_customer_type_action" model="ir.actions.act_window">
         <field name="name">Customer types</field>
         <field name="res_model">res.partner.customer.type</field>
         <field name="view_mode">tree,form</field>                
     </record>
+
     <record id="partner_agency_type_action" model="ir.actions.act_window">
         <field name="name">Agencty types</field>
         <field name="res_model">res.partner.agency.type</field>
         <field name="view_mode">tree,form</field>                
     </record>
+
     <record id="partner_market_target_action" model="ir.actions.act_window">
         <field name="name">Market targets</field>
         <field name="res_model">res.partner.market.target</field>
         <field name="view_mode">tree,form</field>                
     </record>
+
     <record id="partner_sector_action" model="ir.actions.act_window">
         <field name="name">Sectors</field>
         <field name="res_model">res.partner.sector</field>
         <field name="view_mode">tree,form</field>                
     </record>
+
     <record id="partner_activity_action" model="ir.actions.act_window">
         <field name="name">Activities</field>
         <field name="res_model">res.partner.activity</field>
         <field name="view_mode">tree,form</field>                
     </record>
+
     <record id="partner_agency_activity_action" model="ir.actions.act_window">
         <field name="name">Agency activities</field>
         <field name="res_model">res.partner.agency.activity</field>
         <field name="view_mode">tree,form</field>                
-    </record>     
+    </record>
+
     <menuitem 
         id="menu_odoo_oniad_partner_questionnaire" 
         name="Oniad Partner Questionnaire"

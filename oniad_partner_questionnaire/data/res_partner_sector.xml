@@ -1,95 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
     <record id="res_partner_sector_data_93" model="res.partner.sector">
         <field name="id">93</field>
         <field name="name">Banca</field>
     </record>
+
     <record id="res_partner_sector_data_94" model="res.partner.sector">
         <field name="id">94</field>
         <field name="name">Belleza</field>
     </record>
+
     <record id="res_partner_sector_data_95" model="res.partner.sector">
         <field name="id">95</field>
         <field name="name">Coches</field>
-    </record>                       
+    </record>
+
     <record id="res_partner_sector_data_96" model="res.partner.sector">
         <field name="id">96</field>
         <field name="name">Construccion</field>
     </record>
+
     <record id="res_partner_sector_data_97" model="res.partner.sector">
         <field name="id">97</field>
         <field name="name">Deportes</field>
     </record>
+
     <record id="res_partner_sector_data_98" model="res.partner.sector">
         <field name="id">98</field>
         <field name="name">Despachos</field>
     </record>
+
     <record id="res_partner_sector_data_99" model="res.partner.sector">
         <field name="id">99</field>
         <field name="name">Empresas de transporte</field>
     </record>
+
     <record id="res_partner_sector_data_100" model="res.partner.sector">
         <field name="id">100</field>
         <field name="name">Enseñanza</field>
     </record>
+
     <record id="res_partner_sector_data_101" model="res.partner.sector">
         <field name="id">101</field>
         <field name="name">Hogar</field>
     </record>
+
     <record id="res_partner_sector_data_102" model="res.partner.sector">
         <field name="id">102</field>
         <field name="name">Hotel</field>
     </record>
+
     <record id="res_partner_sector_data_103" model="res.partner.sector">
         <field name="id">103</field>
         <field name="name">Informática</field>
     </record>
+
     <record id="res_partner_sector_data_104" model="res.partner.sector">
         <field name="id">104</field>
         <field name="name">Jardinería</field>
     </record>
+
     <record id="res_partner_sector_data_105" model="res.partner.sector">
         <field name="id">105</field>
         <field name="name">Muebles</field>
     </record>
+
     <record id="res_partner_sector_data_106" model="res.partner.sector">
         <field name="id">106</field>
         <field name="name">Ocio</field>
     </record>
+
     <record id="res_partner_sector_data_107" model="res.partner.sector">
         <field name="id">107</field>
         <field name="name">Pisos</field>
     </record>
+
     <record id="res_partner_sector_data_108" model="res.partner.sector">
         <field name="id">108</field>
         <field name="name">Profesionales</field>
     </record>
+
     <record id="res_partner_sector_data_109" model="res.partner.sector">
         <field name="id">109</field>
         <field name="name">Publicidad</field>
     </record>
+
     <record id="res_partner_sector_data_110" model="res.partner.sector">
         <field name="id">110</field>
         <field name="name">Restaurantes</field>
-    </record>                                                        
+    </record>
+
     <record id="res_partner_sector_data_111" model="res.partner.sector">
         <field name="id">111</field>
         <field name="name">Salud</field>
     </record>
+
     <record id="res_partner_sector_data_112" model="res.partner.sector">
         <field name="id">112</field>
         <field name="name">Seguridad</field>
     </record>
+
     <record id="res_partner_sector_data_113" model="res.partner.sector">
         <field name="id">113</field>
         <field name="name">Seguros</field>
-    </record>        
+    </record>
+
     <record id="res_partner_sector_data_114" model="res.partner.sector">
         <field name="id">114</field>
         <field name="name">Servicio a empresas</field>
     </record>
+
     <record id="res_partner_sector_data_115" model="res.partner.sector">
         <field name="id">115</field>
         <field name="name">Viajes</field>
-    </record>                
+    </record>
+
 </odoo>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
     <record id="oniad_root_view_account_payment_form" model="ir.ui.view">
         <field name="name">oniad_root_view_account_payment_form</field>
         <field name="model">account.payment</field>
@@ -12,5 +13,6 @@
                 <field name="oniad_transaction_id" readonly="1"/>
             </field>                        
         </field>
-    </record>                          
+    </record>
+
 </odoo>

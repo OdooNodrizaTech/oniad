@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
     <record id="res_partner_communication_area_data_1" model="res.partner.communication.area">
         <field name="id">1</field>
         <field name="name">Generalista</field>
     </record>
+
     <record id="res_partner_communication_area_data_2" model="res.partner.communication.area">
         <field name="id">2</field>
         <field name="name">Economía / Empresa</field>
     </record>
+
     <record id="res_partner_communication_area_data_3" model="res.partner.communication.area">
         <field name="id">3</field>
         <field name="name">Emprendedores / Startup</field>
     </record>
+
     <record id="res_partner_communication_area_data_4" model="res.partner.communication.area">
         <field name="id">4</field>
         <field name="name">Otros</field>
-    </record>                
+    </record>
+
 </odoo>

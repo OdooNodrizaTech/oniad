@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
     <record id="res_partner_partner_type_data_1" model="res.partner.partner.type">
         <field name="id">1</field>
         <field name="name">Stakeholder</field>
         <field name="stakeholder">True</field>
         <field name="user">False</field>
     </record>
+
     <record id="res_partner_partner_type_data_2" model="res.partner.partner.type">
         <field name="id">2</field>
         <field name="name">Usuario</field>
         <field name="stakeholder">False</field>
         <field name="user">True</field>
-    </record>        
+    </record>
+    
 </odoo>

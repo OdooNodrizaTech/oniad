@@ -1,10 +1,7 @@
-# -*- coding: utf-8 -*-
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-from odoo import api, fields, models, tools
-import json
 
-import logging
-_logger = logging.getLogger(__name__)
+from odoo import api, models, tools
+
 
 class OniadAddress(models.Model):
     _inherit = 'oniad.address'
@@ -18,13 +15,13 @@ class OniadAddress(models.Model):
             {                    
                 "title": 'El VAT es incorrecto',
                 "text": vat,                        
-                "color": "#ff0000",                                             
-                "fallback": "Ver oniad address "+str(web_base_url)+"/web?#id="+str(id)+"&view_type=form&model=oniad.address",                                    
+                "color": "#ff0000",
+                "fallback": "Ver oniad address %s/web?#id=%s&view_type=form&model=oniad.address" % (web_base_url, id),
                 "actions": [
                     {
                         "type": "button",
                         "text": "Ver registro",
-                        "url": str(web_base_url)+"/web?#id="+str(id)+"&view_type=form&model=oniad.address"
+                        "url": "%s/web?#id=%s&view_type=form&model=oniad.address" % (web_base_url, id)
                     }
                 ],
                 "fields": [                    
@@ -41,11 +38,11 @@ class OniadAddress(models.Model):
                 ],                    
             }
         ]        
-        slack_message_vals = {                        
+        vals = {
             'attachments': attachments,
             'model': self._inherit,
             'res_id': self.id,
             'as_user': True,
             'channel': slack_log_channel,                                                         
         }                        
-        slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
+        self.env['slack.message'].sudo().create(vals)

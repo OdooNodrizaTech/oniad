@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="1">
+
     <record id="cron_sale_order_uuid_generate" forcecreate="True" model="ir.cron">
         <field name="name">Sale Order Uuid Generate</field>
         <field name="active" eval="False"/>
@@ -12,6 +13,7 @@
         <field name="state">code</field>
         <field name="code">model.cron_sale_order_uuid_generate()</field>
     </record>
+
     <record id="cron_sale_order_upload_to_s3_generate" forcecreate="True" model="ir.cron">
         <field name="name">Sale Order Upload to S3</field>
         <field name="active" eval="False"/>
@@ -24,4 +26,5 @@
         <field name="state">code</field>
         <field name="code">model.cron_sale_order_upload_to_s3_generate()</field>
     </record>
+
 </odoo>

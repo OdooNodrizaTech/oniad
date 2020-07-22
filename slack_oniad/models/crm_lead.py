@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-from odoo import api, fields, models, tools
+
+from odoo import api, models, tools
 from datetime import datetime
 
-import logging
-_logger = logging.getLogger(__name__)
 
 class CrmLead(models.Model):
     _inherit = 'crm.lead'
@@ -14,45 +12,45 @@ class CrmLead(models.Model):
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         slack_log_channel = self.env['ir.config_parameter'].sudo().get_param('slack_log_channel')
         
-        if self.type=='lead':
+        if self.type == 'lead':
             attachments = [
-                {                    
-                    "title": 'Se ha creado la iniciativa *'+str(self.name)+'* desde Sendinblue',                        
-                    "color": "#36a64f",                                            
-                    "fallback": "Ver iniciativa "+str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=crm.lead",
+                {
+                    "title": 'Se ha creado la iniciativa *%s* desde Sendinblue' % sefl.name,
+                    "color": "#36a64f",
+                    "fallback": "Ver iniciativa %s/web?#id=%s&view_type=form&model=crm.lead" % (web_base_url, self.id),
                     "actions": [
                         {
                             "type": "button",
                             "text": "Ver iniciativa",
-                            "url": str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=crm.lead"
+                            "url": "%s/web?#id=%s&view_type=form&model=crm.lead" % (web_base_url, self.id)
                         }
                     ]                    
                 }
             ]
         else:
             attachments = [
-                {                    
-                    "title": 'Se ha creado la oportunidad *'+str(self.name)+'* desde Sendinblue',                        
-                    "color": "#36a64f",                                            
-                    "fallback": "Ver flujo de ventas "+str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=crm.lead",
+                {
+                    "title": 'Se ha creado la oportunidad *%s* desde Sendinblue' % sefl.name,
+                    "color": "#36a64f",
+                    "fallback": "Ver flujo de ventas %s/web?#id=%s&view_type=form&model=crm.lead" % (web_base_url, self.id),
                     "actions": [
                         {
                             "type": "button",
                             "text": "Ver flujo de ventas",
-                            "url": str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=crm.lead"
+                            "url": "%s/web?#id=%s&view_type=form&model=crm.lead" % (web_base_url, self.id)
                         }
                     ]                    
                 }
             ]                                   
         
-        slack_message_vals = {                        
+        vals = {
             'attachments': attachments,
             'model': self._inherit,
             'res_id': self.id,
             'as_user': True,
             'channel': slack_log_channel,                                                         
         }                        
-        slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
+        self.env['slack.message'].sudo().create(vals)
     
     @api.multi
     def cron_action_leads_date_deadline_today(self, cr=None, uid=False, context=None):
@@ -67,30 +65,29 @@ class CrmLead(models.Model):
                 ('date_deadline', '=', current_date.strftime("%Y-%m-%d"))
             ]
         )        
-        if crm_lead_ids!=False:
+        if crm_lead_ids:
             for crm_lead_id in crm_lead_ids:
-                if crm_lead_id.id>0:
-                    if crm_lead_id.user_id.slack_member_id!=False:
+                if crm_lead_id:
+                    if crm_lead_id.user_id.slack_member_id:
                         attachments = [
-                            {                    
-                                "title": 'Te recordamos que hoy es el cierre previsto del flujo  *'+str(crm_lead_id.name)+'*',                        
-                                "color": "#36a64f",                                            
-                                "fallback": "Ver flujo de ventas "+str(web_base_url)+"/web?#id="+str(crm_lead_id.id)+"&view_type=form&model=crm.lead",
+                            {
+                                "title": 'Te recordamos que hoy es el cierre previsto del flujo  *%s*' % crm_lead_id.name,
+                                "color": "#36a64f",
+                                "fallback": "Ver flujo de ventas %s/web?#id=%s&view_type=form&model=crm.lead" % (web_base_url, crm_lead_id.id),
                                 "actions": [
                                     {
                                         "type": "button",
                                         "text": "Ver flujo de ventas",
-                                        "url": str(web_base_url)+"/web?#id="+str(crm_lead_id.id)+"&view_type=form&model=crm.lead"
+                                        "url": "%s/web?#id=%s&view_type=form&model=crm.lead" % (web_base_url, crm_lead_id.id)
                                     }
                                 ]                    
                             }
-                        ]                        
-                        
-                        slack_message_vals = {                        
+                        ]
+                        vals = {
                             'attachments': attachments,
                             'model': self._inherit,
                             'res_id': crm_lead_id.id,
                             'as_user': True,
                             'channel': crm_lead_id.user_id.slack_member_id,                                                         
                         }                        
-                        slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
+                        self.env['slack.message'].sudo().create(vals)

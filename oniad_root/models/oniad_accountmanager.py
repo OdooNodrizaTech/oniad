@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-from odoo import api, fields, models, tools
+from odoo import api, fields, models, tools, _
 import json
 
 import logging
@@ -12,17 +11,7 @@ from botocore.exceptions import ClientError
 class OniadAccountmanager(models.Model):
     _name = 'oniad.accountmanager'
     _description = 'Oniad Accountmanager'
-    
-    name = fields.Char(        
-        compute='_get_name',
-        string='Nombre',
-        store=False
-    )
-    
-    @api.one        
-    def _get_name(self):            
-        for obj in self:
-            obj.name = obj.email
+    _rec_name = 'email'
             
     user_id = fields.Many2one(
         comodel_name='res.users',
@@ -40,7 +29,7 @@ class OniadAccountmanager(models.Model):
         AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')        
         AWS_SECRET_ACCESS_KEY = tools.config.get('aws_secret_key_id')
         AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')                        
-        #boto3
+        # boto3
         sqs = boto3.client(
             'sqs',
             region_name=AWS_SMS_REGION_NAME, 
@@ -60,54 +49,58 @@ class OniadAccountmanager(models.Model):
                 total_messages = len(response['Messages'])
             else:
                 total_messages = 0
-            #continue
+            # continue
             if 'Messages' in response:
                 for message in response['Messages']:
-                    #message_body           
+                    # message_body
                     message_body = json.loads(message['Body'])
-                    #fix message
+                    # fix message
                     if 'Message' in message_body:
                         message_body = json.loads(message_body['Message'])
-                    #result_message
+                    # result_message
                     result_message = {
                         'statusCode': 200,
                         'return_body': 'OK',
                         'message': message_body
                     }
-                    #fields_need_check
+                    # fields_need_check
                     fields_need_check = ['id']
                     for field_need_check in fields_need_check:
                         if field_need_check not in message_body:
                             result_message['statusCode'] = 500
-                            result_message['return_body'] = 'No existe el campo '+str(field_need_check)
-                    #operations
-                    if result_message['statusCode']==200:
+                            result_message['return_body'] = _('The field does not exist %s') % field_need_check
+                    # operations
+                    if result_message['statusCode'] == 200:
                         previously_found = False
                         id_item = int(message_body['id'])
-                        oniad_accountmanager_ids = self.env['oniad.accountmanager'].search([('id', '=', id_item)])
-                        if len(oniad_accountmanager_ids)>0:
+                        oniad_accountmanager_ids = self.env['oniad.accountmanager'].search(
+                            [
+                                ('id', '=', id_item)
+                            ]
+                        )
+                        if oniad_accountmanager_ids:
                             previously_found = True
-                        #params
-                        data_oniad_accountmanager = {
+                        # params
+                        vals = {
                             'email': str(message_body['email'])
                         }
-                        #add_id
-                        if previously_found==False:
-                            data_oniad_accountmanager['id'] = int(message_body['id'])                                            
-                        #final_operations
-                        _logger.info(data_oniad_accountmanager)
-                        #create-write
-                        if previously_found==False:                            
-                            oniad_accountmanager_obj = self.env['oniad.accountmanager'].sudo().create(data_oniad_accountmanager)
+                        # add_id
+                        if previously_found == False:
+                            vals['id'] = int(message_body['id'])
+                        # final_operations
+                        _logger.info(vals)
+                        # create-write
+                        if previously_found == False:
+                            self.env['oniad.accountmanager'].sudo().create(vals)
                         else:
                             oniad_accountmanager_id = oniad_accountmanager_ids[0]
                             #write
-                            oniad_accountmanager_id.write(data_oniad_accountmanager)                                                    
-                    #final_operations
-                    result_message['data'] = data_oniad_accountmanager
+                            oniad_accountmanager_id.write(vals)
+                    # final_operations
+                    result_message['data'] = vals
                     _logger.info(result_message)
-                    #remove_message                
-                    if result_message['statusCode']==200:                
+                    # remove_message
+                    if result_message['statusCode'] == 200:
                         response_delete_message = sqs.delete_message(
                             QueueUrl=sqs_oniad_accountmanager_url,
                             ReceiptHandle=message['ReceiptHandle']

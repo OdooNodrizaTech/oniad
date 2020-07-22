@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>   
+<odoo>
+
     <record id="oniad_sendinblue_crm_case_form_view_oppor" model="ir.ui.view">
         <field name="name">oniad_sendinblue_crm_case_form_view_oppor</field>
         <field name="model">crm.lead</field>
@@ -12,6 +13,7 @@
             </field>                                                
         </field>
     </record>
+
     <record id="oniad_sendinblue_crm_case_tree_view_oppor" model="ir.ui.view">
         <field name="name">oniad_sendinblue_crm_case_tree_view_oppor</field>
         <field name="model">crm.lead</field>
@@ -24,6 +26,7 @@
             </field>                                                
         </field>
     </record>
+
     <record id="oniad_sendinblue_crm_case_tree_view_leads" model="ir.ui.view">
         <field name="name">oniad_sendinblue_crm_case_tree_view_leads</field>
         <field name="model">crm.lead</field>
@@ -36,6 +39,7 @@
             </field>                                                
         </field>
     </record>
+
     <record id="oniad_sendinblue_crm_case_form_view_leads" model="ir.ui.view">
         <field name="name">oniad_sendinblue_crm_case_form_view_leads</field>
         <field name="model">crm.lead</field>
@@ -47,5 +51,6 @@
                 <field name="sendinblue_list_id" readonly="1" />                
             </field>                                                
         </field>
-    </record>          
+    </record>
+
 </odoo>

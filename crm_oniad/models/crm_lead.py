@@ -25,11 +25,11 @@ class CrmLead(models.Model):
         string='Website'
     )
     marketing_campaign = fields.Boolean( 
-        string='Campana de marketing'
+        string='Marketing campaign'
     )    
     activities_count = fields.Integer(
         compute='_compute_activities_count',
-        string="Actividades",
+        string="Activities",
     )
     commercial_activity_type = fields.Selection(
         selection=[
@@ -50,18 +50,18 @@ class CrmLead(models.Model):
     )
     lead_oniad_type = fields.Selection(
         selection=[
-            ('welcome','Bienvenida'), 
-            ('sleep','Dormido'), 
-            ('catchment','Captacion'),
-            ('other','Otro')                         
+            ('welcome','Welcome'),
+            ('sleep','Sleep'),
+            ('catchment','Catchment'),
+            ('other','Other')
         ],
         string='Lead type'
     )                                        
     
     @api.onchange('type')
     def onchange_type(self):
-        if self._origin.id==False:        
-            if self.type=='lead':
+        if self._origin.id == False:
+            if self.type == 'lead':
                 self.commercial_activity_type = 'hunter'
                 self.lead_oniad_type = 'catchment'
             else:
@@ -76,24 +76,24 @@ class CrmLead(models.Model):
         value_commercial_activity_type = values.get('commercial_activity_type')
         value_lead_oniad_type = values.get('lead_oniad_type')
                 
-        if value_type=='lead':
-            if value_commercial_activity_type!='hunter':
+        if value_type == 'lead':
+            if value_commercial_activity_type != 'hunter':
                 allow_create = False
                 raise Warning(_("An lead must have the type of commercial activity 'Hunter'"))
                 
-            if allow_create==True and value_lead_oniad_type!='catchment':
+            if allow_create and value_lead_oniad_type != 'catchment':
                 allow_create = False
                 raise Warning(_("An lead must have the type of lead to 'Capture'"))
         else:
-            if value_commercial_activity_type!='account':
+            if value_commercial_activity_type != 'account':
                 allow_create = False
                 raise Warning(_("A opportunity must have the business type 'Account'"))
                 
-            if allow_create==True and value_lead_oniad_type=='catchment':
+            if allow_create and value_lead_oniad_type == 'catchment':
                 allow_create = False
                 raise Warning(_("A opportunity must not have the lead type 'Capture'"))
     
-        if allow_create==True:
+        if allow_create:
             return_val = super(CrmLead, self).create(values)
             return return_val
                 
@@ -106,7 +106,7 @@ class CrmLead(models.Model):
                     
     @api.one
     def convert_opportunity_create_partner(self, user_ids=False, team_id=False):
-        if self.type=='lead':            
+        if self.type == 'lead':
             result_partner_ids = super(CrmLead, self).handle_partner_assignation('create', False)
             partner_id = result_partner_ids[self.id]
             return super(CrmLead, self).convert_opportunity(partner_id, user_ids, team_id)
@@ -121,16 +121,16 @@ class CrmLead(models.Model):
     
     @api.multi
     def action_set_won(self):
-        #done_user_id
+        # done_user_id
         for lead in self:
             lead.done_user_id = lead.user_id
-        #super
+        # super
         return super(CrmLead, self).action_set_won()                                                                    
                 
     @api.depends('date_deadline')
     def _compute_day_deadline(self):
         for lead in self:
-            if lead.date_deadline!=False:
+            if lead.date_deadline:
                 current_date = fields.Datetime.from_string(str(datetime.today().strftime("%Y-%m-%d")))
                 date_deadline = fields.Datetime.from_string(lead.date_deadline)        
                 lead.day_deadline = (date_deadline - current_date).days                                                          

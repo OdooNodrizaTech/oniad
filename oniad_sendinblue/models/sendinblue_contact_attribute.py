@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-from odoo import api, fields, models
 
-import logging
-_logger = logging.getLogger(__name__)
+from odoo import fields, models
+
 
 class SendinblueContactAttribute(models.Model):
     _name = 'sendinblue.contact.attribute'
@@ -11,16 +9,16 @@ class SendinblueContactAttribute(models.Model):
     
     sendinblue_contact_id = fields.Many2one(
         comodel_name='sendinblue.contact',
-        string='Sendinblue Contacto'
+        string='Sendinblue Contact'
     )
     sendinblue_attribute_id = fields.Many2one(
         comodel_name='sendinblue.attribute',
-        string='Sendinblue Atributos'
+        string='Sendinblue Attribute'
     )
     sendinblue_enumeration_id = fields.Many2one(
         comodel_name='sendinblue.enumeration',
         string='Sendinblue Enumeration'
     )
     value = fields.Char(        
-        string='Valor'
+        string='Value'
     )    

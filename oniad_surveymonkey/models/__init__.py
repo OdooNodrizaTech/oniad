@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 from . import surveymonkey_survey_page
 from . import surveymonkey_question
 from . import surveymonkey_question_row

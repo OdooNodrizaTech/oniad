@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
     <record id="res_partner_educational_center_type_data_1" model="res.partner.educational.center.type">
         <field name="id">1</field>
         <field name="name">Academia</field>
     </record>
+
     <record id="res_partner_educational_center_type_data_2" model="res.partner.educational.center.type">
         <field name="id">2</field>
         <field name="name">Escuela de negocios</field>
     </record>
+
     <record id="res_partner_educational_center_type_data_3" model="res.partner.educational.center.type">
         <field name="id">3</field>
         <field name="name">Universidad</field>
     </record>
+
     <record id="res_partner_educational_center_type_data_4" model="res.partner.educational.center.type">
         <field name="id">4</field>
         <field name="name">Libre</field>
-    </record>            
+    </record>
+
 </odoo>

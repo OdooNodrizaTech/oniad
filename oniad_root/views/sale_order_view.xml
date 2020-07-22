@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
     <record id="oniad_root_sale_order_view_search_inherit_quotation" model="ir.ui.view">
         <field name="name">oniad_root_sale_order_view_search_inherit_quotation</field>
         <field name="model">sale.order</field>
@@ -10,6 +11,7 @@
             </field>
         </field>
     </record>
+
     <record id="oniad_root_sale_order_view_search_inherit_sale" model="ir.ui.view">
         <field name="name">oniad_root_sale_order_view_search_inherit_sale</field>
         <field name="model">sale.order</field>
@@ -20,6 +22,7 @@
             </field>
         </field>
     </record>
+
     <record id="oniad_root_view_order_form" model="ir.ui.view">
         <field name="name">oniad_root_view_order_form</field>
         <field name="model">sale.order</field>
@@ -34,9 +37,10 @@
             </xpath>
             <xpath expr="//div[@name='button_box']" position="inside">
                 <button class="oe_stat_button" type="action" name="%(oniad_root.oniad_transaction_type_action)d" icon="fa-bars"  context="{'search_default_sale_order_id': active_id}">
-                    <field string="Transacciones" name="oniad_transaction_count" widget="statinfo"/>
+                    <field string="Transactions" name="oniad_transaction_count" widget="statinfo"/>
                 </button>
             </xpath>
         </field>
     </record>
+
 </odoo>

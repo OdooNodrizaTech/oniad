@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 from odoo import api, models, fields
 
@@ -17,30 +16,30 @@ class ResPartnerCustom(models.Model):
     def change_oa_qt_partner_type(self):
        self._get_oa_qt_show_stakeholder_tab()
        self._get_oa_qt_show_user_tab()
-    #calculate field show_stakeholdert_tab       
+    # alculate field show_stakeholdert_tab
     oa_qt_show_stakeholder_tab = fields.Boolean(
         compute='_get_oa_qt_show_stakeholder_tab',
         store=False
     )    
-    @api.one        
+    @api.one
     def _get_oa_qt_show_stakeholder_tab(self):
         for partner_obj in self:          
             partner_obj.oa_qt_show_stakeholder_tab = False            
             for item in partner_obj.oa_qt_partner_type:            
-                if item.stakeholder==True:
+                if item.stakeholder:
                     partner_obj.oa_qt_show_stakeholder_tab = True
                          
-    #calculate field user tab
+    # calculate field user tab
     oa_qt_show_user_tab = fields.Boolean(
         compute='_get_oa_qt_show_user_tab',
         store=False
     )    
-    @api.one        
+    @api.one
     def _get_oa_qt_show_user_tab(self):
         for partner_obj in self:          
             partner_obj.oa_qt_show_user_tab = False            
             for item in partner_obj.oa_qt_partner_type:            
-                if item.user==True:
+                if item.user:
                     partner_obj.oa_qt_show_user_tab = True
             
     oa_qt_stakeholder_type = fields.Many2many(
@@ -55,71 +54,71 @@ class ResPartnerCustom(models.Model):
        self._get_oa_qt_is_teacher()
        self._get_oa_qt_is_association()
        self._get_oa_qt_is_communicator()
-       self._get_oa_qt_is_communicator_influencer()#fix
+       self._get_oa_qt_is_communicator_influencer()# fix
        
-    #calculate field oa_qt_is_fan       
+    # calculate field oa_qt_is_fan
     oa_qt_is_fan = fields.Boolean(
         compute='_get_oa_qt_is_fan',
         store=False
     )    
-    @api.one        
+    @api.one
     def _get_oa_qt_is_fan(self):
         for partner_obj in self:          
             partner_obj.oa_qt_is_fan = False            
             for item in partner_obj.oa_qt_stakeholder_type:            
-                if item.fan==True:
+                if item.fan:
                     partner_obj.oa_qt_is_fan = True
                                                                             
-    #calculate field oa_qt_is_investor       
+    # calculate field oa_qt_is_investor
     oa_qt_is_investor = fields.Boolean(
         compute='_get_oa_qt_is_investor',
         store=False
     )    
-    @api.one        
+    @api.one
     def _get_oa_qt_is_investor(self):
         for partner_obj in self:          
             partner_obj.oa_qt_is_investor = False            
             for item in partner_obj.oa_qt_stakeholder_type:            
-                if item.investor==True:
+                if item.investor:
                     partner_obj.oa_qt_is_investor = True
                         
-    #calculate field oa_qt_is_teacher       
+    # calculate field oa_qt_is_teacher
     oa_qt_is_teacher = fields.Boolean(
         compute='_get_oa_qt_is_teacher',
         store=False
     )    
-    @api.one        
+    @api.one
     def _get_oa_qt_is_teacher(self):
         for partner_obj in self:          
             partner_obj.oa_qt_is_teacher = False            
             for item in partner_obj.oa_qt_stakeholder_type:            
-                if item.teacher==True:
+                if item.teacher:
                     partner_obj.oa_qt_is_teacher = True
                     
-    #calculate field oa_qt_is_association       
+    # calculate field oa_qt_is_association
     oa_qt_is_association = fields.Boolean(
         compute='_get_oa_qt_is_association',
         store=False
     )    
-    @api.one        
+    @api.one
     def _get_oa_qt_is_association(self):
         for partner_obj in self:          
             partner_obj.oa_qt_is_association = False            
             for item in partner_obj.oa_qt_stakeholder_type:            
-                if item.association==True:
+                if item.association:
                     partner_obj.oa_qt_is_association = True
     
-    #calculate field oa_qt_is_communicator       
+    # calculate field oa_qt_is_communicator
     oa_qt_is_communicator = fields.Boolean(
         compute='_get_oa_qt_is_communicator',
         store=False
     )    
-    @api.one        
+    @api.one
     def _get_oa_qt_is_communicator(self):
         for partner_obj in self:          
             partner_obj.oa_qt_is_communicator = False            
             for item in partner_obj.oa_qt_stakeholder_type:            
-                if item.communicator==True:
+                if item.communicator:
                     partner_obj.oa_qt_is_communicator = True
     
     oa_qt_fan_level = fields.Many2many(
@@ -152,19 +151,19 @@ class ResPartnerCustom(models.Model):
     )
     @api.onchange('oa_qt_communicator_type')
     def change_oa_qt_communicator_type(self):       
-       self._get_oa_qt_is_communicator_influencer()#fix
+       self._get_oa_qt_is_communicator_influencer()# fix
     
-    #calculate field oa_qt_is_communicator_influencer
+    # calculate field oa_qt_is_communicator_influencer
     oa_qt_is_communicator_influencer = fields.Boolean(
         compute='_get_oa_qt_is_communicator_influencer',
         store=False
     )    
-    @api.one        
+    @api.one
     def _get_oa_qt_is_communicator_influencer(self):
         for partner_obj in self:          
             partner_obj.oa_qt_is_communicator_influencer = False            
             for item in partner_obj.oa_qt_communicator_type:            
-                if item.influencer==True:
+                if item.influencer:
                     partner_obj.oa_qt_is_communicator_influencer = True
     
     oa_qt_social_network = fields.Many2many(
@@ -178,9 +177,7 @@ class ResPartnerCustom(models.Model):
     oa_qt_communication_geo = fields.Many2many(
         comodel_name='res.partner.communication.geo',         
         string='Communication geo',
-    )    
-    
-    
+    )
     oa_qt_user_type = fields.Many2one(
         comodel_name='res.partner.user.type',         
         string='User type',
@@ -195,34 +192,34 @@ class ResPartnerCustom(models.Model):
        self._get_oa_qt_is_advertiser()
        self._get_oa_qt_is_agency()
         
-    #calculate field oa_qt_is_agency       
+    # calculate field oa_qt_is_agency
     oa_qt_is_agency = fields.Boolean(
         compute='_get_oa_qt_is_agency',
         store=False
     )    
-    @api.one        
+    @api.one
     def _get_oa_qt_is_agency(self):
         for partner_obj in self:          
             partner_obj.oa_qt_is_agency = False            
             for item in partner_obj.oa_qt_customer_type:            
-                if item.agency==True:
+                if item.agency:
                     partner_obj.oa_qt_is_agency = True
     
     oa_qt_agency_type = fields.Many2many(
         comodel_name='res.partner.agency.type',         
         string='Agency type',
     )    
-    #calculate field oa_qt_is_advertiser       
+    # calculate field oa_qt_is_advertiser
     oa_qt_is_advertiser = fields.Boolean(
         compute='_get_oa_qt_is_advertiser',
         store=False
     )    
-    @api.one        
+    @api.one
     def _get_oa_qt_is_advertiser(self):
         for partner_obj in self:          
             partner_obj.oa_qt_is_advertiser = False            
             for item in partner_obj.oa_qt_customer_type:            
-                if item.advertiser==True:
+                if item.advertiser:
                     partner_obj.oa_qt_is_advertiser = True        
     
     oa_qt_affiliate = fields.Boolean(

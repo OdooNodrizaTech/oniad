@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
     <record id="oniad_root_view_crm_case_opportunities_filter" model="ir.ui.view">
         <field name="name">oniad_root_view_crm_case_opportunities_filter</field>
         <field name="model">crm.lead</field>
@@ -10,6 +11,7 @@
             </field>
         </field>
     </record>
+
     <record id="oniad_root_crm_case_form_view_oppor" model="ir.ui.view">
         <field name="name">oniad_root_crm_case_form_view_oppor</field>
         <field name="model">crm.lead</field>
@@ -20,5 +22,6 @@
                 <field name="oniad_user_id_link" widget="url"/>                                
             </field>                        
         </field>
-    </record>                          
+    </record>
+
 </odoo>
