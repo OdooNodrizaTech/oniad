@@ -1,0 +1,260 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* account_oniad
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0-20200514\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-07-22 07:44+0000\n"
+"PO-Revision-Date: 2020-07-22 07:44+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_oniad
+#: model:ir.cron,name:account_oniad.cron_account_invoice_send_sns_custom
+msgid "Account Invoice Send SNS Custom"
+msgstr ""
+
+#. module: account_oniad
+#: model:ir.cron,name:account_oniad.cron_account_invoice_upload_to_s3_generate
+msgid "Account Invoice Upload to S3"
+msgstr ""
+
+#. module: account_oniad
+#: model:ir.cron,name:account_oniad.cron_account_invoice_uuid_generate
+msgid "Account Invoice Uuid Generate"
+msgstr ""
+
+#. module: account_oniad
+#: model_terms:ir.ui.view,arch_db:account_oniad.account_oniad_view_account_move_line_pivot
+msgid "Account Move Lines"
+msgstr ""
+
+#. module: account_oniad
+#: model:ir.model,name:account_oniad.model_account_asset_asset
+msgid "Asset/Revenue Recognition"
+msgstr "Aceptación de pagos/Ingresos"
+
+#. module: account_oniad
+#: model:ir.model.fields,field_description:account_oniad.field_account_invoice_partner_bank_name
+msgid "Banco"
+msgstr ""
+
+#. module: account_oniad
+#: model:ir.model,name:account_oniad.model_res_partner_bank
+msgid "Bank Accounts"
+msgstr "Cuentas bancarias"
+
+#. module: account_oniad
+#: model:ir.cron,cron_name:account_oniad.cron_account_invoice_send_sns_custom
+#: model:ir.cron,cron_name:account_oniad.cron_account_invoice_upload_to_s3_generate
+#: model:ir.cron,cron_name:account_oniad.cron_account_invoice_uuid_generate
+msgid "Base: Auto-vacuum internal data"
+msgstr "Base: Limpieza automática de datos internos"
+
+#. module: account_oniad
+#: model:ir.model.fields,field_description:account_oniad.field_res_users_commercial_phone
+msgid "Commercial phone"
+msgstr "Teléfono comercial"
+
+#. module: account_oniad
+#: selection:res.partner,oniad_contact_use:0
+msgid "Communications"
+msgstr ""
+
+#. module: account_oniad
+#: model:ir.model,name:account_oniad.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: account_oniad
+#: model:ir.model.fields,field_description:account_oniad.field_account_invoice__date
+msgid "Date"
+msgstr "Fecha"
+
+#. module: account_oniad
+#: model:ir.model.fields,field_description:account_oniad.field_crm_lead_day_deadline
+msgid "Days for the planned closing"
+msgstr "Días para el cierre previsto"
+
+#. module: account_oniad
+#: model:ir.model.fields,field_description:account_oniad.field_account_asset_asset_depreciated_value
+msgid "Depreciacion acumulada"
+msgstr "Depreciación acumulada"
+
+#. module: account_oniad
+#: model:ir.model.fields,field_description:account_oniad.field_account_fiscal_position_invoice_description
+msgid "Descripcion en factura"
+msgstr "Descripción en la factura"
+
+#. module: account_oniad
+#: model:ir.model,name:account_oniad.model_account_fiscal_position
+msgid "Fiscal Position"
+msgstr "Posición fiscal"
+
+#. module: account_oniad
+#: model:ir.model,name:account_oniad.model_account_invoice
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: account_oniad
+#: model:ir.model,name:account_oniad.model_account_invoice_line
+msgid "Invoice Line"
+msgstr "Linea de Factura"
+
+#. module: account_oniad
+#: code:addons/account_oniad/models/account_invoice.py:250
+#: code:addonsOdooNodrizaTech/oniad/12.0/account_oniad/models/account_invoice.py:250
+#, python-format
+msgid "It is necessary to define a CIF / NIF for the customer of the invoice"
+msgstr "Es necesario definir el CIF/NIF para el cliente en la factura"
+
+#. module: account_oniad
+#: code:addons/account_oniad/models/account_invoice.py:252
+#: code:addonsOdooNodrizaTech/oniad/12.0/account_oniad/models/account_invoice.py:252
+#, python-format
+msgid "It is necessary to define a supplier reference to validate the purchase invoic"
+msgstr "Es necesario definir la referencia del proveedor para validar la factura de compra"
+
+#. module: account_oniad
+#: model:ir.model,name:account_oniad.model_crm_lead
+msgid "Lead/Opportunity"
+msgstr "Iniciativa/Oportunidad"
+
+#. module: account_oniad
+#: model:ir.model.fields,help:account_oniad.field_account_invoice__date
+msgid "Leave empty to use the invoice date"
+msgstr ""
+
+#. module: account_oniad
+#: model:ir.model.fields,field_description:account_oniad.field_account_invoice_margin
+msgid "Margen"
+msgstr ""
+
+#. module: account_oniad
+#: model:ir.model.fields,field_description:account_oniad.field_sale_order_payment_mode_id
+msgid "Modo de pago"
+msgstr ""
+
+#. module: account_oniad
+#: selection:res.partner,oniad_contact_use:0
+msgid "None"
+msgstr "Ninguno"
+
+#. module: account_oniad
+#: model:ir.model.fields,field_description:account_oniad.field_account_payment__oniad_product_id
+msgid "OniAd Product"
+msgstr ""
+
+#. module: account_oniad
+#: model:ir.model.fields,field_description:account_oniad.field_account_payment__oniad_purchase_price
+msgid "OniAd Purchase price"
+msgstr ""
+
+#. module: account_oniad
+#: model:ir.model.fields,field_description:account_oniad.field_crm_lead_oniad_user_id_link
+#: model:ir.model.fields,field_description:account_oniad.field_res_partner_oniad_user_id_link
+#: model:ir.model.fields,field_description:account_oniad.field_res_users_oniad_user_id_link
+msgid "OniAd User"
+msgstr ""
+
+#. module: account_oniad
+#: model:ir.model.fields,field_description:account_oniad.field_res_partner_oniad_address_id
+#: model:ir.model.fields,field_description:account_oniad.field_res_users_oniad_address_id
+msgid "Oniad Address"
+msgstr ""
+
+#. module: account_oniad
+#: model:ir.model.fields,field_description:account_oniad.field_crm_lead_oniad_campaign_id
+msgid "Oniad Campaign"
+msgstr ""
+
+#. module: account_oniad
+#: model:ir.model.fields,field_description:account_oniad.field_account_payment_oniad_transaction_id
+msgid "Oniad Transaction"
+msgstr ""
+
+#. module: account_oniad
+#: model:ir.model.fields,field_description:account_oniad.field_crm_lead_oniad_user_id
+#: model:ir.model.fields,field_description:account_oniad.field_res_partner_oniad_user_id
+#: model:ir.model.fields,field_description:account_oniad.field_res_users_oniad_user_id
+msgid "Oniad User"
+msgstr ""
+
+#. module: account_oniad
+#: model:ir.model.fields,field_description:account_oniad.field_res_partner_oniad_contact_use
+#: model:ir.model.fields,field_description:account_oniad.field_res_users_oniad_contact_use
+msgid "Oniad contact use"
+msgstr ""
+
+#. module: account_oniad
+#: model:ir.model,name:account_oniad.model_account_payment
+msgid "Payments"
+msgstr "Pagos"
+
+#. module: account_oniad
+#: model:ir.model.fields,field_description:account_oniad.field_account_invoice_line__purchase_price
+msgid "Purchase price"
+msgstr "Precio de compra"
+
+#. module: account_oniad
+#: model:ir.model,name:account_oniad.model_sale_order
+msgid "Sale Order"
+msgstr ""
+
+#. module: account_oniad
+#: model:ir.model.fields,field_description:account_oniad.field_res_partner_sale_user_id
+#: model:ir.model.fields,field_description:account_oniad.field_res_users_sale_user_id
+msgid "Sale user id"
+msgstr ""
+
+#. module: account_oniad
+#: model_terms:ir.ui.view,arch_db:account_oniad.view_account_invoice_oniad_form
+msgid "Send SNS"
+msgstr ""
+
+#. module: account_oniad
+#: model:ir.model.fields,help:account_oniad.field_account_invoice_inv_vat
+msgid "The Tax Identification Number. Complete it if the contact is subjected to government taxes. Used in some legal statements."
+msgstr "El número de identificación fiscal. Complete esto si el contacto está sujeto a impuestos gubernamentales. Usado en algunas declaraciones legales."
+
+#. module: account_oniad
+#: model_terms:ir.ui.view,arch_db:account_oniad.view_move_line_tree
+msgid "Total Balance"
+msgstr "Total cuota"
+
+#. module: account_oniad
+#: model:ir.model.fields,field_description:account_oniad.field_crm_lead_done_user_id
+msgid "User done"
+msgstr "Usuario hecho"
+
+#. module: account_oniad
+#: model:ir.model,name:account_oniad.model_res_users
+msgid "Users"
+msgstr "Usuarios"
+
+#. module: account_oniad
+#: model:ir.model.fields,field_description:account_oniad.field_account_invoice_uuid
+msgid "Uuid"
+msgstr ""
+
+#. module: account_oniad
+#: model:ir.model.fields,field_description:account_oniad.field_account_invoice_inv_vat
+msgid "VAT"
+msgstr "IVA"
+
+#. module: account_oniad
+#: model:ir.model.fields,field_description:account_oniad.field_crm_lead_website
+msgid "Website"
+msgstr "Sitio web"
+
+#. module: account_oniad
+#: model:ir.model.fields,help:account_oniad.field_crm_lead_website
+msgid "Website of the contact"
+msgstr "Sitio web del contacto"
+
