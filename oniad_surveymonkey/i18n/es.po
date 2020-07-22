@@ -1,0 +1,383 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* oniad_surveymonkey
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0-20200514\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-07-22 08:04+0000\n"
+"PO-Revision-Date: 2020-07-22 08:04+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: oniad_surveymonkey
+#: model:ir.cron,cron_name:oniad_surveymonkey.cron_oniad_surveymonkey_generate_odoo_surveis
+#: model:ir.cron,cron_name:oniad_surveymonkey.cron_oniad_surveymonkey_survey_responses
+#: model:ir.cron,cron_name:oniad_surveymonkey.cron_surveymonkey_survey_response_items_send_datawarehouse
+msgid "Base: Auto-vacuum internal data"
+msgstr "Base: Limpieza automática de datos internos"
+
+#. module: oniad_surveymonkey
+#: selection:surveymonkey.question,subtype:0
+msgid "Both"
+msgstr "Ambos"
+
+#. module: oniad_surveymonkey
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question_choice__choice_id
+msgid "Choice Id"
+msgstr ""
+
+#. module: oniad_surveymonkey
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response__collector_id
+msgid "Collector Id"
+msgstr ""
+
+#. module: oniad_surveymonkey
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question__create_uid
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question_choice__create_uid
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question_row__create_uid
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_page__create_uid
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response__create_uid
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response_custom_variable__create_uid
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response_question_answer__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: oniad_surveymonkey
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question__create_date
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question_choice__create_date
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question_row__create_date
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_page__create_date
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response__create_date
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response_custom_variable__create_date
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response_question_answer__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: oniad_surveymonkey
+#: model:ir.cron,name:oniad_surveymonkey.cron_oniad_surveymonkey_generate_odoo_surveis
+msgid "Cron Oniad Surveymonkey Generate Odoo Surveis"
+msgstr ""
+
+#. module: oniad_surveymonkey
+#: model:ir.cron,name:oniad_surveymonkey.cron_oniad_surveymonkey_survey_responses
+msgid "Cron Oniad Surveymonkey Survey Responses"
+msgstr ""
+
+#. module: oniad_surveymonkey
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response_question_answer__datawarehouse_question_answer_id
+msgid "Datawarehouse Question Answer Id"
+msgstr ""
+
+#. module: oniad_surveymonkey
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question_choice__datawarehouse_value
+msgid "Datawarehouse Value"
+msgstr ""
+
+#. module: oniad_surveymonkey
+#: selection:surveymonkey.question,family:0
+msgid "Datetime"
+msgstr ""
+
+#. module: oniad_surveymonkey
+#: selection:surveymonkey.question,family:0
+msgid "Demographic"
+msgstr "Demografía"
+
+#. module: oniad_surveymonkey
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question_choice_description
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_page_description
+msgid "Description"
+msgstr "Descripción"
+
+#. module: oniad_surveymonkey
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question__display_name
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question_choice__display_name
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question_row__display_name
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_page__display_name
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response__display_name
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response_custom_variable__display_name
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response_question_answer__display_name
+msgid "Display Name"
+msgstr "Nombre a mostrar"
+
+#. module: oniad_surveymonkey
+#: selection:surveymonkey.question,subtype:0
+msgid "Essay"
+msgstr "Ensayo"
+
+#. module: oniad_surveymonkey
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response_status
+msgid "Estado"
+msgstr ""
+
+#. module: oniad_surveymonkey
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question_family
+msgid "Family"
+msgstr "Familia"
+
+#. module: oniad_surveymonkey
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response__date_modified
+msgid "Fecha modificado"
+msgstr ""
+
+#. module: oniad_surveymonkey
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question_heading
+msgid "Heading"
+msgstr "Cabecera"
+
+#. module: oniad_surveymonkey
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question_choice_id
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question_id
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question_row_id
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_page_id
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response_custom_variable_id
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response_id
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response_question_answer_id
+msgid "ID"
+msgstr ""
+
+#. module: oniad_surveymonkey
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response__ip_address
+msgid "IP"
+msgstr ""
+
+#. module: oniad_surveymonkey
+#: selection:surveymonkey.question,subtype:0
+msgid "Image"
+msgstr "Imagen"
+
+#. module: oniad_surveymonkey
+#: selection:surveymonkey.question,subtype:0
+msgid "International"
+msgstr "Internacional"
+
+#. module: oniad_surveymonkey
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question____last_update
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question_choice____last_update
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question_row____last_update
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_page____last_update
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response____last_update
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response_custom_variable____last_update
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response_question_answer____last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: oniad_surveymonkey
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question__write_uid
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question_choice__write_uid
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question_row__write_uid
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_page__write_uid
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response__write_uid
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response_custom_variable__write_uid
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response_question_answer__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: oniad_surveymonkey
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question__write_date
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question_choice__write_date
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question_row__write_date
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_page__write_date
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response__write_date
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response_custom_variable__write_date
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response_question_answer__write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: oniad_surveymonkey
+#: selection:surveymonkey.question,family:0
+msgid "Matrix"
+msgstr "Matriz"
+
+#. module: oniad_surveymonkey
+#: selection:surveymonkey.question,subtype:0
+msgid "Menu"
+msgstr "Menú"
+
+#. module: oniad_surveymonkey
+#: selection:surveymonkey.question,subtype:0
+msgid "Multi"
+msgstr ""
+
+#. module: oniad_surveymonkey
+#: selection:surveymonkey.question,family:0
+msgid "Multiple Choice"
+msgstr "Opción múltiple"
+
+#. module: oniad_surveymonkey
+#: selection:surveymonkey.question,subtype:0
+msgid "Numerical"
+msgstr "Numérico"
+
+#. module: oniad_surveymonkey
+#: selection:surveymonkey.question,family:0
+msgid "Open Ended"
+msgstr "Abierto Cerrado"
+
+#. module: oniad_surveymonkey
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_page__page_id
+msgid "Page Id"
+msgstr ""
+
+#. module: oniad_surveymonkey
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question_choice_position
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question_position
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question_row_position
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_page_position
+msgid "Position"
+msgstr "Posición"
+
+#. module: oniad_surveymonkey
+#: selection:surveymonkey.question,family:0
+msgid "Presentation"
+msgstr "Presentación"
+
+#. module: oniad_surveymonkey
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question__question_id
+msgid "Question Id"
+msgstr ""
+
+#. module: oniad_surveymonkey
+#: selection:surveymonkey.question,subtype:0
+msgid "Ranking"
+msgstr ""
+
+#. module: oniad_surveymonkey
+#: selection:surveymonkey.question,subtype:0
+msgid "Rating"
+msgstr "Calificación"
+
+#. module: oniad_surveymonkey
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response__response_id
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response_custom_variable_value
+msgid "Response Id"
+msgstr ""
+
+#. module: oniad_surveymonkey
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question_choice_text
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question_row__row_id
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question_row_text
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response_question_answer_text
+msgid "Row Id"
+msgstr ""
+
+#. module: oniad_surveymonkey
+#: selection:surveymonkey.question,subtype:0
+msgid "Single"
+msgstr "Soltero(a)"
+
+#. module: oniad_surveymonkey
+#: selection:surveymonkey.question,family:0
+msgid "Single Choice"
+msgstr "Opción única"
+
+#. module: oniad_surveymonkey
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question_subtype
+msgid "Subtype"
+msgstr "Subtipo"
+
+#. module: oniad_surveymonkey
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_page__survey_id
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_page__survey_page_id
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_page__survey_survey_id
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response__survey_id
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response_custom_variable_field
+msgid "Survey Id"
+msgstr ""
+
+#. module: oniad_surveymonkey
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question_choice__survey_label_id
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question_row__survey_label_id
+msgid "Survey Label Id"
+msgstr ""
+
+#. module: oniad_surveymonkey
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question__survey_question_id
+msgid "Survey Question Id"
+msgstr ""
+
+#. module: oniad_surveymonkey
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response__survey_user_input_id
+msgid "Survey User Input Id"
+msgstr ""
+
+#. module: oniad_surveymonkey
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response_custom_variable__survey_user_input_line_id
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response_question_answer__survey_user_input_line_id
+msgid "Survey User Input Line Id"
+msgstr ""
+
+#. module: oniad_surveymonkey
+#: model:ir.model,name:oniad_surveymonkey.model_surveymonkey_question
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question_choice__surveymonkey_question_id
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_question_row__surveymonkey_question_id
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response_question_answer__surveymonkey_question_id
+msgid "Surveymonkey Question"
+msgstr ""
+
+#. module: oniad_surveymonkey
+#: model:ir.model,name:oniad_surveymonkey.model_surveymonkey_question_choice
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response_question_answer__surveymonkey_question_choice_id
+msgid "Surveymonkey Question Choice"
+msgstr ""
+
+#. module: oniad_surveymonkey
+#: model:ir.model,name:oniad_surveymonkey.model_surveymonkey_question_row
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response_question_answer__surveymonkey_question_row_id
+msgid "Surveymonkey Question Row"
+msgstr ""
+
+#. module: oniad_surveymonkey
+#: model:ir.model,name:oniad_surveymonkey.model_surveymonkey_survey_page
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response_question_answer__surveymonkey_survey_page_id
+msgid "Surveymonkey Survey Page"
+msgstr ""
+
+#. module: oniad_surveymonkey
+#: model:ir.model,name:oniad_surveymonkey.model_surveymonkey_survey_response
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response_custom_variable__surveymonkey_survey_response_id
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response_question_answer__surveymonkey_survey_response_id
+msgid "Surveymonkey Survey Response"
+msgstr ""
+
+#. module: oniad_surveymonkey
+#: model:ir.model,name:oniad_surveymonkey.model_surveymonkey_survey_response_custom_variable
+msgid "Surveymonkey Survey Response Custom Variable"
+msgstr ""
+
+#. module: oniad_surveymonkey
+#: model:ir.cron,name:oniad_surveymonkey.cron_surveymonkey_survey_response_items_send_datawarehouse
+msgid "Surveymonkey Survey Response Items Send Datawarehouse"
+msgstr ""
+
+#. module: oniad_surveymonkey
+#: model:ir.model,name:oniad_surveymonkey.model_surveymonkey_survey_response_question_answer
+msgid "Surveymonkey Survey Response Question Answer"
+msgstr ""
+
+#. module: oniad_surveymonkey
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_page_title
+msgid "Title"
+msgstr "Título"
+
+#. module: oniad_surveymonkey
+#: model:ir.model.fields,field_description:oniad_surveymonkey.field_surveymonkey_survey_response__total_time
+msgid "Total time"
+msgstr "Tiempo total"
+
+#. module: oniad_surveymonkey
+#: selection:surveymonkey.question,subtype:0
+msgid "Vertical"
+msgstr ""
+
+#. module: oniad_surveymonkey
+#: selection:surveymonkey.question,subtype:0
+msgid "Vertical Two Col"
+msgstr "Vertical 2 columnas"
+
