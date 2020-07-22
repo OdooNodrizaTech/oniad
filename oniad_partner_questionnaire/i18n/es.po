@@ -1,13 +1,13 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* crm_arelux
+#	* oniad_partner_questionnaire
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0-20200601\n"
+"Project-Id-Version: Odoo Server 12.0-20200514\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-09 10:19+0000\n"
-"PO-Revision-Date: 2020-07-09 10:19+0000\n"
+"POT-Creation-Date: 2020-07-22 07:47+0000\n"
+"PO-Revision-Date: 2020-07-22 07:47+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,99 +15,659 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#. module: crm_arelux
-#: model:ir.model.fields,field_description:crm_arelux.field_crm_lead__comment_customer
-#: model_terms:ir.ui.view,arch_db:crm_arelux.crm_arelux_crm_case_form_view_oppor
-msgid "Comment customer"
-msgstr "Comentario de cliente"
+#. module: oniad_partner_questionnaire
+#: model:ir.actions.act_window,name:oniad_partner_questionnaire.partner_activity_action
+#: model:ir.ui.menu,name:oniad_partner_questionnaire.menuitem_partner_activity
+msgid "Activities"
+msgstr "Actividades"
 
-#. module: crm_arelux
-#: model:ir.model,name:crm_arelux.model_crm_lead2opportunity_partner
-msgid "Convert Lead to Opportunity (not in mass)"
-msgstr "Convertir Iniciativa en Oportunidad (sin ser en masa)"
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner__oa_qt_activity
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_users__oa_qt_activity
+msgid "Activity"
+msgstr "Actividad"
 
-#. module: crm_arelux
-#: model_terms:ir.ui.view,arch_db:crm_arelux.crm_arelux_view_crm_case_opportunities_filter
-msgid "Converted"
-msgstr "Convertido"
-
-#. module: crm_arelux
-#: model_terms:ir.ui.view,arch_db:crm_arelux.crm_arelux_view_crm_case_leads_filter
-msgid "Country state"
-msgstr "Provincia"
-
-#. module: crm_arelux
-#: code:addons/crm_arelux/models/crm_lead.py:89
-#: code:addons/crm_arelux/models/crm_lead.py:93
-#: code:addons/crm_arelux/models/crm_lead.py:113
-#: code:addonsOdooNodrizaTech/crm/12.0/crm_arelux/models/crm_lead.py:89
-#: code:addonsOdooNodrizaTech/crm/12.0/crm_arelux/models/crm_lead.py:93
-#: code:addonsOdooNodrizaTech/crm/12.0/crm_arelux/models/crm_lead.py:113
-#, python-format
-msgid "It is necessary to define an expected closing date to be able to create the flow"
-msgstr "Es necesario definir una fecha de cierre esperada para poder crear el flujo"
-
-#. module: crm_arelux
-#: model:ir.model.fields,field_description:crm_arelux.field_crm_lead__lead_m2
-msgid "Lead m2"
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_customer_type_advertiser
+msgid "Advertiser"
 msgstr ""
 
-#. module: crm_arelux
-#: model:ir.model,name:crm_arelux.model_crm_lead
-msgid "Lead/Opportunity"
-msgstr "Iniciativa/Oportunidad"
-
-#. module: crm_arelux
-#: model_terms:ir.ui.view,arch_db:crm_arelux.crm_arelux_view_crm_case_opportunities_filter
-msgid "Opportunities"
-msgstr "Oportunidades"
-
-#. module: crm_arelux
-#: model:ir.model.fields,field_description:crm_arelux.field_crm_lead__date_deadline_override
-msgid "Planned closure"
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner__oa_qt_affiliate
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_users__oa_qt_affiliate
+msgid "Affiliate"
 msgstr ""
 
-#. module: crm_arelux
-#: code:addons/crm_arelux/models/crm_lead.py:99
-#: code:addons/crm_arelux/models/crm_lead.py:119
-#: code:addonsOdooNodrizaTech/crm/12.0/crm_arelux/models/crm_lead.py:99
-#: code:addonsOdooNodrizaTech/crm/12.0/crm_arelux/models/crm_lead.py:119
-#, python-format
-msgid "The expected closure cannot be more than 90 days or prior to the current date (%s) when creating"
-msgstr "El cierre esperado no puede ser más de 90 días o anterior a la fecha actual (%s) al crear"
-
-#. module: crm_arelux
-#: model_terms:ir.ui.view,arch_db:crm_arelux.crm_arelux_view_crm_case_opportunities_filter
-msgid "This week activities"
-msgstr "Actividades de esta semana"
-
-#. module: crm_arelux
-#: model_terms:ir.ui.view,arch_db:crm_arelux.crm_arelux_view_crm_case_opportunities_filter
-msgid "Today activities"
-msgstr "Actividades de hoy"
-
-#. module: crm_arelux
-#: model:ir.model.fields,field_description:crm_arelux.field_crm_lead__partner_id_user_id
-msgid "User partner"
+#. module: oniad_partner_questionnaire
+#: model:ir.actions.act_window,name:oniad_partner_questionnaire.partner_agency_type_action
+msgid "Agencty types"
 msgstr ""
 
-#. module: crm_arelux
-#: model_terms:ir.ui.view,arch_db:crm_arelux.crm_arelux_view_crm_case_leads_filter
-msgid "With next activity"
-msgstr "Con siguiente actividad"
-
-#. module: crm_arelux
-#: model_terms:ir.ui.view,arch_db:crm_arelux.crm_arelux_view_crm_case_leads_filter
-msgid "Without next activity"
-msgstr "Sin siguiente actividad"
-
-#. module: crm_arelux
-#: model:ir.model.fields,field_description:crm_arelux.field_crm_lead__sessionAdGroupCF7
-msgid "sessionAdGroupCF7"
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_customer_type_agency
+msgid "Agency"
 msgstr ""
 
-#. module: crm_arelux
-#: model:ir.model.fields,field_description:crm_arelux.field_crm_lead__sessionAdSetCF7
-msgid "sessionAdSetCF7"
+#. module: oniad_partner_questionnaire
+#: model:ir.actions.act_window,name:oniad_partner_questionnaire.partner_agency_activity_action
+#: model:ir.ui.menu,name:oniad_partner_questionnaire.menuitem_partner_agency_activity
+msgid "Agency activities"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner__oa_qt_agency_activity
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_users__oa_qt_agency_activity
+msgid "Agency activity"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner__oa_qt_agency_type
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_users__oa_qt_agency_type
+msgid "Agency type"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.ui.menu,name:oniad_partner_questionnaire.menuitem_partner_agency_type
+msgid "Agency types"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner__oa_qt_asociation_geo
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_users__oa_qt_asociation_geo
+msgid "Asociation geo"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.actions.act_window,name:oniad_partner_questionnaire.partner_asociation_geo_action
+#: model:ir.ui.menu,name:oniad_partner_questionnaire.menuitem_partner_asociation_geo
+msgid "Asociation geos"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.actions.act_window,name:oniad_partner_questionnaire.partner_asociation_type_action
+#: model:ir.ui.menu,name:oniad_partner_questionnaire.menuitem_partner_asociation_type
+msgid "Asociation types"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_stakeholder_type_association
+msgid "Association"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner__oa_qt_asociation_type
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_users__oa_qt_asociation_type
+msgid "Association type"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner__oa_qt_communication_area
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_users__oa_qt_communication_area
+msgid "Communication area"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.actions.act_window,name:oniad_partner_questionnaire.partner_communication_area_action
+#: model:ir.ui.menu,name:oniad_partner_questionnaire.menuitem_partner_communication_area
+msgid "Communication areas"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner__oa_qt_communication_geo
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_users__oa_qt_communication_geo
+msgid "Communication geo"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.actions.act_window,name:oniad_partner_questionnaire.partner_communication_geo_action
+#: model:ir.ui.menu,name:oniad_partner_questionnaire.menuitem_partner_communication_geo
+msgid "Communication geos"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_stakeholder_type_communicator
+msgid "Communicator"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner__oa_qt_communicator_type
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_users__oa_qt_communicator_type
+msgid "Communicator type"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.actions.act_window,name:oniad_partner_questionnaire.partner_communicator_type_action
+#: model:ir.ui.menu,name:oniad_partner_questionnaire.menuitem_partner_communicator_type
+msgid "Communicator types"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model,name:oniad_partner_questionnaire.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_activity__create_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_agency_activity__create_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_agency_type__create_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_asociation_geo__create_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_asociation_type__create_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_communication_area__create_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_communication_geo__create_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_communicator_type__create_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_customer_type__create_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_educational_center_type__create_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_fan_level__create_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_formation_type__create_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_industry_create_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_inversor_type__create_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_market_target__create_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_partner_type__create_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_sector__create_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_social_network__create_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_stakeholder_type__create_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_user_type__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_activity__create_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_agency_activity__create_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_agency_type__create_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_asociation_geo__create_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_asociation_type__create_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_communication_area__create_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_communication_geo__create_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_communicator_type__create_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_customer_type__create_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_educational_center_type__create_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_fan_level__create_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_formation_type__create_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_industry_create_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_inversor_type__create_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_market_target__create_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_partner_type__create_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_sector__create_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_social_network__create_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_stakeholder_type__create_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_user_type__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner__oa_qt_customer_type
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_users__oa_qt_customer_type
+msgid "Customer type"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.actions.act_window,name:oniad_partner_questionnaire.partner_customer_type_action
+#: model:ir.ui.menu,name:oniad_partner_questionnaire.menuitem_partner_customer_type
+msgid "Customer types"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_activity__display_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_agency_activity__display_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_agency_type__display_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_asociation_geo__display_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_asociation_type__display_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_communication_area__display_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_communication_geo__display_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_communicator_type__display_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_customer_type__display_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_educational_center_type__display_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_fan_level__display_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_formation_type__display_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_industry_display_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_inversor_type__display_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_market_target__display_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_partner_type__display_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_sector__display_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_social_network__display_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_stakeholder_type__display_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_user_type__display_name
+msgid "Display Name"
+msgstr "Nombre a mostrar"
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner__oa_qt_educational_center_type
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_users__oa_qt_educational_center_type
+msgid "Educational center type"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.actions.act_window,name:oniad_partner_questionnaire.partner_educational_center_type_action
+#: model:ir.ui.menu,name:oniad_partner_questionnaire.menuitem_partner_educational_center_type
+msgid "Educational center types"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_stakeholder_type_fan
+msgid "Fan"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner__oa_qt_fan_level
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_users__oa_qt_fan_level
+msgid "Fan level"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.actions.act_window,name:oniad_partner_questionnaire.partner_fan_level_action
+#: model:ir.ui.menu,name:oniad_partner_questionnaire.menuitem_partner_fan_level
+msgid "Fan levels"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner__oa_qt_formation_type
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_users__oa_qt_formation_type
+msgid "Formation type"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.actions.act_window,name:oniad_partner_questionnaire.partner_formation_type_action
+#: model:ir.ui.menu,name:oniad_partner_questionnaire.menuitem_partner_formation_type
+msgid "Formation types"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_activity__id
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_agency_activity__id
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_agency_type__id
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_asociation_geo__id
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_asociation_type__id
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_communication_area__id
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_communication_geo__id
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_communicator_type_id
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_customer_type__id
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_educational_center_type__id
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_fan_level__id
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_formation_type__id
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_inversor_type__id
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_market_target__id
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_partner_type__id
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_sector__id
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_social_network__id
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_stakeholder_type__id
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_user_type__id
+msgid "ID"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model,name:oniad_partner_questionnaire.model_res_partner_industry
+msgid "Industry"
+msgstr "Sector"
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_communicator_type_influencer
+msgid "Influencer"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.ui.menu,name:oniad_partner_questionnaire.menuitem_partner_inversor_type
+msgid "Invensor types"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner__oa_qt_inversor_type
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_users__oa_qt_inversor_type
+msgid "Inversor type"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.actions.act_window,name:oniad_partner_questionnaire.partner_inversor_type_action
+msgid "Inversor types"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_stakeholder_type_investor
+msgid "Inverstor"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_activity____last_update
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_agency_activity____last_update
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_agency_type____last_update
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_asociation_geo____last_update
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_asociation_type____last_update
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_communication_area____last_update
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_communication_geo____last_update
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_communicator_type____last_update
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_customer_type____last_update
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_educational_center_type____last_update
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_fan_level____last_update
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_formation_type____last_update
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_industry___last_update
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_inversor_type____last_update
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_market_target____last_update
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_partner_type____last_update
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_sector____last_update
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_social_network____last_update
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_stakeholder_type____last_update
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_user_type____last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_activity__write_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_agency_activity__write_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_agency_type__write_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_asociation_geo__write_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_asociation_type__write_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_communication_area__write_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_communication_geo__write_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_communicator_type__write_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_customer_type__write_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_educational_center_type__write_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_fan_level__write_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_formation_type__write_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_industry_write_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_inversor_type__write_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_market_target__write_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_partner_type__write_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_sector__write_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_social_network__write_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_stakeholder_type__write_uid
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_user_type__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_activity__write_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_agency_activity__write_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_agency_type__write_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_asociation_geo__write_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_asociation_type__write_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_communication_area__write_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_communication_geo__write_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_communicator_type__write_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_customer_type__write_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_educational_center_type__write_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_fan_level__write_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_formation_type__write_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_industry_write_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_inversor_type__write_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_market_target__write_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_partner_type__write_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_sector__write_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_social_network__write_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_stakeholder_type__write_date
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_user_type__write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner__oa_qt_market_target
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_users__oa_qt_market_target
+msgid "Market target"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.actions.act_window,name:oniad_partner_questionnaire.partner_market_target_action
+#: model:ir.ui.menu,name:oniad_partner_questionnaire.menuitem_partner_market_target
+msgid "Market targets"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_activity_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_agency_activity_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_agency_type_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_asociation_geo_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_asociation_type_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_communication_area_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_communication_geo_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_communicator_type_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_customer_type_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_educational_center_type_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_fan_level_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_formation_type_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_industry_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_inversor_type_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_market_target_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_partner_type_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_sector__name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_social_network_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_stakeholder_type_name
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_user_type_name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner__oa_qt_is_advertiser
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_users__oa_qt_is_advertiser
+msgid "Oa Qt Is Advertiser"
+msgstr "Oa Qt es anunciante"
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner__oa_qt_is_agency
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_users__oa_qt_is_agency
+msgid "Oa Qt Is Agency"
+msgstr "Oa Qt es agencia"
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner__oa_qt_is_association
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_users__oa_qt_is_association
+msgid "Oa Qt Is Association"
+msgstr "Oa Qt es asocación"
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner__oa_qt_is_communicator
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_users__oa_qt_is_communicator
+msgid "Oa Qt Is Communicator"
+msgstr "Oa Qt es comunicador"
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner__oa_qt_is_communicator_influencer
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_users__oa_qt_is_communicator_influencer
+msgid "Oa Qt Is Communicator Influencer"
+msgstr "Oa Qt es comunicador influencer"
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner__oa_qt_is_fan
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_users__oa_qt_is_fan
+msgid "Oa Qt Is Fan"
+msgstr "Oa Qt es fan"
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner__oa_qt_is_investor
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_users__oa_qt_is_investor
+msgid "Oa Qt Is Investor"
+msgstr "Oa Qt es inversor"
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner__oa_qt_is_teacher
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_users__oa_qt_is_teacher
+msgid "Oa Qt Is Teacher"
+msgstr "Oa Qt es profesor"
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner__oa_qt_show_stakeholder_tab
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_users__oa_qt_show_stakeholder_tab
+msgid "Oa Qt Show Stakeholder Tab"
+msgstr "Oa Qt muestra la pestaña de Stakeholder"
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner__oa_qt_show_user_tab
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_users__oa_qt_show_user_tab
+msgid "Oa Qt Show User Tab"
+msgstr "Oa Qt muestra la pestaña de usuario"
+
+#. module: oniad_partner_questionnaire
+#: model:ir.ui.menu,name:oniad_partner_questionnaire.menu_odoo_oniad_partner_questionnaire
+msgid "Oniad Partner Questionnaire"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner__oa_qt_partner_type
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_users__oa_qt_partner_type
+msgid "Partner type"
+msgstr "Tipo asociado"
+
+#. module: oniad_partner_questionnaire
+#: model:ir.actions.act_window,name:oniad_partner_questionnaire.partner_partner_type_action
+#: model:ir.ui.menu,name:oniad_partner_questionnaire.menuitem_partner_partner_type
+msgid "Partner types"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model,name:oniad_partner_questionnaire.model_res_partner_activity
+msgid "Res Partner Activity"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model,name:oniad_partner_questionnaire.model_res_partner_agency_activity
+msgid "Res Partner Agency Activity"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model,name:oniad_partner_questionnaire.model_res_partner_agency_type
+msgid "Res Partner Agency Type"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model,name:oniad_partner_questionnaire.model_res_partner_asociation_geo
+msgid "Res Partner Asociation Geo"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model,name:oniad_partner_questionnaire.model_res_partner_asociation_type
+msgid "Res Partner Asociation Type"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model,name:oniad_partner_questionnaire.model_res_partner_communication_area
+msgid "Res Partner Communication Area"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model,name:oniad_partner_questionnaire.model_res_partner_communication_geo
+msgid "Res Partner Communication Geo"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model,name:oniad_partner_questionnaire.model_res_partner_communicator_type
+msgid "Res Partner Communicator Type"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model,name:oniad_partner_questionnaire.model_res_partner_customer_type
+msgid "Res Partner Customer Type"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model,name:oniad_partner_questionnaire.model_res_partner_educational_center_type
+msgid "Res Partner Educational Center Type"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model,name:oniad_partner_questionnaire.model_res_partner_fan_level
+msgid "Res Partner Fan Level"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model,name:oniad_partner_questionnaire.model_res_partner_formation_type
+msgid "Res Partner Formation Type"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model,name:oniad_partner_questionnaire.model_res_partner_inversor_type
+msgid "Res Partner Inversor Type"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model,name:oniad_partner_questionnaire.model_res_partner_market_target
+msgid "Res Partner Market Target"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model,name:oniad_partner_questionnaire.model_res_partner_sector
+msgid "Res Partner Sector"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model,name:oniad_partner_questionnaire.model_res_partner_social_network
+msgid "Res Partner Social Network"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model,name:oniad_partner_questionnaire.model_res_partner_stakeholder_type
+msgid "Res Partner Stakeholder Type"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model,name:oniad_partner_questionnaire.model_res_partner_partner_type
+msgid "Res Partner partner Type"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner__oa_qt_sector
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_activity__res_partner_sector_id
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_users__oa_qt_sector
+msgid "Sector"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.actions.act_window,name:oniad_partner_questionnaire.partner_sector_action
+#: model:ir.ui.menu,name:oniad_partner_questionnaire.menuitem_partner_sector
+msgid "Sectors"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner__oa_qt_social_network
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_users__oa_qt_social_network
+msgid "Social network"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.actions.act_window,name:oniad_partner_questionnaire.partner_social_network_action
+#: model:ir.ui.menu,name:oniad_partner_questionnaire.menuitem_partner_social_network
+msgid "Social networks"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_partner_type_stakeholder
+#: model_terms:ir.ui.view,arch_db:oniad_partner_questionnaire.oniad_partner_questionnaire_view_partner_form
+msgid "Stakeholder"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner__oa_qt_stakeholder_type
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_users__oa_qt_stakeholder_type
+msgid "Stakeholder type"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.actions.act_window,name:oniad_partner_questionnaire.partner_stakeholder_type_action
+#: model:ir.ui.menu,name:oniad_partner_questionnaire.menuitem_partner_stakeholder_type
+msgid "Stakeholder types"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_stakeholder_type_teacher
+msgid "Teacher"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner_partner_type_user
+#: model_terms:ir.ui.view,arch_db:oniad_partner_questionnaire.oniad_partner_questionnaire_view_partner_form
+msgid "User"
+msgstr "Usuario"
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_partner__oa_qt_user_type
+#: model:ir.model.fields,field_description:oniad_partner_questionnaire.field_res_users__oa_qt_user_type
+msgid "User type"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.actions.act_window,name:oniad_partner_questionnaire.partner_user_type_action
+#: model:ir.ui.menu,name:oniad_partner_questionnaire.menuitem_partner_user_type
+msgid "User types"
+msgstr ""
+
+#. module: oniad_partner_questionnaire
+#: model:ir.model,name:oniad_partner_questionnaire.model_res_partner_user_type
+msgid "res.partner.user.type"
 msgstr ""
 
