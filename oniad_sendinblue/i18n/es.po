@@ -1,0 +1,300 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* oniad_sendinblue
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0-20200514\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-07-22 07:52+0000\n"
+"PO-Revision-Date: 2020-07-22 07:52+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: oniad_sendinblue
+#: model:ir.ui.menu,name:oniad_sendinblue.menuitem_odoo_oniad_sendinblue_attribute
+msgid "Attributes"
+msgstr "Atributos"
+
+#. module: oniad_sendinblue
+#: model:ir.cron,cron_name:oniad_sendinblue.cron_auto_generate_leads_sendinblue
+#: model:ir.cron,cron_name:oniad_sendinblue.cron_sendinblue_get_attributes
+#: model:ir.cron,cron_name:oniad_sendinblue.cron_sendinblue_get_contacts
+#: model:ir.cron,cron_name:oniad_sendinblue.cron_sendinblue_get_folders
+#: model:ir.cron,cron_name:oniad_sendinblue.cron_sendinblue_get_lists
+msgid "Base: Auto-vacuum internal data"
+msgstr "Base: Limpieza automática de datos internos"
+
+#. module: oniad_sendinblue
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_attribute__calculated_value
+msgid "Calculated value"
+msgstr "Valor calculado"
+
+#. module: oniad_sendinblue
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_attribute_category
+msgid "Category"
+msgstr "Categoría"
+
+#. module: oniad_sendinblue
+#: model:ir.ui.menu,name:oniad_sendinblue.menuitem_odoo_oniad_sendinblue_contact
+msgid "Contacts"
+msgstr "Contactos"
+
+#. module: oniad_sendinblue
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_attribute__create_uid
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_contact__create_uid
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_contact_attribute__create_uid
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_enumeration__create_uid
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_folder__create_uid
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_list__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: oniad_sendinblue
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_attribute__create_date
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_contact__create_date
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_contact_attribute__create_date
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_enumeration__create_date
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_folder__create_date
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_list__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: oniad_sendinblue
+#: model:ir.cron,name:oniad_sendinblue.cron_auto_generate_leads_sendinblue
+msgid "Cron Auto Generate Leads Sendinblue"
+msgstr ""
+
+#. module: oniad_sendinblue
+#: model:ir.cron,name:oniad_sendinblue.cron_sendinblue_get_attributes
+msgid "Cron Sendinblue Get Attributes"
+msgstr ""
+
+#. module: oniad_sendinblue
+#: model:ir.cron,name:oniad_sendinblue.cron_sendinblue_get_contacts
+msgid "Cron Sendinblue Get Contacts"
+msgstr ""
+
+#. module: oniad_sendinblue
+#: model:ir.cron,name:oniad_sendinblue.cron_sendinblue_get_folders
+msgid "Cron Sendinblue Get Folders"
+msgstr ""
+
+#. module: oniad_sendinblue
+#: model:ir.cron,name:oniad_sendinblue.cron_sendinblue_get_lists
+msgid "Cron Sendinblue Get Lists"
+msgstr ""
+
+#. module: oniad_sendinblue
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_attribute__display_name
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_contact__display_name
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_contact_attribute__display_name
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_enumeration__display_name
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_folder__display_name
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_list__display_name
+msgid "Display Name"
+msgstr "Nombre a mostrar"
+
+#. module: oniad_sendinblue
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_contact_email
+msgid "Email"
+msgstr "Correo electrónico"
+
+#. module: oniad_sendinblue
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_contact__email_blacklisted
+msgid "Email blacklisted"
+msgstr "Email en la lista negra"
+
+#. module: oniad_sendinblue
+#: model:ir.ui.menu,name:oniad_sendinblue.menuitem_odoo_oniad_sendinblue_enumeration
+msgid "Enumerations"
+msgstr "Enumeraciones"
+
+#. module: oniad_sendinblue
+#: model:ir.ui.menu,name:oniad_sendinblue.menuitem_odoo_oniad_sendinblue_folder
+msgid "Folders"
+msgstr "Carpetas"
+
+#. module: oniad_sendinblue
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_attribute_id
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_contact_attribute_id
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_contact_id
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_enumeration_id
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_folder_id
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_list_id
+msgid "ID"
+msgstr ""
+
+#. module: oniad_sendinblue
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_enumeration_label
+msgid "Label"
+msgstr "Etiqueta"
+
+#. module: oniad_sendinblue
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_attribute____last_update
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_contact____last_update
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_contact_attribute____last_update
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_enumeration____last_update
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_folder____last_update
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_list____last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: oniad_sendinblue
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_attribute__write_uid
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_contact__write_uid
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_contact_attribute__write_uid
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_enumeration__write_uid
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_folder__write_uid
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_list__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: oniad_sendinblue
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_attribute__write_date
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_contact__write_date
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_contact_attribute__write_date
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_enumeration__write_date
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_folder__write_date
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_list__write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: oniad_sendinblue
+#: model:ir.model,name:oniad_sendinblue.model_crm_lead
+msgid "Lead/Opportunity"
+msgstr "Iniciativa/Oportunidad"
+
+#. module: oniad_sendinblue
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_contact__sendinblue_list_ids
+#: model:ir.ui.menu,name:oniad_sendinblue.menuitem_odoo_oniad_sendinblue_list
+msgid "Lists"
+msgstr "Listas"
+
+#. module: oniad_sendinblue
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_contact__modified_at
+msgid "Modificadl el"
+msgstr "Modificado el"
+
+#. module: oniad_sendinblue
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_attribute_name
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_folder_name
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_list_name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: oniad_sendinblue
+#: model:ir.ui.menu,name:oniad_sendinblue.menu_odoo_oniad_sendinblue
+msgid "Oniad Sendinblue"
+msgstr ""
+
+#. module: oniad_sendinblue
+#: model:ir.actions.act_window,name:oniad_sendinblue.sendinblue_attribute_action
+msgid "Sendinblue Atributos"
+msgstr ""
+
+#. module: oniad_sendinblue
+#: model:ir.model,name:oniad_sendinblue.model_sendinblue_attribute
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_contact_attribute__sendinblue_attribute_id
+msgid "Sendinblue Attribute"
+msgstr "Sendinblue Atributo"
+
+#. module: oniad_sendinblue
+#: model:ir.actions.act_window,name:oniad_sendinblue.sendinblue_folder_action
+msgid "Sendinblue Carpetas"
+msgstr ""
+
+#. module: oniad_sendinblue
+#: model:ir.model,name:oniad_sendinblue.model_sendinblue_contact
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_crm_lead__sendinblue_contact_id
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_contact_attribute__sendinblue_contact_id
+msgid "Sendinblue Contact"
+msgstr "Sendinblue Contacto"
+
+#. module: oniad_sendinblue
+#: model:ir.model,name:oniad_sendinblue.model_sendinblue_contact_attribute
+msgid "Sendinblue Contact Attribute"
+msgstr "Sendinblue Atributo de contacto"
+
+#. module: oniad_sendinblue
+#: model:ir.actions.act_window,name:oniad_sendinblue.sendinblue_contact_action
+msgid "Sendinblue Contactos"
+msgstr ""
+
+#. module: oniad_sendinblue
+#: model:ir.actions.act_window,name:oniad_sendinblue.sendinblue_enumeration_action
+#: model:ir.model,name:oniad_sendinblue.model_sendinblue_enumeration
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_contact_attribute__sendinblue_enumeration_id
+msgid "Sendinblue Enumeration"
+msgstr "Sendinblue Enumeración"
+
+#. module: oniad_sendinblue
+#: model:ir.model,name:oniad_sendinblue.model_sendinblue_folder
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_list__sendinblue_folder_id
+msgid "Sendinblue Folder"
+msgstr "Sendinblue Carpeta"
+
+#. module: oniad_sendinblue
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_contact__sendinblue_id
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_folder__sendinblue_id
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_list__sendinblue_id
+msgid "Sendinblue Id"
+msgstr ""
+
+#. module: oniad_sendinblue
+#: model:ir.model,name:oniad_sendinblue.model_sendinblue_list
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_crm_lead__sendinblue_list_id
+msgid "Sendinblue List"
+msgstr "Sendinblue Lista"
+
+#. module: oniad_sendinblue
+#: model:ir.actions.act_window,name:oniad_sendinblue.sendinblue_list_action
+msgid "Sendinblue Listas"
+msgstr ""
+
+#. module: oniad_sendinblue
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_contact__sms_blacklisted
+msgid "Sms blacklisted"
+msgstr "SMS lista negra"
+
+#. module: oniad_sendinblue
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_folder__total_blacklisted
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_list__total_blacklisted
+msgid "Total blacklisted"
+msgstr "Total lista negra"
+
+#. module: oniad_sendinblue
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_list__total_subscribers
+msgid "Total subscribers"
+msgstr "Total suscriptores"
+
+#. module: oniad_sendinblue
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_folder__total_subscribers
+msgid "Total suscriptores"
+msgstr ""
+
+#. module: oniad_sendinblue
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_attribute__sendinblue_type
+msgid "Type"
+msgstr "Tipo"
+
+#. module: oniad_sendinblue
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_folder__unique_subscribers
+msgid "Unique subscribers"
+msgstr "Suscriptores únicos"
+
+#. module: oniad_sendinblue
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_contact_attribute_value
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_enumeration_value
+msgid "Value"
+msgstr "Valor"
+
+#. module: oniad_sendinblue
+#: model:ir.model.fields,field_description:oniad_sendinblue.field_sendinblue_attribute__sendinblue_enumeration_ids
+msgid "Values"
+msgstr "Valores"
+
