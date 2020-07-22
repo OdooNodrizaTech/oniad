@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0-20200514\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-09 11:06+0000\n"
-"PO-Revision-Date: 2020-07-09 11:06+0000\n"
+"POT-Creation-Date: 2020-07-22 07:45+0000\n"
+"PO-Revision-Date: 2020-07-22 07:45+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -22,14 +22,14 @@ msgstr "<span style=\"color:red;\"><b>Urgente</b></span><br/>"
 
 #. module: crm_oniad
 #: code:addons/crm_oniad/models/crm_lead.py:90
-#: code:addonsOdooNodrizaTech/crm/12.0/crm_oniad/models/crm_lead.py:90
+#: code:addonsOdooNodrizaTech/oniad/12.0/crm_oniad/models/crm_lead.py:90
 #, python-format
 msgid "A opportunity must have the business type 'Account'"
 msgstr "Una oportunidad debe tener el tipo de negocio 'Cuenta'"
 
 #. module: crm_oniad
 #: code:addons/crm_oniad/models/crm_lead.py:94
-#: code:addonsOdooNodrizaTech/crm/12.0/crm_oniad/models/crm_lead.py:94
+#: code:addonsOdooNodrizaTech/oniad/12.0/crm_oniad/models/crm_lead.py:94
 #, python-format
 msgid "A opportunity must not have the lead type 'Capture'"
 msgstr "Una oportunidad no debe tener el tipo de lead 'Capture'"
@@ -41,27 +41,22 @@ msgstr "Cuenta"
 
 #. module: crm_oniad
 #: model:ir.model.fields,field_description:crm_oniad.field_crm_lead__activities_count
-msgid "Actividades"
-msgstr ""
+msgid "Activities"
+msgstr "Actividades"
 
 #. module: crm_oniad
 #: code:addons/crm_oniad/models/crm_lead.py:82
-#: code:addonsOdooNodrizaTech/crm/12.0/crm_oniad/models/crm_lead.py:82
+#: code:addonsOdooNodrizaTech/oniad/12.0/crm_oniad/models/crm_lead.py:82
 #, python-format
 msgid "An lead must have the type of commercial activity 'Hunter'"
 msgstr "Un lead debe tener el tipo de actividad comercial 'Hunter'"
 
 #. module: crm_oniad
 #: code:addons/crm_oniad/models/crm_lead.py:86
-#: code:addonsOdooNodrizaTech/crm/12.0/crm_oniad/models/crm_lead.py:86
+#: code:addonsOdooNodrizaTech/oniad/12.0/crm_oniad/models/crm_lead.py:86
 #, python-format
 msgid "An lead must have the type of lead to 'Capture'"
 msgstr "Un lead debe tener el tipo de cliente potencial para 'Capture'"
-
-#. module: crm_oniad
-#: selection:crm.lead,lead_oniad_type:0
-msgid "Bienvenida"
-msgstr ""
 
 #. module: crm_oniad
 #: model:ir.model,name:crm_oniad.model_crm_activity_report
@@ -69,14 +64,9 @@ msgid "CRM Activity Analysis"
 msgstr "Analisis de actividades CRM"
 
 #. module: crm_oniad
-#: model:ir.model.fields,field_description:crm_oniad.field_crm_lead__marketing_campaign
-msgid "Campana de marketing"
-msgstr "Campaña de marketing"
-
-#. module: crm_oniad
 #: selection:crm.lead,lead_oniad_type:0
-msgid "Captacion"
-msgstr ""
+msgid "Catchment"
+msgstr "Captación"
 
 #. module: crm_oniad
 #: model:ir.model.fields,field_description:crm_oniad.field_crm_lead__commercial_activity_type
@@ -107,17 +97,12 @@ msgstr "Origen del lead"
 #. module: crm_oniad
 #: model:ir.model.fields,field_description:crm_oniad.field_crm_lead__day_deadline
 msgid "Days for the planned closing"
-msgstr ""
+msgstr "Días para el cierre previsto"
 
 #. module: crm_oniad
 #: model:ir.model.fields,field_description:crm_oniad.field_crm_lead_source__display_name
 msgid "Display Name"
 msgstr "Nombre a mostrar"
-
-#. module: crm_oniad
-#: selection:crm.lead,lead_oniad_type:0
-msgid "Dormido"
-msgstr ""
 
 #. module: crm_oniad
 #: model:ir.model.fields,field_description:crm_oniad.field_mail_compose_message_duration
@@ -181,6 +166,7 @@ msgid "Log an Activity"
 msgstr "Registrar una actividad"
 
 #. module: crm_oniad
+#: model:ir.model.fields,field_description:crm_oniad.field_crm_lead__marketing_campaign
 #: model_terms:ir.ui.view,arch_db:crm_oniad.crm_oniad_crm_case_form_view_leads
 #: model_terms:ir.ui.view,arch_db:crm_oniad.crm_oniad_crm_case_form_view_oppor
 #: model_terms:ir.ui.view,arch_db:crm_oniad.crm_oniad_view_create_opportunity_simplified
@@ -204,8 +190,8 @@ msgstr "Oportunidades"
 
 #. module: crm_oniad
 #: selection:crm.lead,lead_oniad_type:0
-msgid "Otro"
-msgstr ""
+msgid "Other"
+msgstr "Otro"
 
 #. module: crm_oniad
 #: model:ir.model.fields,field_description:crm_oniad.field_crm_lead_source_position
@@ -218,6 +204,11 @@ msgid "Register token"
 msgstr ""
 
 #. module: crm_oniad
+#: selection:crm.lead,lead_oniad_type:0
+msgid "Sleep"
+msgstr "Dormido"
+
+#. module: crm_oniad
 #: model:ir.model.fields,field_description:crm_oniad.field_crm_lead_lost_survey_url
 msgid "Survey"
 msgstr "Planificación"
@@ -225,7 +216,7 @@ msgstr "Planificación"
 #. module: crm_oniad
 #: model:ir.model.fields,field_description:crm_oniad.field_crm_lead__done_user_id
 msgid "User done"
-msgstr ""
+msgstr "Usuario hecho"
 
 #. module: crm_oniad
 #: model:ir.model.fields,field_description:crm_oniad.field_crm_lead__website
@@ -236,4 +227,9 @@ msgstr "Sitio web"
 #: model:ir.model.fields,help:crm_oniad.field_crm_lead__website
 msgid "Website of the contact"
 msgstr "Sitio web del contacto"
+
+#. module: crm_oniad
+#: selection:crm.lead,lead_oniad_type:0
+msgid "Welcome"
+msgstr "Bienvenido"
 
