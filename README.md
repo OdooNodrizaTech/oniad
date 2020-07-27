@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/OdooNodrizaTech/oniad.svg?branch=12.0)](https://travis-ci.org/OdooNodrizaTech/oniad)
-[![Coverage Status](https://coveralls.io/repos/OdooNodrizaTech/OdooNodrizaTech/oniad/badge.svg?branch=12.0)](https://coveralls.io/r/OdooNodrizaTech/OdooNodrizaTech/oniad?branch=12.0)
+[![Coverage Status](https://coveralls.io/repos/OdooNodrizaTech/oniad/badge.svg?branch=12.0)](https://coveralls.io/r/OdooNodrizaTech/oniad?branch=12.0)
 
 oniad
 =========
