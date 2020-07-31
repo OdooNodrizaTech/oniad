@@ -5,11 +5,11 @@ from odoo import models, fields
 
 class AccountPayment(models.Model):
     _inherit = 'account.payment'
-    
+
     oniad_product_id = fields.Many2one(
-        comodel_name='product.template',         
+        comodel_name='product.template',
         string='OniAd Product'
     )
-    oniad_purchase_price = fields.Monetary(         
+    oniad_purchase_price = fields.Monetary(
         string='OniAd Purchase price'
     )

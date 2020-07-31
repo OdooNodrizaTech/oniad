@@ -31,8 +31,8 @@ class CrmLead(models.Model):
     )
     commercial_activity_type = fields.Selection(
         selection=[
-            ('account','Account'), 
-            ('hunter','Hunter')                          
+            ('account', 'Account'),
+            ('hunter', 'Hunter')
         ],
         string='Commercial activity type'
     )
@@ -48,60 +48,61 @@ class CrmLead(models.Model):
     )
     lead_oniad_type = fields.Selection(
         selection=[
-            ('welcome','Welcome'),
-            ('sleep','Sleep'),
-            ('catchment','Catchment'),
-            ('other','Other')
+            ('welcome', 'Welcome'),
+            ('sleep', 'Sleep'),
+            ('catchment', 'Catchment'),
+            ('other', 'Other')
         ],
         string='Lead type'
     )                                        
     
+    @api.multi
     @api.onchange('type')
     def onchange_type(self):
-        if not self._origin.id:
-            if self.type == 'lead':
-                self.commercial_activity_type = 'hunter'
-                self.lead_oniad_type = 'catchment'
-            else:
-                self.commercial_activity_type = 'account'
-                self.lead_oniad_type = 'other'
+        for item in self:
+            if not item._origin.id:
+                if item.type == 'lead':
+                    item.commercial_activity_type = 'hunter'
+                    item.lead_oniad_type = 'catchment'
+                else:
+                    item.commercial_activity_type = 'account'
+                item.lead_oniad_type = 'other'
 
     @api.model
     def create(self, values):
         allow_create = True
                                 
-        value_type = values.get('type')
-        value_commercial_activity_type = values.get('commercial_activity_type')
-        value_lead_oniad_type = values.get('lead_oniad_type')
+        vt = values.get('type')
+        vcat = values.get('commercial_activity_type')
+        vlot = values.get('lead_oniad_type')
                 
-        if value_type == 'lead':
-            if value_commercial_activity_type != 'hunter':
+        if vt == 'lead':
+            if vcat != 'hunter':
                 allow_create = False
                 raise UserError(
                     _("An lead must have the type of commercial activity 'Hunter'")
                 )
                 
-            if allow_create and value_lead_oniad_type != 'catchment':
+            if allow_create and vlot != 'catchment':
                 allow_create = False
                 raise UserError(
                     _("An lead must have the type of lead to 'Capture'")
                 )
         else:
-            if value_commercial_activity_type != 'account':
+            if vcat != 'account':
                 allow_create = False
                 raise UserError(
                     _("A opportunity must have the business type 'Account'")
                 )
                 
-            if allow_create and value_lead_oniad_type == 'catchment':
+            if allow_create and vlot == 'catchment':
                 allow_create = False
                 raise UserError(
                     _("A opportunity must not have the lead type 'Capture'")
                 )
     
         if allow_create:
-            return_val = super(CrmLead, self).create(values)
-            return return_val
+            return super(CrmLead, self).create(values)
                 
     @api.multi
     def _compute_activities_count(self):

@@ -6,11 +6,11 @@ from odoo import fields, models
 class CrmLeadSource(models.Model):
     _name = 'crm.lead.source'
     _description = 'Crm Lead Source'
-    _order = "position asc"    
-    
-    name = fields.Char(        
+    _order = "position asc"
+
+    name = fields.Char(
         string='Name'
     )
-    position = fields.Integer(        
+    position = fields.Integer(
         string='Position'
     )
