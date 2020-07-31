@@ -13,4 +13,4 @@ class ResPartnerActivity(models.Model):
     res_partner_sector_id = fields.Many2one(
         comodel_name='res.partner.sector',         
         string='Sector',
-    )     
+    )

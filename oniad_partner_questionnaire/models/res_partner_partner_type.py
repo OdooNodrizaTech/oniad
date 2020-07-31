@@ -15,4 +15,4 @@ class ResPartnerPartnerType(models.Model):
     )
     user = fields.Boolean(
         string="User"
-    ) 
+    )

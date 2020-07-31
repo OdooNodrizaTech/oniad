@@ -2,23 +2,22 @@
 from odoo import api, exceptions, fields, models
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
-
 import uuid
 import pytz
-
 import logging
 _logger = logging.getLogger(__name__)
+
 
 class SurveySurvey(models.Model):
     _inherit = 'survey.survey'
     
     survey_lead_oniad_type = fields.Selection(
         selection=[
-            ('none','Ninguno'),
-            ('welcome','Bienvenida'), 
-            ('sleep','Dormido'), 
-            ('catchment','Captacion'),
-            ('other','Otro')                         
+            ('none', 'Ninguno'),
+            ('welcome', 'Bienvenida'),
+            ('sleep', 'Dormido'),
+            ('catchment', 'Captacion'),
+            ('other', 'Otro')
         ],
         default='none',
         string='Lead type'
@@ -39,7 +38,7 @@ class SurveySurvey(models.Model):
         string='Oniad Campaign Spent Limit From',
     )
     
-    @api.one    
+    @api.multi
     def get_oniad_user_ids_first_spent(self):
         current_date = datetime.now(pytz.timezone('Europe/Madrid'))
         oniad_user_ids = False
@@ -131,8 +130,9 @@ class SurveySurvey(models.Model):
         # oniad_user_ids
         return oniad_user_ids
     
-    @api.one    
+    @api.multi
     def get_oniad_user_ids_recurrent(self):
+        self.ensure_one()
         # general
         survey_frequence_days = {
             'day': 1,
@@ -236,9 +236,11 @@ class SurveySurvey(models.Model):
                     if survey_user_input_ids:
                         # operations
                         for survey_user_input_id in survey_user_input_ids:
-                            date_create_item_format = datetime.strptime(survey_user_input_id.date_create, "%Y-%m-%d %H:%M:%S").strftime('%Y-%m-%d')
-                            
-                            if oniad_user_ids_max_date_survey_user_input[survey_user_input_id.oniad_user_id.id] == None:
+                            date_create_item_format = datetime.strptime(
+                                survey_user_input_id.date_create,
+                                "%Y-%m-%d %H:%M:%S"
+                            ).strftime('%Y-%m-%d')
+                            if oniad_user_ids_max_date_survey_user_input[survey_user_input_id.oniad_user_id.id] is None:
                                 oniad_user_ids_max_date_survey_user_input[survey_user_input_id.oniad_user_id.id] = date_create_item_format
                             else:
                                 if date_create_item_format>oniad_user_ids_max_date_survey_user_input[survey_user_input_id.oniad_user_id.id]:
@@ -249,7 +251,7 @@ class SurveySurvey(models.Model):
                     for oniad_user_id in oniad_user_ids_max_date_survey_user_input:
                         oniad_user_id_item = oniad_user_ids_max_date_survey_user_input[oniad_user_id]
                         # checks
-                        if oniad_user_id_item == None:
+                        if oniad_user_id_item is None:
                             oniad_user_ids_final.append(oniad_user_id)
                         else:
                             a = datetime.strptime(oniad_user_id_item, "%Y-%m-%d")                                
@@ -266,15 +268,16 @@ class SurveySurvey(models.Model):
         # return
         return oniad_user_ids                            
     
-    @api.one    
+    @api.multi
     def send_survey_satisfaction_phone(self):
+        self.ensure_one()
         current_date = datetime.now(pytz.timezone('Europe/Madrid'))
         # deadline
         deadline = False                
         if self.deadline_days > 0:
             deadline = current_date + relativedelta(days=self.deadline_days)                
         # ANADIMOS LOS QUE CORRESPONDEN (NUEVOS)
-        oniad_user_ids = self.get_oniad_user_ids_first_spent()[0]# Fix multi
+        oniad_user_ids = self.get_oniad_user_ids_first_spent()[0]
         if oniad_user_ids:
             for oniad_user_id in oniad_user_ids:
                 # token
@@ -297,8 +300,9 @@ class SurveySurvey(models.Model):
         # return
         return False
         
-    @api.one    
+    @api.multi
     def send_survey_satisfaction_recurrent_phone(self):
+        self.ensure_one()
         current_date = datetime.now(pytz.timezone('Europe/Madrid')) 
         # deadline
         deadline = False                
@@ -329,18 +333,24 @@ class SurveySurvey(models.Model):
         # return
         return False        
     
-    @api.one    
+    @api.multi
     def send_survey_real_satisfaction_mail(self):
-        oniad_user_ids = self.get_oniad_user_ids_first_spent()[0]# Fix multi
+        self.ensure_one()
+        oniad_user_ids = self.get_oniad_user_ids_first_spent()[0]
         # operations
         if oniad_user_ids:
             for oniad_user_id in oniad_user_ids:
-                self.send_survey_real_by_oniad_user_id(self, oniad_user_id.partner_id, oniad_user_id)
-        #return
+                self.send_survey_real_by_oniad_user_id(
+                    self,
+                    oniad_user_id.partner_id,
+                    oniad_user_id
+                )
+        # return
         return False
         
-    @api.one    
+    @api.multi
     def send_survey_satisfaction_mail(self, survey_survey_input_expired_ids=False):
+        self.ensure_one()
         if survey_survey_input_expired_ids:
             # actual_results
             survey_survey_input_ids = self.env['survey.user_input'].search(
@@ -365,22 +375,32 @@ class SurveySurvey(models.Model):
             # operations
             if oniad_user_ids:
                 for oniad_user_id in oniad_user_ids:                                
-                    self.send_survey_real_by_oniad_user_id(self, oniad_user_id.partner_id, oniad_user_id)
+                    self.send_survey_real_by_oniad_user_id(
+                        self,
+                        oniad_user_id.partner_id,
+                        oniad_user_id
+                    )
         # return
         return False                                                        
     
-    @api.one    
+    @api.multi
     def send_survey_real_satisfaction_recurrent_mail(self):
-        oniad_user_ids = self.get_oniad_user_ids_recurrent()[0]# Fix multi
+        self.ensure_one()
+        oniad_user_ids = self.get_oniad_user_ids_recurrent()[0]
         # operations
         if oniad_user_ids:
             for oniad_user_id in oniad_user_ids:
-                self.send_survey_real_by_oniad_user_id(self, oniad_user_id.partner_id, oniad_user_id)
+                self.send_survey_real_by_oniad_user_id(
+                    self,
+                    oniad_user_id.partner_id,
+                    oniad_user_id
+                )
         # return
         return False
     
-    @api.one    
+    @api.multi
     def send_survey_satisfaction_recurrent_mail(self, survey_survey_input_expired_ids=False):
+        self.ensure_one()
         if survey_survey_input_expired_ids:
             #query
             if survey_survey_input_expired_ids:
@@ -404,7 +424,11 @@ class SurveySurvey(models.Model):
             # operations
             if oniad_user_ids:
                 for oniad_user_id in oniad_user_ids:                                
-                    self.send_survey_real_by_oniad_user_id(self, oniad_user_id.partner_id, oniad_user_id)
+                    self.send_survey_real_by_oniad_user_id(
+                        self,
+                        oniad_user_id.partner_id,
+                        oniad_user_id
+                    )
         # return
         return False                    
     
@@ -431,8 +455,8 @@ class SurveySurvey(models.Model):
         partner_id_partial = (4, partner_id.id)
         vals['partner_ids'].append(partner_id_partial)
         # survey_mail_compose_message_obj
-        survey_mail_compose_message_obj = self.env['survey.mail.compose.message'].sudo().create(vals)
-        survey_mail_compose_message_obj.oniad_send_partner_mails({
+        message_obj = self.env['survey.mail.compose.message'].sudo().create(vals)
+        message_obj.oniad_send_partner_mails({
             partner_id.id: {'oniad_user_id': oniad_user_id}
         })
         
@@ -459,7 +483,7 @@ class SurveySurvey(models.Model):
         partner_id_partial = (4, partner_id.id)
         vals['partner_ids'].append(partner_id_partial)
         # survey_mail_compose_message_obj
-        survey_mail_compose_message_obj = self.env['survey.mail.compose.message'].sudo().create(vals)
-        survey_mail_compose_message_obj.oniad_send_partner_mails({
+        message_obj = self.env['survey.mail.compose.message'].sudo().create(vals)
+        message_obj.oniad_send_partner_mails({
             partner_id.id: {'oniad_campaign_id': oniad_campaign_id}
         })                    

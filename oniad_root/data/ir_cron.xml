@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="1">
+
     <record id="cron_action_account_invoices_generate" forcecreate="True" model="ir.cron">
         <field name="name">Account Invoice Generate (OniAd Transaction)</field>
         <field name="active" eval="False"/>
@@ -12,6 +13,7 @@
         <field name="state">code</field>
         <field name="code">model.cron_action_account_invoices_generate()</field>
     </record>
+
     <record id="cron_sqs_oniad_accountmanager" forcecreate="True" model="ir.cron">
         <field name="name">SQS Oniad Accountmanager</field>
         <field name="active" eval="False"/>
@@ -24,6 +26,7 @@
         <field name="state">code</field>
         <field name="code">model.cron_sqs_oniad_accountmanager()</field>
     </record>
+
     <record id="cron_sqs_oniad_address" forcecreate="True" model="ir.cron">
         <field name="name">SQS Oniad Address</field>
         <field name="active" eval="False"/>
@@ -36,6 +39,7 @@
         <field name="state">code</field>
         <field name="code">model.cron_sqs_oniad_address()</field>
     </record>
+
     <record id="cron_sqs_oniad_campaign" forcecreate="True" model="ir.cron">
         <field name="name">SQS Oniad Campaign</field>
         <field name="active" eval="False"/>
@@ -48,6 +52,7 @@
         <field name="state">code</field>
         <field name="code">model.cron_sqs_oniad_campaign()</field>
     </record>
+
     <record id="cron_sqs_oniad_campaign_report" forcecreate="True" model="ir.cron">
         <field name="name">SQS Oniad Campaign Report</field>
         <field name="active" eval="False"/>
@@ -60,6 +65,7 @@
         <field name="state">code</field>
         <field name="code">model.cron_sqs_oniad_campaign_report()</field>
     </record>
+
     <record id="cron_sqs_oniad_country" forcecreate="True" model="ir.cron">
         <field name="name">SQS Oniad Country</field>
         <field name="active" eval="False"/>
@@ -72,6 +78,7 @@
         <field name="state">code</field>
         <field name="code">model.cron_sqs_oniad_country()</field>
     </record>
+
     <record id="cron_sqs_oniad_country_state" forcecreate="True" model="ir.cron">
         <field name="name">SQS Oniad Country State</field>
         <field name="active" eval="False"/>
@@ -84,6 +91,7 @@
         <field name="state">code</field>
         <field name="code">model.cron_sqs_oniad_country_state()</field>
     </record>
+
     <record id="cron_sqs_oniad_transaction" forcecreate="True" model="ir.cron">
         <field name="name">SQS Oniad transaction</field>
         <field name="active" eval="False"/>
@@ -96,6 +104,7 @@
         <field name="state">code</field>
         <field name="code">model.cron_sqs_oniad_transaction()</field>
     </record>
+
     <record id="cron_sqs_oniad_user" forcecreate="True" model="ir.cron">
         <field name="name">SQS Oniad user</field>
         <field name="active" eval="False"/>
@@ -108,6 +117,7 @@
         <field name="state">code</field>
         <field name="code">model.cron_sqs_oniad_user()</field>
     </record>
+
     <record id="cron_sqs_oniad_usertag" forcecreate="True" model="ir.cron">
         <field name="name">SQS Oniad usertag</field>
         <field name="active" eval="False"/>
@@ -120,6 +130,7 @@
         <field name="state">code</field>
         <field name="code">model.cron_sqs_oniad_usertag()</field>
     </record>
+
     <record id="cron_oniad_user_auto_generate_welcome_lead_id" forcecreate="True" model="ir.cron">
         <field name="name">Oniad User Auto Generate Welcome Lead id</field>
         <field name="active" eval="False"/>
@@ -132,4 +143,5 @@
         <field name="state">code</field>
         <field name="code">model.cron_oniad_user_auto_generate_welcome_lead_id()</field>
     </record>
+
 </odoo>

@@ -1,6 +1,6 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import api, models, tools
+from odoo import api, models, tools, _
 
 
 class OniadAddress(models.Model):
@@ -10,28 +10,31 @@ class OniadAddress(models.Model):
     def check_vat_error(self, vat, id):
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         slack_log_channel = self.env['ir.config_parameter'].sudo().get_param('slack_log_channel')
-        
+        item_url = "%s/web?#id=%s&view_type=form&model=oniad.address" % (
+            web_base_url,
+            id
+        )
         attachments = [
             {                    
-                "title": 'El VAT es incorrecto',
+                "title": _('El VAT es incorrecto'),
                 "text": vat,                        
                 "color": "#ff0000",
-                "fallback": "Ver oniad address %s/web?#id=%s&view_type=form&model=oniad.address" % (web_base_url, id),
+                "fallback": _("Ver oniad address %s") % item_url,
                 "actions": [
                     {
                         "type": "button",
-                        "text": "Ver registro",
-                        "url": "%s/web?#id=%s&view_type=form&model=oniad.address" % (web_base_url, id)
+                        "text": _("Ver registro"),
+                        "url": item_url
                     }
                 ],
                 "fields": [                    
                     {
-                        "title": "VAT",
+                        "title": _("VAT"),
                         "value": vat,
                         'short': True,
                     },
                     {
-                        "title": "Id",
+                        "title": _("Id"),
                         "value": id,
                         'short': True,
                     }

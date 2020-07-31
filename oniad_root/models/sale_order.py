@@ -8,7 +8,7 @@ class SaleOrder(models.Model):
 
     oniad_address_id = fields.Many2one(
         comodel_name='oniad.address',
-        compute='_oniad_address_id',
+        compute='_compute_oniad_address_id',
         string='Oniad Address',
         store=True
     )
@@ -17,13 +17,20 @@ class SaleOrder(models.Model):
         string="Oniad Transactions",
     )
 
+    @api.multi
     def _compute_oniad_transaction_count(self):
         for item in self:
-            item.oniad_transaction_count = len(self.env['oniad.transaction'].search([('sale_order_id', '=', item.id)]))
+            item.oniad_transaction_count = len(
+                self.env['oniad.transaction'].search(
+                    [
+                        ('sale_order_id', '=', item.id)
+                    ]
+                )
+            )
 
     @api.depends('partner_invoice_id.oniad_address_id')
-    def _oniad_address_id(self):
+    def _compute_oniad_address_id(self):
         for item in self:
-            if item.id > 0:
+            if item.id:
                 if item.partner_invoice_id.oniad_address_id:
                     item.oniad_address_id = item.partner_invoice_id.oniad_address_id.id

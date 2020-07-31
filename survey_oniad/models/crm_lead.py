@@ -10,7 +10,7 @@ class CrmLead(models.Model):
     def get_survey_id(self):
         survey_id = 0
         if self.lead_oniad_type:
-            survey_survey_ids = self.env['survey.survey'].search(
+            survey_ids = self.env['survey.survey'].search(
                 [
                     ('survey_lead_oniad_type', '=', self.lead_oniad_type),
                     ('survey_type', '=', 'popup'),
@@ -18,7 +18,7 @@ class CrmLead(models.Model):
                     ('active', '=', True)
                 ]
             )
-            if survey_survey_ids:
-                survey_id = survey_survey_ids[0].id
+            if survey_ids:
+                survey_id = survey_ids[0].id
                     
         return survey_id

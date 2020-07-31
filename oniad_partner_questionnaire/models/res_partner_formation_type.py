@@ -9,4 +9,4 @@ class ResPartnerFormationType(models.Model):
 
     name = fields.Char(
         string="Name"
-    )     
+    )

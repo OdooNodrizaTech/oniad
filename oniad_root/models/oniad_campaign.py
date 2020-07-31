@@ -2,12 +2,11 @@
 from odoo import api, fields, models, tools, _
 import json
 import dateutil.parser
-
 import logging
-_logger = logging.getLogger(__name__)
-
 import boto3
 from botocore.exceptions import ClientError
+_logger = logging.getLogger(__name__)
+
 
 class OniadCampaign(models.Model):
     _name = 'oniad.campaign'
@@ -100,7 +99,7 @@ class OniadCampaign(models.Model):
             'sqs',
             region_name=AWS_SMS_REGION_NAME, 
             aws_access_key_id=AWS_ACCESS_KEY_ID,
-            aws_secret_access_key= AWS_SECRET_ACCESS_KEY
+            aws_secret_access_key=AWS_SECRET_ACCESS_KEY
         )        
         # Receive message from SQS queue
         total_messages = 10
@@ -131,10 +130,11 @@ class OniadCampaign(models.Model):
                     }
                     # fields_need_check
                     fields_need_check = ['id']
-                    for field_need_check in fields_need_check:
-                        if field_need_check not in message_body:
+                    for fnc in fields_need_check:
+                        if fnc not in message_body:
                             result_message['statusCode'] = 500
-                            result_message['return_body'] = _('The field does not exist %s') % field_need_check
+                            result_message['return_body'] = \
+                                _('The field does not exist %s') % fnc
                     # operations
                     if result_message['statusCode'] == 200:
                         previously_found = False
@@ -147,7 +147,7 @@ class OniadCampaign(models.Model):
                         if oniad_campaign_ids:
                             previously_found = True
                         # params
-                        data_oniad_campaign  = {
+                        data_oniad_campaign = {
                             'currency_id': 1,
                             'name': str(message_body['name'].encode('utf-8')),
                             'cpm_real': str(message_body['cpm_real']),
@@ -169,7 +169,7 @@ class OniadCampaign(models.Model):
                                 message_body['brain_active'] = True
                         # active
                         if 'archive' in message_body:
-                            if message_body['archive'] == False:
+                            if not message_body['archive']:
                                 message_body['active'] = False
                         # date_start
                         if 'date_start' in message_body:
@@ -184,7 +184,7 @@ class OniadCampaign(models.Model):
                                 date_finish = date_finish.replace() - date_finish.utcoffset()
                                 data_oniad_campaign['date_finish'] = date_finish.strftime("%Y-%m-%d %H:%M:%S")
                         # add_id
-                        if previously_found == False:
+                        if not previously_found:
                             data_oniad_campaign['id'] = int(message_body['id'])
                         # search oniad_user_id (prevent errors)
                         if 'oniad_user_id' in data_oniad_campaign:
@@ -196,12 +196,14 @@ class OniadCampaign(models.Model):
                                 )
                                 if len(oniad_user_ids)==0:
                                     result_message['statusCode'] = 500
-                                    result_message['return_body'] = _('oniad_user_id=%s field does not exist') % data_oniad_campaign['oniad_user_id']
+                                    result_message['return_body'] = \
+                                        _('oniad_user_id=%s field does not exist') \
+                                        % data_oniad_campaign['oniad_user_id']
                         # final_operations
                         result_message['data'] = data_oniad_campaign
                         _logger.info(result_message)
                         # create-write
-                        if result_message['statusCode'] == 200:# error, data not exists
+                        if result_message['statusCode'] == 200:
                             if previously_found:
                                 oniad_campaign_id = oniad_campaign_ids[0]
                                 # write
@@ -210,7 +212,7 @@ class OniadCampaign(models.Model):
                                 self.env['oniad.campaign'].sudo().create(data_oniad_campaign)
                     # remove_message
                     if result_message['statusCode'] == 200:
-                        response_delete_message = sqs.delete_message(
+                        sqs.delete_message(
                             QueueUrl=sqs_oniad_campaign_url,
                             ReceiptHandle=message['ReceiptHandle']
                         )
@@ -218,7 +220,6 @@ class OniadCampaign(models.Model):
     @api.model    
     def cron_sqs_oniad_campaign_report(self):
         _logger.info('cron_sqs_oniad_campaign_report')
-        
         sqs_oniad_campaign_report_url = tools.config.get('sqs_oniad_campaign_report_url')
         AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')        
         AWS_SECRET_ACCESS_KEY = tools.config.get('aws_secret_key_id')
@@ -228,7 +229,7 @@ class OniadCampaign(models.Model):
             'sqs',
             region_name=AWS_SMS_REGION_NAME, 
             aws_access_key_id=AWS_ACCESS_KEY_ID,
-            aws_secret_access_key= AWS_SECRET_ACCESS_KEY
+            aws_secret_access_key=AWS_SECRET_ACCESS_KEY
         )        
         # Receive message from SQS queue
         total_messages = 10
@@ -259,10 +260,11 @@ class OniadCampaign(models.Model):
                     }
                     # fields_need_check
                     fields_need_check = ['campaign_id', 'spent', 'spent_at']
-                    for field_need_check in fields_need_check:
-                        if field_need_check not in message_body:
+                    for fnc in fields_need_check:
+                        if fnc not in message_body:
                             result_message['statusCode'] = 500
-                            result_message['return_body'] = _('The field does not exist %s') % field_need_check
+                            result_message['return_body'] = \
+                                _('The field does not exist %s') % fnc
                     # operations
                     if result_message['statusCode'] == 200:
                         campaign_id = int(message_body['campaign_id'])
@@ -285,7 +287,7 @@ class OniadCampaign(models.Model):
                     _logger.info(result_message)
                     # remove_message
                     if result_message['statusCode'] == 200:
-                        response_delete_message = sqs.delete_message(
+                        sqs.delete_message(
                             QueueUrl=sqs_oniad_campaign_report_url,
                             ReceiptHandle=message['ReceiptHandle']
-                        )                                                                                                                 
+                        )

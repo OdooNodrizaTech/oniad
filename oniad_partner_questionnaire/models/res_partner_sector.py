@@ -9,4 +9,4 @@ class ResPartnerSector(models.Model):
 
     name = fields.Char(
         string="Name"
-    )     
+    )

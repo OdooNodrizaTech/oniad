@@ -24,4 +24,4 @@ class ResPartnerStakeholderType(models.Model):
     )
     communicator = fields.Boolean(
         string="Communicator"
-    )     
+    )

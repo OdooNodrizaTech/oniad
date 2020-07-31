@@ -13,4 +13,4 @@ class OniadUserTag(models.Model):
     )
     tag = fields.Char(
         string='Tag'
-    )                         
+    )

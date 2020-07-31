@@ -13,4 +13,4 @@ class AccountPayment(models.Model):
     oniad_transaction_id = fields.Many2one(
         comodel_name='oniad.transaction',
         string='Oniad Transaction'
-    )    
+    )

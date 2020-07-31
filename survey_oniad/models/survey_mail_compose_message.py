@@ -9,11 +9,13 @@ import pytz
 import logging
 _logger = logging.getLogger(__name__)
 
+
 class SurveyMailComposeMessage(models.TransientModel):
     _inherit = 'survey.mail.compose.message'
     
-    @api.one    
+    @api.multi
     def oniad_send_partner_mails(self, items, cr=None, uid=False, context=None):
+        self.ensure_one()
         # create_survey_user_input_by_oniad_user_id
         def create_survey_user_input_by_oniad_user_id(survey_survey, partner, oniad_user_id):
             response_ids = self.env['survey.user_input'].search([
@@ -84,10 +86,11 @@ class SurveyMailComposeMessage(models.TransientModel):
             return self.env['survey.user_input'].sudo().create(val)
             
         def create_response_and_send_mail(survey_mail_compose_message, survey_user_input):
-            """ Create one mail by recipients and replace __URL__ by link with identification token """
             # url
-            url = str(survey_user_input.survey_id.public_url)+'/'+str(survey_user_input.token)
-
+            url = '%s/%s' % (
+                survey_user_input.survey_id.public_url,
+                survey_user_input.token
+            )
             vals = {
                 'auto_delete': True,
                 'model': 'survey.user_input',
@@ -105,24 +108,32 @@ class SurveyMailComposeMessage(models.TransientModel):
             }
             mail_mail_obj = self.env['mail.mail'].sudo().create(vals)
             mail_mail_obj.send()                        
-            self.action_send_survey_mail_message_slack(survey_user_input)# Fix Slack
+            self.action_send_survey_mail_message_slack(survey_user_input)
             
         
-        survey_survey_ids = self.env['survey.survey'].search(
+        survey_ids = self.env['survey.survey'].search(
             [
                 ('id', '=', str(self.survey_id.id))
             ]
         )
-        survey_survey_id = survey_survey_ids[0]
+        survey_id = survey_ids[0]
                             
         for partner_id in self.partner_ids:
             partner_id_item = items[partner_id.id]
             # create_survey_user_input_by_oniad_user_id
             if 'oniad_user_id' in partner_id_item:
-                survey_user_input = create_survey_user_input_by_oniad_user_id(survey_survey_id, partner_id, partner_id_item['oniad_user_id'])
+                survey_user_input = create_survey_user_input_by_oniad_user_id(
+                    survey_id,
+                    partner_id,
+                    partner_id_item['oniad_user_id']
+                )
             # create_survey_user_input_by_oniad_campaign_id
             if 'oniad_campaign_id' in partner_id_item:
-                survey_user_input = create_survey_user_input_by_oniad_campaign_id(survey_survey_id, partner_id, partner_id_item['oniad_campaign_id'])
+                survey_user_input = create_survey_user_input_by_oniad_campaign_id(
+                    survey_id,
+                    partner_id,
+                    partner_id_item['oniad_campaign_id']
+                )
             # create_response_and_send_mail
             create_response_and_send_mail(self, survey_user_input)
             # save_log
@@ -133,3 +144,4 @@ class SurveyMailComposeMessage(models.TransientModel):
                 'action': 'send_mail',                                                                                                                                                                                           
             }
             self.env['automation.log'].sudo().create(vals)
+

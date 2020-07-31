@@ -1,28 +1,27 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 import logging
-_logger = logging.getLogger(__name__)
-
 from odoo import api, models, fields, tools
-
 import boto3, json
 from botocore.exceptions import ClientError
+_logger = logging.getLogger(__name__)
+
 
 class OniadAddress(models.Model):
-    _inherit = 'oniad.address'    
+    _inherit = 'oniad.address'
     
     @api.model    
     def cron_oniad_address_credit_limit_send_sns_custom(self):
-        oniad_address_ids = self.env['oniad.address'].search(
+        address_ids = self.env['oniad.address'].search(
             [
                 ('partner_id', '!=', False),
                 ('partner_id.credit_limit', '>', 0)
             ]
         )
-        if oniad_address_ids:
-            _logger.info('Total=%s' % len(oniad_address_ids))
-            for oniad_address_id in oniad_address_ids:
-                _logger.info('Enviando SNS %s' % oniad_address_id.id)
-                oniad_address_id.action_credit_limit_send_sns()
+        if address_ids:
+            _logger.info('Total=%s' % len(address_ids))
+            for address_id in address_ids:
+                _logger.info('Enviando SNS %s' % address_id.id)
+                address_id.action_credit_limit_send_sns()
                 
     @api.multi
     def action_credit_limit_send_sns_multi(self):
@@ -30,10 +29,10 @@ class OniadAddress(models.Model):
             _logger.info('Enviando SNS %s' % item.id)
             item.action_credit_limit_send_sns()
 
-    @api.one
+    @api.multi
     def action_credit_limit_send_sns(self):
+        self.ensure_one()
         _logger.info('action_credit_limit_send_sns')
-        
         if self.partner_id.credit_limit > 0:
             action_response = True
             # define
@@ -47,13 +46,14 @@ class OniadAddress(models.Model):
                 'sns',
                 region_name=AWS_SMS_REGION_NAME, 
                 aws_access_key_id=AWS_ACCESS_KEY_ID,
-                aws_secret_access_key= AWS_SECRET_ACCESS_KEY
+                aws_secret_access_key=AWS_SECRET_ACCESS_KEY
             )        
             # message
             message = {
                 'id': int(self.id),
                 'credit_limit': self.partner_id.credit_limit,
-                'max_credit_limit_allow': self.partner_id.max_credit_limit_allow,
+                'max_credit_limit_allow':
+                    self.partner_id.max_credit_limit_allow,
                 'cesce_risk_state': str(self.partner_id.cesce_risk_state)
             }
             # enviroment
@@ -81,4 +81,4 @@ class OniadAddress(models.Model):
             else:
                 _logger.info(sns_name)                        
             # return
-            return action_response                
+            return action_response

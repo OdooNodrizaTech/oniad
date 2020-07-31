@@ -3,7 +3,8 @@
 {
     "name": "Oniad Root",
     "version": "12.0.1.0.0",
-    "author": "Odoo Nodriza Tech (ONT)",
+    "author": "Odoo Nodriza Tech (ONT), "
+              "Odoo Community Association (OCA)",
     "website": "https://nodrizatech.com/",
     "category": "Tools",
     "license": "AGPL-3",
@@ -11,17 +12,17 @@
         "base",
         "mail",
         "base_vat",
-        "custom_day_due",
+        "custom_day_due",  # https://github.com/OdooNodrizaTech/account
         "crm",
         "sale",
         "survey",
         "account",
-        "partner_financial_risk",
+        "partner_financial_risk",  # https://github.com/OdooNodrizaTech/financial_risk
         "website",
-        "mail_activity_done"
+        "mail_activity_done"  # https://github.com/OCA/social
     ],
     "external_dependencies": {
-        "python3": [
+        "python": [
             "boto3"
         ],
     },

@@ -9,4 +9,4 @@ class ResPartnerMarketTarget(models.Model):
 
     name = fields.Char(
         string="Name"
-    )     
+    )

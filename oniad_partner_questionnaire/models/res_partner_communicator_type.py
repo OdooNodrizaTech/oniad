@@ -12,4 +12,4 @@ class ResPartnerCommunicatorType(models.Model):
     )
     influencer = fields.Boolean(
         string="Influencer"
-    )     
+    )

@@ -13,4 +13,4 @@ class CrmLeadSource(models.Model):
     )
     position = fields.Integer(        
         string='Position'
-    )                                       
+    )

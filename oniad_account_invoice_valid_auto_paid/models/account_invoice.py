@@ -12,51 +12,66 @@ class AccountInvoice(models.Model):
         # action
         return_action = super(AccountInvoice, self).action_invoice_open()
         # operations
-        for obj in self:
-            if obj.amount_total != 0:
-                if obj.type in ['out_invoice', 'out_refund']:
+        for item in self:
+            if item.amount_total != 0:
+                if item.type in ['out_invoice', 'out_refund']:
                     oniad_transaction_ids = []
-                    for invoice_line_id in obj.invoice_line_ids:
-                        if invoice_line_id.oniad_transaction_id.id>0:
+                    for invoice_line_id in item.invoice_line_ids:
+                        if invoice_line_id.oniad_transaction_id:
                             if invoice_line_id.oniad_transaction_id.id not in oniad_transaction_ids:
-                                oniad_transaction_ids.append(int(invoice_line_id.oniad_transaction_id.id))                        
-                    #check
+                                oniad_transaction_ids.append(
+                                    int(invoice_line_id.oniad_transaction_id.id)
+                                )
+                    # check
                     if len(oniad_transaction_ids) > 0:
-                        oniad_transaction_ids = self.env['oniad.transaction'].sudo().search(
+                        transaction_ids = self.env['oniad.transaction'].sudo().search(
                             [
                                 ('id', 'in', oniad_transaction_ids),
                                 ('account_payment_id', '!=', False)
                             ]
                         )
-                        if oniad_transaction_ids:
-                            for oniad_transaction_id in oniad_transaction_ids:
-                                if oniad_transaction_id.account_payment_id.payment_type == 'inbound':
-                                    for move_line_id in oniad_transaction_id.account_payment_id.move_line_ids:
-                                        if move_line_id.credit>0:
-                                            _logger.info('Factura %s pre-asignar asiento contable %s del pago %s' % (
-                                                obj.id,
-                                                move_line_id.id,
-                                                oniad_transaction_id.account_payment_id.id
-                                            ))
-                                            obj.assign_outstanding_credit(move_line_id.id)
-                                            _logger.info('Factura %s asignado asiento contable %s del pago %s' % (
-                                                obj.id,
-                                                move_line_id.id,
-                                                oniad_transaction_id.account_payment_id.id
-                                            ))
-                                elif oniad_transaction_id.account_payment_id.payment_type=='outbound':
-                                    for move_line_id in oniad_transaction_id.account_payment_id.move_line_ids:
-                                        if move_line_id.debit>0:
-                                            _logger.info('Factura %s pre-asignar asiento contable %s del pago %s' % (
-                                                obj.id,
-                                                move_line_id.id,
-                                                oniad_transaction_id.account_payment_id.id
-                                            ))
-                                            obj.assign_outstanding_credit(move_line_id.id)
-                                            _logger.info('Factura %s asignado asiento contable %s del pago %s' % (
-                                                obj.id,
-                                                move_line_id.id,
-                                                oniad_transaction_id.account_payment_id.id
-                                            ))
+                        if transaction_ids:
+                            for transaction_id in transaction_ids:
+                                payment_id = transaction_id.account_payment_id
+                                if payment_id.payment_type == 'inbound':
+                                    for move_line_id in payment_id.move_line_ids:
+                                        if move_line_id.credit > 0:
+                                            _logger.info(
+                                                _('Factura %s pre-asignar asiento contable %s del pago %s')
+                                                % (
+                                                    item.id,
+                                                    move_line_id.id,
+                                                    payment_id.id
+                                                )
+                                            )
+                                            item.assign_outstanding_credit(move_line_id.id)
+                                            _logger.info(
+                                                _('Factura %s asignado asiento contable %s del pago %s')
+                                                % (
+                                                    item.id,
+                                                    move_line_id.id,
+                                                    payment_id.id
+                                                )
+                                            )
+                                elif payment_id.payment_type == 'outbound':
+                                    for move_line_id in payment_id.move_line_ids:
+                                        if move_line_id.debit > 0:
+                                            _logger.info(
+                                                _('Factura %s pre-asignar asiento contable %s del pago %s')
+                                                % (
+                                                    item.id,
+                                                    move_line_id.id,
+                                                    payment_id.id
+                                                )
+                                            )
+                                            item.assign_outstanding_credit(move_line_id.id)
+                                            _logger.info(
+                                                _('Factura %s asignado asiento contable %s del pago %s')
+                                                % (
+                                                    item.id,
+                                                    move_line_id.id,
+                                                    payment_id.id
+                                                )
+                                            )
         # return
-        return return_action        
+        return return_action

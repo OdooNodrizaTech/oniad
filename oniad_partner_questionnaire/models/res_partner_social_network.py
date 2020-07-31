@@ -9,4 +9,4 @@ class ResPartnerSocialNetwork(models.Model):
 
     name = fields.Char(
         string="Name"
-    )     
+    )
