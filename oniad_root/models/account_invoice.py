@@ -33,7 +33,7 @@ class AccountInvoice(models.Model):
             if item:
                 if item.partner_id.oniad_address_id:
                     item.oniad_address_id = item.partner_id.oniad_address_id.id
-        
+
     @api.multi
     def compute_taxes(self):
         return_object = super(AccountInvoice, self).compute_taxes()

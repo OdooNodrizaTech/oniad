@@ -3,14 +3,13 @@ from odoo import api, fields, models, tools, _
 import json
 import logging
 import boto3
-from botocore.exceptions import ClientError
 _logger = logging.getLogger(__name__)
 
 
 class OniadAddress(models.Model):
     _name = 'oniad.address'
     _description = 'Oniad Address'
-    
+
     partner_id = fields.Many2one(
         comodel_name='res.partner',
         string='Contacto'
@@ -114,11 +113,14 @@ class OniadAddress(models.Model):
                     ]
                 )
             )
-    
+
     @api.model
     def check_vat_error(self, vat, id):
-        _logger.info(_('The vat %s of the oniad_address_id =% s is incorrect') % (vat, id))
-    
+        _logger.info(
+            _('The vat %s of the oniad_address_id =% s is incorrect')
+            % (vat, id)
+        )
+
     @api.multi
     def define_user_id_in_res_partner(self):
         for item in self:
@@ -132,8 +134,9 @@ class OniadAddress(models.Model):
                     user_id = user_ids[0]
                     if user_id.oniad_accountmanager_id:
                         if user_id.oniad_accountmanager_id.user_id:
-                            item.partner_id.user_id = user_id.oniad_accountmanager_id.user_id.id
-                
+                            item.partner_id.user_id = \
+                                user_id.oniad_accountmanager_id.user_id.id
+
     @api.multi
     def check_res_partner(self):
         self.ensure_one()
@@ -149,17 +152,20 @@ class OniadAddress(models.Model):
             'street': self.address,
             'zip': self.cp,
             'state_id': self.state_id.id,
-            'vat': str(self.country_id.code.upper())+str(self.cif),
+            'vat': "%s%s" % (
+                self.country_id.code.upper(),
+                self.cif
+            ),
             'property_account_position_id': self.fiscal_position_id.id
         }
         # phone
         if self.phone:
             first_char_phone = self.phone[:1]
-            mobile_first_chars = [6,7]
+            mobile_first_chars = [6, 7]
             if first_char_phone in mobile_first_chars:
                 partner_vals['mobile'] = self.phone
             else:
-                partner_vals['phone'] = self.phone        
+                partner_vals['phone'] = self.phone
         # operations
         if self.partner_id.id == 0:
             # customer_payment_mode_id
@@ -167,7 +173,10 @@ class OniadAddress(models.Model):
             # property_payment_term_id
             partner_vals['property_payment_term_id'] = 1  # Pago inmediato
             # check_if_need_create of previously exists
-            vat_need_check = str(self.country_id.code)+str(self.cif)            
+            vat_need_check = "%s%s" % (
+                self.country_id.code,
+                self.cif
+            )
             res_partner_ids = self.env['res.partner'].search(
                 [
                     ('is_company', '=', True),
@@ -176,7 +185,7 @@ class OniadAddress(models.Model):
             )
             if res_partner_ids:
                 self.partner_id = res_partner_ids[0].id
-            else:                                            
+            else:
                 # create
                 res_partner_obj = self.env['res.partner'].sudo().create(
                     partner_vals
@@ -200,7 +209,7 @@ class OniadAddress(models.Model):
                 'acc_number': self.a_number,
                 'partner_id': self.partner_id.id,
             }
-            #search
+            # search
             res_partner_bank_ids = self.env['res.partner.bank'].search(
                 [
                     ('acc_number', '=', self.a_number)
@@ -208,15 +217,16 @@ class OniadAddress(models.Model):
             )
             if res_partner_bank_ids:
                 _logger.info(
-                    _('VERY STRANGE that this bank account already exists to another client')
+                    _('VERY STRANGE that this bank account already '
+                      'exists to another client')
                 )
-            else:            
+            else:
                 res_partner_bank_obj = self.env['res.partner.bank'].sudo().create(
                     partner_bank_vals
                 )
                 # update
                 self.res_partner_bank_id = res_partner_bank_obj.id
-                                            
+
     @api.model
     def create(self, values):
         return_item = super(OniadAddress, self).create(values)
@@ -224,15 +234,14 @@ class OniadAddress(models.Model):
         return_item.check_res_partner()
         # return
         return return_item
-    
+
     @api.multi
-    def write(self, vals):                        
+    def write(self, vals):
         return_write = super(OniadAddress, self).write(vals)
         # operations
         self.check_res_partner()
         # return
         return return_write
-    
     
     @api.multi
     def action_send_sns(self):
@@ -241,18 +250,17 @@ class OniadAddress(models.Model):
 
         action_response = True
         # define
-        ses_sqs_url = tools.config.get('ses_sqs_url')
-        AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')        
+        AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')
         AWS_SECRET_ACCESS_KEY = tools.config.get('aws_secret_key_id')
         AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')
-        s3_bucket_docs_oniad_com = tools.config.get('s3_bucket_docs_oniad_com')                        
+        s3_bucket_docs_oniad_com = tools.config.get('s3_bucket_docs_oniad_com')
         # boto3
         sns = boto3.client(
             'sns',
-            region_name=AWS_SMS_REGION_NAME, 
+            region_name=AWS_SMS_REGION_NAME,
             aws_access_key_id=AWS_ACCESS_KEY_ID,
             aws_secret_access_key=AWS_SECRET_ACCESS_KEY
-        )        
+        )
         # message
         message = {
             'id': int(self.id),
@@ -274,44 +282,44 @@ class OniadAddress(models.Model):
         enviroment = 'dev'
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         if '//erp.oniad.com' in web_base_url:
-            enviroment = 'prod'                    
+            enviroment = 'prod'
         # sns_name
         sns_name = 'oniad-platform-command-odoo-oniad-address'
-        if enviroment=='dev':
+        if enviroment == 'dev':
             sns_name = 'oniad-platform_dev-command-odoo-oniad-address'
         # publish
+        header_string = 'Oniad\\Domain\\Odoo\\OdooPaymentDataEvent'
         response = sns.publish(
             TopicArn='arn:aws:sns:eu-west-1:534422648921:'+str(sns_name),
             Message=json.dumps(message, indent=2),
             MessageAttributes={
                 'Headers': {
                     'DataType': 'String',
-                    'StringValue': json.dumps([{'type': 'Oniad\\Domain\\Odoo\\OdooPaymentDataEvent'},[]])
+                    'StringValue': json.dumps([{'type': header_string}, []])
                 }
-            }                                
+            }
         )
         if 'MessageId' not in response:
             action_response = False
         else:
-            _logger.info(sns_name)                        
+            _logger.info(sns_name)
         # return
         return action_response
-            
-    @api.model    
+
+    @api.model
     def cron_sqs_oniad_address(self):
         _logger.info('cron_sqs_oniad_address')
-        
         sqs_oniad_address_url = tools.config.get('sqs_oniad_address_url')
-        AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')        
+        AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')
         AWS_SECRET_ACCESS_KEY = tools.config.get('aws_secret_key_id')
-        AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')                        
+        AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')
         # boto3
         sqs = boto3.client(
             'sqs',
-            region_name=AWS_SMS_REGION_NAME, 
+            region_name=AWS_SMS_REGION_NAME,
             aws_access_key_id=AWS_ACCESS_KEY_ID,
             aws_secret_access_key=AWS_SECRET_ACCESS_KEY
-        )        
+        )
         # Receive message from SQS queue
         total_messages = 10
         while total_messages > 0:
@@ -390,8 +398,10 @@ class OniadAddress(models.Model):
                                 )
                                 if oniad_country_ids:
                                     oniad_country_id = oniad_country_ids[0]
-                                    data_oniad_address['country_id'] = oniad_country_id.country_id.id
-                                    data_oniad_address['fiscal_position_id'] = oniad_country_id.fiscal_position_id.id
+                                    data_oniad_address['country_id'] = \
+                                        oniad_country_id.country_id.id
+                                    data_oniad_address['fiscal_position_id'] = \
+                                        oniad_country_id.fiscal_position_id.id
                                 else:
                                     result_message['statusCode'] = 500
                                     result_message['return_body'] = \
@@ -402,13 +412,17 @@ class OniadAddress(models.Model):
                             if data_oniad_address['oniad_country_state_id'] > 0:
                                 state_ids = self.env['oniad.country.state'].search(
                                     [
-                                        ('id', '=', int(data_oniad_address['oniad_country_state_id']))
+                                        (
+                                            'id',
+                                            '=',
+                                            int(data_oniad_address['oniad_country_state_id']))
                                     ]
                                 )
                                 if state_ids:
                                     state_id = state_ids[0]
                                     data_oniad_address['state_id'] = state_id.state_id.id
-                                    data_oniad_address['fiscal_position_id'] = state_id.fiscal_position_id.id
+                                    data_oniad_address['fiscal_position_id'] = \
+                                        state_id.fiscal_position_id.id
                                 else:
                                     result_message['statusCode'] = 500
                                     result_message['return_body'] = \
@@ -422,7 +436,9 @@ class OniadAddress(models.Model):
                             message_body['country'].upper(),
                             data_oniad_address['cif']
                         )
-                        return_check_vat = self.partner_id.sudo().check_vat_custom(vat_need_check)
+                        return_check_vat = self.partner_id.sudo().check_vat_custom(
+                            vat_need_check
+                        )
                         if not return_check_vat:
                             self.check_vat_error(vat_need_check, message_body['id'])
                             result_message['return_body'] = _('Error in CIF field')

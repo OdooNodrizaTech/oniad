@@ -3,14 +3,13 @@ from odoo import api, fields, models, tools, _
 import json
 import logging
 import boto3
-from botocore.exceptions import ClientError
 _logger = logging.getLogger(__name__)
 
 
 class OniadCountry(models.Model):
     _name = 'oniad.country'
     _description = 'Oniad Country'
-    
+
     name = fields.Char(
         string='Name'
     )
@@ -29,23 +28,23 @@ class OniadCountry(models.Model):
              'of the province will be used'
     )
     
-    @api.model    
+    @api.model
     def cron_sqs_oniad_country(self):
         _logger.info('cron_sqs_oniad_country')
         sqs_oniad_country_url = tools.config.get('sqs_oniad_country_url')
-        AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')        
+        AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')
         AWS_SECRET_ACCESS_KEY = tools.config.get('aws_secret_key_id')
-        AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')                        
-        #boto3
+        AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')
+        # boto3
         sqs = boto3.client(
             'sqs',
-            region_name=AWS_SMS_REGION_NAME, 
+            region_name=AWS_SMS_REGION_NAME,
             aws_access_key_id=AWS_ACCESS_KEY_ID,
             aws_secret_access_key=AWS_SECRET_ACCESS_KEY
-        )        
+        )
         # Receive message from SQS queue
         total_messages = 10
-        while total_messages>0:
+        while total_messages > 0:
             response = sqs.receive_message(
                 QueueUrl=sqs_oniad_country_url,
                 AttributeNames=['All'],
@@ -69,7 +68,7 @@ class OniadCountry(models.Model):
                         'statusCode': 200,
                         'return_body': 'OK',
                         'message': message_body
-                    }                    
+                    }
                     # fields_need_check
                     fields_need_check = ['id']
                     for fnc in fields_need_check:
@@ -103,7 +102,7 @@ class OniadCountry(models.Model):
                             data_oniad_country['country_id'] = res_country_ids[0].id
                         # add_id
                         if not previously_found:
-                            data_oniad_country['id'] = int(message_body['id'])                                            
+                            data_oniad_country['id'] = int(message_body['id'])
                         # final_operations
                         _logger.info(data_oniad_country)
                         # create-write

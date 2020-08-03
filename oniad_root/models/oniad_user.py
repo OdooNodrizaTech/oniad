@@ -8,7 +8,6 @@ import dateutil.parser
 import json
 import logging
 import boto3
-from botocore.exceptions import ClientError
 _logger = logging.getLogger(__name__)
 
 
@@ -16,7 +15,7 @@ class OniadUser(models.Model):
     _name = 'oniad.user'
     _description = 'Oniad User'
     _rec_name = 'id'
-    
+
     partner_id = fields.Many2one(
         comodel_name='res.partner',
         string='Partner'
@@ -176,7 +175,7 @@ class OniadUser(models.Model):
                     ]
                 )
             )
-        
+
     @api.multi
     def check_res_partner(self):
         self.ensure_one()
@@ -184,7 +183,7 @@ class OniadUser(models.Model):
             'oniad_user_id': self.id,
             'name': self.email,
             'customer': True,
-            'email': self.email,             
+            'email': self.email,
             'lang': str(self.lang)
         }
         # name
@@ -231,11 +230,11 @@ class OniadUser(models.Model):
                             if lead_id.partner_id:
                                 self.partner_id = lead_id.partner_id.id
                             else:
-                                need_create_partner = True                      
+                                need_create_partner = True
             # create
             if need_create_partner:
                 partner_obj = self.env['res.partner'].sudo().create(
-                    partner_vals
+                    vals
                 )
                 if partner_obj.id > 0:
                     self.partner_id = partner_obj.id
@@ -243,8 +242,8 @@ class OniadUser(models.Model):
             self.partner_id.update(vals)
         # Fix define_user_id_in_res_partner
         if self.oniad_address_id:
-            self.oniad_address_id.define_user_id_in_res_partner()            
-    
+            self.oniad_address_id.define_user_id_in_res_partner()
+
     @api.multi
     def check_sleep_lead(self):
         self.ensure_one()
@@ -254,7 +253,7 @@ class OniadUser(models.Model):
                 if self.tag_ids:
                     for tag_id in self.tag_ids:
                         if tag_id.tag == 'ESTADO_DORMIDO':
-                            user_dormido = True                    
+                            user_dormido = True
                 # user_dormido
                 if user_dormido:
                     lead_ids = self.env['crm.lead'].search(
@@ -265,7 +264,7 @@ class OniadUser(models.Model):
                             ('commercial_activity_type', '=', 'account'),
                             ('active', '=', True),
                             ('probability', '>', 0),
-                            ('probability', '<', 100)                  
+                            ('probability', '<', 100)
                         ]
                     )
                     if len(lead_ids) == 0:
@@ -289,13 +288,14 @@ class OniadUser(models.Model):
                         # user_id
                         if self.oniad_accountmanager_id:
                             if self.oniad_accountmanager_id.user_id:
-                                vals['user_id'] = self.oniad_accountmanager_id.user_id.id
+                                vals['user_id'] = \
+                                    self.oniad_accountmanager_id.user_id.id
                         # create
-                        if 'user_id' in crm_lead_vals:
+                        if 'user_id' in vals:
                             self.env['crm.lead'].sudo(vals['user_id']).create(vals)
-                        else:                                                
+                        else:
                             self.env['crm.lead'].sudo().create(vals)
-    
+
     @api.model
     def create(self, values):
         return_item = super(OniadUser, self).create(values)
@@ -303,7 +303,7 @@ class OniadUser(models.Model):
         return_item.check_res_partner()
         # return
         return return_item
-    
+
     @api.multi
     def write(self, vals):
         # user_id_old
@@ -312,7 +312,7 @@ class OniadUser(models.Model):
             if self.partner_id.user_id:
                 user_id_old = self.partner_id.user_id.id
         # write
-        return_write = super(OniadUser, self).write(vals)                        
+        return_write = super(OniadUser, self).write(vals)
         # operations
         self.check_res_partner()
         # self.check_sleep_lead()
@@ -327,7 +327,7 @@ class OniadUser(models.Model):
                 self.reasign_crm_leads()
         # return
         return return_write
-            
+
     @api.multi
     def reasign_crm_leads(self):
         for item in self:
@@ -352,9 +352,9 @@ class OniadUser(models.Model):
                                 ]
                             )
                             if followers_ids:
-                                for followers_id in followers_ids:
-                                    if followers_id.partner_id.id != lead_id.partner_id.id:
-                                        followers_id.unlink()
+                                for fi in followers_ids:
+                                    if fi.partner_id.id != lead_id.partner_id.id:
+                                        fi.unlink()
                             # add_new (user_id)
                             vals = {
                                 'res_model': 'crm.lead',
@@ -363,21 +363,21 @@ class OniadUser(models.Model):
                                 'subtype_ids': [(4, [1])]
                             }
                             self.env['mail.followers'].sudo().create(vals)
-    
-    @api.model    
+
+    @api.model
     def cron_sqs_oniad_user(self):
         _logger.info('cron_sqs_oniad_user')
         sqs_oniad_user_url = tools.config.get('sqs_oniad_user_url')
-        AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')        
+        AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')
         AWS_SECRET_ACCESS_KEY = tools.config.get('aws_secret_key_id')
-        AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')                        
-        #boto3
+        AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')
+        # boto3
         sqs = boto3.client(
             'sqs',
-            region_name=AWS_SMS_REGION_NAME, 
+            region_name=AWS_SMS_REGION_NAME,
             aws_access_key_id=AWS_ACCESS_KEY_ID,
             aws_secret_access_key=AWS_SECRET_ACCESS_KEY
-        )        
+        )
         # Receive message from SQS queue
         total_messages = 10
         while total_messages > 0:
@@ -393,7 +393,7 @@ class OniadUser(models.Model):
                 total_messages = 0
             # continue
             if 'Messages' in response:
-                for message in response['Messages']:                    
+                for message in response['Messages']:
                     # message_body
                     message_body = json.loads(message['Body'])
                     # fix message
@@ -411,8 +411,7 @@ class OniadUser(models.Model):
                         if fnc not in message_body:
                             result_message['statusCode'] = 500
                             result_message['return_body'] = \
-                                _('The field does not exist %s') \
-                                %fnc
+                                _('The field does not exist %s') %fnc
                     # operations
                     if result_message['statusCode'] == 200:
                         previously_found = False
@@ -423,7 +422,7 @@ class OniadUser(models.Model):
                             ]
                         )
                         if user_ids:
-                            previously_found = True                        
+                            previously_found = True
                         # params
                         vals = {
                             'currency_id': 1,
@@ -443,16 +442,24 @@ class OniadUser(models.Model):
                         # created_at
                         if 'created_at' in message_body:
                             if message_body['created_at'] is not None:
-                                created_at = dateutil.parser.parse(str(message_body['created_at']))
-                                created_at = created_at.replace() - created_at.utcoffset()
-                                vals['create_date'] = created_at.strftime("%Y-%m-%d %H:%M:%S")
+                                created_at = dateutil.parser.parse(
+                                    str(message_body['created_at'])
+                                )
+                                created_at = \
+                                    created_at.replace() - created_at.utcoffset()
+                                vals['create_date'] = \
+                                    created_at.strftime("%Y-%m-%d %H:%M:%S")
                         # last_login
                         if 'last_login' in message_body:
                             if message_body['last_login'] is not None:
                                 if message_body['last_login'] != '':
-                                    last_login = dateutil.parser.parse(str(message_body['last_login']))
-                                    last_login = last_login.replace() - last_login.utcoffset()
-                                    vals['last_login'] = last_login.strftime("%Y-%m-%d %H:%M:%S")
+                                    last_login = dateutil.parser.parse(
+                                        str(message_body['last_login'])
+                                    )
+                                    last_login = \
+                                        last_login.replace() - last_login.utcoffset()
+                                    vals['last_login'] = \
+                                        last_login.strftime("%Y-%m-%d %H:%M:%S")
                         # fields_need_check
                         fields_need_check = [
                             'last_name', 'phone', 'timezone', 'parent_id', 'confirmed'
@@ -460,7 +467,7 @@ class OniadUser(models.Model):
                         for fnc in fields_need_check:
                             if fnc in message_body:
                                 if message_body[fnc] != '':
-                                    if message_body[fnc] != None:
+                                    if message_body[fnc] is not None:
                                         if field_need_check in ['last_name']:
                                             try:
                                                 vals[fnc] = str(message_body[fnc].encode('utf-8'))
@@ -481,7 +488,8 @@ class OniadUser(models.Model):
                             )
                             if len(oniad_user_ids) == 0:
                                 result_message['statusCode'] = 500
-                                result_message['return_body'] = _('User (parent_id) %s does not exist') % vals['parent_id']
+                                result_message['return_body'] = \
+                                    _('User (parent_id) %s does not exist') % vals['parent_id']
                         # address_id
                         if 'address_id' in message_body:
                             if message_body['address_id'] != '':
@@ -565,20 +573,20 @@ class OniadUser(models.Model):
                             ReceiptHandle=message['ReceiptHandle']
                         )
                 
-    @api.model    
+    @api.model
     def cron_sqs_oniad_usertag(self):
         _logger.info('cron_sqs_oniad_usertag')
         sqs_oniad_usertag_url = tools.config.get('sqs_oniad_usertag_url')
-        AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')        
+        AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')
         AWS_SECRET_ACCESS_KEY = tools.config.get('aws_secret_key_id')
-        AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')                        
-        #boto3
+        AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')
+        # boto3
         sqs = boto3.client(
             'sqs',
             region_name=AWS_SMS_REGION_NAME, 
             aws_access_key_id=AWS_ACCESS_KEY_ID,
             aws_secret_access_key=AWS_SECRET_ACCESS_KEY
-        )        
+        )
         # Receive message from SQS queue
         total_messages = 10
         while total_messages > 0:
@@ -652,7 +660,7 @@ class OniadUser(models.Model):
                             ReceiptHandle=message['ReceiptHandle']
                         )        
         
-    @api.model    
+    @api.model
     def cron_oniad_user_auto_generate_welcome_lead_id(self):
         _logger.info('cron_oniad_user_auto_generate_welcome_lead_id')
         current_date = datetime.today()

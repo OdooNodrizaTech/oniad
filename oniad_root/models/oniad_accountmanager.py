@@ -3,7 +3,6 @@ from odoo import api, fields, models, tools, _
 import json
 import logging
 import boto3
-from botocore.exceptions import ClientError
 _logger = logging.getLogger(__name__)
 
 
@@ -11,7 +10,7 @@ class OniadAccountmanager(models.Model):
     _name = 'oniad.accountmanager'
     _description = 'Oniad Accountmanager'
     _rec_name = 'email'
-            
+
     user_id = fields.Many2one(
         comodel_name='res.users',
         string='Usuario'
@@ -19,22 +18,21 @@ class OniadAccountmanager(models.Model):
     email = fields.Char(
         string='Email'
     )
-    
-    @api.model    
+
+    @api.model
     def cron_sqs_oniad_accountmanager(self):
         _logger.info('cron_sqs_oniad_accountmanager')
-        
         sqs_oniad_accountmanager_url = tools.config.get('sqs_oniad_accountmanager_url')
-        AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')        
+        AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')
         AWS_SECRET_ACCESS_KEY = tools.config.get('aws_secret_key_id')
-        AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')                        
+        AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')
         # boto3
         sqs = boto3.client(
             'sqs',
-            region_name=AWS_SMS_REGION_NAME, 
+            region_name=AWS_SMS_REGION_NAME,
             aws_access_key_id=AWS_ACCESS_KEY_ID,
             aws_secret_access_key=AWS_SECRET_ACCESS_KEY
-        )        
+        )
         # Receive message from SQS queue
         total_messages = 10
         while total_messages > 0:
@@ -93,7 +91,7 @@ class OniadAccountmanager(models.Model):
                         if not previously_found:
                             self.env['oniad.accountmanager'].sudo().create(vals)
                         else:
-                            #write
+                            # write
                             accountmanager_ids[0].write(vals)
                     # final_operations
                     result_message['data'] = vals

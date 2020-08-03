@@ -14,7 +14,7 @@ class CrmLead(models.Model):
         comodel_name='sendinblue.list',
         string='Sendinblue List'
     )
-    
-    @api.one    
+
+    @api.one
     def action_leads_create_sendinblue_list_id(self):
-        return True                    
+        return True

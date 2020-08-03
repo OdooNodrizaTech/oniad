@@ -1,12 +1,10 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-import werkzeug
-
-from odoo import fields, http, _
+from odoo import http
 from odoo.http import request
 
 
 class OniadAddressController(http.Controller):
-    
+
     @http.route("/oniad_address/<int:oniad_address_id>",
                 type='http',
                 auth="user",
@@ -31,9 +29,9 @@ class OniadAddressController(http.Controller):
                         '/web?&#id=%s&view_type=form&model=res.partner'
                         % address_ids[0].partner_id.id
                     )
-                    
+
 class OniadUserController(http.Controller):
-    
+
     @http.route("/oniad_user/<int:oniad_user_id>",
                 type='http',
                 auth="user",

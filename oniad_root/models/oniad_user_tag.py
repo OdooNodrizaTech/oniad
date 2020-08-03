@@ -6,7 +6,7 @@ from odoo import fields, models
 class OniadUserTag(models.Model):
     _name = 'oniad.user.tag'
     _description = 'Oniad User Tag'
-    
+
     oniad_user_id = fields.Many2one(
         comodel_name='oniad.user',
         string='Oniad User Id'

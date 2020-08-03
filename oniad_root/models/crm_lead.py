@@ -6,7 +6,7 @@ _logger = logging.getLogger(__name__)
 
 class CrmLead(models.Model):
     _inherit = 'crm.lead'
-    
+
     oniad_campaign_id = fields.Many2one(
         comodel_name='oniad.campaign',
         string='Oniad Campaign'
@@ -62,7 +62,7 @@ class CrmLead(models.Model):
                     self.user_id.id
                 ).create(vals)
             else:
-                mail_obj = self.env['mail.compose.message'].with_context().sudo().create(
+                mail_obj = self.env['mail.compose.message'].sudo().create(
                     vals
                 )
 

@@ -23,6 +23,6 @@
         "python": [
             "sib_api_v3_sdk"
         ],
-    },    
+    },
     "installable": True
 }

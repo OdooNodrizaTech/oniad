@@ -10,7 +10,7 @@ class AccountInvoiceLine(models.Model):
         comodel_name='oniad.transaction',
         string='Oniad Transaction'
     )
-    
+
     @api.model
     def create(self, values):
         res = super(AccountInvoiceLine, self).create(values)

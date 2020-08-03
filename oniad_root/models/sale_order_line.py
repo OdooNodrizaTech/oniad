@@ -5,12 +5,12 @@ from odoo import api, fields, models
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
-        
+
     oniad_transaction_id = fields.Many2one(
         comodel_name='oniad.transaction',
         string='Oniad Transaction'
     )
-    
+
     @api.model
     def create(self, values):
         res = super(SaleOrderLine, self).create(values)

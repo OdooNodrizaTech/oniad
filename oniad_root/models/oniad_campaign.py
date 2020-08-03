@@ -4,14 +4,13 @@ import json
 import dateutil.parser
 import logging
 import boto3
-from botocore.exceptions import ClientError
 _logger = logging.getLogger(__name__)
 
 
 class OniadCampaign(models.Model):
     _name = 'oniad.campaign'
     _description = 'Oniad Campaign'
-    
+
     name = fields.Char(
         string='Name'
     )
@@ -32,7 +31,7 @@ class OniadCampaign(models.Model):
             ('2', 'Retargeting Web'),
             ('3', 'Retargeting Email'),
         ],
-        string='Tipo', 
+        string='Tipo',
     )
     state = fields.Selection(
         selection=[
@@ -85,25 +84,24 @@ class OniadCampaign(models.Model):
     spent_at = fields.Datetime(
         string='Spent At'
     )
-    
-    @api.model    
+
+    @api.model
     def cron_sqs_oniad_campaign(self):
         _logger.info('cron_sqs_oniad_campaign')
-        
         sqs_oniad_campaign_url = tools.config.get('sqs_oniad_campaign_url')
-        AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')        
+        AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')
         AWS_SECRET_ACCESS_KEY = tools.config.get('aws_secret_key_id')
-        AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')                        
-        #boto3
+        AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')
+        # boto3
         sqs = boto3.client(
             'sqs',
-            region_name=AWS_SMS_REGION_NAME, 
+            region_name=AWS_SMS_REGION_NAME,
             aws_access_key_id=AWS_ACCESS_KEY_ID,
             aws_secret_access_key=AWS_SECRET_ACCESS_KEY
-        )        
+        )
         # Receive message from SQS queue
         total_messages = 10
-        while total_messages>0:
+        while total_messages > 0:
             response = sqs.receive_message(
                 QueueUrl=sqs_oniad_campaign_url,
                 AttributeNames=['All'],
@@ -119,7 +117,7 @@ class OniadCampaign(models.Model):
                 for message in response['Messages']:
                     # message_body
                     message_body = json.loads(message['Body'])
-                    #fix message
+                    # fix message
                     if 'Message' in message_body:
                         message_body = json.loads(message_body['Message'])
                     # result_message
@@ -174,15 +172,23 @@ class OniadCampaign(models.Model):
                         # date_start
                         if 'date_start' in message_body:
                             if message_body['date_start'] != '':
-                                date_start = dateutil.parser.parse(str(message_body['date_start']))
-                                date_start = date_start.replace() - date_start.utcoffset()
-                                data_oniad_campaign['date_start'] = date_start.strftime("%Y-%m-%d %H:%M:%S")                
+                                date_start = dateutil.parser.parse(
+                                    str(message_body['date_start'])
+                                )
+                                date_start =\
+                                    date_start.replace() - date_start.utcoffset()
+                                data_oniad_campaign['date_start'] = \
+                                    date_start.strftime("%Y-%m-%d %H:%M:%S")
                         # date_finish
                         if 'date_finish' in message_body:
                             if message_body['date_finish'] != '':
-                                date_finish = dateutil.parser.parse(str(message_body['date_finish']))
-                                date_finish = date_finish.replace() - date_finish.utcoffset()
-                                data_oniad_campaign['date_finish'] = date_finish.strftime("%Y-%m-%d %H:%M:%S")
+                                date_finish = dateutil.parser.parse(
+                                    str(message_body['date_finish'])
+                                )
+                                date_finish = \
+                                    date_finish.replace() - date_finish.utcoffset()
+                                data_oniad_campaign['date_finish'] = \
+                                    date_finish.strftime("%Y-%m-%d %H:%M:%S")
                         # add_id
                         if not previously_found:
                             data_oniad_campaign['id'] = int(message_body['id'])
@@ -194,7 +200,7 @@ class OniadCampaign(models.Model):
                                         ('id', '=', int(data_oniad_campaign['oniad_user_id']))
                                     ]
                                 )
-                                if len(oniad_user_ids)==0:
+                                if len(oniad_user_ids) == 0:
                                     result_message['statusCode'] = 500
                                     result_message['return_body'] = \
                                         _('oniad_user_id=%s field does not exist') \
@@ -217,23 +223,23 @@ class OniadCampaign(models.Model):
                             ReceiptHandle=message['ReceiptHandle']
                         )
     
-    @api.model    
+    @api.model
     def cron_sqs_oniad_campaign_report(self):
         _logger.info('cron_sqs_oniad_campaign_report')
         sqs_oniad_campaign_report_url = tools.config.get('sqs_oniad_campaign_report_url')
-        AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')        
+        AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')
         AWS_SECRET_ACCESS_KEY = tools.config.get('aws_secret_key_id')
-        AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')                        
+        AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')
         #boto3
         sqs = boto3.client(
             'sqs',
-            region_name=AWS_SMS_REGION_NAME, 
+            region_name=AWS_SMS_REGION_NAME,
             aws_access_key_id=AWS_ACCESS_KEY_ID,
             aws_secret_access_key=AWS_SECRET_ACCESS_KEY
-        )        
+        )
         # Receive message from SQS queue
         total_messages = 10
-        while total_messages>0:
+        while total_messages > 0:
             response = sqs.receive_message(
                 QueueUrl=sqs_oniad_campaign_report_url,
                 AttributeNames=['All'],
@@ -282,7 +288,8 @@ class OniadCampaign(models.Model):
                             oniad_campaign_id.spent_at = spent_at.strftime("%Y-%m-%d %H:%M:%S")
                         else:
                             result_message['statusCode'] = 500
-                            result_message['return_body'] = _('oniad_campaign_id=%s not found') % campaign_id
+                            result_message['return_body'] = \
+                                _('oniad_campaign_id=%s not found') % campaign_id
                     # final_operations
                     _logger.info(result_message)
                     # remove_message

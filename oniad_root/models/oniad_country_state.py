@@ -28,24 +28,24 @@ class OniadCountryState(models.Model):
         comodel_name='account.fiscal.position',
         string='Posicion fiscal'
     )
-    
-    @api.model    
+
+    @api.model
     def cron_sqs_oniad_country_state(self):
         _logger.info('cron_sqs_oniad_country_state')
         sqs_oniad_country_state_url = tools.config.get('sqs_oniad_country_state_url')
-        AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')        
+        AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')
         AWS_SECRET_ACCESS_KEY = tools.config.get('aws_secret_key_id')
-        AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')                        
-        #boto3
+        AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')
+        # boto3
         sqs = boto3.client(
             'sqs',
-            region_name=AWS_SMS_REGION_NAME, 
+            region_name=AWS_SMS_REGION_NAME,
             aws_access_key_id=AWS_ACCESS_KEY_ID,
             aws_secret_access_key=AWS_SECRET_ACCESS_KEY
-        )        
+        )
         # Receive message from SQS queue
         total_messages = 10
-        while total_messages>0:
+        while total_messages > 0:
             response = sqs.receive_message(
                 QueueUrl=sqs_oniad_country_state_url,
                 AttributeNames=['All'],
@@ -69,7 +69,7 @@ class OniadCountryState(models.Model):
                         'statusCode': 200,
                         'return_body': 'OK',
                         'message': message_body
-                    }                    
+                    }
                     # fields_need_check
                     fields_need_check = ['id']
                     for fnc in fields_need_check:
@@ -108,10 +108,16 @@ class OniadCountryState(models.Model):
                                     # search_state_id
                                     if '-' in data['iso_code']:
                                         iso_code_split = data['iso_code'].split('-')
-                                        state_ids = self.env['res.country.state'].search(
+                                        state_ids = self.env[
+                                            'res.country.state'
+                                        ].search(
                                             [
                                                 ('code', '=', str(iso_code_split[1])),
-                                                ('country_id', '=', country_ids[0].country_id.id)
+                                                (
+                                                    'country_id',
+                                                    '=',
+                                                    country_ids[0].country_id.id
+                                                )
                                             ]
                                         )
                                         if len(state_ids) > 0:
@@ -132,7 +138,7 @@ class OniadCountryState(models.Model):
                         else:
                             self.env['oniad.country.state'].sudo().create(data)
                     # final_operations
-                    result_message['data'] = data_oniad_country_state
+                    result_message['data'] = data
                     _logger.info(result_message)
                     # remove_message
                     if result_message['statusCode'] == 200:

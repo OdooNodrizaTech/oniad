@@ -6,7 +6,7 @@ _logger = logging.getLogger(__name__)
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
-    
+
     oniad_user_id = fields.Many2one(
         comodel_name='oniad.user',
         string='Oniad User'
@@ -20,7 +20,7 @@ class ResPartner(models.Model):
         string='OniAd User',
         store=False
     )
-    
+
     @api.multi
     @api.depends('oniad_user_id')
     def _compute_oniad_user_id_link(self):
@@ -45,17 +45,17 @@ class ResPartner(models.Model):
         else:
             # quick and partial off-line checksum validation
             check_func = self.simple_vat_check
-            
+
         if vat is None:
             return False
-        
+
         vat_country, vat_number = self._split_vat(vat)
         if check_func(vat_country, vat_number):
             return True
         else:
             _logger.info(_("Importing VAT Number [%s] is not valid !") % vat_number)
             return False
-            
+
     @api.multi
     def write(self, vals):
         send_sns_oniad_address_id_custom = False
@@ -64,7 +64,7 @@ class ResPartner(models.Model):
             customer_payment_mode_id_old = self.customer_payment_mode_id.id
         # property_payment_term_id
         if 'property_payment_term_id' in vals:
-            property_payment_term_id_old = self.property_payment_term_id.id            
+            property_payment_term_id_old = self.property_payment_term_id.id
         # super
         return_object = super(ResPartner, self).write(vals)
         # customer_payment_mode_id
@@ -74,10 +74,10 @@ class ResPartner(models.Model):
         # property_payment_term_id
         if 'property_payment_term_id' in vals:
             if self.property_payment_term_id.id != property_payment_term_id_old:
-                send_sns_oniad_address_id_custom = True                
+                send_sns_oniad_address_id_custom = True
         # send
         if send_sns_oniad_address_id_custom:
             if self.oniad_address_id:
                 self.oniad_address_id.action_send_sns()
         # return
-        return return_object                                                                 
+        return return_object
