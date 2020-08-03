@@ -156,8 +156,8 @@ class OniadTransaction(models.Model):
                     'communication': dict(
                         self.fields_get(allfields=['subject'])['subject']['selection']
                     )[self.subject],
-                    'oniad_transaction_id': self.id,                                                                                                 
-                }                     
+                    'oniad_transaction_id': self.id,
+                }
                 # oniad_product_id
                 if self.type == 'TYPE_CREDIT':
                     vals['oniad_product_id'] = int(
@@ -283,8 +283,8 @@ class OniadTransaction(models.Model):
                         'account_id': product.property_account_income_id.id,
                         'purchase_price': self.total*0.5,
                         'currency_id': self.currency_id.id,
-                        'product_id': oniad_product_id                      
-                    }                 
+                        'product_id': oniad_product_id
+                    }
                     self.env['account.invoice.line'].sudo().create(vals)
                     # compute_taxes
                     invoice_obj.compute_taxes()
@@ -320,7 +320,7 @@ class OniadTransaction(models.Model):
                     'partner_invoice_id': oap.id,
                     'state': 'sent',
                     'note': '',
-                    'currency_id': self.currency_id.id,                                         
+                    'currency_id': self.currency_id.id,
                 }
                 # payment_mode_id
                 if oap.customer_payment_mode_id:
@@ -358,8 +358,8 @@ class OniadTransaction(models.Model):
                     'price_subtotal': self.total,
                     'purchase_price': self.total*0.5,
                     'currency_id': self.currency_id.id,
-                    'product_id': oniad_product_id                      
-                }                 
+                    'product_id': oniad_product_id
+                }
                 self.env['sale.order.line'].sudo(
                     order_obj.create_uid
                 ).create(vals)
@@ -367,7 +367,7 @@ class OniadTransaction(models.Model):
                 order_obj.state = 'sent'
                 # save sale_order_id
                 self.sale_order_id = order_obj.id
-    
+
     @api.model
     def create(self, values):
         return_item = super(OniadTransaction, self).create(values)
@@ -375,9 +375,9 @@ class OniadTransaction(models.Model):
         return_item.check_account_payment()
         # return
         return return_item
-    
+
     @api.multi
-    def write(self, vals):                        
+    def write(self, vals):
         return_write = super(OniadTransaction, self).write(vals)
         # operations
         self.check_account_payment()
@@ -388,13 +388,13 @@ class OniadTransaction(models.Model):
     def cron_sqs_oniad_transaction(self):
         _logger.info('cron_sqs_oniad_transaction')
         sqs_url = tools.config.get('sqs_oniad_transaction_url')
-        AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')        
+        AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')
         AWS_SECRET_ACCESS_KEY = tools.config.get('aws_secret_key_id')
-        AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')                        
+        AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')
         # boto3
         sqs = boto3.client(
             'sqs',
-            region_name=AWS_SMS_REGION_NAME, 
+            region_name=AWS_SMS_REGION_NAME,
             aws_access_key_id=AWS_ACCESS_KEY_ID,
             aws_secret_access_key=AWS_SECRET_ACCESS_KEY
         )
@@ -435,7 +435,7 @@ class OniadTransaction(models.Model):
                     # operations
                     if result_message['statusCode'] == 200:
                         previously_found = False
-                        id_item = int(message_body['id'])                        
+                        id_item = int(message_body['id'])
                         transaction_ids = self.env['oniad.transaction'].search(
                             [
                                 ('id', '=', id_item)
@@ -458,7 +458,9 @@ class OniadTransaction(models.Model):
                             'subject': str(message_body['subject']),
                         }
                         # completed_at
-                        completed_at = dateutil.parser.parse(str(message_body['completed_at']))
+                        completed_at = dateutil.parser.parse(
+                            str(message_body['completed_at'])
+                        )
                         completed_at = completed_at.replace() - completed_at.utcoffset()
                         vals['date'] = completed_at.strftime("%Y-%m-%d %H:%M:%S")
                         vals['create_date'] = completed_at.strftime("%Y-%m-%d %H:%M:%S")
@@ -517,7 +519,7 @@ class OniadTransaction(models.Model):
                             QueueUrl=sqs_url,
                             ReceiptHandle=message['ReceiptHandle']
                         )
-            
+
     @api.model    
     def cron_action_account_invoices_generate(self):
         _logger.info('cron_action_account_invoices_generate')
@@ -543,9 +545,13 @@ class OniadTransaction(models.Model):
             ]
         )
         # dates
-        current_date = datetime.today()        
+        current_date = datetime.today()
         start_date = current_date + relativedelta(months=-1, day=1)
-        end_date = datetime(start_date.year, start_date.month, 1) + relativedelta(months=1, days=-1)
+        end_date = datetime(
+            start_date.year,
+            start_date.month,
+            1
+        ) + relativedelta(months=1, days=-1)
         date_invoice = end_date
         if end_date.day == 31 and end_date.month == 12:
             date_invoice = date_invoice + relativedelta(days=-1)
@@ -566,12 +572,24 @@ class OniadTransaction(models.Model):
                     ('state', '=', 'STATUS_COMPLETED'),
                     ('actor', '=', 'ACTOR_ONIAD'),
                     ('medium', '=', 'MEDIUM_STRIPE'),
-                    ('subject', 'in', ('SUBJECT_CHARGE', 'SUBJECT_BANNERS', 'SUBJECT_REFUND')),
+                    (
+                        'subject',
+                        'in',
+                        (
+                            'SUBJECT_CHARGE',
+                            'SUBJECT_BANNERS',
+                            'SUBJECT_REFUND'
+                        )
+                    ),
                     ('account_payment_id', '!=', False),
                     ('account_payment_id.journal_id', '=', oniad_stripe_journal_id),
                     ('account_payment_id.state', 'in', ('posted', 'sent')),
                     ('account_payment_id.payment_type', 'in', ('inbound', 'outbound')),
-                    ('account_payment_id.payment_date', '<=', end_date.strftime("%Y-%m-%d")),
+                    (
+                        'account_payment_id.payment_date',
+                        '<=',
+                        end_date.strftime("%Y-%m-%d")
+                    ),
                     ('date', '>=', '2020-01-01'),
                     ('id', 'not in', line_ids_mapped.ids)
                 ]
@@ -579,15 +597,16 @@ class OniadTransaction(models.Model):
             if transaction_ids:
                 partner_payments = {}
                 for transaction_id in transaction_ids:
-                    payment_with_invoice = False 
-                    if transaction_id.account_payment_id.has_invoices:
+                    t_ap = transaction_id.account_payment_id
+                    payment_with_invoice = False
+                    if t_ap.has_invoices:
                         payment_with_invoice = True
-                        
+
                     if not payment_with_invoice:
-                        if transaction_id.account_payment_id.partner_id.id not in partner_payments:
-                            partner_payments[transaction_id.account_payment_id.partner_id.id] = []
+                        if t_ap.partner_id.id not in partner_payments:
+                            partner_payments[t_ap.partner_id.id] = []
                         # append
-                        partner_payments[transaction_id.account_payment_id.partner_id.id].append(
+                        partner_payments[t_ap.partner_id.id].append(
                             transaction_id.account_payment_id
                         )
                 # operations
@@ -598,7 +617,7 @@ class OniadTransaction(models.Model):
                     for partner_id, partner_payments_item in partner_payments.items():                    
                         count += 1
                         # types
-                        partner_payments_by_type = {'inbound': [],'outbound': []}
+                        partner_payments_by_type = {'inbound': [], 'outbound': []}
                         payment_types_item_amount = {'inbound': 0, 'outbound': 0}
                         # calculate_total and by_type
                         for partner_payment_item in partner_payments_item:
@@ -614,9 +633,9 @@ class OniadTransaction(models.Model):
                         # inbound
                         if payment_types_item_amount['inbound'] > 0:
                             # partner_payment_by_type_item_0
-                            partner_payment_by_type_item_0 = partner_payments_by_type['inbound'][0]
+                            pp_type_item_0 = partner_payments_by_type['inbound'][0]
                             # partner
-                            partner = partner_payment_by_type_item_0.partner_id
+                            partner = pp_type_item_0.partner_id
                             # percent
                             percent = (float(count)/float(len(partner_payments)))*100
                             percent = "{0:.2f}".format(percent)                                    
@@ -631,10 +650,10 @@ class OniadTransaction(models.Model):
                                 'date_due': date_invoice.strftime("%Y-%m-%d"),
                                 'state': 'draft',
                                 'comment': ' ',
-                                'currency_id': partner_payment_by_type_item_0.currency_id.id                                         
+                                'currency_id': pp_type_item_0.currency_id.id
                             }
                             # user_id (el del partner_payment_by_type_item_0 > oniad_user_id > partner_id > user_id)
-                            pp_item_0_ot = partner_payment_by_type_item_0.oniad_transaction_id
+                            pp_item_0_ot = pp_type_item_0.oniad_transaction_id
                             if pp_item_0_ot:
                                 if pp_item_0_ot.oniad_user_id:
                                     if pp_item_0_ot.oniad_user_id.partner_id:
@@ -685,12 +704,12 @@ class OniadTransaction(models.Model):
                         # outbound
                         if payment_types_item_amount['outbound'] > 0:
                             # partner_payment_by_type_item_0
-                            partner_payment_by_type_item_0 = partner_payments_by_type['outbound'][0]
+                            pp_type_item_0 = partner_payments_by_type['outbound'][0]
                             # search out_invoice
                             invoice_ids_out_invoice = self.env['account.invoice'].search(
                                 [
                                     ('type', '=', 'out_invoice'),
-                                    ('partner_id', '=', partner_payment_by_type_item_0.partner_id.id),
+                                    ('partner_id', '=', pp_type_item_0.partner_id.id),
                                     ('amount_total', '>=', payment_types_item_amount['outbound'])
                                 ],
                                 order="date_invoice desc"

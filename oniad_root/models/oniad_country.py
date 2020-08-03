@@ -27,7 +27,7 @@ class OniadCountry(models.Model):
              'has no province, otherwise the fiscal fiscal position '
              'of the province will be used'
     )
-    
+
     @api.model
     def cron_sqs_oniad_country(self):
         _logger.info('cron_sqs_oniad_country')

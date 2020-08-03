@@ -242,7 +242,7 @@ class OniadAddress(models.Model):
         self.check_res_partner()
         # return
         return return_write
-    
+
     @api.multi
     def action_send_sns(self):
         self.ensure_one()
@@ -253,7 +253,6 @@ class OniadAddress(models.Model):
         AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')
         AWS_SECRET_ACCESS_KEY = tools.config.get('aws_secret_key_id')
         AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')
-        s3_bucket_docs_oniad_com = tools.config.get('s3_bucket_docs_oniad_com')
         # boto3
         sns = boto3.client(
             'sns',
@@ -367,7 +366,7 @@ class OniadAddress(models.Model):
                         if oniad_address_ids:
                             previously_found = True
                         # params
-                        data_oniad_address = {
+                        vals = {
                             'name': str(message_body['name'].encode('utf-8')),
                             'oniad_country_id': int(message_body['country_id']),
                             'oniad_country_state_id': int(message_body['state_id']),
@@ -383,58 +382,49 @@ class OniadAddress(models.Model):
                                     if message_body[fnc] is not None:
                                         if field_need_check in ['city', 'address']:
                                             try:
-                                                data_oniad_address[fnc] = str(message_body[fnc].encode('utf-8'))
+                                                vals[fnc] = str(message_body[fnc].encode('utf-8'))
                                             except:
-                                                data_oniad_address[fnc] = str(message_body[fnc])
+                                                vals[fnc] = str(message_body[fnc])
                                         else:
-                                            data_oniad_address[fnc] = str(message_body[fnc])
+                                            vals[fnc] = str(message_body[fnc])
                         # oniad_country_id
-                        if 'oniad_country_id' in data_oniad_address:
-                            if data_oniad_address['oniad_country_id'] > 0:
+                        if 'oniad_country_id' in vals:
+                            if vals['oniad_country_id'] > 0:
                                 oniad_country_ids = self.env['oniad.country'].search(
                                     [
-                                        ('id', '=', int(data_oniad_address['oniad_country_id']))
+                                        ('id', '=', int(vals['oniad_country_id']))
                                     ]
                                 )
                                 if oniad_country_ids:
                                     oniad_country_id = oniad_country_ids[0]
-                                    data_oniad_address['country_id'] = \
-                                        oniad_country_id.country_id.id
-                                    data_oniad_address['fiscal_position_id'] = \
-                                        oniad_country_id.fiscal_position_id.id
+                                    vals['country_id'] = oniad_country_id.country_id.id
+                                    vals['fiscal_position_id'] = oniad_country_id.fiscal_position_id.id
                                 else:
                                     result_message['statusCode'] = 500
                                     result_message['return_body'] = \
-                                        _('country_id=%s does not exist') \
-                                        % data_oniad_address['oniad_country_id']
+                                        _('country_id=%s does not exist') % vals['oniad_country_id']
                         # state_id
-                        if 'oniad_country_state_id' in data_oniad_address:
-                            if data_oniad_address['oniad_country_state_id'] > 0:
+                        if 'oniad_country_state_id' in vals:
+                            if vals['oniad_country_state_id'] > 0:
                                 state_ids = self.env['oniad.country.state'].search(
                                     [
-                                        (
-                                            'id',
-                                            '=',
-                                            int(data_oniad_address['oniad_country_state_id']))
-                                    ]
+                                        ('id', '=', int(vals['oniad_country_state_id']))]
                                 )
                                 if state_ids:
                                     state_id = state_ids[0]
-                                    data_oniad_address['state_id'] = state_id.state_id.id
-                                    data_oniad_address['fiscal_position_id'] = \
-                                        state_id.fiscal_position_id.id
+                                    vals['state_id'] = state_id.state_id.id
+                                    vals['fiscal_position_id'] = state_id.fiscal_position_id.id
                                 else:
                                     result_message['statusCode'] = 500
                                     result_message['return_body'] = \
-                                        _('state_id=%s does not exist') \
-                                        % data_oniad_address['oniad_country_state_id']
+                                        _('state_id=%s does not exist') % vals['oniad_country_state_id']
                         # add_id
                         if not previously_found:
-                            data_oniad_address['id'] = int(message_body['id'])
+                            vals['id'] = int(message_body['id'])
                         # check_cif
                         vat_need_check = "%s%s" % (
                             message_body['country'].upper(),
-                            data_oniad_address['cif']
+                            vals['cif']
                         )
                         return_check_vat = self.partner_id.sudo().check_vat_custom(
                             vat_need_check
@@ -444,17 +434,17 @@ class OniadAddress(models.Model):
                             result_message['return_body'] = _('Error in CIF field')
                         else:                                                                                                   
                             # final_operations
-                            result_message['data'] = data_oniad_address
+                            result_message['data'] = vals
                             _logger.info(result_message)
                             # create-write
                             if not previously_found:
                                 self.env['oniad.address'].sudo().create(
-                                    data_oniad_address
+                                    vals
                                 )
                             else:
                                 oniad_address_id = oniad_address_ids[0]
                                 # write
-                                oniad_address_id.write(data_oniad_address)                                                    
+                                oniad_address_id.write(vals)
                     # remove_message
                     if result_message['statusCode'] == 200:
                         sqs.delete_message(

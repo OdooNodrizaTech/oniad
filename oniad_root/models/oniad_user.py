@@ -411,7 +411,7 @@ class OniadUser(models.Model):
                         if fnc not in message_body:
                             result_message['statusCode'] = 500
                             result_message['return_body'] = \
-                                _('The field does not exist %s') %fnc
+                                _('The field does not exist %s') % fnc
                     # operations
                     if result_message['statusCode'] == 200:
                         previously_found = False
@@ -468,19 +468,20 @@ class OniadUser(models.Model):
                             if fnc in message_body:
                                 if message_body[fnc] != '':
                                     if message_body[fnc] is not None:
-                                        if field_need_check in ['last_name']:
+                                        if fnc in ['last_name']:
                                             try:
-                                                vals[fnc] = str(message_body[fnc].encode('utf-8'))
+                                                vals[fnc] = \
+                                                    str(message_body[fnc].encode('utf-8'))
                                             except:
                                                 vals[fnc] = str(message_body[fnc])
                                         else:
                                             vals[fnc] = str(message_body[fnc])
                         # parent_id
-                        if 'parent_id' in data_oniad_user:
+                        if 'parent_id' in vals:
                             if vals['parent_id'] == '0':
                                 del vals['parent_id']
                         # check parent_id exists
-                        if 'parent_id' in data_oniad_user:
+                        if 'parent_id' in vals:
                             oniad_user_ids = self.env['oniad.user'].search(
                                 [
                                     ('id', '=', vals['parent_id'])
@@ -489,19 +490,22 @@ class OniadUser(models.Model):
                             if len(oniad_user_ids) == 0:
                                 result_message['statusCode'] = 500
                                 result_message['return_body'] = \
-                                    _('User (parent_id) %s does not exist') % vals['parent_id']
+                                    _('User (parent_id) %s does not exist') \
+                                    % vals['parent_id']
                         # address_id
                         if 'address_id' in message_body:
                             if message_body['address_id'] != '':
                                 if message_body['address_id'] is not None:
                                     if int(message_body['address_id']) != 0:
-                                        vals['oniad_address_id'] = int(message_body['address_id'])
+                                        vals['oniad_address_id'] = \
+                                            int(message_body['address_id'])
                         # accountmanager_id
                         if 'accountmanager_id' in message_body:
                             if message_body['accountmanager_id'] != '':
                                 if message_body['accountmanager_id'] is not None:
                                     if int(message_body['accountmanager_id']) != 0:
-                                        vals['oniad_accountmanager_id'] = int(message_body['accountmanager_id'])
+                                        vals['oniad_accountmanager_id'] = \
+                                            int(message_body['accountmanager_id'])
                         # type
                         if 'roles' in message_body:
                             # ROLE_CLIENT_OWN
@@ -518,10 +522,12 @@ class OniadUser(models.Model):
                                     vals['spent_cost'] = message_body['spent']['cost']
                                 # min_date
                                 if message_body['spent']['min_date'] is not None:
-                                    vals['spent_min_date'] = message_body['spent']['min_date']
+                                    vals['spent_min_date'] = \
+                                        message_body['spent']['min_date']
                                 # max_date
                                 if message_body['spent']['max_date'] is not None:
-                                    vals['spent_max_date'] = message_body['spent']['max_date']
+                                    vals['spent_max_date'] = \
+                                        message_body['spent']['max_date']
                         # boolean_fields
                         boolean_fields = ['confirmed', 'oniad_managed']
                         for bf in boolean_fields:
@@ -536,10 +542,11 @@ class OniadUser(models.Model):
                         if 'context' in message_body:
                             if message_body['context'] != '':
                                 if message_body['context'] is not None:
-                                    if 'odoo_lead' in message_body['context']:
-                                        if message_body['context']['odoo_lead'] != '':
-                                            if message_body['context']['odoo_lead'] is not None:
-                                                vals['odoo_lead'] = str(message_body['context']['odoo_lead'])
+                                    mbc = message_body['context']
+                                    if 'odoo_lead' in mbc:
+                                        if mbc['odoo_lead'] != '':
+                                            if mbc['odoo_lead'] is not None:
+                                                vals['odoo_lead'] = str(mbc['odoo_lead'])
                         # add_id
                         if not previously_found:
                             vals['id'] = int(message_body['id'])
@@ -555,7 +562,7 @@ class OniadUser(models.Model):
                                     result_message['statusCode'] = 500
                                     result_message['return_body'] = \
                                         _('Address %s does not exist') \
-                                        % data_oniad_user['oniad_address_id']
+                                        % vals['oniad_address_id']
                         # final_operations
                         result_message['data'] = vals
                         _logger.info(result_message)
@@ -572,7 +579,7 @@ class OniadUser(models.Model):
                             QueueUrl=sqs_oniad_user_url,
                             ReceiptHandle=message['ReceiptHandle']
                         )
-                
+
     @api.model
     def cron_sqs_oniad_usertag(self):
         _logger.info('cron_sqs_oniad_usertag')
@@ -583,7 +590,7 @@ class OniadUser(models.Model):
         # boto3
         sqs = boto3.client(
             'sqs',
-            region_name=AWS_SMS_REGION_NAME, 
+            region_name=AWS_SMS_REGION_NAME,
             aws_access_key_id=AWS_ACCESS_KEY_ID,
             aws_secret_access_key=AWS_SECRET_ACCESS_KEY
         )
@@ -652,7 +659,7 @@ class OniadUser(models.Model):
                                 _('User_id=%s not found') % item_id
 
                     # final_operations
-                    _logger.info(result_message)                                
+                    _logger.info(result_message)
                     # remove_message
                     if result_message['statusCode'] == 200:
                         sqs.delete_message(
@@ -690,8 +697,9 @@ class OniadUser(models.Model):
                         if self.partner_id.user_id:
                             if self.create_date.strftime("%Y-%m-%d") >= '2020-02-12':
                                 # define
-                                current_date = datetime.now(pytz.timezone('Europe/Madrid'))
-                                mail_activity_date_deadline = current_date + relativedelta(days=7)
+                                current_date = \
+                                    datetime.now(pytz.timezone('Europe/Madrid'))
+                                mm_date_dead = current_date + relativedelta(days=7)
                                 # need_check
                                 need_check = False
                                 if self.phone:
@@ -702,12 +710,14 @@ class OniadUser(models.Model):
                                             str(current_date.strftime("%Y-%m-%d %H:%M:%S")),
                                             '%Y-%m-%d %H:%M:%S'
                                         ) - \
-                                        datetime.strptime\
-                                            (str(self.create_date.strftime("%Y-%m-%d %H:%M:%S")),
-                                             '%Y-%m-%d %H:%M:%S'
-                                             )
-                                    dateTimeDifferenceInHours = diff.total_seconds() / 3600
-                                    if dateTimeDifferenceInHours >= 1 and dateTimeDifferenceInHours < 200:
+                                        datetime.strptime(
+                                            str(
+                                                self.create_date.strftime("%Y-%m-%d %H:%M:%S")
+                                            ),
+                                            '%Y-%m-%d %H:%M:%S'
+                                        )
+                                    diff_hours = diff.total_seconds() / 3600
+                                    if diff_hours >= 1 and diff_hours < 200:
                                         need_check = True
                                 if need_check:
                                     lead_ids = self.env['crm.lead'].search(
@@ -724,7 +734,9 @@ class OniadUser(models.Model):
                                         template_id = int(
                                             self.env[
                                                 'ir.config_parameter'
-                                            ].sudo().get_param('oniad_welcome_lead_template_id')
+                                            ].sudo().get_param(
+                                                'oniad_welcome_lead_template_id'
+                                            )
                                         )
                                         # es necesario crear lead
                                         vals = {
@@ -745,8 +757,9 @@ class OniadUser(models.Model):
                                             vals['phone'] = str(self.phone)
                                         # user_id
                                         if self.oniad_accountmanager_id:
-                                            if self.oniad_accountmanager_id.user_id:
-                                                vals['user_id'] = self.oniad_accountmanager_id.user_id.id
+                                            oa_u = self.oniad_accountmanager_id.user_id
+                                            if oa_u:
+                                                vals['user_id'] = oa_u.id
                                         # create
                                         if 'user_id' in crm_lead_vals:
                                             lead_obj = self.env['crm.lead'].sudo(
@@ -777,10 +790,11 @@ class OniadUser(models.Model):
                                                     'res_id': crm_lead_obj.id,
                                                     'activity_type_id': 3,
                                                     'user_id': vals['user_id'],
-                                                    'date_deadline':
-                                                        mail_activity_date_deadline.strftime("%Y-%m-%d"),
+                                                    'date_deadline': mm_date_dead.strftime("%Y-%m-%d"),
                                                     'summary': 'Revisar contacto usuario'
                                                 }
-                                                self.env['mail.activity'].sudo(vals['user_id']).create(vals)
+                                                self.env['mail.activity'].sudo(vals['user_id']).create(
+                                                    vals
+                                                )
                                         # update
                                         self.welcome_lead_id = lead_obj.id

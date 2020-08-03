@@ -197,7 +197,11 @@ class OniadCampaign(models.Model):
                             if data_oniad_campaign['oniad_user_id'] > 0:
                                 oniad_user_ids = self.env['oniad.user'].search(
                                     [
-                                        ('id', '=', int(data_oniad_campaign['oniad_user_id']))
+                                        (
+                                            'id',
+                                            '=',
+                                            int(data_oniad_campaign['oniad_user_id'])
+                                        )
                                     ]
                                 )
                                 if len(oniad_user_ids) == 0:
@@ -215,22 +219,24 @@ class OniadCampaign(models.Model):
                                 # write
                                 oniad_campaign_id.write(data_oniad_campaign)
                             else:
-                                self.env['oniad.campaign'].sudo().create(data_oniad_campaign)
+                                self.env['oniad.campaign'].sudo().create(
+                                    data_oniad_campaign
+                                )
                     # remove_message
                     if result_message['statusCode'] == 200:
                         sqs.delete_message(
                             QueueUrl=sqs_oniad_campaign_url,
                             ReceiptHandle=message['ReceiptHandle']
                         )
-    
+
     @api.model
     def cron_sqs_oniad_campaign_report(self):
         _logger.info('cron_sqs_oniad_campaign_report')
-        sqs_oniad_campaign_report_url = tools.config.get('sqs_oniad_campaign_report_url')
+        sqs_url = tools.config.get('sqs_oniad_campaign_report_url')
         AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')
         AWS_SECRET_ACCESS_KEY = tools.config.get('aws_secret_key_id')
         AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')
-        #boto3
+        # boto3
         sqs = boto3.client(
             'sqs',
             region_name=AWS_SMS_REGION_NAME,
@@ -241,7 +247,7 @@ class OniadCampaign(models.Model):
         total_messages = 10
         while total_messages > 0:
             response = sqs.receive_message(
-                QueueUrl=sqs_oniad_campaign_report_url,
+                QueueUrl=sqs_url,
                 AttributeNames=['All'],
                 MaxNumberOfMessages=10,
                 MessageAttributeNames=['All']
@@ -283,9 +289,12 @@ class OniadCampaign(models.Model):
                             oniad_campaign_id = oniad_campaign_ids[0]
                             oniad_campaign_id.spent = message_body['spent']
                             # spent_at
-                            spent_at = dateutil.parser.parse(str(message_body['spent_at']))
+                            spent_at = dateutil.parser.parse(
+                                str(message_body['spent_at'])
+                            )
                             spent_at = spent_at.replace() - spent_at.utcoffset()
-                            oniad_campaign_id.spent_at = spent_at.strftime("%Y-%m-%d %H:%M:%S")
+                            oniad_campaign_id.spent_at = \
+                                spent_at.strftime("%Y-%m-%d %H:%M:%S")
                         else:
                             result_message['statusCode'] = 500
                             result_message['return_body'] = \
@@ -295,6 +304,6 @@ class OniadCampaign(models.Model):
                     # remove_message
                     if result_message['statusCode'] == 200:
                         sqs.delete_message(
-                            QueueUrl=sqs_oniad_campaign_report_url,
+                            QueueUrl=sqs_url,
                             ReceiptHandle=message['ReceiptHandle']
                         )
