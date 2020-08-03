@@ -35,7 +35,7 @@ class ResPartnerCustom(models.Model):
         store=False
     )
 
-    @api.muyti
+    @api.multi
     def _compute_oa_qt_show_user_tab(self):
         for item in self:
             item.oa_qt_show_user_tab = False
