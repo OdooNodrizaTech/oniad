@@ -270,13 +270,20 @@ class SurveySurvey(models.Model):
                                 "%Y-%m-%d %H:%M:%S"
                             ).strftime('%Y-%m-%d')
                             if ou_ids_max_date_sui[input_id.oniad_user_id.id] is None:
-                                ou_ids_max_date_sui[input_id.oniad_user_id.id] = date_create_item_format
+                                ou_ids_max_date_sui[input_id.oniad_user_id.id] = \
+                                    date_create_item_format
                             else:
-                                if date_create_item_format > ou_ids_max_date_sui[input_id.oniad_user_id.id]:
-                                    ou_ids_max_date_sui[input_id.oniad_user_id.id] = date_create_item_format
+                                if date_create_item_format > ou_ids_max_date_sui[
+                                    input_id.oniad_user_id.id
+                                ]:
+                                    ou_ids_max_date_sui[input_id.oniad_user_id.id] = \
+                                        date_create_item_format
                     # operations
                     oniad_user_ids_final = []
-                    b = datetime.strptime(date_filter_end.strftime("%Y-%m-%d"), "%Y-%m-%d")
+                    b = datetime.strptime(
+                        date_filter_end.strftime("%Y-%m-%d"),
+                        "%Y-%m-%d"
+                    )
                     for oniad_user_id in ou_ids_max_date_sui:
                         oniad_user_id_item = ou_ids_max_date_sui[oniad_user_id]
                         # checks

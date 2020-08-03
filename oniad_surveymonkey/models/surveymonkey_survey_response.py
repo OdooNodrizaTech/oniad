@@ -488,7 +488,9 @@ class SurveymonkeySurveyResponse(models.Model):
                                                         }
                                                         # headings
                                                         if 'headings' in res_pq_r:
-                                                            for h in res_pq_r['headings']:
+                                                            for h in res_pq_r[
+                                                                'headings'
+                                                            ]:
                                                                 vals['heading'] = \
                                                                     h['heading']
                                                         # other

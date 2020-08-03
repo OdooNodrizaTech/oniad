@@ -124,7 +124,7 @@ class SurveyMailComposeMessage(models.TransientModel):
                     sui.partner_id.id and [(4, sui.partner_id.id)] or None
             }
             mail_mail_obj = self.env['mail.mail'].sudo().create(vals)
-            mail_mail_obj.send()                        
+            mail_mail_obj.send()
             self.action_send_survey_mail_message_slack(sui)
 
         survey_ids = self.env['survey.survey'].search(
@@ -133,7 +133,6 @@ class SurveyMailComposeMessage(models.TransientModel):
             ]
         )
         survey_id = survey_ids[0]
-                            
         for partner_id in self.partner_ids:
             partner_id_item = items[partner_id.id]
             # create_survey_user_input_by_oniad_user_id
@@ -159,6 +158,6 @@ class SurveyMailComposeMessage(models.TransientModel):
                 'model': 'survey.user_input',
                 'res_id': sui.id,
                 'category': 'survey_user_input',
-                'action': 'send_mail',                                                                                                                                                                                           
+                'action': 'send_mail'
             }
             self.env['automation.log'].sudo().create(vals)
