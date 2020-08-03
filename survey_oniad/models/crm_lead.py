@@ -20,5 +20,5 @@ class CrmLead(models.Model):
             )
             if survey_ids:
                 survey_id = survey_ids[0].id
-                    
+
         return survey_id

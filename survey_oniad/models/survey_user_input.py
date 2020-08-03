@@ -5,7 +5,7 @@ from odoo import fields, models
 
 class SurveyUserinput(models.Model):
     _inherit = 'survey.user_input'
-    
+
     oniad_campaign_id = fields.Many2one(
         comodel_name='oniad.campaign',
         string='Oniad Campaign'

@@ -425,7 +425,7 @@ class SurveymonkeySurveyResponse(models.Model):
                                             )
                                             if page_ids:
                                                 page_id = page_ids[0]
-                                            else:                                                
+                                            else:
                                                 res_page = \
                                                     surveymonkey_ws.get_survey_page(
                                                         survey_id,
@@ -442,7 +442,7 @@ class SurveymonkeySurveyResponse(models.Model):
                                                             res_page_r['description'],
                                                         'position':
                                                             res_page_r['position'],
-                                                    }                        
+                                                    }
                                                     page_obj = self.env[
                                                         'surveymonkey.survey.page'
                                                     ].sudo().create(vals)
@@ -455,11 +455,16 @@ class SurveymonkeySurveyResponse(models.Model):
                                                     'surveymonkey.question'
                                                 ].search(
                                                     [
-                                                        ('question_id', '=', question['id'])
+                                                        (
+                                                            'question_id',
+                                                            '=',
+                                                            question['id']
+                                                        )
                                                     ]
                                                 )
                                                 if question_ids:
-                                                    question_id = question_ids[0]
+                                                    question_id = \
+                                                        question_ids[0]
                                                 else:
                                                     res_pq = \
                                                         surveymonkey_ws.get_survey_page_question(
@@ -468,30 +473,32 @@ class SurveymonkeySurveyResponse(models.Model):
                                                             question['id']
                                                         )
                                                     if res_pq['status_code'] == 200:
+                                                        res_pq_r = res_pq['response']
                                                         vals = {
-                                                            'question_id': question['id'],
+                                                            'question_id':
+                                                                question['id'],
                                                             'heading': '',
                                                             'position':
-                                                                res_pq['response']['position'],
+                                                                res_pq_r['position'],
                                                             'family':
-                                                                res_pq['response']['family'],
+                                                                res_pq_r['family'],
                                                             'subtype':
-                                                                res_pq['response']['subtype']
+                                                                res_pq_r['subtype']
                                                         }
                                                         # headings
-                                                        if 'headings' in res_pq['response']:
-                                                            rpqr = res_pq['response']
+                                                        if 'headings' in res_pq_r:
                                                             for heading in rpqr['headings']:
-                                                                vals['heading'] = heading['heading']
+                                                                vals['heading'] = \
+                                                                    heading['heading']
                                                         # other
                                                         question_obj = self.env[
                                                             'surveymonkey.question'
                                                         ].sudo().create(vals)
-                                                        surveymonkey_question_id = question_obj
                                                         if 'answers' in rpqr:
-                                                            question_obj.process_answers(
-                                                                res_pq['response']['answers']
-                                                            )
+                                                            question_obj.\
+                                                                process_answers(
+                                                                    res_pq_r['answers']
+                                                                )
                                                 # answers
                                                 if 'answers' in question:
                                                     response_obj.process_answers(

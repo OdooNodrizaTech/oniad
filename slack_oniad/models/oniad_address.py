@@ -47,6 +47,6 @@ class OniadAddress(models.Model):
             'model': self._inherit,
             'res_id': self.id,
             'as_user': True,
-            'channel': slack_log_channel,                                                         
+            'channel': slack_log_channel
         }
         self.env['slack.message'].sudo().create(vals)

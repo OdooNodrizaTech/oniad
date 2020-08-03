@@ -78,7 +78,9 @@ class CrmLead(models.Model):
                     if lead_id.user_id.slack_member_id:
                         attachments = [
                             {
-                                "title": _('Today close planned lead *%s*') % lead_id.name,
+                                "title": _('Today close planned lead *%s*') % (
+                                    lead_id.name
+                                ),
                                 "color": "#36a64f",
                                 "fallback": _("Ver flujo de ventas %s") % item_url,
                                 "actions": [
