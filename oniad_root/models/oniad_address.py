@@ -443,7 +443,7 @@ class OniadAddress(models.Model):
                         if not return_check_vat:
                             self.check_vat_error(vat_need_check, message_body['id'])
                             result_message['return_body'] = _('Error in CIF field')
-                        else:                                                                                                   
+                        else:
                             # final_operations
                             result_message['data'] = vals
                             _logger.info(result_message)

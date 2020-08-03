@@ -12,6 +12,11 @@
         "base",
         "survey"
     ],
+    "external_dependencies": {
+        "python": [
+            "pysftp"
+        ],
+    },
     "data": [
         "data/ir_configparameter_data.xml",
         "data/ir_cron.xml",

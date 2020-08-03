@@ -7,7 +7,7 @@ _logger = logging.getLogger(__name__)
 
 class SendinblueList(models.Model):
     _name = 'sendinblue.list'
-    _description = 'Sendinblue List'    
+    _description = 'Sendinblue List'
 
     sendinblue_id = fields.Char(
         string='Sendinblue Id'
@@ -59,13 +59,13 @@ class SendinblueList(models.Model):
                             'total_blacklisted': list_item['totalBlacklisted'],
                             'total_subscribers': list_item['totalSubscribers'],
                             'sendinblue_folder_id': sendinblue_folder_id,
-                        })                        
+                        })
                     else:
                         vals = {
                             'sendinblue_id': list_item['id'],
                             'name': list_item['name'],
                             'total_blacklisted': list_item['totalBlacklisted'],
                             'total_subscribers': list_item['totalSubscribers'],
-                            'sendinblue_folder_id': sendinblue_folder_id                                                                                                                 
-                        }                        
+                            'sendinblue_folder_id': sendinblue_folder_id
+                        }
                         self.env['sendinblue.list'].sudo().create(vals)

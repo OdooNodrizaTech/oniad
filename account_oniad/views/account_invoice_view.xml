@@ -29,13 +29,13 @@
         <field name="name">view_account_invoice_oniad_form</field>
         <field name="model">account.invoice</field>
         <field name="inherit_id" ref="account.invoice_form"/>
-        <field name="arch" type="xml">            
-           <field name="price_unit" position="after">
+        <field name="arch" type="xml">
+            <field name="price_unit" position="after">
                 <field name="purchase_price" groups="base.group_user"/>
-           </field> 
-           <field name="residual" position="after">	    	
+            </field>
+            <field name="residual" position="after">
                 <field name="margin" />
-	       </field>
+            </field>
             <xpath expr="//button[@name='action_invoice_draft']" position="after">
                 <button name="action_send_sns_multi" type="object" string="Send SNS" attrs="{'invisible':[('type', 'not in', ('out_invoice','out_refund')),('state', 'not in', ('open','paid'))]}"  groups="base.group_no_one" />
             </xpath>

@@ -68,8 +68,8 @@ AND ap.payment_type IN ('inbound', 'outbound')
 AND ap.payment_date <= '2020-02-28'
 AND ot.date >= '2020-01-01'
 AND ot.account_payment_id NOT IN (
-	SELECT DISTINCT(aipr.payment_id)
-	FROM account_invoice_payment_rel AS aipr
+SELECT DISTINCT(aipr.payment_id)
+FROM account_invoice_payment_rel AS aipr
 )
 ORDER BY ap.id ASC
 ```

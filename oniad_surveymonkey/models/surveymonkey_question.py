@@ -50,8 +50,9 @@ class SurveymonkeyQuestion(models.Model):
         string='Survey Question Id'
     )
     
-    @api.one    
+    @api.multi
     def process_answers(self, answers=False):
+        self.ensure_one()
         if answers:
             if 'rows' in answers:
                 for row in answers['rows']:

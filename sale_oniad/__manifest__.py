@@ -12,6 +12,11 @@
         "base",
         "sale"
     ],
+    "external_dependencies": {
+        "python": [
+            "boto3"
+        ],
+    },
     "data": [
         "data/ir_cron.xml",
         "views/sale_order_view.xml",

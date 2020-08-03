@@ -15,6 +15,7 @@ class CrmLead(models.Model):
         string='Sendinblue List'
     )
 
-    @api.one
+    @api.multi
     def action_leads_create_sendinblue_list_id(self):
+        self.ensure_one()
         return True

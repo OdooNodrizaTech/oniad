@@ -7,7 +7,7 @@ class CrmLead(models.Model):
     _inherit = 'crm.lead'
 
     @api.multi
-    def action_leads_create_sendinblue_list_id(self, cr=None, uid=False, context=None):
+    def action_leads_create_sendinblue_list_id(self):
         self.ensure_one()
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         slack_log_channel = self.env['ir.config_parameter'].sudo().get_param(
@@ -20,8 +20,8 @@ class CrmLead(models.Model):
         if self.type == 'lead':
             attachments = [
                 {
-                    "title":
-                        _('Se ha creado la iniciativa *%s* desde Sendinblue') % sefl.name,
+                    "title": _('Se ha creado la iniciativa *%s* desde Sendinblue')
+                             % self.name,
                     "color": "#36a64f",
                     "fallback": _("Ver iniciativa %s") % item_url,
                     "actions": [
@@ -36,8 +36,8 @@ class CrmLead(models.Model):
         else:
             attachments = [
                 {
-                    "title":
-                        _('Se ha creado la oportunidad *%s* desde Sendinblue') % sefl.name,
+                    "title": _('Se ha creado la oportunidad *%s* desde Sendinblue')
+                             % self.name,
                     "color": "#36a64f",
                     "fallback": _("Ver flujo de ventas %s") % item_url,
                     "actions": [
@@ -49,7 +49,6 @@ class CrmLead(models.Model):
                     ]
                 }
             ]
-
         vals = {
             'attachments': attachments,
             'model': self._inherit,
@@ -58,9 +57,9 @@ class CrmLead(models.Model):
             'channel': slack_log_channel
         }
         self.env['slack.message'].sudo().create(vals)
-    
-    @api.multi
-    def cron_action_leads_date_deadline_today(self, cr=None, uid=False, context=None):
+
+    @api.model
+    def cron_action_leads_date_deadline_today(self):
         current_date = datetime.today()
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         lead_ids = self.env['crm.lead'].search(
@@ -81,10 +80,9 @@ class CrmLead(models.Model):
                     if lead_id.user_id.slack_member_id:
                         attachments = [
                             {
-                                "title":
-                                    _('Te recordamos que hoy es el cierre previsto '
-                                      'del flujo  *%s*'
-                                      ) % lead_id.name,
+                                "title": _('Te recordamos que hoy es el cierre '
+                                           'previsto del flujo  *%s*')
+                                         % lead_id.name,
                                 "color": "#36a64f",
                                 "fallback": _("Ver flujo de ventas %s") % item_url,
                                 "actions": [
@@ -101,6 +99,6 @@ class CrmLead(models.Model):
                             'model': self._inherit,
                             'res_id': lead_id.id,
                             'as_user': True,
-                            'channel': crm_lead_id.user_id.slack_member_id
+                            'channel': lead_id.user_id.slack_member_id
                         }
                         self.env['slack.message'].sudo().create(vals)

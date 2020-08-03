@@ -754,9 +754,11 @@ class OniadUser(models.Model):
                                             'team_id': 1,
                                             'stage_id': 1,
                                             'name':
-                                                'Hola, quiero ayudarte a mejorar tus campañas',
+                                                'Hola, quiero ayudarte a mejorar '
+                                                'tus campañas',
                                             'description':
-                                                'Presentarse y ayudar a nuevos clientes',
+                                                'Presentarse y ayudar a nuevos '
+                                                'clientes',
                                             'color': 5
                                         }
                                         # phone
@@ -773,7 +775,9 @@ class OniadUser(models.Model):
                                                 vals['user_id']
                                             ).create(vals)
                                         else:
-                                            lead_obj = self.env['crm.lead'].sudo().create(
+                                            lead_obj = self.env[
+                                                'crm.lead'
+                                            ].sudo().create(
                                                 vals
                                             )
                                         # si corresponde enviamos un email
@@ -798,11 +802,13 @@ class OniadUser(models.Model):
                                                     'active': True,
                                                     'res_model': ir_model_item.model,
                                                     'res_model_id': ir_model_item.id,
-                                                    'res_id': crm_lead_obj.id,
+                                                    'res_id': lead_obj.id,
                                                     'activity_type_id': 3,
                                                     'user_id': vals['user_id'],
                                                     'date_deadline':
-                                                        mm_date_dead.strftime("%Y-%m-%d"),
+                                                        mm_date_dead.strftime(
+                                                            "%Y-%m-%d"
+                                                        ),
                                                     'summary': 'Revisar contacto usuario'
                                                 }
                                                 self.env['mail.activity'].sudo(

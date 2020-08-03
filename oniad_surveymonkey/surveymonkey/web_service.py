@@ -3,7 +3,10 @@ import logging
 _logger = logging.getLogger(__name__)
 
 from odoo import api, fields, models, tools
-import datetime, os, codecs, pysftp
+import datetime
+import os
+import codecs
+import pysftp
 from dateutil.relativedelta import relativedelta
 
 import requests

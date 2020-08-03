@@ -14,6 +14,11 @@
         "account",
         "oniad_root"
     ],
+    "external_dependencies": {
+        "python": [
+            "boto3"
+        ],
+    },
     "data": [
         "data/ir_cron.xml",
     ],

@@ -1,15 +1,14 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-from odoo import api, fields, models
-
 import logging
+from odoo import api, fields, models
+from ..sendinblue.web_service import SendinblueWebService
 _logger = logging.getLogger(__name__)
 
-from ..sendinblue.web_service import SendinblueWebService
 
 class SendinblueContact(models.Model):
     _name = 'sendinblue.contact'
-    _description = 'Sendinblue Contact'    
-    
+    _description = 'Sendinblue Contact'
+
     sendinblue_id = fields.Char(
         string='Sendinblue Id'
     )
@@ -28,15 +27,26 @@ class SendinblueContact(models.Model):
     sendinblue_list_ids = fields.Many2many(
         comodel_name='sendinblue.list',
         string='Lists'
-    )    
-    
-    @api.model    
+    )
+
+    @api.model
     def cron_auto_generate_leads_sendinblue(self):
-        oniad_sendinblue_auto_generate_leads_sendinblue_list_id = str(self.env['ir.config_parameter'].sudo().get_param('oniad_sendinblue_auto_generate_leads_sendinblue_list_id'))
-        user_id_default = str(self.env['ir.config_parameter'].sudo().get_param('oniad_sendinblue_auto_generate_leads_user_id_default'))
-        leads_tag_ids_default = str(self.env['ir.config_parameter'].sudo().get_param('oniad_sendinblue_auto_generate_leads_tag_ids_default'))                                
-        
-        if oniad_sendinblue_auto_generate_leads_sendinblue_list_id > 0:
+        s_list_id = str(
+            self.env['ir.config_parameter'].sudo().get_param(
+                'oniad_sendinblue_auto_generate_leads_sendinblue_list_id'
+            )
+        )
+        user_id_default = str(
+            self.env['ir.config_parameter'].sudo().get_param(
+                'oniad_sendinblue_auto_generate_leads_user_id_default'
+            )
+        )
+        leads_tag_ids_default = str(
+            self.env['ir.config_parameter'].sudo().get_param(
+                'oniad_sendinblue_auto_generate_leads_tag_ids_default'
+            )
+        )
+        if s_list_id > 0:
             # res_users
             res_user_ids = self.env['res.users'].search(
                 [
@@ -64,37 +74,39 @@ class SendinblueContact(models.Model):
             for tag_id_split in tag_ids_split:
                 tag_ids.append(int(tag_id_split))
         
-            sendinblue_contact_ids_real = []
-            sendinblue_contact_ids_already_created = []
+            sc_ids_real = []
+            sc_ids_already_created = []
             
-            sendinblue_contact_ids = self.env['sendinblue.contact'].search([
-                ('sendinblue_list_ids', 'in', [oniad_sendinblue_auto_generate_leads_sendinblue_list_id])
+            sc_ids = self.env['sendinblue.contact'].search([
+                ('sendinblue_list_ids', 'in', [s_list_id])
             ])
-            if sendinblue_contact_ids:
-                for sendinblue_contact_id in sendinblue_contact_ids:
-                    sendinblue_contact_ids_real.append(sendinblue_contact_id.id)
+            if sc_ids:
+                for sc_id in sc_ids:
+                    sc_ids_real.append(sc_id.id)
                                                 
                 crm_lead_ids = self.env['crm.lead'].search([
-                    ('sendinblue_contact_id', 'in', sendinblue_contact_ids_real)
+                    ('sendinblue_contact_id', 'in', sc_ids_real)
                 ])
                 if crm_lead_ids:
                     for crm_lead_id in crm_lead_ids:
-                        sendinblue_contact_ids_already_created.append(crm_lead_id.sendinblue_contact_id.id)
+                        sc_ids_already_created.append(
+                            crm_lead_id.sendinblue_contact_id.id
+                        )
                 
-                for sendinblue_contact_id in sendinblue_contact_ids:
-                    if sendinblue_contact_id.id not in sendinblue_contact_ids_already_created:
+                for sc_id in sc_ids:
+                    if sc_id.id not in sc_ids_already_created:
                         # default_fields
                         crm_type = 'lead'
                         commercial_activity_type = 'hunter'
                         lead_oniad_type = 'catchment'
                         
                         crm_partner_id = False
-                        partner_name = sendinblue_contact_id.email                        
+                        partner_name = sc_id.email
                         stage_id = 0                        
                         # res_partner
                         res_partner_ids = self.env['res.partner'].search([
                             ('active', '=', True),
-                            ('email', '=', sendinblue_contact_id.email)
+                            ('email', '=', sc_id.email)
                         ])
                         if res_partner_ids:
                             for res_partner_id in res_partner_ids:
@@ -108,13 +120,14 @@ class SendinblueContact(models.Model):
                                     stage_id = crm_stage_id.id                                                   
                         
                         vals = {
-                            'name': sendinblue_contact_id.email,
+                            'name': sc_id.email,
                             'partner_name': partner_name,
                             'contact_name': partner_name,
-                            'email_from': sendinblue_contact_id.email,
-                            'sendinblue_contact_id': sendinblue_contact_id.id,
-                            'sendinblue_list_id': oniad_sendinblue_auto_generate_leads_sendinblue_list_id,
-                            'commercial_activity_type': commercial_activity_type,
+                            'email_from': sc_id.email,
+                            'sendinblue_contact_id': sc_id.id,
+                            'sendinblue_list_id': s_list_id,
+                            'commercial_activity_type':
+                                commercial_activity_type,
                             'lead_oniad_type': lead_oniad_type,
                             'type': crm_type,
                             'partner_id': crm_partner_id,
@@ -125,7 +138,9 @@ class SendinblueContact(models.Model):
                             'active': True,
                             'tag_ids': [(6, 0, tag_ids)],                                                                                                                 
                         }                        
-                        crm_lead_obj = self.env['crm.lead'].sudo(res_user_id.id).create(vals)
+                        crm_lead_obj = self.env['crm.lead'].sudo(
+                            res_user_id.id
+                        ).create(vals)
                         crm_lead_obj.action_leads_create_sendinblue_list_id()
     
     @api.model    
@@ -168,7 +183,8 @@ class SendinblueContact(models.Model):
                                         sendinblue_enumeration_id = False
                                         
                                         if attribute_id.sendinblue_enumeration_ids:
-                                            for enumeration_id in attribute_id.sendinblue_enumeration_ids:
+                                            atribute_id_se = attribute_id.sendinblue_enumeration_ids
+                                            for enumeration_id in atribute_id_se:
                                                 if enumeration_id.value == attribute_val:
                                                     sendinblue_enumeration_id = enumeration_id.id
 
@@ -182,10 +198,13 @@ class SendinblueContact(models.Model):
                                             vals = {
                                                 'sendinblue_contact_id': contact_id.id,
                                                 'sendinblue_attribute_id': attribute_id.id,
-                                                'sendinblue_enumeration_id': sendinblue_enumeration_id,
+                                                'sendinblue_enumeration_id':
+                                                    sendinblue_enumeration_id,
                                                 'value': attribute_val,                                                                                                                 
                                             }                        
-                                            self.env['sendinblue.contact.attribute'].sudo().create(vals)
+                                            self.env['sendinblue.contact.attribute'].sudo().create(
+                                                vals
+                                            )
                         # update
                         sendinblue_contact_obj.update({
                             'sendinblue_id': contact['id'],
