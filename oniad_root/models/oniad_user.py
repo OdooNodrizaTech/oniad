@@ -399,6 +399,7 @@ class OniadUser(models.Model):
                     # fix message
                     if 'Message' in message_body:
                         message_body = json.loads(message_body['Message'])
+                    mb = message_body
                     # result_message
                     result_message = {
                         'statusCode': 200,
@@ -470,12 +471,11 @@ class OniadUser(models.Model):
                                     if message_body[fnc] is not None:
                                         if fnc in ['last_name']:
                                             try:
-                                                vals[fnc] = \
-                                                    str(message_body[fnc].encode('utf-8'))
+                                                vals[fnc] = str(mb[fnc].encode('utf-8'))
                                             except:
-                                                vals[fnc] = str(message_body[fnc])
+                                                vals[fnc] = str(mb[fnc])
                                         else:
-                                            vals[fnc] = str(message_body[fnc])
+                                            vals[fnc] = str(mb[fnc])
                         # parent_id
                         if 'parent_id' in vals:
                             if vals['parent_id'] == '0':
@@ -546,7 +546,8 @@ class OniadUser(models.Model):
                                     if 'odoo_lead' in mbc:
                                         if mbc['odoo_lead'] != '':
                                             if mbc['odoo_lead'] is not None:
-                                                vals['odoo_lead'] = str(mbc['odoo_lead'])
+                                                vals['odoo_lead'] = \
+                                                    str(mbc['odoo_lead'])
                         # add_id
                         if not previously_found:
                             vals['id'] = int(message_body['id'])
@@ -761,20 +762,20 @@ class OniadUser(models.Model):
                                             if oa_u:
                                                 vals['user_id'] = oa_u.id
                                         # create
-                                        if 'user_id' in crm_lead_vals:
+                                        if 'user_id' in vals:
                                             lead_obj = self.env['crm.lead'].sudo(
                                                 vals['user_id']
                                             ).create(vals)
                                         else:
                                             lead_obj = self.env['crm.lead'].sudo().create(vals)
                                         # si corresponde enviamos un email
-                                        if 'phone' not in crm_lead_vals:
+                                        if 'phone' not in vals:
                                             # enviamos_email
                                             lead_obj.action_send_mail_with_template_id(template_id)
                                             # update
                                             lead_obj.stage_id = 2
                                         # mail_activity
-                                        if 'user_id' in crm_lead_vals:
+                                        if 'user_id' in vals:
                                             ir_model_ids = self.env['ir.model'].search(
                                                 [
                                                     ('model', '=', 'crm.lead')

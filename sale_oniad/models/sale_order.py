@@ -4,24 +4,23 @@ from odoo import api, models, fields, tools
 import uuid
 import boto3
 import json
-from botocore.exceptions import ClientError
 _logger = logging.getLogger(__name__)
 
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
-                
+
     uuid = fields.Char(
         string='Uuid'
     )
-        
+
     @api.model
     def create(self, values):
         return_object = super(SaleOrder, self).create(values)
         return_object.uuid = uuid.uuid4()
-        return return_object        
-    
-    @api.model    
+        return return_object
+
+    @api.model
     def cron_sale_order_uuid_generate(self):
         order_ids = self.env['sale.order'].search(
             [
@@ -31,8 +30,8 @@ class SaleOrder(models.Model):
         if order_ids:
             for order_id in order_ids:
                 order_id.uuid = uuid.uuid4()
-    
-    @api.model    
+
+    @api.model
     def cron_sale_order_send_sns_custom(self):
         order_ids = self.env['sale.order'].search(
             [
@@ -45,8 +44,8 @@ class SaleOrder(models.Model):
             for order_id in order_ids:
                 _logger.info('Enviando SNS %s ' % order_id.id)
                 order_id.action_send_sns(False)
-    
-    @api.model    
+
+    @api.model
     def cron_sale_order_upload_to_s3_generate(self):
         order_ids = self.env['sale.order'].search(
             [
@@ -60,7 +59,7 @@ class SaleOrder(models.Model):
                 _logger.info('Generando presupuesto %s' % order_id.id)
                 # sale_order_id.action_upload_pdf_to_s3()
                 order_id.action_send_sns(False)
-                    
+
     @api.multi
     def action_upload_pdf_to_s3(self):
         for item in self:
@@ -103,18 +102,17 @@ class SaleOrder(models.Model):
             if regenerate_pdf:
                 self.action_upload_pdf_to_s3()
             # define
-            ses_sqs_url = tools.config.get('ses_sqs_url')
-            AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')        
+            AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')
             AWS_SECRET_ACCESS_KEY = tools.config.get('aws_secret_key_id')
             AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')
-            s3_bucket_docs_oniad_com = tools.config.get('s3_bucket_docs_oniad_com')                        
+            s3_bucket_docs_oniad_com = tools.config.get('s3_bucket_docs_oniad_com')
             # boto3
             sns = boto3.client(
                 'sns',
-                region_name=AWS_SMS_REGION_NAME, 
+                region_name=AWS_SMS_REGION_NAME,
                 aws_access_key_id=AWS_ACCESS_KEY_ID,
                 aws_secret_access_key=AWS_SECRET_ACCESS_KEY
-            )        
+            )
             # message
             message = {
                 'id': int(self.id),
@@ -123,12 +121,15 @@ class SaleOrder(models.Model):
                 'currency': str(self.currency_id.name),
                 'state': str(self.state),
                 'create_date': str(self.create_date),
-                'date_order': str(self.date_order),                
+                'date_order': str(self.date_order),
                 'amount_untaxed': self.amount_untaxed,
                 'amount_tax': self.amount_tax,
                 'amount_total': self.amount_total,
                 'url_pdf': 'https://docs.oniad.com/sale-order/%s.pdf' % self.uuid,
-                's3_pdf': str(s3_bucket_docs_oniad_com)+'/sale-order/%s.pdf' % self.uuid,
+                's3_pdf': '%s/sale-order/%s.pdf' % (
+                    s3_bucket_docs_oniad_com,
+                    self.uuid
+                ),
                 'order_line': []
             }
             # order_line
@@ -145,31 +146,32 @@ class SaleOrder(models.Model):
                     message['order_line'].append(message_order_line_id)
             # enviroment
             enviroment = 'dev'
-            web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-            if '//erp.oniad.com' in web_base_url:
-                enviroment = 'prod'                    
+            base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+            if '//erp.oniad.com' in base_url:
+                enviroment = 'prod'
             # sns_name
             sns_name = 'oniad-platform-command-odoo-sale-order'
             if enviroment == 'dev':
                 sns_name = 'oniad-platform_dev-command-odoo-sale-order'
             # publish
+            header_value = 'Oniad\\Domain\\Odoo\\OdooSaleOrderAvailableEvent'
             response = sns.publish(
                 TopicArn='arn:aws:sns:eu-west-1:534422648921:'+str(sns_name),
                 Message=json.dumps(message, indent=2),
                 MessageAttributes={
                     'Headers': {
                         'DataType': 'String',
-                        'StringValue': json.dumps([{'type': 'Oniad\\Domain\\Odoo\\OdooSaleOrderAvailableEvent'},[]])
+                        'StringValue': json.dumps([{'type': header_value}, []])
                     }
-                }                                
+                }
             )
             if 'MessageId' not in response:
-                action_response = False        
+                action_response = False
             # return
             return action_response
-    
+
     @api.multi
-    def write(self, vals):      
+    def write(self, vals):
         # super
         return_object = super(SaleOrder, self).write(vals)
         # check_if_paid
@@ -177,4 +179,4 @@ class SaleOrder(models.Model):
             # action_send_sns
             self.action_send_sns(True)
         # return
-        return return_object                    
+        return return_object

@@ -6,7 +6,7 @@ from odoo.exceptions import Warning as UserError
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
-            
+
     sale_user_id = fields.Many2one(
         comodel_name='res.users',
         string='Sale user id'
@@ -19,7 +19,7 @@ class ResPartner(models.Model):
         default='none',
         string='Oniad contact use'
     )
-    
+
     @api.multi
     def write(self, vals):
         allow_write = True
@@ -28,11 +28,9 @@ class ResPartner(models.Model):
             if 'vat' in vals:
                 if not vals['vat']:
                     vals['vat'] = vals['vat'].strip().replace(' ', '').upper()
-                
                     if self.country_id and self.country_id.code == 'ES':
                         if '-' in vals['vat']:
                             allow_write = False
                             raise UserError(_('Nif not allow character -'))
-                                                    
         if allow_write:
             return super(ResPartner, self).write(vals)

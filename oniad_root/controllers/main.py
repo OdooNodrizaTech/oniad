@@ -30,6 +30,7 @@ class OniadAddressController(http.Controller):
                         % address_ids[0].partner_id.id
                     )
 
+
 class OniadUserController(http.Controller):
 
     @http.route("/oniad_user/<int:oniad_user_id>",

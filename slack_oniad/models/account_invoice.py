@@ -27,7 +27,7 @@ class AccountInvoice(models.Model):
                         "url": url_item
                     }
                 ],
-                "fields": [                    
+                "fields": [
                     {
                         "title": _("Cliente"),
                         "value": self.partner_id.name,
@@ -43,7 +43,7 @@ class AccountInvoice(models.Model):
                     }
                 ],
             }
-        ]        
+        ]
         vals = {
             'attachments': attachments,
             'model': 'account.invoice',
@@ -51,5 +51,5 @@ class AccountInvoice(models.Model):
             'channel': self.env['ir.config_parameter'].sudo().get_param(
                 'slack_log_contabilidad_channel'
             ),
-        }                        
+        }
         self.env['slack.message'].sudo().create(vals)

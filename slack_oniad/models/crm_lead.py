@@ -1,17 +1,18 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-
-from odoo import api, models, tools, _
+from odoo import api, models, _
 from datetime import datetime
 
 
 class CrmLead(models.Model):
     _inherit = 'crm.lead'
-    
+
     @api.multi
     def action_leads_create_sendinblue_list_id(self, cr=None, uid=False, context=None):
         self.ensure_one()
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-        slack_log_channel = self.env['ir.config_parameter'].sudo().get_param('slack_log_channel')
+        slack_log_channel = self.env['ir.config_parameter'].sudo().get_param(
+            'slack_log_channel'
+        )
         item_url = "%s/web?#id=%s&view_type=form&model=crm.lead" % (
             web_base_url,
             self.id
@@ -19,7 +20,8 @@ class CrmLead(models.Model):
         if self.type == 'lead':
             attachments = [
                 {
-                    "title": _('Se ha creado la iniciativa *%s* desde Sendinblue') % sefl.name,
+                    "title":
+                        _('Se ha creado la iniciativa *%s* desde Sendinblue') % sefl.name,
                     "color": "#36a64f",
                     "fallback": _("Ver iniciativa %s") % item_url,
                     "actions": [
@@ -28,13 +30,14 @@ class CrmLead(models.Model):
                             "text": _("Ver iniciativa"),
                             "url": item_url
                         }
-                    ]                    
+                    ]
                 }
             ]
         else:
             attachments = [
                 {
-                    "title": _('Se ha creado la oportunidad *%s* desde Sendinblue') % sefl.name,
+                    "title":
+                        _('Se ha creado la oportunidad *%s* desde Sendinblue') % sefl.name,
                     "color": "#36a64f",
                     "fallback": _("Ver flujo de ventas %s") % item_url,
                     "actions": [
@@ -43,17 +46,17 @@ class CrmLead(models.Model):
                             "text": _("Ver flujo de ventas"),
                             "url": item_url
                         }
-                    ]                    
+                    ]
                 }
-            ]                                   
-        
+            ]
+
         vals = {
             'attachments': attachments,
             'model': self._inherit,
             'res_id': self.id,
             'as_user': True,
-            'channel': slack_log_channel,                                                         
-        }                        
+            'channel': slack_log_channel
+        }
         self.env['slack.message'].sudo().create(vals)
     
     @api.multi
@@ -67,7 +70,7 @@ class CrmLead(models.Model):
                 ('user_id', '!=', False),
                 ('date_deadline', '=', current_date.strftime("%Y-%m-%d"))
             ]
-        )        
+        )
         if lead_ids:
             for lead_id in lead_ids:
                 if lead_id:
@@ -78,8 +81,10 @@ class CrmLead(models.Model):
                     if lead_id.user_id.slack_member_id:
                         attachments = [
                             {
-                                "title": _('Te recordamos que hoy es el cierre previsto del flujo  *%s*')
-                                         % lead_id.name,
+                                "title":
+                                    _('Te recordamos que hoy es el cierre previsto '
+                                      'del flujo  *%s*'
+                                      ) % lead_id.name,
                                 "color": "#36a64f",
                                 "fallback": _("Ver flujo de ventas %s") % item_url,
                                 "actions": [
@@ -88,7 +93,7 @@ class CrmLead(models.Model):
                                         "text": _("Ver flujo de ventas"),
                                         "url": item_url
                                     }
-                                ]                    
+                                ]
                             }
                         ]
                         vals = {
@@ -96,6 +101,6 @@ class CrmLead(models.Model):
                             'model': self._inherit,
                             'res_id': lead_id.id,
                             'as_user': True,
-                            'channel': crm_lead_id.user_id.slack_member_id,                                                         
+                            'channel': crm_lead_id.user_id.slack_member_id
                         }
                         self.env['slack.message'].sudo().create(vals)

@@ -520,7 +520,7 @@ class OniadTransaction(models.Model):
                             ReceiptHandle=message['ReceiptHandle']
                         )
 
-    @api.model    
+    @api.model
     def cron_action_account_invoices_generate(self):
         _logger.info('cron_action_account_invoices_generate')
         # define
@@ -612,9 +612,9 @@ class OniadTransaction(models.Model):
                 # operations
                 _logger.info(_('Invoices to create: %s') % len(partner_payments))
                 if len(partner_payments) > 0:
-                    count = 0                
+                    count = 0
                     # for
-                    for partner_id, partner_payments_item in partner_payments.items():                    
+                    for partner_id, partner_payments_item in partner_payments.items():
                         count += 1
                         # types
                         partner_payments_by_type = {'inbound': [], 'outbound': []}
@@ -638,7 +638,7 @@ class OniadTransaction(models.Model):
                             partner = pp_type_item_0.partner_id
                             # percent
                             percent = (float(count)/float(len(partner_payments)))*100
-                            percent = "{0:.2f}".format(percent)                                    
+                            percent = "{0:.2f}".format(percent)
                             # account.invoice
                             vals = {
                                 'partner_id': partner.id,
@@ -652,21 +652,27 @@ class OniadTransaction(models.Model):
                                 'comment': ' ',
                                 'currency_id': pp_type_item_0.currency_id.id
                             }
-                            # user_id (el del partner_payment_by_type_item_0 > oniad_user_id > partner_id > user_id)
+                            # user_id (el del partner_payment_by_type_item_0 >
+                            # oniad_user_id > partner_id > user_id)
                             pp_item_0_ot = pp_type_item_0.oniad_transaction_id
                             if pp_item_0_ot:
                                 if pp_item_0_ot.oniad_user_id:
-                                    if pp_item_0_ot.oniad_user_id.partner_id:
-                                        if pp_item_0_ot.oniad_user_id.partner_id.user_id:
-                                            vals['user_id'] = pp_item_0_ot.oniad_user_id.partner_id.user_id.id
+                                    pp_item_0_ot_ou = pp_item_0_ot.oniad_user_id
+                                    if pp_item_0_ot_ou.partner_id:
+                                        if pp_item_0_ot_ou.partner_id.user_id:
+                                            vals['user_id'] = pp_item_0_ot_ou.partner_id.user_id.id
                             # continue
-                            _logger.info(_('Prepare to generate partner_id %s and partner_shipping_id %s') % (
-                                vals['partner_id'],
-                                partner.id
-                            ))
+                            _logger.info(
+                                _('Prepare to generate partner_id %s and partner_shipping_id %s')
+                                % (
+                                    vals['partner_id'],
+                                    partner.id
+                                )
+                            )
                             invoice_obj = self.env['account.invoice'].sudo().create(vals)
                             _logger.info(_('Invoice %s created successfully') % invoice_obj.id)
-                            # account.invoice.lines (creamos las lineas segun los pagos partner_payments_by_type['inbound'])
+                            # account.invoice.lines (creamos las lineas segun los pagos partner_
+                            # payments_by_type['inbound'])
                             for payment_id in partner_payments_by_type['inbound']:
                                 # account_invoice_line_vals
                                 line_vals = {
@@ -720,14 +726,16 @@ class OniadTransaction(models.Model):
                                     _('We create the negative with respect to the found %s')
                                     % invoice_id_out_invoice.id
                                 )
+                                invoice_out_partner = invoice_id_out_invoice.partner_id
                                 # percent
                                 percent = (float(count)/float(len(partner_payments)))*100
                                 percent = "{0:.2f}".format(percent)                                    
                                 # account_invoice_vals
                                 vals = {
-                                    'partner_id': invoice_id_out_invoice.partner_id.id,
-                                    'partner_shipping_id': invoice_id_out_invoice.partner_id.id,
-                                    'account_id': invoice_id_out_invoice.partner_id.property_account_receivable_id.id,
+                                    'partner_id': invoice_out_partner.id,
+                                    'partner_shipping_id': invoice_out_partner.id,
+                                    'account_id':
+                                        invoice_out_partner.property_account_receivable_id.id,
                                     'journal_id': invoice_id_out_invoice.journal_id.id,
                                     'date': date_invoice.strftime("%Y-%m-%d"),
                                     'date_invoice': date_invoice.strftime("%Y-%m-%d"),
@@ -743,13 +751,17 @@ class OniadTransaction(models.Model):
                                 if invoice_id_out_invoice.user_id.id:
                                     vals['user_id'] = invoice_id_out_invoice.user_id.id
                                 # continue
-                                _logger.info(_('Prepare to generate partner_id %s and partner_shipping_id %s') % (
-                                    vals['partner_id'],
-                                    vals['partner_id']
-                                ))
+                                _logger.info(
+                                    _('Prepare to generate partner_id %s and partner_shipping_id %s')
+                                    % (
+                                        vals['partner_id'],
+                                        vals['partner_id']
+                                    )
+                                )
                                 invoice_obj = self.env['account.invoice'].sudo().create(vals)
                                 _logger.info('Invoice %s created successfully' % invoice_obj.id)
-                                # account.invoice.lines (creamos las lineas segun los pagos partner_payments_by_type['outbound'])
+                                # account.invoice.lines (creamos las lineas segun los pagos
+                                # partner_payments_by_type['outbound'])
                                 for payment_id in partner_payments_by_type['outbound']:
                                     # account_invoice_line_vals
                                     line_vals = {
@@ -777,7 +789,10 @@ class OniadTransaction(models.Model):
                                 # operations
                                 if invoice_obj.partner_id.vat and invoice_obj.partner_id.vat != "":
                                     invoice_obj.action_invoice_open()
-                                    _logger.info(_('Invoice %s successfully validated') % invoice_obj.id)
+                                    _logger.info(
+                                        _('Invoice %s successfully validated')
+                                        % invoice_obj.id
+                                    )
                                     invoice_obj.action_auto_create_message_slack()
                                 # logger_percent
                                 _logger.info('%s%s (%s/%s)' % (
@@ -788,5 +803,6 @@ class OniadTransaction(models.Model):
                                 ))
                             else:
                                 _logger.info(
-                                    _('NO positive invoice of higher amount found - SHOULD BE FULLY IMPOSSIBLE')
+                                    _('NO positive invoice of higher amount found - SHOULD '
+                                      'BE FULLY IMPOSSIBLE')
                                 )
