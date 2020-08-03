@@ -11,6 +11,7 @@
     "depends": [
         "base",
         "account",
+        "account_payment_sale",  # https://github.com/OCA/bank-payment
         "partner_financial_risk_oniad"
     ],
     "external_dependencies": {
