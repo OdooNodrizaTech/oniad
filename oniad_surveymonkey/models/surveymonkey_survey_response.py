@@ -231,11 +231,9 @@ class SurveymonkeySurveyResponse(models.Model):
                                 )
                             ]
                         )
-                    
                     # operations
                     if answer_ids:
                         cursor = return_connection['connection'].cursor()
-                        
                         for answer_id in answer_ids:
                             answer_id_sq = answer_id.surveymonkey_question_id
                             answer_id_sqc = \
@@ -243,21 +241,20 @@ class SurveymonkeySurveyResponse(models.Model):
                             answer_id_ssr = \
                                 answer_id.surveymonkey_survey_response_id
                             datawarehouse_value = answer_id_sqc.datawarehouse_value
-                            
                             if answer_id_sq.question_id == '242426120':
                                 datawarehouse_value = datawarehouse_value/2
                             # insert
                             postgres_insert_query = """
-                            INSERT INTO question_answer 
-                            (company, code, create_date, value, value_int) 
+                            INSERT INTO question_answer
+                            (company, code, create_date, value, value_int)
                             VALUES (%s,%s,%s,%s,%s) returning id
                             """
                             record_to_insert = (
-                                'OniAd', 
-                                question_code, 
+                                'OniAd',
+                                question_code,
                                 answer_id_ssr.date_modified,
                                 str(answer_id_sqc.text.encode('utf-8')),
-                                int(datawarehouse_value)                                
+                                int(datawarehouse_value)
                             )
                             # _logger.info(record_to_insert)
                             cursor.execute(
@@ -272,8 +269,8 @@ class SurveymonkeySurveyResponse(models.Model):
             # connect_close
             cursor = return_connection['connection'].cursor()
             cursor.close()
-            return_connection['connection'].close()                                                                                                                                       
-    
+            return_connection['connection'].close()
+
     @api.multi
     def process_answers(self,
                         page_id=False,
@@ -353,17 +350,16 @@ class SurveymonkeySurveyResponse(models.Model):
                             'surveymonkey_question_choice_id':
                                 question_choice_id.id,
                         }
-                        #if text is need
+                        # if text is need
                         if 'text' in answer:
                             vals['text'] = answer['text']
-                                                
                         self.env[
                             'surveymonkey.survey.response.question.answer'
                         ].sudo().create(vals)
-    
-    @api.model    
+
+    @api.model
     def cron_oniad_surveymonkey_survey_responses(self):
-        surveymonkey_web_service = SurveymonkeyWebService(
+        surveymonkey_ws = SurveymonkeyWebService(
             self.env.user.company_id,
             self.env
         )
@@ -374,14 +370,18 @@ class SurveymonkeySurveyResponse(models.Model):
         if len(survey_ids) > 0:
             for survey_id in survey_ids:
                 if survey_id != "":
-                    res = surveymonkey_web_service.get_survey_reponses(
+                    res = surveymonkey_ws.get_survey_reponses(
                         survey_id
                     )
                     if not res['errors']:
                         # response
                         for response_item in res['response']:
                             if 'result' in response_item:
-                                if response_item['result']['response_status'] == 'completed':
+                                res_item_rs = \
+                                    response_item['result']['response_status']
+                                res_item_cv = \
+                                    response_item['result']['custom_variables']
+                                if res_item_rs == 'completed':
                                     # surveymonkey_survey_response
                                     vals = {
                                         'survey_id':
@@ -402,8 +402,8 @@ class SurveymonkeySurveyResponse(models.Model):
                                         'surveymonkey.survey.response'
                                     ].sudo().create(vals)
                                     # surveymonkey_survey_response_custom_variable
-                                    if len(response_item['result']['custom_variables']) > 0:
-                                        res_id_cv = response_item['result']['custom_variables']
+                                    if len(res_item_cv) > 0:
+                                        res_id_cv = res_item_cv
                                         for key, val in res_id_cv.items():
                                             vals = {
                                                 'surveymonkey_survey_response_id':
@@ -429,7 +429,7 @@ class SurveymonkeySurveyResponse(models.Model):
                                             if page_ids:
                                                 page_id = page_ids[0]
                                             else:                                                
-                                                res_page = surveymonkey_web_service.get_survey_page(
+                                                res_page = surveymonkey_ws.get_survey_page(
                                                     survey_id,
                                                     page['id']
                                                 )
@@ -447,7 +447,7 @@ class SurveymonkeySurveyResponse(models.Model):
                                                     page_obj = self.env[
                                                         'surveymonkey.survey.page'
                                                     ].sudo().create(vals)
-                                                    surveymonkey_survey_page_id = page_obj
+                                                    page_id = page_obj
                                             # questions
                                             for question in page['questions']:
                                                 # if need create question
@@ -462,12 +462,13 @@ class SurveymonkeySurveyResponse(models.Model):
                                                 if question_ids:
                                                     question_id = question_ids[0]
                                                 else:
-                                                    res_page_question = surveymonkey_web_service.get_survey_page_question(
-                                                        survey_id,
-                                                        page['id'],
-                                                        question['id']
-                                                    )
-                                                    if return_api_survey_page_question['status_code'] == 200:
+                                                    res_page_question = \
+                                                        surveymonkey_ws.get_survey_page_question(
+                                                            survey_id,
+                                                            page['id'],
+                                                            question['id']
+                                                        )
+                                                    if res_page_question['status_code'] == 200:
                                                         vals = {
                                                             'question_id': question['id'],
                                                             'heading': '',
@@ -494,7 +495,7 @@ class SurveymonkeySurveyResponse(models.Model):
                                                             )
                                                 # answers
                                                 if 'answers' in question:
-                                                    surveymonkey_survey_response_obj.process_answers(
+                                                    response_obj.process_answers(
                                                         page_id,
                                                         question_id,
                                                         question['answers']
