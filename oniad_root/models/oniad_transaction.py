@@ -752,15 +752,19 @@ class OniadTransaction(models.Model):
                                     % invoice_id_out_invoice.id
                                 )
                                 invoice_out_partner = invoice_id_out_invoice.partner_id
+                                invoice_out_partner_par = \
+                                    invoice_out_partner.property_account_receivable
                                 # percent
-                                percent = (float(count)/float(len(partner_payments)))*100
-                                percent = "{0:.2f}".format(percent)                                    
+                                percent = (
+                                                  float(count) /
+                                                  float(len(partner_payments))
+                                          )*100
+                                percent = "{0:.2f}".format(percent)
                                 # account_invoice_vals
                                 vals = {
                                     'partner_id': invoice_out_partner.id,
                                     'partner_shipping_id': invoice_out_partner.id,
-                                    'account_id':
-                                        invoice_out_partner.property_account_receivable_id.id,
+                                    'account_id': invoice_out_partner_par.id,
                                     'journal_id': invoice_id_out_invoice.journal_id.id,
                                     'date': date_invoice.strftime("%Y-%m-%d"),
                                     'date_invoice': date_invoice.strftime("%Y-%m-%d"),

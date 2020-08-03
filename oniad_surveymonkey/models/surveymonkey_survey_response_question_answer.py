@@ -6,7 +6,7 @@ from odoo import fields, models
 class SurveymonkeySurveyResponseQuestionAnswer(models.Model):
     _name = 'surveymonkey.survey.response.question.answer'
     _description = 'Surveymonkey Survey Response Question Answer'
-                       
+
     surveymonkey_survey_response_id = fields.Many2one(
         comodel_name='surveymonkey.survey.response',
         string='Surveymonkey Survey Response'

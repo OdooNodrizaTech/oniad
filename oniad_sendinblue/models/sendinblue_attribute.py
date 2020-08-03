@@ -48,8 +48,8 @@ class SendinblueAttribute(models.Model):
                             if len(se_ids) == 0:
                                 vals = {
                                     'label': enumeration_item.label,
-                                    'value': enumeration_item.value,                                                                                                                 
-                                }                        
+                                    'value': enumeration_item.value,
+                                }
                                 self.env['sendinblue.enumeration'].sudo().create(
                                     vals
                                 )
@@ -66,7 +66,7 @@ class SendinblueAttribute(models.Model):
                         # sendinblue_enumeration_ids
                         sendinblue_enumeration_ids = []
                         if attribute.enumeration is not None:
-                            for enumeration_item in attribute.enumeration:   
+                            for enumeration_item in attribute.enumeration:
                                 se_ids_get = self.env['sendinblue.enumeration'].search(
                                     [
                                         ('label', '=', enumeration_item.label),
@@ -76,19 +76,19 @@ class SendinblueAttribute(models.Model):
                                 if se_ids_get:
                                     se_id_get = se_ids_get[0]
                                     sendinblue_enumeration_ids.append(se_id_get.id)
-                        
+
                         sa_obj.update({
                             'name': attribute.name,
                             'category': attribute.category,
                             'sendinblue_type': attribute.type,
                             'calculated_value': attribute.calculated_value,
-                            'sendinblue_enumeration_ids': sendinblue_enumeration_ids,
-                        })                                                                                                                                                                                                                                        
+                            'sendinblue_enumeration_ids': sendinblue_enumeration_ids
+                        })
                     else:
                         vals = {
                             'name': attribute.name,
                             'category': attribute.category,
                             'sendinblue_type': attribute.type,
-                            'calculated_value': attribute.calculated_value,                                                                                                                 
-                        }                        
+                            'calculated_value': attribute.calculated_value
+                        }
                         self.env['sendinblue.attribute'].sudo().create(vals)

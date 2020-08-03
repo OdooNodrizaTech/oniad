@@ -6,14 +6,14 @@ class OniadAddress(models.Model):
     _inherit = 'oniad.address'
 
     @api.model
-    def check_vat_error(self, vat, id):
+    def check_vat_error(self, vat, id_item):
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         slack_log_channel = self.env['ir.config_parameter'].sudo().get_param(
             'slack_log_channel'
         )
         item_url = "%s/web?#id=%s&view_type=form&model=oniad.address" % (
             web_base_url,
-            id
+            id_item
         )
         attachments = [
             {
@@ -36,7 +36,7 @@ class OniadAddress(models.Model):
                     },
                     {
                         "title": _("Id"),
-                        "value": id,
+                        "value": id_item,
                         'short': True,
                     }
                 ],

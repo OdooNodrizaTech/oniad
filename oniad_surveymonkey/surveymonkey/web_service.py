@@ -18,7 +18,10 @@ class SurveymonkeyWebService():
         self.custom_env = env
                             
         self.api_access_token = tools.config.get('surveymonkey_api_access_token')        
-        self.api_version = env['ir.config_parameter'].sudo().get_param('oniad_surveymonkey_api_version')                        
+        self.api_version = env['ir.config_parameter'].sudo().get_param(
+            'oniad_surveymonkey_api_version'
+        )
+        self.url_api = 'https://api.surveymonkey.net'
     
     # slack_message_error
     def sack_message_error(self, text, endpoint):
@@ -37,7 +40,9 @@ class SurveymonkeyWebService():
         ]        
         slack_message_vals = {
             'attachments': slack_message_attachments,
-            'channel': self.custom_env['ir.config_parameter'].sudo().get_param('slack_oniad_log_channel')                                                                                                                 
+            'channel': self.custom_env['ir.config_parameter'].sudo().get_param(
+                'slack_oniad_log_channel'
+            )
         }                        
         self.custom_env['slack.message'].sudo().create(slack_message_vals)
     
@@ -49,18 +54,21 @@ class SurveymonkeyWebService():
             "Authorization": "bearer "+str(self.api_access_token),
             "Content-Type": "application/json"
         }
-        uri = 'https://api.surveymonkey.net/%s/surveys/%s/pages/%s' % (
+        uri = '%/%s/surveys/%s/pages/%s' % (
+            self.url_api,
             self.api_version,
             survey_id,
             page_id
         )
         response = client.get(uri, headers=headers)
         response_json = response.json()
-        
         if response.status_code != 200:
             if 'error' in response_json:
                 if 'message' in response_json['error']:        
-                    self.sack_message_error(response_json['error']['message'], ENDPOINT)# Slack_message_error
+                    self.sack_message_error(
+                        response_json['error']['message'],
+                        ENDPOINT
+                    )
         
         return {
             'status_code': response.status_code,
@@ -75,7 +83,8 @@ class SurveymonkeyWebService():
             "Authorization": "bearer "+str(self.api_access_token),
             "Content-Type": "application/json"
         }
-        uri = 'https://api.surveymonkey.net/%s/surveys/%s/pages/%s/questions/%s' % (
+        uri = '%/%s/surveys/%s/pages/%s/questions/%s' % (
+            self.url_api,
             self.api_version,
             survey_id,
             page_id,
@@ -87,7 +96,10 @@ class SurveymonkeyWebService():
         if response.status_code != 200:
             if 'error' in response_json:
                 if 'message' in response_json['error']:        
-                    self.sack_message_error(response_json['error']['message'], ENDPOINT)#Slack_message_error
+                    self.sack_message_error(
+                        response_json['error']['message'],
+                        ENDPOINT
+                    )
         
         return {
             'status_code': response.status_code,
@@ -102,18 +114,21 @@ class SurveymonkeyWebService():
             "Authorization": "bearer "+str(self.api_access_token),
             "Content-Type": "application/json"
         }
-        uri = 'https://api.surveymonkey.net/%s/surveys/%s/responses/%s/details' % (
+        uri = '%s/%s/surveys/%s/responses/%s/details' % (
+            self.url_api,
             self.api_version,
             survey_id,
             response_id
         )
         response = client.get(uri, headers=headers)
         response_json = response.json()
-        
         if response.status_code != 200:
             if 'error' in response_json:
                 if 'message' in response_json['error']:        
-                    self.sack_message_error(response_json['error']['message'], ENDPOINT)#Slack_message_error
+                    self.sack_message_error(
+                        response_json['error']['message'],
+                        ENDPOINT
+                    )
         
         return {
             'status_code': response.status_code,
@@ -128,7 +143,8 @@ class SurveymonkeyWebService():
             "Authorization": "bearer "+str(self.api_access_token),
             "Content-Type": "application/json"
         }
-        uri = 'https://api.surveymonkey.net/%s/surveys/%s/responses?page=%s&per_page=%s' % (
+        uri = '%s/%s/surveys/%s/responses?page=%s&per_page=%s' % (
+            self.url_api,
             self.api_version,
             survey_id,
             page,
@@ -136,11 +152,13 @@ class SurveymonkeyWebService():
         )
         response = client.get(uri, headers=headers)
         response_json = response.json()
-        
         if response.status_code != 200:
             if 'error' in response_json:
                 if 'message' in response_json['error']:        
-                    self.sack_message_error(response_json['error']['message'], ENDPOINT)#Slack_message_error
+                    self.sack_message_error(
+                        response_json['error']['message'],
+                        ENDPOINT
+                    )
         
         return {
             'status_code': response.status_code,
@@ -155,9 +173,11 @@ class SurveymonkeyWebService():
             'status_code': "",
             'response': [] 
         }
-        
-        response_api = self.get_survey_reponses_real(survey_id, 1, per_page)
-        
+        response_api = self.get_survey_reponses_real(
+            survey_id,
+            1,
+            per_page
+        )
         if response_api['status_code'] != 200:
             if 'error' in response_api['response']:
                 if 'message' in response_api['response']['error']:
@@ -166,15 +186,19 @@ class SurveymonkeyWebService():
             response['errors'] = False
             response['response'].extend(response_api['response']['data'])
             # Fix need other pages
-            total_pages_calculate = float(response_api['response']['total'])/float(response_api['response']['per_page'])
-            total_pages_calculate = "{0:.2f}".format(total_pages_calculate)
-            total_pages_calculate_split = total_pages_calculate.split('.')
-            if total_pages_calculate_split[1] != "00":
-                total_pages_calculate = int(total_pages_calculate[0])+1
+            pages_calculate = float(response_api['response']['total'])/float(response_api['response']['per_page'])
+            pages_calculate = "{0:.2f}".format(pages_calculate)
+            total_pages_calculate_split = pages_calculate.split('.')
+            if pages_calculate_split[1] != "00":
+                pages_calculate = int(pages_calculate_split[0])+1
                                         
-            if total_pages_calculate > 1:
-                for i in range(2, total_pages_calculate+1):                            
-                    response_page = self.get_survey_reponses_real(survey_id, i, response_api['response']['per_page'])
+            if pages_calculate > 1:
+                for i in range(2, pages_calculate+1):
+                    response_page = self.get_survey_reponses_real(
+                        survey_id,
+                        i,
+                        response_api['response']['per_page']
+                    )
                     if response_page['status_code'] == 200:
                         if 'data' in response_page['response']:
                                                     
@@ -183,25 +207,28 @@ class SurveymonkeyWebService():
             response_pre = response['response']
             response['response'] = []
             # create_array
-            surveymonkey_survey_response_ids_custom = []
-            surveymonkey_survey_response_ids = self.custom_env['surveymonkey.survey.response'].search(
+            survey_response_ids_custom = []
+            survey_response_ids = self.custom_env['surveymonkey.survey.response'].search(
                 [
                     ('survey_id', '=', survey_id)
                 ]
             )
-            if surveymonkey_survey_response_ids:
-                for surveymonkey_survey_response_id in surveymonkey_survey_response_ids:
-                    surveymonkey_survey_response_ids_custom.append(surveymonkey_survey_response_id.response_id)
+            if survey_response_ids:
+                for response_id in survey_response_ids:
+                    survey_response_ids_custom.append(response_id.response_id)
 
             for response_item in response_pre:
-                if response_item['id'] not in surveymonkey_survey_response_ids_custom:# fix not previously created
+                if response_item['id'] not in survey_response_ids_custom:
                     response_item_params = {
                         'id':response_item['id'],
                         'result': "",
                     }
-                    response_details_survey_response_api = self.get_survey_reponse_details(survey_id, response_item['id'])
-                    if response_details_survey_response_api['status_code'] == 200:
-                        response_item_params['result'] = response_details_survey_response_api['response']                                        
+                    res_response_api = self.get_survey_reponse_details(
+                        survey_id,
+                        response_item['id']
+                    )
+                    if res_response_api['status_code'] == 200:
+                        response_item_params['result'] = res_response_api['response']
                     
                     response['response'].append(response_item_params)
         # return
@@ -214,7 +241,10 @@ class SurveymonkeyWebService():
             "Authorization": "bearer "+str(self.api_access_token),
             "Content-Type": "application/json"
         }
-        uri = "https://api.surveymonkey.net%s" % endpoint
+        uri = "%s%s" % (
+            self.url_api,
+            endpoint
+        )
         client_response = client.get(uri, headers=headers)
         if client_response.status_code == 200:
             return client_response.json()
@@ -229,14 +259,14 @@ class SurveymonkeyWebService():
             "Authorization": "bearer "+str(self.api_access_token),
             "Content-Type": "application/json"
         }
-        uri = 'https://api.surveymonkey.net/%s/surveys/%s/responses/%s' % (
+        uri = '%s/%s/surveys/%s/responses/%s' % (
+            self.url_api,
             self.api_version,
             survey_id,
             response_id
         )
         response = client.get(uri, headers=headers)
         response_json = response.json()
-        
         return {
             'status_code': response.status_code,
             'response': response_json
@@ -256,10 +286,12 @@ class SurveymonkeyWebService():
             "Authorization": "bearer "+str(self.api_access_token),
             "Content-Type": "application/json"
         }
-        uri = "https://api.surveymonkey.net/%s/surveys" % self.api_version
+        uri = "%s/%s/surveys" % (
+            self.url_api,
+            self.api_version
+        )
         client_response = client.get(uri, headers=headers)
         client_response_json = client_response.json()
-        
         response['status_code'] = client_response.status_code
         if response['status_code'] == 200:
             response['errors'] = False
@@ -268,8 +300,10 @@ class SurveymonkeyWebService():
             if 'error' in client_response_json:
                 if 'message' in client_response_json['error']:
                     response['error'] = client_response_json['error']['message']                    
-                    self.sack_message_error(response['error'], ENDPOINT)# Slack_message_error
-                             
+                    self.sack_message_error(
+                        response['error'],
+                        ENDPOINT
+                    )
         return response
     
     # api
@@ -285,10 +319,12 @@ class SurveymonkeyWebService():
             "Authorization": "bearer "+str(self.api_access_token),
             "Content-Type": "application/json"
         }
-        uri = "https://api.surveymonkey.net/%s/users/me" % self.api_version
+        uri = "%s/%s/users/me" % (
+            self.url_api,
+            self.api_version
+        )
         client_response = client.get(uri, headers=headers)
         client_response_json = client_response.json()
-        
         response['status_code'] = client_response.status_code
         if response['status_code'] == 200:
             response['errors'] = False
@@ -297,6 +333,8 @@ class SurveymonkeyWebService():
             if 'error' in client_response_json:
                 if 'message' in client_response_json['error']:
                     response['error'] = client_response_json['error']['message']                    
-                    self.sack_message_error(response['error'], ENDPOINT)# Slack_message_error
-                             
+                    self.sack_message_error(
+                        response['error'],
+                        ENDPOINT
+                    )
         return response

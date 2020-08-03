@@ -73,17 +73,14 @@ class SendinblueContact(models.Model):
             tag_ids_split = leads_tag_ids_default.split(',')
             for tag_id_split in tag_ids_split:
                 tag_ids.append(int(tag_id_split))
-        
             sc_ids_real = []
             sc_ids_already_created = []
-            
             sc_ids = self.env['sendinblue.contact'].search([
                 ('sendinblue_list_ids', 'in', [s_list_id])
             ])
             if sc_ids:
                 for sc_id in sc_ids:
                     sc_ids_real.append(sc_id.id)
-                                                
                 crm_lead_ids = self.env['crm.lead'].search([
                     ('sendinblue_contact_id', 'in', sc_ids_real)
                 ])
@@ -92,17 +89,15 @@ class SendinblueContact(models.Model):
                         sc_ids_already_created.append(
                             crm_lead_id.sendinblue_contact_id.id
                         )
-                
                 for sc_id in sc_ids:
                     if sc_id.id not in sc_ids_already_created:
                         # default_fields
                         crm_type = 'lead'
                         commercial_activity_type = 'hunter'
                         lead_oniad_type = 'catchment'
-                        
                         crm_partner_id = False
                         partner_name = sc_id.email
-                        stage_id = 0                        
+                        stage_id = 0
                         # res_partner
                         res_partner_ids = self.env['res.partner'].search([
                             ('active', '=', True),
@@ -117,8 +112,7 @@ class SendinblueContact(models.Model):
                                     # extra
                                     crm_partner_id = res_partner_id.id
                                     partner_name = res_partner_id.name
-                                    stage_id = crm_stage_id.id                                                   
-                        
+                                    stage_id = crm_stage_id.id
                         vals = {
                             'name': sc_id.email,
                             'partner_name': partner_name,
@@ -136,16 +130,19 @@ class SendinblueContact(models.Model):
                             'user_id': res_user_id.id,
                             'marketing_campaing': True,
                             'active': True,
-                            'tag_ids': [(6, 0, tag_ids)],                                                                                                                 
-                        }                        
+                            'tag_ids': [(6, 0, tag_ids)],
+                        }
                         crm_lead_obj = self.env['crm.lead'].sudo(
                             res_user_id.id
                         ).create(vals)
                         crm_lead_obj.action_leads_create_sendinblue_list_id()
-    
-    @api.model    
+
+    @api.model
     def cron_get_contacts(self):
-        sendinblue_web_service = SendinblueWebService(self.env.user.company_id, self.env)
+        sendinblue_web_service = SendinblueWebService(
+            self.env.user.company_id,
+            self.env
+        )
         res = sendinblue_web_service.get_contacts()
         if not res['errors']:
             if res['response']['count'] > 0:
@@ -172,41 +169,51 @@ class SendinblueContact(models.Model):
                         # attributes
                         if "attributes" in contact:
                             if len(contact['attributes']) > 0:
-                                for attribute_key, attribute_val in contact['attributes'].items():
+                                for key, attribute_val in contact['attributes'].items():
                                     attribute_ids = self.env['sendinblue.attribute'].search(
                                         [
-                                            ('name', '=', attribute_key)
+                                            ('name', '=', key)
                                         ]
                                     )
                                     if attribute_ids:
                                         attribute_id = attribute_ids[0]
-                                        sendinblue_enumeration_id = False
+                                        se_id = False
                                         
                                         if attribute_id.sendinblue_enumeration_ids:
-                                            atribute_id_se = attribute_id.sendinblue_enumeration_ids
+                                            atribute_id_se = \
+                                                attribute_id.sendinblue_enumeration_ids
                                             for enumeration_id in atribute_id_se:
                                                 if enumeration_id.value == attribute_val:
-                                                    sendinblue_enumeration_id = enumeration_id.id
+                                                    se_id = enumeration_id.id
 
-                                        ids_get = self.env['sendinblue.contact.attribute'].search(
+                                        ids_get = self.env[
+                                            'sendinblue.contact.attribute'
+                                        ].search(
                                             [
-                                                ('sendinblue_contact_id', '=', contact_id.id),
-                                                ('sendinblue_attribute_id', '=', attribute_id.id)
+                                                (
+                                                    'sendinblue_contact_id',
+                                                    '=',
+                                                    contact_id.id
+                                                ),
+                                                (
+                                                    'sendinblue_attribute_id',
+                                                    '=',
+                                                    attribute_id.id
+                                                )
                                             ]
                                         )
                                         if len(ids_get) == 0:
                                             vals = {
                                                 'sendinblue_contact_id': contact_id.id,
                                                 'sendinblue_attribute_id': attribute_id.id,
-                                                'sendinblue_enumeration_id':
-                                                    sendinblue_enumeration_id,
+                                                'sendinblue_enumeration_id': se_id.id,
                                                 'value': attribute_val,                                                                                                                 
                                             }                        
-                                            self.env['sendinblue.contact.attribute'].sudo().create(
-                                                vals
-                                            )
+                                            self.env[
+                                                'sendinblue.contact.attribute'
+                                            ].sudo().create(vals)
                         # update
-                        sendinblue_contact_obj.update({
+                        contact_id.update({
                             'sendinblue_id': contact['id'],
                             'email': contact['email'],
                             'email_blacklisted': contact['emailBlacklisted'],

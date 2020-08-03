@@ -536,8 +536,6 @@ class OniadUser(models.Model):
                                     vals[bf] = True
                                 elif vals[bf] == 'False':
                                     vals[bf] = False
-                                else:
-                                    vals[bf]
                         # odoo_lead
                         if 'context' in message_body:
                             if message_body['context'] != '':
@@ -809,7 +807,8 @@ class OniadUser(models.Model):
                                                         mm_date_dead.strftime(
                                                             "%Y-%m-%d"
                                                         ),
-                                                    'summary': 'Revisar contacto usuario'
+                                                    'summary':
+                                                        'Revisar contacto usuario'
                                                 }
                                                 self.env['mail.activity'].sudo(
                                                     vals['user_id']

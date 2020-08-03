@@ -5,8 +5,8 @@ from odoo import fields, models
 
 class SendinblueContactAttribute(models.Model):
     _name = 'sendinblue.contact.attribute'
-    _description = 'Sendinblue Contact Attribute'    
-    
+    _description = 'Sendinblue Contact Attribute'
+
     sendinblue_contact_id = fields.Many2one(
         comodel_name='sendinblue.contact',
         string='Sendinblue Contact'

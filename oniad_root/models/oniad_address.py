@@ -115,10 +115,10 @@ class OniadAddress(models.Model):
             )
 
     @api.model
-    def check_vat_error(self, vat, id):
+    def check_vat_error(self, vat, id_item):
         _logger.info(
             _('The vat %s of the oniad_address_id =% s is incorrect')
-            % (vat, id)
+            % (vat, id_item)
         )
 
     @api.multi

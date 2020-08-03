@@ -6,7 +6,7 @@ from odoo import fields, models
 class SurveymonkeySurveyResponseCustomVariable(models.Model):
     _name = 'surveymonkey.survey.response.custom.variable'
     _description = 'Surveymonkey Survey Response Custom Variable'
-    
+
     surveymonkey_survey_response_id = fields.Many2one(
         comodel_name='surveymonkey.survey.response',
         string='Surveymonkey Survey Response'
