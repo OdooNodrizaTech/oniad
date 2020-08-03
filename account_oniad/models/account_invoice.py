@@ -130,7 +130,6 @@ class AccountInvoice(models.Model):
                 if regenerate_pdf:
                     self.action_upload_pdf_to_s3()
                 # define
-                ses_sqs_url = tools.config.get('ses_sqs_url')
                 AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')
                 AWS_SECRET_ACCESS_KEY = tools.config.get('aws_secret_key_id')
                 AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')
@@ -140,7 +139,7 @@ class AccountInvoice(models.Model):
                     'sns',
                     region_name=AWS_SMS_REGION_NAME,
                     aws_access_key_id=AWS_ACCESS_KEY_ID,
-                    aws_secret_access_key= AWS_SECRET_ACCESS_KEY
+                    aws_secret_access_key=AWS_SECRET_ACCESS_KEY
                 )
                 # message
                 message = {
@@ -225,8 +224,9 @@ class AccountInvoice(models.Model):
                 if enviroment == 'dev':
                     sns_name = 'oniad-platform_dev-command-odoo-account-invoice'
                 # publish
+                header_type = 'Oniad\\Domain\\Odoo\\OdooInvoiceAvailableEvent'
                 response = sns.publish(
-                    TopicArn='arn:aws:sns:eu-west-1:534422648921:'+str(sns_name),
+                    TopicArn='arn:aws:sns:eu-west-1:534422648921:%s' % sns_name,
                     Message=json.dumps(message, indent=2),
                     MessageAttributes={
                         'Headers': {
@@ -234,8 +234,7 @@ class AccountInvoice(models.Model):
                             'StringValue': json.dumps(
                                 [
                                     {
-                                        'type':
-                                            'Oniad\\Domain\\Odoo\\OdooInvoiceAvailableEvent'
+                                        'type': header_type
                                     }, []
                                 ]
                             )
@@ -265,9 +264,9 @@ class AccountInvoice(models.Model):
                         margin_total = margin_total + line_id.purchase_price
 
                     item.margin = margin_total
-    
+
     @api.multi
-    def write(self, vals):      
+    def write(self, vals):
         # super
         return_object = super(AccountInvoice, self).write(vals)
         # check_if_paid
@@ -276,7 +275,7 @@ class AccountInvoice(models.Model):
             self.action_send_sns(True)
         # return
         return return_object
-    
+
     @api.multi
     def action_invoice_open(self):
         if not self.partner_id.vat:
@@ -291,15 +290,17 @@ class AccountInvoice(models.Model):
             )
         else:
             res = super(AccountInvoice, self).action_invoice_open()
-            for account_invoice_item in self:            
+            for account_invoice_item in self:
                 account_invoice_item.action_calculate_margin()
             # action_send_sns
             account_invoice_item.action_send_sns(True)
             # return
             return res
-                    
+
     @api.multi
     def action_auto_create_message_slack(self):
         self.ensure_one()
-        res = super(AccountInvoice, self).action_auto_create_message_slack()
+        res = super(
+            AccountInvoice, self
+        ).action_auto_create_message_slack()
         return False

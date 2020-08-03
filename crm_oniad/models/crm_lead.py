@@ -9,22 +9,22 @@ _logger = logging.getLogger(__name__)
 
 class CrmLead(models.Model):
     _inherit = 'crm.lead'
-    
+
     done_user_id = fields.Many2one(
-        comodel_name='res.users',        
+        comodel_name='res.users',
         string='User done'
     )
     day_deadline = fields.Float(
-        compute='_compute_day_deadline', 
+        compute='_compute_day_deadline',
         string='Days for the planned closing',
         store=True
     )
     website = fields.Char(
         string='Website'
     )
-    marketing_campaign = fields.Boolean( 
+    marketing_campaign = fields.Boolean(
         string='Marketing campaign'
-    )    
+    )
     activities_count = fields.Integer(
         compute='_compute_activities_count',
         string="Activities",
@@ -54,8 +54,8 @@ class CrmLead(models.Model):
             ('other', 'Other')
         ],
         string='Lead type'
-    )                                        
-    
+    )
+
     @api.multi
     @api.onchange('type')
     def onchange_type(self):
@@ -71,18 +71,18 @@ class CrmLead(models.Model):
     @api.model
     def create(self, values):
         allow_create = True
-                                
+
         vt = values.get('type')
         vcat = values.get('commercial_activity_type')
         vlot = values.get('lead_oniad_type')
-                
+
         if vt == 'lead':
             if vcat != 'hunter':
                 allow_create = False
                 raise UserError(
                     _("An lead must have the type of commercial activity 'Hunter'")
                 )
-                
+
             if allow_create and vlot != 'catchment':
                 allow_create = False
                 raise UserError(
@@ -94,16 +94,16 @@ class CrmLead(models.Model):
                 raise UserError(
                     _("A opportunity must have the business type 'Account'")
                 )
-                
+
             if allow_create and vlot == 'catchment':
                 allow_create = False
                 raise UserError(
                     _("A opportunity must not have the lead type 'Capture'")
                 )
-    
+
         if allow_create:
             return super(CrmLead, self).create(values)
-                
+
     @api.multi
     def _compute_activities_count(self):
         activity_data = self.env['crm.activity.report'].read_group(
@@ -115,8 +115,8 @@ class CrmLead(models.Model):
             act['lead_id'][0]: act['lead_id_count'] for act in activity_data
         }
         for lead in self:
-            lead.activities_count = mapped_data.get(lead.id, 0)                
-                    
+            lead.activities_count = mapped_data.get(lead.id, 0)
+
     @api.multi
     def convert_opportunity_create_partner(self, user_ids=False, team_id=False):
         self.ensure_one()
@@ -132,7 +132,7 @@ class CrmLead(models.Model):
             )
         else:
             return False
-            
+
     @api.multi
     def _lead_create_contact(self, name, is_company, parent_id=False):
         self.ensure_one()
@@ -142,20 +142,22 @@ class CrmLead(models.Model):
             parent_id
         )
         return_def.website = self.website
-        return return_def    
-    
+        return return_def
+
     @api.multi
     def action_set_won(self):
         # done_user_id
         for item in self:
             item.done_user_id = item.user_id
         # super
-        return super(CrmLead, self).action_set_won()                                                                    
-                
+        return super(CrmLead, self).action_set_won()
+
     @api.multi
     @api.depends('date_deadline')
     def _compute_day_deadline(self):
-        current_date = fields.Datetime.from_string(str(datetime.today().strftime("%Y-%m-%d")))
+        current_date = fields.Datetime.from_string(
+            str(datetime.today().strftime("%Y-%m-%d"))
+        )
         for item in self:
             if item.date_deadline:
                 date_deadline = fields.Datetime.from_string(item.date_deadline)

@@ -15,7 +15,7 @@ class ResPartnerStakeholderType(models.Model):
     )
     investor = fields.Boolean(
         string="Inverstor"
-    )    
+    )
     teacher = fields.Boolean(
         string="Teacher"
     )

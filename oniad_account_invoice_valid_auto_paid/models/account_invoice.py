@@ -1,11 +1,12 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-from odoo import api, models, tools
+from odoo import api, models, _
 
 import logging
 _logger = logging.getLogger(__name__)
 
+
 class AccountInvoice(models.Model):
-    _inherit = 'account.invoice'                     
+    _inherit = 'account.invoice'
     
     @api.multi
     def action_invoice_open(self):
@@ -15,18 +16,18 @@ class AccountInvoice(models.Model):
         for item in self:
             if item.amount_total != 0:
                 if item.type in ['out_invoice', 'out_refund']:
-                    oniad_transaction_ids = []
+                    ids = []
                     for invoice_line_id in item.invoice_line_ids:
                         if invoice_line_id.oniad_transaction_id:
-                            if invoice_line_id.oniad_transaction_id.id not in oniad_transaction_ids:
-                                oniad_transaction_ids.append(
+                            if invoice_line_id.oniad_transaction_id.id not in ids:
+                                ids.append(
                                     int(invoice_line_id.oniad_transaction_id.id)
                                 )
                     # check
                     if len(oniad_transaction_ids) > 0:
                         transaction_ids = self.env['oniad.transaction'].sudo().search(
                             [
-                                ('id', 'in', oniad_transaction_ids),
+                                ('id', 'in', ids),
                                 ('account_payment_id', '!=', False)
                             ]
                         )
@@ -37,16 +38,20 @@ class AccountInvoice(models.Model):
                                     for move_line_id in payment_id.move_line_ids:
                                         if move_line_id.credit > 0:
                                             _logger.info(
-                                                _('Factura %s pre-asignar asiento contable %s del pago %s')
+                                                _('Factura %s pre-asignar asiento '
+                                                  'contable %s del pago %s')
                                                 % (
                                                     item.id,
                                                     move_line_id.id,
                                                     payment_id.id
                                                 )
                                             )
-                                            item.assign_outstanding_credit(move_line_id.id)
+                                            item.assign_outstanding_credit(
+                                                move_line_id.id
+                                            )
                                             _logger.info(
-                                                _('Factura %s asignado asiento contable %s del pago %s')
+                                                _('Factura %s asignado asiento '
+                                                  'contable %s del pago %s')
                                                 % (
                                                     item.id,
                                                     move_line_id.id,
@@ -57,16 +62,20 @@ class AccountInvoice(models.Model):
                                     for move_line_id in payment_id.move_line_ids:
                                         if move_line_id.debit > 0:
                                             _logger.info(
-                                                _('Factura %s pre-asignar asiento contable %s del pago %s')
+                                                _('Factura %s pre-asignar asiento '
+                                                  'contable %s del pago %s')
                                                 % (
                                                     item.id,
                                                     move_line_id.id,
                                                     payment_id.id
                                                 )
                                             )
-                                            item.assign_outstanding_credit(move_line_id.id)
+                                            item.assign_outstanding_credit(
+                                                move_line_id.id
+                                            )
                                             _logger.info(
-                                                _('Factura %s asignado asiento contable %s del pago %s')
+                                                _('Factura %s asignado asiento '
+                                                  'contable %s del pago %s')
                                                 % (
                                                     item.id,
                                                     move_line_id.id,

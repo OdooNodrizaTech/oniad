@@ -9,7 +9,7 @@ class ResPartnerCustomerType(models.Model):
 
     name = fields.Char(
         string="Name"
-    )     
+    )
     advertiser = fields.Boolean(
         string="Advertiser"
     )
