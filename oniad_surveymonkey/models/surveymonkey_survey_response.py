@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 class SurveymonkeySurveyResponse(models.Model):
     _name = 'surveymonkey.survey.response'
     _description = 'Surveymonkey Survey Response'
-    
+
     survey_id = fields.Char(
         string='Survey Id'
     )
@@ -52,7 +52,7 @@ class SurveymonkeySurveyResponse(models.Model):
                 database=self.env['ir.config_parameter'].sudo().get_param(
                     'survey_oniad_datawarehouse_rds_database'
                 )
-            )            
+            )
             return {
                 'connection': connection,
                 'errors': False,
@@ -64,7 +64,7 @@ class SurveymonkeySurveyResponse(models.Model):
                 'errors': True,
                 'error': error
             }
-            
+
     @api.model
     def cron_surveymonkey_survey_response_items_send_datawarehouse(self):
         # connect_postgresql_datawarehouse_rds
@@ -175,19 +175,32 @@ class SurveymonkeySurveyResponse(models.Model):
                 },
             }
             for question_code in question_codes:
-                question_code_item = question_codes[question_code]                        
+                question_code_item = question_codes[question_code]
                 for survey_id in question_code_item['surveymonkey_survey_ids']:
-                    survey_id_item = question_code_item['surveymonkey_survey_ids'][survey_id]
-                    
+                    survey_id_item = question_code_item[
+                        'surveymonkey_survey_ids'
+                    ][survey_id]
                     if survey_id_item['row_id'] == 0:
                         answer_ids = self.env[
                             'surveymonkey.survey.response.question.answer'
                         ].search(
                             [
                                 ('datawarehouse_question_answer_id', '=', False),
-                                ('surveymonkey_survey_response_id.status', '=', 'completed'),
-                                ('surveymonkey_survey_response_id.survey_id', '=', survey_id),
-                                ('surveymonkey_question_id.question_id', '=', survey_id_item['question_id'])
+                                (
+                                    'surveymonkey_survey_response_id.status',
+                                    '=',
+                                    'completed')
+                                ,
+                                (
+                                    'surveymonkey_survey_response_id.survey_id',
+                                    '=',
+                                    survey_id
+                                ),
+                                (
+                                    'surveymonkey_question_id.question_id',
+                                    '=',
+                                    survey_id_item['question_id']
+                                )
                             ]
                         )
                     else:
@@ -196,10 +209,26 @@ class SurveymonkeySurveyResponse(models.Model):
                         ].search(
                             [
                                 ('datawarehouse_question_answer_id', '=', False),
-                                ('surveymonkey_survey_response_id.status', '=', 'completed'),
-                                ('surveymonkey_survey_response_id.survey_id', '=', survey_id),
-                                ('surveymonkey_question_id.question_id', '=', survey_id_item['question_id']),
-                                ('surveymonkey_question_row_id.row_id', '=', survey_id_item['row_id'])
+                                (
+                                    'surveymonkey_survey_response_id.status',
+                                    '=',
+                                    'completed'
+                                ),
+                                (
+                                    'surveymonkey_survey_response_id.survey_id',
+                                    '=',
+                                    survey_id
+                                ),
+                                (
+                                    'surveymonkey_question_id.question_id',
+                                    '=',
+                                    survey_id_item['question_id']
+                                ),
+                                (
+                                    'surveymonkey_question_row_id.row_id',
+                                    '=',
+                                    survey_id_item['row_id']
+                                )
                             ]
                         )
                     
@@ -209,15 +238,18 @@ class SurveymonkeySurveyResponse(models.Model):
                         
                         for answer_id in answer_ids:
                             answer_id_sq = answer_id.surveymonkey_question_id
-                            answer_id_sqc = answer_id.surveymonkey_question_choice_id
-                            answer_id_ssr = answer_id.surveymonkey_survey_response_id
+                            answer_id_sqc = \
+                                answer_id.surveymonkey_question_choice_id
+                            answer_id_ssr = \
+                                answer_id.surveymonkey_survey_response_id
                             datawarehouse_value = answer_id_sqc.datawarehouse_value
                             
                             if answer_id_sq.question_id == '242426120':
                                 datawarehouse_value = datawarehouse_value/2
                             # insert
                             postgres_insert_query = """
-                            INSERT INTO question_answer (company, code, create_date, value, value_int) 
+                            INSERT INTO question_answer 
+                            (company, code, create_date, value, value_int) 
                             VALUES (%s,%s,%s,%s,%s) returning id
                             """
                             record_to_insert = (
@@ -228,14 +260,15 @@ class SurveymonkeySurveyResponse(models.Model):
                                 int(datawarehouse_value)                                
                             )
                             # _logger.info(record_to_insert)
-                            cursor.execute(postgres_insert_query, record_to_insert)                                                                              
-                            
+                            cursor.execute(
+                                postgres_insert_query,
+                                record_to_insert
+                            )
                             return_connection['connection'].commit()
-                            
                             return_id = cursor.fetchone()[0]
                             # _logger.info(return_id)
-                            
-                            answer_id.datawarehouse_question_answer_id = return_id
+                            answer_id.datawarehouse_question_answer_id = \
+                                return_id
             # connect_close
             cursor = return_connection['connection'].cursor()
             cursor.close()
@@ -254,7 +287,9 @@ class SurveymonkeySurveyResponse(models.Model):
                     # if need create row
                     question_row_id = False
                     if 'row_id' in answer:
-                        question_row_ids = self.env['surveymonkey.question.row'].search(
+                        question_row_ids = self.env[
+                            'surveymonkey.question.row'
+                        ].search(
                             [
                                 ('row_id', '=', answer['row_id'])
                             ]
@@ -264,7 +299,9 @@ class SurveymonkeySurveyResponse(models.Model):
                     # if need create choice
                     question_choice_id = False
                     if 'choice_id' in answer:
-                        question_choice_ids = self.env['surveymonkey.question.choice'].search(
+                        question_choice_ids = self.env[
+                            'surveymonkey.question.choice'
+                        ].search(
                             [
                                 ('choice_id', '=', answer['choice_id'])
                             ]
@@ -276,20 +313,45 @@ class SurveymonkeySurveyResponse(models.Model):
                         'surveymonkey.survey.response.question.answer'
                     ].search(
                         [
-                            ('surveymonkey_survey_response_id', '=', self.id),
-                            ('surveymonkey_survey_page_id', '=', page_id.id),
-                            ('surveymonkey_question_id', '=', question_id.id),
-                            ('surveymonkey_question_row_id', '=', question_row_id.id),
-                            ('surveymonkey_question_choice_id', '=', question_choice_id.id)
+                            (
+                                'surveymonkey_survey_response_id',
+                                '=',
+                                self.id
+                            ),
+                            (
+                                'surveymonkey_survey_page_id',
+                                '=',
+                                page_id.id
+                            ),
+                            (
+                                'surveymonkey_question_id',
+                                '=',
+                                question_id.id
+                            ),
+                            (
+                                'surveymonkey_question_row_id',
+                                '=',
+                                question_row_id.id
+                            ),
+                            (
+                                'surveymonkey_question_choice_id',
+                                '=',
+                                question_choice_id.id
+                            )
                         ]
                     )
                     if len(answer_ids) == 0:
                         vals = {
-                            'surveymonkey_survey_response_id': self.id,
-                            'surveymonkey_survey_page_id': page_id.id,
-                            'surveymonkey_question_id': question_id.id,
-                            'surveymonkey_question_row_id': question_row_id.id,
-                            'surveymonkey_question_choice_id': question_choice_id.id,
+                            'surveymonkey_survey_response_id':
+                                self.id,
+                            'surveymonkey_survey_page_id':
+                                page_id.id,
+                            'surveymonkey_question_id':
+                                question_id.id,
+                            'surveymonkey_question_row_id':
+                                question_row_id.id,
+                            'surveymonkey_question_choice_id':
+                                question_choice_id.id,
                         }
                         #if text is need
                         if 'text' in answer:
@@ -301,8 +363,10 @@ class SurveymonkeySurveyResponse(models.Model):
     
     @api.model    
     def cron_oniad_surveymonkey_survey_responses(self):
-        surveymonkey_web_service = SurveymonkeyWebService(self.env.user.company_id, self.env)
-                
+        surveymonkey_web_service = SurveymonkeyWebService(
+            self.env.user.company_id,
+            self.env
+        )
         ids_need_check = self.env['ir.config_parameter'].sudo().get_param(
             'oniad_surveymonkey_datawarehouse_survey_ids_need_check'
         )
@@ -310,7 +374,9 @@ class SurveymonkeySurveyResponse(models.Model):
         if len(survey_ids) > 0:
             for survey_id in survey_ids:
                 if survey_id != "":
-                    res = surveymonkey_web_service.get_survey_reponses(survey_id)
+                    res = surveymonkey_web_service.get_survey_reponses(
+                        survey_id
+                    )
                     if not res['errors']:
                         # response
                         for response_item in res['response']:
@@ -318,20 +384,30 @@ class SurveymonkeySurveyResponse(models.Model):
                                 if response_item['result']['response_status'] == 'completed':
                                     # surveymonkey_survey_response
                                     vals = {
-                                        'survey_id': response_item['result']['survey_id'],
+                                        'survey_id':
+                                            response_item['result']['survey_id'],
                                         'response_id': response_item['id'],
-                                        'collector_id': response_item['result']['collector_id'],
-                                        'total_time': response_item['result']['total_time'],
-                                        'status': response_item['result']['response_status'],
-                                        'ip_address': response_item['result']['ip_address'],
-                                        'date_modified': response_item['result']['date_modified'][:10]                                                                                                                                            
+                                        'collector_id':
+                                            response_item['result']['collector_id'],
+                                        'total_time':
+                                            response_item['result']['total_time'],
+                                        'status':
+                                            response_item['result']['response_status'],
+                                        'ip_address':
+                                            response_item['result']['ip_address'],
+                                        'date_modified':
+                                            response_item['result']['date_modified'][:10]
                                     }                                                                                                
-                                    response_obj = self.env['surveymonkey.survey.response'].sudo().create(vals)
+                                    response_obj = self.env[
+                                        'surveymonkey.survey.response'
+                                    ].sudo().create(vals)
                                     # surveymonkey_survey_response_custom_variable
                                     if len(response_item['result']['custom_variables']) > 0:
-                                        for key,val in response_item['result']['custom_variables'].items():
+                                        res_id_cv = response_item['result']['custom_variables']
+                                        for key, val in res_id_cv.items():
                                             vals = {
-                                                'surveymonkey_survey_response_id': response_obj.id,
+                                                'surveymonkey_survey_response_id':
+                                                    response_obj.id,
                                                 'field': key,
                                                 'value': val                                                                                                                                                                                             
                                             }                        
@@ -343,7 +419,9 @@ class SurveymonkeySurveyResponse(models.Model):
                                         for page in response_item['result']['pages']:
                                             # if need create page
                                             page_id = False
-                                            page_ids = self.env['surveymonkey.survey.page'].search(
+                                            page_ids = self.env[
+                                                'surveymonkey.survey.page'
+                                            ].search(
                                                 [
                                                     ('page_id', '=', page['id'])
                                                 ]
@@ -357,11 +435,14 @@ class SurveymonkeySurveyResponse(models.Model):
                                                 )
                                                 if res_page['status_code'] == 200:
                                                     vals = {
-                                                        'survey_id': response_item['result']['survey_id'],
+                                                        'survey_id':
+                                                            response_item['result']['survey_id'],
                                                         'page_id': page['id'],
                                                         'title': res_page['response']['title'],
-                                                        'description': res_page['response']['description'],
-                                                        'position': res_page['response']['position'],
+                                                        'description':
+                                                            res_page['response']['description'],
+                                                        'position':
+                                                            res_page['response']['position'],
                                                     }                        
                                                     page_obj = self.env[
                                                         'surveymonkey.survey.page'
@@ -371,7 +452,9 @@ class SurveymonkeySurveyResponse(models.Model):
                                             for question in page['questions']:
                                                 # if need create question
                                                 question_id = False
-                                                question_ids = self.env['surveymonkey.question'].search(
+                                                question_ids = self.env[
+                                                    'surveymonkey.question'
+                                                ].search(
                                                     [
                                                         ('question_id', '=', question['id'])
                                                     ]
@@ -388,13 +471,17 @@ class SurveymonkeySurveyResponse(models.Model):
                                                         vals = {
                                                             'question_id': question['id'],
                                                             'heading': '',
-                                                            'position': res_page_question['response']['position'],
-                                                            'family': res_page_question['response']['family'],
-                                                            'subtype': res_page_question['response']['subtype']
+                                                            'position':
+                                                                res_page_question['response']['position'],
+                                                            'family':
+                                                                res_page_question['response']['family'],
+                                                            'subtype':
+                                                                res_page_question['response']['subtype']
                                                         }
                                                         # headings
                                                         if 'headings' in res_page_question['response']:
-                                                            for heading in res_page_question['response']['headings']:
+                                                            rpq_response = res_page_question['response']
+                                                            for heading in rpq_response['headings']:
                                                                 vals['heading'] = heading['heading']
                                                         # other
                                                         question_obj = self.env[

@@ -273,7 +273,6 @@ class SurveymonkeySurveyPage(models.Model):
                         'user_input_id': user_input_id,
                         'answer_type': 'suggestion'
                     }
-                    
                     if question_type == 'free_text':
                         vals['value_free_text'] = str(answer_id.text.encode('utf-8'))
                         vals['answer_type'] = question_type
@@ -283,7 +282,6 @@ class SurveymonkeySurveyPage(models.Model):
                         vals['value_suggested'] = answer_id_sqc.survey_label_id.id
                         vals['value_suggested_row'] = \
                             answer_id.surveymonkey_question_row_id.survey_label_id.id
-                    
                     input_line_obj = self.env[
                         'survey.user_input_line'
                     ].sudo().create(vals)
@@ -321,7 +319,7 @@ class SurveymonkeySurveyPage(models.Model):
                             ]
                         )
                         if partner_ids:
-                            survey_user_input_id.partner_id = partner_ids[0].id
+                            user_input_id.partner_id = partner_ids[0].id
                 else:
                     question_ids = self.env['survey.question'].search(
                         [
@@ -352,4 +350,4 @@ class SurveymonkeySurveyPage(models.Model):
                                 ]
                             )
                             if partner_ids:
-                                survey_user_input_id.partner_id = partner_ids[0].id
+                                user_input_id.partner_id = partner_ids[0].id

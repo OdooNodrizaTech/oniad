@@ -1,15 +1,9 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 import logging
+from odoo import tools
+import requests
 _logger = logging.getLogger(__name__)
 
-from odoo import api, fields, models, tools
-import datetime
-import os
-import codecs
-import pysftp
-from dateutil.relativedelta import relativedelta
-
-import requests
 
 class SurveymonkeyWebService():
 
@@ -17,7 +11,9 @@ class SurveymonkeyWebService():
         self.company = company
         self.custom_env = env
                             
-        self.api_access_token = tools.config.get('surveymonkey_api_access_token')        
+        self.api_access_token = tools.config.get(
+            'surveymonkey_api_access_token'
+        )
         self.api_version = env['ir.config_parameter'].sudo().get_param(
             'oniad_surveymonkey_api_version'
         )
@@ -49,9 +45,8 @@ class SurveymonkeyWebService():
     # api
     def get_survey_page(self, survey_id, page_id):
         client = requests.session()
-
         headers = {
-            "Authorization": "bearer "+str(self.api_access_token),
+            "Authorization": "bearer %s" % self.api_access_token,
             "Content-Type": "application/json"
         }
         uri = '%/%s/surveys/%s/pages/%s' % (
@@ -67,7 +62,7 @@ class SurveymonkeyWebService():
                 if 'message' in response_json['error']:        
                     self.sack_message_error(
                         response_json['error']['message'],
-                        ENDPOINT
+                        uri
                     )
         
         return {
@@ -78,9 +73,8 @@ class SurveymonkeyWebService():
     # api
     def get_survey_page_question(self, survey_id, page_id, question_id):
         client = requests.session()
-
         headers = {
-            "Authorization": "bearer "+str(self.api_access_token),
+            "Authorization": "bearer %s" % self.api_access_token,
             "Content-Type": "application/json"
         }
         uri = '%/%s/surveys/%s/pages/%s/questions/%s' % (
@@ -92,13 +86,12 @@ class SurveymonkeyWebService():
         )
         response = client.get(uri, headers=headers)
         response_json = response.json()
-        
         if response.status_code != 200:
             if 'error' in response_json:
                 if 'message' in response_json['error']:        
                     self.sack_message_error(
                         response_json['error']['message'],
-                        ENDPOINT
+                        uri
                     )
         
         return {
@@ -109,9 +102,8 @@ class SurveymonkeyWebService():
     # api
     def get_survey_reponse_details(self, survey_id, response_id):
         client = requests.session()
-
         headers = {
-            "Authorization": "bearer "+str(self.api_access_token),
+            "Authorization": "bearer %s" % self.api_access_token,
             "Content-Type": "application/json"
         }
         uri = '%s/%s/surveys/%s/responses/%s/details' % (
@@ -127,7 +119,7 @@ class SurveymonkeyWebService():
                 if 'message' in response_json['error']:        
                     self.sack_message_error(
                         response_json['error']['message'],
-                        ENDPOINT
+                        uri
                     )
         
         return {
@@ -138,9 +130,8 @@ class SurveymonkeyWebService():
     # api
     def get_survey_reponses_real(self, survey_id, page=1, per_page=50):
         client = requests.session()
-
         headers = {
-            "Authorization": "bearer "+str(self.api_access_token),
+            "Authorization": "bearer %s" % self.api_access_token,
             "Content-Type": "application/json"
         }
         uri = '%s/%s/surveys/%s/responses?page=%s&per_page=%s' % (
@@ -157,7 +148,7 @@ class SurveymonkeyWebService():
                 if 'message' in response_json['error']:        
                     self.sack_message_error(
                         response_json['error']['message'],
-                        ENDPOINT
+                        uri
                     )
         
         return {
@@ -188,7 +179,7 @@ class SurveymonkeyWebService():
             # Fix need other pages
             pages_calculate = float(response_api['response']['total'])/float(response_api['response']['per_page'])
             pages_calculate = "{0:.2f}".format(pages_calculate)
-            total_pages_calculate_split = pages_calculate.split('.')
+            pages_calculate_split = pages_calculate.split('.')
             if pages_calculate_split[1] != "00":
                 pages_calculate = int(pages_calculate_split[0])+1
                                         
@@ -220,7 +211,7 @@ class SurveymonkeyWebService():
             for response_item in response_pre:
                 if response_item['id'] not in survey_response_ids_custom:
                     response_item_params = {
-                        'id':response_item['id'],
+                        'id': response_item['id'],
                         'result': "",
                     }
                     res_response_api = self.get_survey_reponse_details(
@@ -236,9 +227,8 @@ class SurveymonkeyWebService():
         
     def get_api_survey_reponses(self, endpoint):
         client = requests.session()
-
         headers = {
-            "Authorization": "bearer "+str(self.api_access_token),
+            "Authorization": "bearer %s" % self.api_access_token,
             "Content-Type": "application/json"
         }
         uri = "%s%s" % (
@@ -256,7 +246,7 @@ class SurveymonkeyWebService():
         client = requests.session()
 
         headers = {
-            "Authorization": "bearer "+str(self.api_access_token),
+            "Authorization": "bearer %s" % self.api_access_token,
             "Content-Type": "application/json"
         }
         uri = '%s/%s/surveys/%s/responses/%s' % (
@@ -280,10 +270,9 @@ class SurveymonkeyWebService():
             'status_code': "",
             'response': "" 
         }
-    
         client = requests.session()
         headers = {
-            "Authorization": "bearer "+str(self.api_access_token),
+            "Authorization": "bearer %s" % self.api_access_token,
             "Content-Type": "application/json"
         }
         uri = "%s/%s/surveys" % (
@@ -302,7 +291,7 @@ class SurveymonkeyWebService():
                     response['error'] = client_response_json['error']['message']                    
                     self.sack_message_error(
                         response['error'],
-                        ENDPOINT
+                        uri
                     )
         return response
     
@@ -316,7 +305,7 @@ class SurveymonkeyWebService():
         }
         client = requests.session()
         headers = {
-            "Authorization": "bearer "+str(self.api_access_token),
+            "Authorization": "bearer %s" % self.api_access_token,
             "Content-Type": "application/json"
         }
         uri = "%s/%s/users/me" % (
@@ -335,6 +324,6 @@ class SurveymonkeyWebService():
                     response['error'] = client_response_json['error']['message']                    
                     self.sack_message_error(
                         response['error'],
-                        ENDPOINT
+                        uri
                     )
         return response
