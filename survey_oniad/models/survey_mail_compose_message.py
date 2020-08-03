@@ -27,9 +27,9 @@ class SurveyMailComposeMessage(models.TransientModel):
                 ('survey_id', '=', survey_survey.id),
                 ('state', 'in', ['new', 'skip']),
                 ('oniad_user_id', '=', oniad_user_id.id),
-                 '|',
-                 ('partner_id', '=', partner.id),
-                 ('email', '=', partner.email)]
+                '|',
+                ('partner_id', '=', partner.id),
+                ('email', '=', partner.email)]
             )
             if response_ids:
                 return response_ids[0]
@@ -67,9 +67,9 @@ class SurveyMailComposeMessage(models.TransientModel):
                 ('survey_id', '=', survey_survey.id),
                 ('state', 'in', ['new', 'skip']),
                 ('oniad_campaign_id', '=', oniad_campaign_id.id),
-                 '|',
-                 ('partner_id', '=', partner.id),
-                 ('email', '=', partner.email)]
+                '|',
+                ('partner_id', '=', partner.id),
+                ('email', '=', partner.email)]
             )
             if response_ids:
                 return response_ids[0]
@@ -99,33 +99,33 @@ class SurveyMailComposeMessage(models.TransientModel):
             return self.env['survey.user_input'].sudo().create(vals)
 
         def create_response_and_send_mail(
-                survey_mail_compose_message,
-                survey_user_input
+                smcm,
+                sui
         ):
             # url
             url = '%s/%s' % (
-                survey_user_input.survey_id.public_url,
-                survey_user_input.token
+                sui.survey_id.public_url,
+                sui.token
             )
             vals = {
                 'auto_delete': True,
                 'model': 'survey.user_input',
-                'res_id': survey_user_input.id,
+                'res_id': sui.id,
                 'subject': self.subject,
-                'body': survey_mail_compose_message.body.replace("__URL__", url),
-                'body_html': survey_mail_compose_message.body.replace("__URL__", url),
-                'record_name': survey_user_input.survey_id.title,
+                'body': smcm.body.replace("__URL__", url),
+                'body_html': smcm.body.replace("__URL__", url),
+                'record_name': sui.survey_id.title,
                 'no_auto_thread': False,
-                'reply_to': survey_mail_compose_message.reply_to,
+                'reply_to': smcm.reply_to,
                 'message_type': 'email',
-                'email_from': survey_mail_compose_message.email_from,
-                'email_to': survey_user_input.partner_id.email,
+                'email_from': smcm.email_from,
+                'email_to': sui.partner_id.email,
                 'partner_ids':
-                    survey_user_input.partner_id.id and [(4, survey_user_input.partner_id.id)] or None
+                    sui.partner_id.id and [(4, sui.partner_id.id)] or None
             }
             mail_mail_obj = self.env['mail.mail'].sudo().create(vals)
             mail_mail_obj.send()                        
-            self.action_send_survey_mail_message_slack(survey_user_input)
+            self.action_send_survey_mail_message_slack(sui)
 
         survey_ids = self.env['survey.survey'].search(
             [
@@ -138,7 +138,7 @@ class SurveyMailComposeMessage(models.TransientModel):
             partner_id_item = items[partner_id.id]
             # create_survey_user_input_by_oniad_user_id
             if 'oniad_user_id' in partner_id_item:
-                survey_user_input = \
+                sui = \
                     create_survey_user_input_by_oniad_user_id(
                         survey_id,
                         partner_id,
@@ -146,18 +146,18 @@ class SurveyMailComposeMessage(models.TransientModel):
                     )
             # create_survey_user_input_by_oniad_campaign_id
             if 'oniad_campaign_id' in partner_id_item:
-                survey_user_input = \
+                sui = \
                     create_survey_user_input_by_oniad_campaign_id(
                         survey_id,
                         partner_id,
                         partner_id_item['oniad_campaign_id']
                     )
             # create_response_and_send_mail
-            create_response_and_send_mail(self, survey_user_input)
+            create_response_and_send_mail(self, sui)
             # save_log
             vals = {
                 'model': 'survey.user_input',
-                'res_id': survey_user_input.id,
+                'res_id': sui.id,
                 'category': 'survey_user_input',
                 'action': 'send_mail',                                                                                                                                                                                           
             }

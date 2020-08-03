@@ -466,8 +466,9 @@ class SurveymonkeySurveyResponse(models.Model):
                                                     question_id = \
                                                         question_ids[0]
                                                 else:
+                                                    ws = surveymonkey_ws
                                                     res_pq = \
-                                                        surveymonkey_ws.get_survey_page_question(
+                                                        ws.get_survey_page_question(
                                                             survey_id,
                                                             page['id'],
                                                             question['id']
@@ -487,14 +488,14 @@ class SurveymonkeySurveyResponse(models.Model):
                                                         }
                                                         # headings
                                                         if 'headings' in res_pq_r:
-                                                            for heading in rpqr['headings']:
+                                                            for h in res_pq_r['headings']:
                                                                 vals['heading'] = \
-                                                                    heading['heading']
+                                                                    h['heading']
                                                         # other
                                                         question_obj = self.env[
                                                             'surveymonkey.question'
                                                         ].sudo().create(vals)
-                                                        if 'answers' in rpqr:
+                                                        if 'answers' in res_pq_r:
                                                             question_obj.\
                                                                 process_answers(
                                                                     res_pq_r['answers']
