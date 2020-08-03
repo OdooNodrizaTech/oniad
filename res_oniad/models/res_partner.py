@@ -8,7 +8,7 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
             
     sale_user_id = fields.Many2one(
-        comodel_name='res.users',        
+        comodel_name='res.users',
         string='Sale user id'
     )
     oniad_contact_use = fields.Selection(
@@ -18,7 +18,7 @@ class ResPartner(models.Model):
         ],
         default='none',
         string='Oniad contact use'
-    )    
+    )
     
     @api.multi
     def write(self, vals):

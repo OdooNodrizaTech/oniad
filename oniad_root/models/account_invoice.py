@@ -17,6 +17,7 @@ class AccountInvoice(models.Model):
         string="Oniad Transactions",
     )
 
+    @api.multi
     def _compute_oniad_transaction_count(self):
         for item in self:
             item.oniad_transaction_count = len(self.env['oniad.transaction'].search(

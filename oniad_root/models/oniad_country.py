@@ -11,12 +11,12 @@ class OniadCountry(models.Model):
     _name = 'oniad.country'
     _description = 'Oniad Country'
     
-    name = fields.Char(        
+    name = fields.Char(
         string='Name'
     )
-    iso_code = fields.Char(        
+    iso_code = fields.Char(
         string='Iso Code'
-    )       
+    )
     country_id = fields.Many2one(
         comodel_name='res.country',
         string='Country'

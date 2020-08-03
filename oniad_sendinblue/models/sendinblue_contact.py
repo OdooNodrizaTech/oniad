@@ -10,19 +10,19 @@ class SendinblueContact(models.Model):
     _name = 'sendinblue.contact'
     _description = 'Sendinblue Contact'    
     
-    sendinblue_id = fields.Char(        
+    sendinblue_id = fields.Char(
         string='Sendinblue Id'
     )
-    email = fields.Char(        
+    email = fields.Char(
         string='Email'
     )
-    email_blacklisted = fields.Boolean(        
+    email_blacklisted = fields.Boolean(
         string='Email blacklisted'
-    )    
-    sms_blacklisted = fields.Boolean(        
+    )
+    sms_blacklisted = fields.Boolean(
         string='Sms blacklisted'
     )
-    modified_at = fields.Date(        
+    modified_at = fields.Date(
         string='Modificadl el'
     )
     sendinblue_list_ids = fields.Many2many(
@@ -36,7 +36,7 @@ class SendinblueContact(models.Model):
         user_id_default = str(self.env['ir.config_parameter'].sudo().get_param('oniad_sendinblue_auto_generate_leads_user_id_default'))
         leads_tag_ids_default = str(self.env['ir.config_parameter'].sudo().get_param('oniad_sendinblue_auto_generate_leads_tag_ids_default'))                                
         
-        if oniad_sendinblue_auto_generate_leads_sendinblue_list_id>0:
+        if oniad_sendinblue_auto_generate_leads_sendinblue_list_id > 0:
             # res_users
             res_user_ids = self.env['res.users'].search(
                 [
@@ -126,62 +126,62 @@ class SendinblueContact(models.Model):
                             'tag_ids': [(6, 0, tag_ids)],                                                                                                                 
                         }                        
                         crm_lead_obj = self.env['crm.lead'].sudo(res_user_id.id).create(vals)
-                        crm_lead_obj.action_leads_create_sendinblue_list_id()# log_slack
+                        crm_lead_obj.action_leads_create_sendinblue_list_id()
     
     @api.model    
     def cron_get_contacts(self):
         sendinblue_web_service = SendinblueWebService(self.env.user.company_id, self.env)
-        return_get_contacts = sendinblue_web_service.get_contacts()                
-        if return_get_contacts['errors'] == False:
-            if return_get_contacts['response']['count'] > 0:
-                for contact in return_get_contacts['response']['contacts']:
+        res = sendinblue_web_service.get_contacts()
+        if not res['errors']:
+            if res['response']['count'] > 0:
+                for contact in res['response']['contacts']:
                     # sendinblue_list_ids
-                    sendinblue_list_ids = []
+                    list_ids = []
                     if len(contact['listIds']) > 0:
-                        sendinblue_list_ids_get = self.env['sendinblue.list'].search(
+                        list_ids_get = self.env['sendinblue.list'].search(
                             [
                                 ('sendinblue_id', 'in', contact['listIds'])
                             ]
                         )
-                        if sendinblue_list_ids_get:
-                            for sendinblue_list_id_get in sendinblue_list_ids_get:
-                                sendinblue_list_ids.append(sendinblue_list_id_get.id)                                                                                    
+                        if list_ids_get:
+                            for sendinblue_list_id_get in list_ids:
+                                list_ids.append(list_ids_get.id)
                     # contact_item
-                    sendinblue_contact_ids = self.env['sendinblue.contact'].search(
+                    contact_ids = self.env['sendinblue.contact'].search(
                         [
                             ('sendinblue_id', '=', contact['id'])
                         ]
                     )
-                    if sendinblue_contact_ids:
-                        sendinblue_contact_obj = sendinblue_contact_ids[0]
+                    if contact_ids:
+                        contact_id = contact_ids[0]
                         # attributes
                         if "attributes" in contact:
                             if len(contact['attributes']) > 0:
                                 for attribute_key, attribute_val in contact['attributes'].items():
-                                    sendinblue_attribute_ids = self.env['sendinblue.attribute'].search(
+                                    attribute_ids = self.env['sendinblue.attribute'].search(
                                         [
                                             ('name', '=', attribute_key)
                                         ]
                                     )
-                                    if sendinblue_attribute_ids:
-                                        sendinblue_attribute_id = sendinblue_attribute_ids[0]
+                                    if attribute_ids:
+                                        attribute_id = attribute_ids[0]
                                         sendinblue_enumeration_id = False
                                         
-                                        if sendinblue_attribute_id.sendinblue_enumeration_ids:
-                                            for sendinblue_enumeration_id in sendinblue_attribute_id.sendinblue_enumeration_ids:
-                                                if sendinblue_enumeration_id.value == attribute_val:
-                                                    sendinblue_enumeration_id = sendinblue_enumeration_id.id                                               
-                                
-                                        sendinblue_contact_attribute_ids_get = self.env['sendinblue.contact.attribute'].search(
+                                        if attribute_id.sendinblue_enumeration_ids:
+                                            for enumeration_id in attribute_id.sendinblue_enumeration_ids:
+                                                if enumeration_id.value == attribute_val:
+                                                    sendinblue_enumeration_id = enumeration_id.id
+
+                                        ids_get = self.env['sendinblue.contact.attribute'].search(
                                             [
-                                                ('sendinblue_contact_id', '=', sendinblue_contact_obj.id),
-                                                ('sendinblue_attribute_id', '=', sendinblue_attribute_id.id)
+                                                ('sendinblue_contact_id', '=', contact_id.id),
+                                                ('sendinblue_attribute_id', '=', attribute_id.id)
                                             ]
                                         )
-                                        if len(sendinblue_contact_attribute_ids_get) == 0:
+                                        if len(ids_get) == 0:
                                             vals = {
-                                                'sendinblue_contact_id': sendinblue_contact_obj.id,
-                                                'sendinblue_attribute_id': sendinblue_attribute_id.id,
+                                                'sendinblue_contact_id': contact_id.id,
+                                                'sendinblue_attribute_id': attribute_id.id,
                                                 'sendinblue_enumeration_id': sendinblue_enumeration_id,
                                                 'value': attribute_val,                                                                                                                 
                                             }                        
@@ -193,7 +193,7 @@ class SendinblueContact(models.Model):
                             'email_blacklisted': contact['emailBlacklisted'],
                             'sms_blacklisted': contact['smsBlacklisted'],
                             'modified_at': contact['modifiedAt'],
-                            'sendinblue_list_ids': sendinblue_list_ids,
+                            'sendinblue_list_ids': list_ids,
                         })                        
                     else:
                         vals = {

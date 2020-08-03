@@ -3,24 +3,23 @@ from odoo import api, fields, models, tools, _
 import json
 import logging
 import boto3
-from botocore.exceptions import ClientError
 _logger = logging.getLogger(__name__)
 
 
 class OniadCountryState(models.Model):
     _name = 'oniad.country.state'
     _description = 'Oniad Country State'
-    
-    name = fields.Char(        
+
+    name = fields.Char(
         string='Name'
     )
-    iso_code = fields.Char(        
+    iso_code = fields.Char(
         string='Iso Code'
-    )       
+    )
     state_id = fields.Many2one(
         comodel_name='res.country.state',
         string='State'
-    )    
+    )
     oniad_country_id = fields.Many2one(
         comodel_name='oniad.country',
         string='Oniad Country'

@@ -7,7 +7,7 @@ _logger = logging.getLogger(__name__)
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
-    
+
     @api.multi
     def action_invoice_open(self):
         # action
@@ -24,7 +24,7 @@ class AccountInvoice(models.Model):
                                     int(invoice_line_id.oniad_transaction_id.id)
                                 )
                     # check
-                    if len(oniad_transaction_ids) > 0:
+                    if len(ids) > 0:
                         transaction_ids = self.env['oniad.transaction'].sudo().search(
                             [
                                 ('id', 'in', ids),

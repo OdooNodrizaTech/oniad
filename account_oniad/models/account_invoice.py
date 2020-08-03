@@ -300,7 +300,7 @@ class AccountInvoice(models.Model):
     @api.multi
     def action_auto_create_message_slack(self):
         self.ensure_one()
-        res = super(
+        super(
             AccountInvoice, self
         ).action_auto_create_message_slack()
         return False

@@ -13,40 +13,48 @@ class SurveymonkeySurveyResponse(models.Model):
     _name = 'surveymonkey.survey.response'
     _description = 'Surveymonkey Survey Response'
     
-    survey_id = fields.Char(        
+    survey_id = fields.Char(
         string='Survey Id'
     )
-    response_id = fields.Char(        
+    response_id = fields.Char(
         string='Response Id'
     )
-    collector_id = fields.Char(        
+    collector_id = fields.Char(
         string='Collector Id'
     )
-    total_time = fields.Integer(        
+    total_time = fields.Integer(
         string='Total time'
-    )            
-    status = fields.Char(        
+    )
+    status = fields.Char(
         string='Estado'
     )
-    ip_address = fields.Char(        
+    ip_address = fields.Char(
         string='IP'
     )
-    date_modified = fields.Date(        
+    date_modified = fields.Date(
         string='Fecha modificado'
     )
     survey_user_input_id = fields.Many2one(
-        comodel_name='survey.user_input',        
+        comodel_name='survey.user_input',
         string='Survey User Input Id'
-    )    
+    )
     
     def connect_postgresql_datawarehouse_rds(self):
         try:
             connection = psycopg2.connect(
-                user = str(self.env['ir.config_parameter'].sudo().get_param('survey_oniad_datawarehouse_rds_user')),
-                password = str(self.env['ir.config_parameter'].sudo().get_param('survey_oniad_datawarehouse_rds_password')),
-                host = str(self.env['ir.config_parameter'].sudo().get_param('survey_oniad_datawarehouse_rds_endpoint')),
-                port = "5432",
-                database = str(self.env['ir.config_parameter'].sudo().get_param('survey_oniad_datawarehouse_rds_database'))
+                user=self.env['ir.config_parameter'].sudo().get_param(
+                    'survey_oniad_datawarehouse_rds_user'
+                ),
+                password=self.env['ir.config_parameter'].sudo().get_param(
+                    'survey_oniad_datawarehouse_rds_password'
+                ),
+                host=self.env['ir.config_parameter'].sudo().get_param(
+                    'survey_oniad_datawarehouse_rds_endpoint'
+                ),
+                port="5432",
+                database=self.env['ir.config_parameter'].sudo().get_param(
+                    'survey_oniad_datawarehouse_rds_database'
+                )
             )            
             return {
                 'connection': connection,
@@ -172,45 +180,45 @@ class SurveymonkeySurveyResponse(models.Model):
             }                
             for question_code in question_codes:
                 question_code_item = question_codes[question_code]                        
-                for surveymonkey_survey_id in question_code_item['surveymonkey_survey_ids']:
-                    surveymonkey_survey_id_item = question_code_item['surveymonkey_survey_ids'][surveymonkey_survey_id]
+                for survey_id in question_code_item['surveymonkey_survey_ids']:
+                    survey_id_item = question_code_item['surveymonkey_survey_ids'][survey_id]
                     
-                    if surveymonkey_survey_id_item['row_id']==0:                                                                                
-                        surveymonkey_survey_response_question_answer_ids = self.env['surveymonkey.survey.response.question.answer'].search(
+                    if survey_id_item['row_id'] == 0:
+                        answer_ids = self.env['surveymonkey.survey.response.question.answer'].search(
                             [
                                 ('datawarehouse_question_answer_id', '=', False),
                                 ('surveymonkey_survey_response_id.status', '=', 'completed'),
-                                ('surveymonkey_survey_response_id.survey_id', '=', surveymonkey_survey_id),
-                                ('surveymonkey_question_id.question_id', '=', surveymonkey_survey_id_item['question_id'])
+                                ('surveymonkey_survey_response_id.survey_id', '=', survey_id),
+                                ('surveymonkey_question_id.question_id', '=', survey_id_item['question_id'])
                             ]
                         )
                     else:
-                        surveymonkey_survey_response_question_answer_ids = self.env['surveymonkey.survey.response.question.answer'].search(
+                        answer_ids = self.env['surveymonkey.survey.response.question.answer'].search(
                             [
                                 ('datawarehouse_question_answer_id', '=', False),
                                 ('surveymonkey_survey_response_id.status', '=', 'completed'),
-                                ('surveymonkey_survey_response_id.survey_id', '=', surveymonkey_survey_id),
-                                ('surveymonkey_question_id.question_id', '=', surveymonkey_survey_id_item['question_id']),
-                                ('surveymonkey_question_row_id.row_id', '=', surveymonkey_survey_id_item['row_id'])
+                                ('surveymonkey_survey_response_id.survey_id', '=', survey_id),
+                                ('surveymonkey_question_id.question_id', '=', survey_id_item['question_id']),
+                                ('surveymonkey_question_row_id.row_id', '=', survey_id_item['row_id'])
                             ]
                         )
                     
                     # operations
-                    if surveymonkey_survey_response_question_answer_ids:
+                    if answer_ids:
                         cursor = return_connection['connection'].cursor()
                         
-                        for surveymonkey_survey_response_question_answer_id in surveymonkey_survey_response_question_answer_ids:
-                            datawarehouse_value = surveymonkey_survey_response_question_answer_id.surveymonkey_question_choice_id.datawarehouse_value
+                        for answer_id in answer_ids:
+                            datawarehouse_value = answer_id.surveymonkey_question_choice_id.datawarehouse_value
                             
-                            if surveymonkey_survey_response_question_answer_id.surveymonkey_question_id.question_id == '242426120':
+                            if answer_id.surveymonkey_question_id.question_id == '242426120':
                                 datawarehouse_value = datawarehouse_value/2
                             # insert
                             postgres_insert_query = """ INSERT INTO question_answer (company, code, create_date, value, value_int) VALUES (%s,%s,%s,%s,%s) returning id"""
                             record_to_insert = (
                                 'OniAd', 
                                 question_code, 
-                                surveymonkey_survey_response_question_answer_id.surveymonkey_survey_response_id.date_modified, 
-                                str(surveymonkey_survey_response_question_answer_id.surveymonkey_question_choice_id.text.encode('utf-8')), 
+                                answer_id.surveymonkey_survey_response_id.date_modified,
+                                str(answer_id.surveymonkey_question_choice_id.text.encode('utf-8')),
                                 int(datawarehouse_value)                                
                             )
                             # _logger.info(record_to_insert)
@@ -221,14 +229,15 @@ class SurveymonkeySurveyResponse(models.Model):
                             return_id = cursor.fetchone()[0]
                             # _logger.info(return_id)
                             
-                            surveymonkey_survey_response_question_answer_id.datawarehouse_question_answer_id = return_id
+                            answer_id.datawarehouse_question_answer_id = return_id
             # connect_close
             cursor = return_connection['connection'].cursor()
             cursor.close()
             return_connection['connection'].close()                                                                                                                                       
     
-    @api.one    
+    @api.multi
     def process_answers(self, surveymonkey_survey_page_id=False, surveymonkey_question_id=False, answers=False):
+        self.ensure_one()
         if surveymonkey_survey_page_id and surveymonkey_question_id and answers:
             if len(answers) > 0:
                 for answer in answers:
@@ -280,15 +289,17 @@ class SurveymonkeySurveyResponse(models.Model):
     def cron_oniad_surveymonkey_survey_responses(self):
         surveymonkey_web_service = SurveymonkeyWebService(self.env.user.company_id, self.env)
                 
-        oniad_surveymonkey_datawarehouse_survey_ids_need_check = self.env['ir.config_parameter'].sudo().get_param('oniad_surveymonkey_datawarehouse_survey_ids_need_check')
-        survey_ids = oniad_surveymonkey_datawarehouse_survey_ids_need_check.split(',')        
+        ids_need_check = self.env['ir.config_parameter'].sudo().get_param(
+            'oniad_surveymonkey_datawarehouse_survey_ids_need_check'
+        )
+        survey_ids = ids_need_check.split(',')
         if len(survey_ids) > 0:
             for survey_id in survey_ids:
                 if survey_id != "":
-                    return_api_survey_responses = surveymonkey_web_service.get_survey_reponses(survey_id)                                    
-                    if return_api_survey_responses['errors'] == False:
+                    res = surveymonkey_web_service.get_survey_reponses(survey_id)
+                    if not res['errors']:
                         # response
-                        for response_item in return_api_survey_responses['response']:
+                        for response_item in res['response']:
                             if 'result' in response_item:
                                 if response_item['result']['response_status'] == 'completed':
                                     # surveymonkey_survey_response

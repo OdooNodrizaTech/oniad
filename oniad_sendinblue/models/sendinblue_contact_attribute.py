@@ -19,6 +19,6 @@ class SendinblueContactAttribute(models.Model):
         comodel_name='sendinblue.enumeration',
         string='Sendinblue Enumeration'
     )
-    value = fields.Char(        
+    value = fields.Char(
         string='Value'
-    )    
+    )

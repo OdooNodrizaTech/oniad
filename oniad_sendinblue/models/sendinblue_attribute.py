@@ -10,20 +10,20 @@ class SendinblueAttribute(models.Model):
     _name = 'sendinblue.attribute'
     _description = 'Sendinblue Attribute'    
         
-    name = fields.Char(        
+    name = fields.Char(
         string='Name'
     )
-    category = fields.Char(        
+    category = fields.Char(
         string='Category'
     )
-    sendinblue_type = fields.Char(        
+    sendinblue_type = fields.Char(
         string='Type'
     )
     sendinblue_enumeration_ids = fields.Many2many(
         comodel_name='sendinblue.enumeration',
         string='Values'
     )
-    calculated_value = fields.Char(        
+    calculated_value = fields.Char(
         string='Calculated value'
     )    
     
@@ -31,12 +31,12 @@ class SendinblueAttribute(models.Model):
     def cron_get_attributes(self):
         sendinblue_web_service = SendinblueWebService(self.env.user.company_id, self.env)
         return_get_attributes = sendinblue_web_service.get_attributes()
-        if return_get_attributes['errors'] == False:
+        if not return_get_attributes['errors']:
             if len(return_get_attributes['response'].attributes) > 0:
                 # fix enumeration
                 for attribute in return_get_attributes['response'].attributes:
-                    if attribute.enumeration != None:
-                        for enumeration_item in attribute.enumeration:   
+                    if attribute.enumeration is not None:
+                        for enumeration_item in attribute.enumeration:
                             sendinblue_enumeration_ids = self.env['sendinblue.enumeration'].search(
                                 [
                                     ('label', '=', enumeration_item.label),
@@ -50,7 +50,7 @@ class SendinblueAttribute(models.Model):
                                 }                        
                                 self.env['sendinblue.enumeration'].sudo().create(vals)
                 # attributes
-                for attribute in return_get_attributes['response'].attributes:                                                
+                for attribute in return_get_attributes['response'].attributes:
                     # attribute
                     sendinblue_attribute_ids = self.env['sendinblue.attribute'].search(
                         [
@@ -61,7 +61,7 @@ class SendinblueAttribute(models.Model):
                         sendinblue_attribute_obj = sendinblue_attribute_ids[0]                        
                         # sendinblue_enumeration_ids
                         sendinblue_enumeration_ids = []
-                        if attribute.enumeration != None:
+                        if attribute.enumeration is not None:
                             for enumeration_item in attribute.enumeration:   
                                 sendinblue_enumeration_ids_get = self.env['sendinblue.enumeration'].search(
                                     [

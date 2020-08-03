@@ -42,7 +42,7 @@ class OniadUser(models.Model):
     )
     phone = fields.Char(
         string='Phone'
-    )    
+    )
     iso_code = fields.Char(
         string='Iso Code'
     )
@@ -77,13 +77,13 @@ class OniadUser(models.Model):
     )
     spent_cost = fields.Monetary(
         string='Spent Cost'
-    )        
+    )
     spent_min_date = fields.Date(
         string='Spent Min Date'
     )
     spent_max_date = fields.Date(
         string='Spent Max Date'
-    )    
+    )
     last_login = fields.Datetime(
         string='Last Login'
     )
@@ -99,7 +99,6 @@ class OniadUser(models.Model):
         'oniad_user_id',
         string='Tags'
     )
-    
     oniad_user_id_link = fields.Char(
         compute='_compute_oniad_user_id_link',
         string='OniAd User',

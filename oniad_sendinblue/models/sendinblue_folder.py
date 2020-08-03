@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 from odoo import api, fields, models
 
@@ -11,29 +10,29 @@ class SendinblueFolder(models.Model):
     _name = 'sendinblue.folder'
     _description = 'Sendinblue Folder'    
     
-    sendinblue_id = fields.Char(        
+    sendinblue_id = fields.Char(
         string='Sendinblue Id'
     )
-    name = fields.Char(        
+    name = fields.Char(
         string='Name'
     )
-    total_blacklisted = fields.Integer(        
+    total_blacklisted = fields.Integer(
         string='Total blacklisted'
     )
-    total_subscribers = fields.Integer(        
+    total_subscribers = fields.Integer(
         string='Total suscriptores'
     )
-    unique_subscribers = fields.Integer(        
+    unique_subscribers = fields.Integer(
         string='Unique subscribers'
     )
     
     @api.model    
     def cron_get_folders(self):
         sendinblue_web_service = SendinblueWebService(self.env.user.company_id, self.env)
-        return_get_folders = sendinblue_web_service.get_folders()
-        if return_get_folders['errors'] == False:
-            if return_get_folders['response'].count > 0:
-                for folder in return_get_folders['response'].folders:
+        res = sendinblue_web_service.get_folders()
+        if not res['errors']:
+            if res['response'].count > 0:
+                for folder in res['response'].folders:
                     sendinblue_folder_ids = self.env['sendinblue.folder'].search(
                         [
                             ('sendinblue_id', '=', folder['id'])

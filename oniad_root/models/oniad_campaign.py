@@ -27,26 +27,26 @@ class OniadCampaign(models.Model):
     )
     type = fields.Selection(
         selection=[
-            ('0','Prospeccion'),
-            ('1','Video'),
-            ('2','Retargeting Web'),
-            ('3','Retargeting Email'),                                                                                                        
+            ('0', 'Prospeccion'),
+            ('1', 'Video'),
+            ('2', 'Retargeting Web'),
+            ('3', 'Retargeting Email'),
         ],
         string='Tipo', 
     )
     state = fields.Selection(
         selection=[
-            ('0','Imcompleto'),
-            ('1','Activo'),
-            ('2','Inactivo'),
-            ('3','En revision'),
-            ('4','Pausada'),
-            ('5','Terminada'),                                                                                                        
+            ('0', 'Imcompleto'),
+            ('1', 'Activo'),
+            ('2', 'Inactivo'),
+            ('3', 'En revision'),
+            ('4', 'Pausada'),
+            ('5', 'Terminada'),
         ],
         string='State',
     )
     during = fields.Integer(
-        string='Duration (daus)'
+        string='Duration (days)'
     )
     active = fields.Boolean(
         string='Active'

@@ -66,13 +66,14 @@ class OniadAddress(models.Model):
             if enviroment == 'dev':
                 sns_name = 'oniad-platform_dev-command-odoo-oniad-address'
             # publish
+            headers_string = 'Oniad\\Domain\\Odoo\\OdooCreditAvailableEvent'
             response = sns.publish(
                 TopicArn='arn:aws:sns:eu-west-1:534422648921:'+str(sns_name),
                 Message=json.dumps(message, indent=2),
                 MessageAttributes={
                     'Headers': {
                         'DataType': 'String',
-                        'StringValue': json.dumps([{'type': 'Oniad\\Domain\\Odoo\\OdooCreditAvailableEvent'},[]])
+                        'StringValue': json.dumps([{'type': headers_string},[]])
                     }
                 }                                
             )
