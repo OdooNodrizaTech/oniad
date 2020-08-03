@@ -10,10 +10,10 @@
     "license": "AGPL-3",
     "depends": [
         "base",
-        "account_payment_sale",  # https://github.com/OCA/bank-payment
-        "partner_financial_risk",  # https://github.com/OdooNodrizaTech/financial_risk
         "account",
         "oniad_root"
+        "account_payment_sale",  # https://github.com/OCA/bank-payment
+        "partner_financial_risk"  # https://github.com/OdooNodrizaTech/financial_risk
     ],
     "external_dependencies": {
         "python": [
