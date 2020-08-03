@@ -175,8 +175,11 @@ class SurveymonkeyWebService():
             response['errors'] = False
             response['response'].extend(response_api['response']['data'])
             # Fix need other pages
-            pages_calculate = float(response_api['response']['total'])/\
-                              float(response_api['response']['per_page'])
+            pages_calculate = float(
+                response_api['response']['total']
+            ) / float(
+                response_api['response']['per_page']
+            )
             pages_calculate = "{0:.2f}".format(pages_calculate)
             pages_calculate_split = pages_calculate.split('.')
             if pages_calculate_split[1] != "00":
@@ -289,20 +292,21 @@ class SurveymonkeyWebService():
         else:
             if 'error' in client_response_json:
                 if 'message' in client_response_json['error']:
-                    response['error'] = client_response_json['error']['message']                    
+                    response['error'] = \
+                        client_response_json['error']['message']
                     self.sack_message_error(
                         response['error'],
                         uri
                     )
         return response
-    
+
     # api
     def get_users_me(self):
         response = {
-            'errors': True, 
+            'errors': True,
             'error': "",
             'status_code': "",
-            'response': "" 
+            'response': ""
         }
         client = requests.session()
         headers = {

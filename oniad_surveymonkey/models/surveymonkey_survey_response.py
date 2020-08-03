@@ -366,6 +366,7 @@ class SurveymonkeySurveyResponse(models.Model):
         ids_need_check = self.env['ir.config_parameter'].sudo().get_param(
             'oniad_surveymonkey_datawarehouse_survey_ids_need_check'
         )
+        model_ssrcv = 'surveymonkey.survey.response.custom.variable'
         survey_ids = ids_need_check.split(',')
         if len(survey_ids) > 0:
             for survey_id in survey_ids:
@@ -375,29 +376,27 @@ class SurveymonkeySurveyResponse(models.Model):
                     )
                     if not res['errors']:
                         # response
-                        for response_item in res['response']:
-                            if 'result' in response_item:
-                                res_item_rs = \
-                                    response_item['result']['response_status']
-                                res_item_cv = \
-                                    response_item['result']['custom_variables']
+                        for res_item in res['response']:
+                            if 'result' in res_item:
+                                res_item_r = res_item['result']
+                                res_item_rs = res_item_r['response_status']
+                                res_item_cv = res_item_r['custom_variables']
                                 if res_item_rs == 'completed':
                                     # surveymonkey_survey_response
                                     vals = {
-                                        'survey_id':
-                                            response_item['result']['survey_id'],
-                                        'response_id': response_item['id'],
+                                        'survey_id': res_item_r['survey_id'],
+                                        'response_id': res_item['id'],
                                         'collector_id':
-                                            response_item['result']['collector_id'],
+                                            res_item_r['collector_id'],
                                         'total_time':
-                                            response_item['result']['total_time'],
+                                            res_item_r['total_time'],
                                         'status':
-                                            response_item['result']['response_status'],
+                                            res_item_r['response_status'],
                                         'ip_address':
-                                            response_item['result']['ip_address'],
+                                            res_item_r['ip_address'],
                                         'date_modified':
-                                            response_item['result']['date_modified'][:10]
-                                    }                                                                                                
+                                            res_item_r['date_modified'][:10]
+                                    }
                                     response_obj = self.env[
                                         'surveymonkey.survey.response'
                                     ].sudo().create(vals)
@@ -409,14 +408,12 @@ class SurveymonkeySurveyResponse(models.Model):
                                                 'surveymonkey_survey_response_id':
                                                     response_obj.id,
                                                 'field': key,
-                                                'value': val                                                                                                                                                                                             
-                                            }                        
-                                            self.env[
-                                                'surveymonkey.survey.response.custom.variable'
-                                            ].sudo().create(vals)
+                                                'value': val
+                                            }
+                                            self.env[model_ssrcv].sudo().create(vals)
                                     # pages
-                                    if 'pages' in response_item['result']:
-                                        for page in response_item['result']['pages']:
+                                    if 'pages' in res_item_r:
+                                        for page in res_item_r['pages']:
                                             # if need create page
                                             page_id = False
                                             page_ids = self.env[
@@ -429,20 +426,22 @@ class SurveymonkeySurveyResponse(models.Model):
                                             if page_ids:
                                                 page_id = page_ids[0]
                                             else:                                                
-                                                res_page = surveymonkey_ws.get_survey_page(
-                                                    survey_id,
-                                                    page['id']
-                                                )
+                                                res_page = \
+                                                    surveymonkey_ws.get_survey_page(
+                                                        survey_id,
+                                                        page['id']
+                                                    )
                                                 if res_page['status_code'] == 200:
+                                                    res_page_r = res_page['response']
                                                     vals = {
                                                         'survey_id':
-                                                            response_item['result']['survey_id'],
+                                                            res_item_r['survey_id'],
                                                         'page_id': page['id'],
-                                                        'title': res_page['response']['title'],
+                                                        'title': res_page_r['title'],
                                                         'description':
-                                                            res_page['response']['description'],
+                                                            res_page_r['description'],
                                                         'position':
-                                                            res_page['response']['position'],
+                                                            res_page_r['position'],
                                                     }                        
                                                     page_obj = self.env[
                                                         'surveymonkey.survey.page'
@@ -462,36 +461,36 @@ class SurveymonkeySurveyResponse(models.Model):
                                                 if question_ids:
                                                     question_id = question_ids[0]
                                                 else:
-                                                    res_page_question = \
+                                                    res_pq = \
                                                         surveymonkey_ws.get_survey_page_question(
                                                             survey_id,
                                                             page['id'],
                                                             question['id']
                                                         )
-                                                    if res_page_question['status_code'] == 200:
+                                                    if res_pq['status_code'] == 200:
                                                         vals = {
                                                             'question_id': question['id'],
                                                             'heading': '',
                                                             'position':
-                                                                res_page_question['response']['position'],
+                                                                res_pq['response']['position'],
                                                             'family':
-                                                                res_page_question['response']['family'],
+                                                                res_pq['response']['family'],
                                                             'subtype':
-                                                                res_page_question['response']['subtype']
+                                                                res_pq['response']['subtype']
                                                         }
                                                         # headings
-                                                        if 'headings' in res_page_question['response']:
-                                                            rpq_response = res_page_question['response']
-                                                            for heading in rpq_response['headings']:
+                                                        if 'headings' in res_pq['response']:
+                                                            rpqr = res_pq['response']
+                                                            for heading in rpqr['headings']:
                                                                 vals['heading'] = heading['heading']
                                                         # other
                                                         question_obj = self.env[
                                                             'surveymonkey.question'
                                                         ].sudo().create(vals)
                                                         surveymonkey_question_id = question_obj
-                                                        if 'answers' in res_page_question['response']:
+                                                        if 'answers' in rpqr:
                                                             question_obj.process_answers(
-                                                                res_page_question['response']['answers']
+                                                                res_pq['response']['answers']
                                                             )
                                                 # answers
                                                 if 'answers' in question:

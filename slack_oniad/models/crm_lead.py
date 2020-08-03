@@ -20,8 +20,7 @@ class CrmLead(models.Model):
         if self.type == 'lead':
             attachments = [
                 {
-                    "title": _('Se ha creado la iniciativa *%s* desde Sendinblue') %
-                             self.name,
+                    "title": _('Lead create from Sendinblue *%s*') % self.name,
                     "color": "#36a64f",
                     "fallback": _("Ver iniciativa %s") % item_url,
                     "actions": [
@@ -36,8 +35,7 @@ class CrmLead(models.Model):
         else:
             attachments = [
                 {
-                    "title": _('Se ha creado la oportunidad *%s* desde Sendinblue') %
-                             self.name,
+                    "title": _('Lead create from Sendinblue *%s*') % self.name,
                     "color": "#36a64f",
                     "fallback": _("Ver flujo de ventas %s") % item_url,
                     "actions": [
@@ -80,9 +78,7 @@ class CrmLead(models.Model):
                     if lead_id.user_id.slack_member_id:
                         attachments = [
                             {
-                                "title": _('Te recordamos que hoy es el cierre '
-                                           'previsto del flujo  *%s*') %
-                                         lead_id.name,
+                                "title": _('Today close planned lead *%s*') % lead_id.name,
                                 "color": "#36a64f",
                                 "fallback": _("Ver flujo de ventas %s") % item_url,
                                 "actions": [
