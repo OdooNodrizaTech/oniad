@@ -659,25 +659,33 @@ class OniadTransaction(models.Model):
                                 if pp_item_0_ot.oniad_user_id:
                                     pp_item_0_ot_ou = pp_item_0_ot.oniad_user_id
                                     if pp_item_0_ot_ou.partner_id:
-                                        if pp_item_0_ot_ou.partner_id.user_id:
-                                            vals['user_id'] = pp_item_0_ot_ou.partner_id.user_id.id
+                                        pp_item_0_ot_ou_p = pp_item_0_ot_ou.partner_id
+                                        if pp_item_0_ot_ou_p.user_id:
+                                            vals['user_id'] = pp_item_0_ot_ou_p.user_id.id
                             # continue
                             _logger.info(
-                                _('Prepare to generate partner_id %s and partner_shipping_id %s')
+                                _('Prepare to generate partner_id %s and '
+                                  'partner_shipping_id %s')
                                 % (
                                     vals['partner_id'],
                                     partner.id
                                 )
                             )
-                            invoice_obj = self.env['account.invoice'].sudo().create(vals)
-                            _logger.info(_('Invoice %s created successfully') % invoice_obj.id)
-                            # account.invoice.lines (creamos las lineas segun los pagos partner_
-                            # payments_by_type['inbound'])
+                            invoice_obj = self.env['account.invoice'].sudo().create(
+                                vals
+                            )
+                            _logger.info(
+                                _('Invoice %s created successfully')
+                                % invoice_obj.id
+                            )
+                            # account.invoice.lines (creamos las lineas segun
+                            # los pagos partner_payments_by_type['inbound'])
                             for payment_id in partner_payments_by_type['inbound']:
                                 # account_invoice_line_vals
                                 line_vals = {
                                     'invoice_id': invoice_obj.id,
-                                    'oniad_transaction_id': payment_id.oniad_transaction_id.id,
+                                    'oniad_transaction_id':
+                                        payment_id.oniad_transaction_id.id,
                                     'product_id': product.id,
                                     'name': payment_id.communication,
                                     'quantity': 1,
@@ -688,17 +696,24 @@ class OniadTransaction(models.Model):
                                 }
                                 # oniad_product_id
                                 if payment_id.oniad_product_id:
-                                    line_vals['product_id'] = payment_id.oniad_product_id.id
+                                    line_vals['product_id'] = \
+                                        payment_id.oniad_product_id.id
                                 # create
-                                line_obj = self.env['account.invoice.line'].sudo().create(line_vals)
+                                line_obj = self.env['account.invoice.line'].sudo().create(
+                                    line_vals
+                                )
                                 # name
                                 line_obj.name = payment_id.communication
                             # Fix check totals
                             payment_id.compute_taxes()
                             # operations
-                            if invoice_obj.partner_id.vat and invoice_obj.partner_id.vat != "":
+                            if invoice_obj.partner_id.vat \
+                                    and invoice_obj.partner_id.vat != "":
                                 invoice_obj.action_invoice_open()
-                                _logger.info(_('Invoice %s successfully validated') % invoice_obj.id)
+                                _logger.info(
+                                    _('Invoice %s successfully validated')
+                                    % invoice_obj.id
+                                )
                                 invoice_obj.action_auto_create_message_slack()
                             # logger_percent
                             _logger.info('%s%s (%s/%s)' % (

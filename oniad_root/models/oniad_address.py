@@ -340,6 +340,7 @@ class OniadAddress(models.Model):
                     # fix message
                     if 'Message' in message_body:
                         message_body = json.loads(message_body['Message'])
+                    mb = message_body
                     # result_message
                     result_message = {
                         'statusCode': 200,
@@ -382,11 +383,11 @@ class OniadAddress(models.Model):
                                     if message_body[fnc] is not None:
                                         if field_need_check in ['city', 'address']:
                                             try:
-                                                vals[fnc] = str(message_body[fnc].encode('utf-8'))
+                                                vals[fnc] = str(mb[fnc].encode('utf-8'))
                                             except:
-                                                vals[fnc] = str(message_body[fnc])
+                                                vals[fnc] = str(mb[fnc])
                                         else:
-                                            vals[fnc] = str(message_body[fnc])
+                                            vals[fnc] = str(mb[fnc])
                         # oniad_country_id
                         if 'oniad_country_id' in vals:
                             if vals['oniad_country_id'] > 0:
@@ -397,27 +398,37 @@ class OniadAddress(models.Model):
                                 )
                                 if oniad_country_ids:
                                     oniad_country_id = oniad_country_ids[0]
-                                    vals['country_id'] = oniad_country_id.country_id.id
-                                    vals['fiscal_position_id'] = oniad_country_id.fiscal_position_id.id
+                                    vals['country_id'] = \
+                                        oniad_country_id.country_id.id
+                                    vals['fiscal_position_id'] = \
+                                        oniad_country_id.fiscal_position_id.id
                                 else:
                                     result_message['statusCode'] = 500
                                     result_message['return_body'] = \
-                                        _('country_id=%s does not exist') % vals['oniad_country_id']
+                                        _('country_id=%s does not exist') \
+                                        % vals['oniad_country_id']
                         # state_id
                         if 'oniad_country_state_id' in vals:
                             if vals['oniad_country_state_id'] > 0:
                                 state_ids = self.env['oniad.country.state'].search(
                                     [
-                                        ('id', '=', int(vals['oniad_country_state_id']))]
+                                        (
+                                            'id',
+                                            '=',
+                                            int(vals['oniad_country_state_id'])
+                                        )
+                                    ]
                                 )
                                 if state_ids:
                                     state_id = state_ids[0]
                                     vals['state_id'] = state_id.state_id.id
-                                    vals['fiscal_position_id'] = state_id.fiscal_position_id.id
+                                    vals['fiscal_position_id'] = \
+                                        state_id.fiscal_position_id.id
                                 else:
                                     result_message['statusCode'] = 500
                                     result_message['return_body'] = \
-                                        _('state_id=%s does not exist') % vals['oniad_country_state_id']
+                                        _('state_id=%s does not exist') \
+                                        % vals['oniad_country_state_id']
                         # add_id
                         if not previously_found:
                             vals['id'] = int(message_body['id'])

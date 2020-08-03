@@ -666,8 +666,8 @@ class OniadUser(models.Model):
                         sqs.delete_message(
                             QueueUrl=sqs_oniad_usertag_url,
                             ReceiptHandle=message['ReceiptHandle']
-                        )        
-        
+                        )
+
     @api.model
     def cron_oniad_user_auto_generate_welcome_lead_id(self):
         _logger.info('cron_oniad_user_auto_generate_welcome_lead_id')
@@ -683,12 +683,12 @@ class OniadUser(models.Model):
                 ('create_date', '>=', start_date.strftime("%Y-%m-%d")),
                 ('create_date', '<=', end_date.strftime("%Y-%m-%d"))
             ]
-        )    
+        )
         if user_ids:
             _logger.info(len(user_ids))
             for user_id in user_ids:
                 user_id.action_generate_welcome_lead()
-                
+
     @api.multi
     def action_generate_welcome_lead(self):
         for item in self:
@@ -708,12 +708,16 @@ class OniadUser(models.Model):
                                 else:
                                     diff = \
                                         datetime.strptime(
-                                            str(current_date.strftime("%Y-%m-%d %H:%M:%S")),
+                                            str(current_date.strftime(
+                                                "%Y-%m-%d %H:%M:%S"
+                                            )),
                                             '%Y-%m-%d %H:%M:%S'
                                         ) - \
                                         datetime.strptime(
                                             str(
-                                                self.create_date.strftime("%Y-%m-%d %H:%M:%S")
+                                                self.create_date.strftime(
+                                                    "%Y-%m-%d %H:%M:%S"
+                                                )
                                             ),
                                             '%Y-%m-%d %H:%M:%S'
                                         )
@@ -749,8 +753,10 @@ class OniadUser(models.Model):
                                             'probability': 10,
                                             'team_id': 1,
                                             'stage_id': 1,
-                                            'name': 'Hola, quiero ayudarte a mejorar tus campañas',
-                                            'description': 'Presentarse y ayudar a nuevos clientes',
+                                            'name':
+                                                'Hola, quiero ayudarte a mejorar tus campañas',
+                                            'description':
+                                                'Presentarse y ayudar a nuevos clientes',
                                             'color': 5
                                         }
                                         # phone
@@ -767,11 +773,15 @@ class OniadUser(models.Model):
                                                 vals['user_id']
                                             ).create(vals)
                                         else:
-                                            lead_obj = self.env['crm.lead'].sudo().create(vals)
+                                            lead_obj = self.env['crm.lead'].sudo().create(
+                                                vals
+                                            )
                                         # si corresponde enviamos un email
                                         if 'phone' not in vals:
                                             # enviamos_email
-                                            lead_obj.action_send_mail_with_template_id(template_id)
+                                            lead_obj.action_send_mail_with_template_id(
+                                                template_id
+                                            )
                                             # update
                                             lead_obj.stage_id = 2
                                         # mail_activity
@@ -791,11 +801,12 @@ class OniadUser(models.Model):
                                                     'res_id': crm_lead_obj.id,
                                                     'activity_type_id': 3,
                                                     'user_id': vals['user_id'],
-                                                    'date_deadline': mm_date_dead.strftime("%Y-%m-%d"),
+                                                    'date_deadline':
+                                                        mm_date_dead.strftime("%Y-%m-%d"),
                                                     'summary': 'Revisar contacto usuario'
                                                 }
-                                                self.env['mail.activity'].sudo(vals['user_id']).create(
-                                                    vals
-                                                )
+                                                self.env['mail.activity'].sudo(
+                                                    vals['user_id']
+                                                ).create(vals)
                                         # update
                                         self.welcome_lead_id = lead_obj.id
