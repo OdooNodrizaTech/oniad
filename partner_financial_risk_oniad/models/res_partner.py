@@ -15,8 +15,9 @@ class ResPartner(models.Model):
         res = super(ResPartner, self).write(vals)
         # need_send_sns
         if 'credit_limit' in vals:
-            if res.credit_limit != credit_limit_old:
-                if res.oniad_address_id:
-                    res.oniad_address_id.action_credit_limit_send_sns()
+            for item in self:
+                if item.credit_limit != credit_limit_old:
+                    if item.oniad_address_id:
+                        item.oniad_address_id.action_credit_limit_send_sns()
         # return
         return res
