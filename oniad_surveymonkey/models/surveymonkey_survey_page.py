@@ -6,7 +6,7 @@ from odoo import api, fields, models
 class SurveymonkeySurveyPage(models.Model):
     _name = 'surveymonkey.survey.page'
     _description = 'Surveymonkey Survey Page'
-    
+
     survey_id = fields.Char(
         string='Survey Id'
     )
@@ -30,8 +30,8 @@ class SurveymonkeySurveyPage(models.Model):
         comodel_name='survey.page',
         string='Survey Id'
     )
-        
-    @api.model    
+
+    @api.model
     def cron_oniad_surveymonkey_generate_odoo_surveis(self):
         # surveymonkye.survey.page
         page_ids = self.env['surveymonkey.survey.page'].search(
@@ -55,8 +55,8 @@ class SurveymonkeySurveyPage(models.Model):
                             'active': True,
                             'is_closed': False,
                             'title': page_id.title,
-                            'users_can_go_back': False                                                                                                                                                                    
-                        }                                                                                                
+                            'users_can_go_back': False
+                        }
                         survey_obj = self.env['survey.survey'].sudo().create(vals)
                         page_id.survey_survey_id = survey_obj.id
                     else:
@@ -71,8 +71,8 @@ class SurveymonkeySurveyPage(models.Model):
                     vals = {
                         'title': page_id.title,
                         'survey_id': page_id.survey_survey_id.id,
-                        'sequence': len(survey_page_ids)                                                                                                                                                                    
-                    }                                                                                                
+                        'sequence': len(survey_page_ids)
+                    }
                     survey_page_obj = self.env['survey.page'].sudo().create(
                         vals
                     )
@@ -83,7 +83,7 @@ class SurveymonkeySurveyPage(models.Model):
                 ('survey_user_input_id', '=', False),
                 ('status', '=', 'completed')
             ]
-        )        
+        )
         if response_ids:
             for response_id in response_ids:
                 page_ids = self.env['surveymonkey.survey.page'].search(
@@ -93,14 +93,13 @@ class SurveymonkeySurveyPage(models.Model):
                 )
                 if page_ids:
                     page_id = page_ids[0]
-                        
                     vals = {
                         'date_create': response_id.date_modified,
                         'email': response_id.ip_address,
                         'state': 'done',
                         'survey_id': page_id.survey_survey_id.id,
-                        'type': 'manually',                                                                                                                                                                    
-                    }                                                                                                
+                        'type': 'manually'
+                    }
                     user_input_obj = self.env['survey.user_input'].sudo().create(
                         vals
                     )
@@ -117,7 +116,6 @@ class SurveymonkeySurveyPage(models.Model):
                 user_input_id = variable_id_ssr.survey_user_input_idd
                 page_id = user_input_id.survey_id.page_ids[0].id
                 survey_id = user_input_id.survey_id.id
-                
                 survey_question_ids = self.env['survey.question'].search(
                     [
                         ('survey_id', '=', survey_id),
@@ -134,7 +132,7 @@ class SurveymonkeySurveyPage(models.Model):
                         'page_id': page_id,
                         'question': str(variable_id.field),
                         'type': 'free_text',
-                        'sequence': len(survey_question_ids2)                                                                                                                                                                    
+                        'sequence': len(survey_question_ids2)
                     }
                     self.env['survey.question'].sudo().create(vals)
                 else:
@@ -167,7 +165,7 @@ class SurveymonkeySurveyPage(models.Model):
 
                 survey_id = answer_id_ssr.survey_user_input_id.survey_id.id
                 user_input_id = answer_id_ssr.survey_user_input_id.id
-                
+
                 if answer_id_sq.survey_question_id.id == 0:
                     question_type = None
                     if answer_id_sq.family == 'open_ended' \
@@ -178,7 +176,7 @@ class SurveymonkeySurveyPage(models.Model):
                         question_type = 'matrix'
                     elif answer_id_sq.family == 'single_choice':
                         question_type = 'simple_choice'
-                    
+
                     if question_type is not None:
                         vals = {
                             'page_id': answer_id_ssp.id,
@@ -194,10 +192,14 @@ class SurveymonkeySurveyPage(models.Model):
                         # labels
                         if question_type == 'matrix':
                             # label_ids (choice)
-                            choice_ids = self.env['surveymonkey.question.choice'].search(
+                            choice_ids = self.env[
+                                'surveymonkey.question.choice'
+                            ].search(
                                 [
                                     (
-                                        'surveymonkey_question_id', '=', answer_id_sq.id
+                                        'surveymonkey_question_id',
+                                        '=',
+                                        answer_id_sq.id
                                     )
                                 ]
                             )
@@ -205,49 +207,68 @@ class SurveymonkeySurveyPage(models.Model):
                                 for choice_id in choice_ids:
                                     vals = {
                                         'value': choice_id.text,
-                                        'question_id': answer_id_sq.survey_question_id.id,
+                                        'question_id':
+                                            answer_id_sq.survey_question_id.id,
                                         'sequence': choice_id.position
                                     }
-                                    label_obj = self.env['survey.label'].sudo().create(vals)
+                                    label_obj = self.env[
+                                        'survey.label'
+                                    ].sudo().create(vals)
                                     choice_id.survey_label_id = label_obj.id
                             # label_ids_2 (row)
                             row_ids = self.env['surveymonkey.question.row'].search(
                                 [
-                                    ('surveymonkey_question_id', '=', answer_id_sq.id)
+                                    (
+                                        'surveymonkey_question_id',
+                                        '=',
+                                        answer_id_sq.id
+                                    )
                                 ]
                             )
                             if row_ids:
                                 for row_id in row_ids:
+                                    row_id_sq = row_id.surveymonkey_question_id
                                     vals = {
                                         'value': row_id.text,
                                         'question_id_2':
-                                            row_id.surveymonkey_question_id.survey_question_id.id,
+                                            row_id_sq.survey_question_id.id,
                                         'sequence': row_id.position
                                     }
-                                    label_obj = self.env['survey.label'].sudo().create(vals)
+                                    label_obj = self.env[
+                                        'survey.label'
+                                    ].sudo().create(vals)
                                     row_id.survey_label_id = label_obj.id
                         elif question_type == 'simple_choice':
                             # label_ids (choice)
-                            choice_ids = self.env['surveymonkey.question.choice'].search(
+                            choice_ids = self.env[
+                                'surveymonkey.question.choice'
+                            ].search(
                                 [
-                                    ('surveymonkey_question_id', '=', answer_id_sq.id)
+                                    (
+                                        'surveymonkey_question_id',
+                                        '=',
+                                        answer_id_sq.id
+                                    )
                                 ]
                             )
                             if choice_ids:
                                 for choice_id in choice_ids:
                                     vals = {
                                         'value': choice_id.text,
-                                        'question_id': answer_id_sq.survey_question_id.id,
+                                        'question_id':
+                                            choice_id.survey_question_id.id,
                                         'sequence': choice_id.position
                                     }
-                                    label_obj = self.env['survey.label'].sudo().create(vals)
+                                    label_obj = self.env[
+                                        'survey.label'
+                                    ].sudo().create(vals)
                                     choice_id.survey_label_id = label_obj.id
                 else:
                     question_type = str(answer_id_sq.survey_question_id.type)
-                
                     vals = {
                         'page_id': answer_id_ssp.id,
-                        'question_id': answer_id_sq.survey_question_id.id,
+                        'question_id':
+                            answer_id_sq.survey_question_id.id,
                         'survey_id': survey_id,
                         'user_input_id': user_input_id,
                         'answer_type': 'suggestion'
@@ -263,64 +284,72 @@ class SurveymonkeySurveyPage(models.Model):
                         vals['value_suggested_row'] = \
                             answer_id.surveymonkey_question_row_id.survey_label_id.id
                     
-                    input_line_obj = self.env['survey.user_input_line'].sudo().create(vals)
+                    input_line_obj = self.env[
+                        'survey.user_input_line'
+                    ].sudo().create(vals)
                     answer_id.survey_user_input_line_id = input_line_obj.id
         # define partner_id
-        survey_user_input_ids = self.env['survey.user_input'].search(
+        user_input_ids = self.env['survey.user_input'].search(
             [
                 ('partner_id', '=', False)
             ]
         )
-        if survey_user_input_ids:
-            for survey_user_input_id in survey_user_input_ids:
-                survey_question_ids = self.env['survey.question'].search(
+        if user_input_ids:
+            for user_input_id in user_input_ids:
+                question_ids = self.env['survey.question'].search(
                     [
-                        ('survey_id', '=', survey_user_input_id.survey_id.id),
+                        ('survey_id', '=', user_input_id.survey_id.id),
                         ('question', '=', 'partner_id'),
                     ]
                 )
-                if survey_question_ids:
-                    survey_question_id = survey_question_ids[0]
+                if question_ids:
+                    question_id = question_ids[0]
                     # get partner_id
-                    survey_user_input_line_ids = self.env['survey.user_input_line'].search(
+                    user_input_line_ids = self.env[
+                        'survey.user_input_line'
+                    ].search(
                         [
-                            ('user_input_id', '=', survey_user_input_id.id),
-                            ('question_id', '=', survey_question_id.id)
+                            ('user_input_id', '=', user_input_id.id),
+                            ('question_id', '=', question_id.id)
                         ]
                     )
-                    if survey_user_input_line_ids:
-                        survey_user_input_line_id = survey_user_input_line_ids[0]
-                        partner_id = int(survey_user_input_line_id)
-                        res_partner_ids = self.env['res.partner'].search(
+                    if user_input_line_ids:
+                        user_input_line_id = user_input_line_ids[0]
+                        partner_ids = self.env['res.partner'].search(
                             [
-                                ('id', '=', partner_id)
+                                ('id', '=', user_input_line_id.partner_id.id)
                             ]
                         )
-                        if res_partner_ids:
-                            survey_user_input_id.partner_id = partner_id
+                        if partner_ids:
+                            survey_user_input_id.partner_id = partner_ids[0].id
                 else:
-                    survey_question_ids = self.env['survey.question'].search(
+                    question_ids = self.env['survey.question'].search(
                         [
-                            ('survey_id', '=', survey_user_input_id.survey_id.id),
+                            ('survey_id', '=', user_input_id.survey_id.id),
                             ('question', '=', 'oniad_user_id'),
                         ]
                     )
-                    if survey_question_ids:
-                        survey_question_id = survey_question_ids[0]
+                    if question_ids:
+                        question_id = question_ids[0]
                         # get oniad_user_id
-                        survey_user_input_line_ids = self.env['survey.user_input_line'].search(
+                        user_input_line_ids = self.env[
+                            'survey.user_input_line'
+                        ].search(
                             [
-                                ('user_input_id', '=', survey_user_input_id.id),
-                                ('question_id', '=', survey_question_id.id)
+                                ('user_input_id', '=', user_input_id.id),
+                                ('question_id', '=', question_id.id)
                             ]
                         )
-                        if survey_user_input_line_ids:
-                            survey_user_input_line_id = survey_user_input_line_ids[0]
-                            oniad_user_id = int(survey_user_input_line_id)
-                            res_partner_ids = self.env['res.partner'].search(
+                        if user_input_line_ids:
+                            user_input_line_id = user_input_line_ids[0]
+                            partner_ids = self.env['res.partner'].search(
                                 [
-                                    ('oniad_user_id', '=', oniad_user_id)
+                                    (
+                                        'oniad_user_id',
+                                        '=',
+                                        user_input_line_id.oniad_user_id.id
+                                    )
                                 ]
                             )
-                            if res_partner_ids:
-                                survey_user_input_id.partner_id = res_partner_ids[0].id
+                            if partner_ids:
+                                survey_user_input_id.partner_id = partner_ids[0].id

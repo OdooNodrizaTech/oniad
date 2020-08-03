@@ -6,7 +6,7 @@ from odoo import fields, models
 class SurveymonkeyQuestionChoice(models.Model):
     _name = 'surveymonkey.question.choice'
     _description = 'Surveymonkey Question Choice'
-            
+
     choice_id = fields.Char(
         string='Choice Id'
     )

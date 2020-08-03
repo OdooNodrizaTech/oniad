@@ -170,7 +170,9 @@ class SendinblueContact(models.Model):
                         if "attributes" in contact:
                             if len(contact['attributes']) > 0:
                                 for key, attribute_val in contact['attributes'].items():
-                                    attribute_ids = self.env['sendinblue.attribute'].search(
+                                    attribute_ids = self.env[
+                                        'sendinblue.attribute'
+                                    ].search(
                                         [
                                             ('name', '=', key)
                                         ]
@@ -178,12 +180,12 @@ class SendinblueContact(models.Model):
                                     if attribute_ids:
                                         attribute_id = attribute_ids[0]
                                         se_id = False
-                                        
                                         if attribute_id.sendinblue_enumeration_ids:
                                             atribute_id_se = \
                                                 attribute_id.sendinblue_enumeration_ids
                                             for enumeration_id in atribute_id_se:
-                                                if enumeration_id.value == attribute_val:
+                                                if enumeration_id.value == \
+                                                        attribute_val:
                                                     se_id = enumeration_id.id
 
                                         ids_get = self.env[
@@ -205,10 +207,11 @@ class SendinblueContact(models.Model):
                                         if len(ids_get) == 0:
                                             vals = {
                                                 'sendinblue_contact_id': contact_id.id,
-                                                'sendinblue_attribute_id': attribute_id.id,
+                                                'sendinblue_attribute_id':
+                                                    attribute_id.id,
                                                 'sendinblue_enumeration_id': se_id.id,
-                                                'value': attribute_val,                                                                                                                 
-                                            }                        
+                                                'value': attribute_val
+                                            }
                                             self.env[
                                                 'sendinblue.contact.attribute'
                                             ].sudo().create(vals)
@@ -220,13 +223,13 @@ class SendinblueContact(models.Model):
                             'sms_blacklisted': contact['smsBlacklisted'],
                             'modified_at': contact['modifiedAt'],
                             'sendinblue_list_ids': list_ids,
-                        })                        
+                        })
                     else:
                         vals = {
                             'sendinblue_id': contact['id'],
                             'email': contact['email'],
                             'email_blacklisted': contact['emailBlacklisted'],
                             'sms_blacklisted': contact['smsBlacklisted'],
-                            'modified_at': contact['modifiedAt'],                                                                                                                 
-                        }                        
+                            'modified_at': contact['modifiedAt']
+                        }
                         self.env['sendinblue.contact'].sudo().create(vals)

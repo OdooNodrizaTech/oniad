@@ -6,7 +6,7 @@ from odoo import api, fields, models
 class SurveymonkeyQuestion(models.Model):
     _name = 'surveymonkey.question'
     _description = 'Surveymonkey Question'
-    
+
     question_id = fields.Char(
         string='Question Id'
     )
@@ -49,7 +49,7 @@ class SurveymonkeyQuestion(models.Model):
         comodel_name='survey.question',
         string='Survey Question Id'
     )
-    
+
     @api.multi
     def process_answers(self, answers=False):
         self.ensure_one()
@@ -66,10 +66,9 @@ class SurveymonkeyQuestion(models.Model):
                             'row_id': row['id'],
                             'surveymonkey_question_id': self.id,
                             'position': row['position'],
-                            'text': row['text']                                                                                                                                                                                             
-                        }                        
+                            'text': row['text']
+                        }
                         self.env['surveymonkey.question.row'].sudo().create(vals)
-                        
             # choices
             if 'choices' in answers:
                 for choice in answers['choices']:
@@ -84,10 +83,9 @@ class SurveymonkeyQuestion(models.Model):
                             'surveymonkey_question_id': self.id,
                             'position': choice['position'],
                             'text': choice['text'],
-                            'description': ''                                                                                      
+                            'description': ''
                         }
                         # description
                         if 'description' in choice:
                             vals['description'] = choice['description']
-                                                
                         self.env['surveymonkey.question.choice'].sudo().create(vals)
