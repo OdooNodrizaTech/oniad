@@ -10,7 +10,8 @@
     "license": "AGPL-3",
     "depends": [
         "base",
-        "sale"
+        "sale",
+        "oniad_root"
     ],
     "external_dependencies": {
         "python": [
