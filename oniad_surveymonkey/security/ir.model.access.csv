@@ -1,9 +1,7 @@
 access_surveymonkey_survey_page,access_surveymonkey_survey_page,model_surveymonkey_survey_page,base.group_user,1,0,0,0
-The model surveymonkey.question has no access rules, consider adding one. E.g. access_surveymonkey_question,access_surveymonkey_question,model_surveymonkey_question,base.group_user,1,0,0,0
-The model surveymonkey.question.row has no access rules, consider adding one. E.g. access_surveymonkey_question_row,access_surveymonkey_question_row,model_surveymonkey_question_row,base.group_user,1,0,0,0
-The model surveymonkey.question.choice has no access rules, consider adding one. E.g. access_surveymonkey_question_choice,access_surveymonkey_question_choice,model_surveymonkey_question_choice,base.group_user,1,0,0,0
-The model surveymonkey.survey.response has no access rules, consider adding one. E.g. access_surveymonkey_survey_response,access_surveymonkey_survey_response,model_surveymonkey_survey_response,base.group_user,1,0,0,0
-The model surveymonkey.survey.response.custom.variable has no access rules, consider adding one. E.g. access_surveymonkey_survey_response_custom_variable,access_surveymonkey_survey_response_custom_variable,model_surveymonkey_survey_response_custom_variable,base.group_user,1,0,0,0
-The model surveymonkey.survey.response.question.answer has no access rules, consider adding one. E.g. access_surveymonkey_survey_response_question_answer,access_surveymonkey_survey_response_question_answer,model_surveymonkey_survey_response_question_answer,base.group_user,1,0,0,0
-The model crm.lead.source has no access rules, consider adding one. E.g. access_crm_lead_source,access_crm_lead_source,model_crm_lead_source,base.group_user,1,0,0,0
-The model sendinblue.contact.attribute has no access rules, consider adding one. E.g. access_sendinblue_contact_attribute,access_sendinblue_contact_attribute,model_sendinblue_contact_attribute,base.group_user,1,0,0,0
+access_surveymonkey_question,access_surveymonkey_question,model_surveymonkey_question,base.group_user,1,0,0,0
+access_surveymonkey_question_row,access_surveymonkey_question_row,model_surveymonkey_question_row,base.group_user,1,0,0,0
+access_surveymonkey_question_choice,access_surveymonkey_question_choice,model_surveymonkey_question_choice,base.group_user,1,0,0,0
+access_surveymonkey_survey_response,access_surveymonkey_survey_response,model_surveymonkey_survey_response,base.group_user,1,0,0,0
+access_surveymonkey_survey_response_custom_variable,access_surveymonkey_survey_response_custom_variable,model_surveymonkey_survey_response_custom_variable,base.group_user,1,0,0,0
+access_surveymonkey_survey_response_question_answer,access_surveymonkey_survey_response_question_answer,model_surveymonkey_survey_response_question_answer,base.group_user,1,0,0,0
