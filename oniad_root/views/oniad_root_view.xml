@@ -82,6 +82,21 @@
         </field>
     </record>
 
+    <record id="oniad_user_tree" model="ir.ui.view">
+        <field name="name">Oniad User</field>
+        <field name="model">oniad.user</field>
+        <field name="arch" type="xml">
+            <tree string="Oniad User">
+                <field name="name"/>
+                <field name="last_name"/>
+                <field name="type"/>
+                <field name="spent_cost"/>
+                <field name="oniad_accountmanager_id"/>
+                <field name="create_date"/>
+            </tree>
+        </field>
+    </record>
+
     <record id="oniad_user_type_action" model="ir.actions.act_window">
         <field name="name">Oniad User</field>
         <field name="type">ir.actions.act_window</field>
@@ -143,21 +158,6 @@
                 </sheet>
             </form>
         </field>
-    </record>
-
-    <record id="oniad_user_tree" model="ir.ui.view">
-        <field name="name">Oniad User</field>
-        <field name="model">oniad.user</field>            
-        <field name="arch" type="xml">
-            <tree string="Oniad User"> 
-                <field name="name"/>
-                <field name="last_name"/>
-                <field name="type"/>
-                <field name="spent_cost"/>
-                <field name="oniad_accountmanager_id"/>
-                <field name="create_date"/>
-            </tree>
-        </field>            
     </record>
 
     <record id="oniad_transaction_type_action" model="ir.actions.act_window">
