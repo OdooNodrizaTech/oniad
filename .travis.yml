@@ -18,8 +18,8 @@ env:
 
   matrix:
   - LINT_CHECK="1"
-  - TESTS="1" ODOO_REPO="OCA/OCB" INCLUDE="oniad_root"
-  - TESTS="1" ODOO_REPO="odoo/odoo" INCLUDE="oniad_root" MAKEPOT="1"
+  - TESTS="1" ODOO_REPO="OCA/OCB"
+  - TESTS="1" ODOO_REPO="odoo/odoo" MAKEPOT="1"
 
 
 install:
