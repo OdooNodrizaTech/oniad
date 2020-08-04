@@ -76,7 +76,6 @@ class OniadAddress(models.Model):
     )
 
     @api.multi
-    @api.depends('oniad_address_id')
     def _compute_oniad_transaction_count(self):
         for item in self:
             item.oniad_transaction_count = len(
@@ -103,7 +102,6 @@ class OniadAddress(models.Model):
                 )
 
     @api.multi
-    @api.depends('oniad_address_id')
     def _compute_account_invoice_count(self):
         for item in self:
             item.account_invoice_count = len(
