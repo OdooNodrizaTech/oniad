@@ -72,11 +72,21 @@
         <field name="search_view_id" ref="oniad_campaign_search"/>
     </record>
 
+    <record id="oniad_user_type_action" model="ir.actions.act_window">
+        <field name="name">Oniad User</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">oniad.user</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="oniad_user_tree"/>
+        <field name="search_view_id" ref="oniad_user_search"/>
+    </record>
+
     <record id="oniad_user_form_view" model="ir.ui.view">
         <field name="name">Oniad User</field>
         <field name="model">oniad.user</field>
         <field name="arch" type="xml">
-            <form string="Oniad User">                                
+            <form string="Oniad User">
                 <sheet string="child">
                     <div class="oe_button_box" name="button_box">
                         <button class="oe_stat_button" type="action" name="%(oniad_root.oniad_user_type_action)d" icon="fa-bars"  context="{'search_default_parent_id': active_id}">
@@ -107,18 +117,18 @@
                         <field name="timezone"/>
                         <field name="confirmed"/>
                         <field name="oniad_address_id" options='{"no_create": True, "no_create_edit": True}'/>
-                        <field name="oniad_accountmanager_id" options='{"no_create": True, "no_create_edit": True}'/>                        
+                        <field name="oniad_accountmanager_id" options='{"no_create": True, "no_create_edit": True}'/>
                         <field name="parent_id" options='{"no_create": True, "no_create_edit": True}'/>
                         <field name="type"/>
                         <field name="oniad_managed"/>
                         <field name="spent_cost"/>
                         <field name="spent_min_date"/>
                         <field name="spent_max_date"/>
-                        <field name="last_login"/>                        
+                        <field name="last_login"/>
                         <field name="odoo_lead"/>
                         <field name="welcome_lead_id" options='{"no_create": True, "no_create_edit": True}'/>
                         <field name="create_date"/>
-                        <field name="tag_ids"/>                                                                                                                                                                                                                                                                                                                         
+                        <field name="tag_ids"/>
                     </group>
                 </sheet>
             </form>
@@ -150,14 +160,14 @@
         </field>
     </record>
 
-    <record id="oniad_user_type_action" model="ir.actions.act_window">
-        <field name="name">Oniad User</field>
+    <record id="oniad_transaction_type_action" model="ir.actions.act_window">
+        <field name="name">Oniad Transaction</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">oniad.user</field>
+        <field name="res_model">oniad.transaction</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="oniad_user_tree"/>
-        <field name="search_view_id" ref="oniad_user_search"/>
+        <field name="view_id" ref="oniad_transaction_tree"/>
+        <field name="search_view_id" ref="oniad_transaction_search"/>
     </record>
 
     <record id="oniad_address_form_view" model="ir.ui.view">
@@ -325,16 +335,6 @@
                 <field name="sale_order_id"/>
             </search>
         </field>
-    </record>
-
-    <record id="oniad_transaction_type_action" model="ir.actions.act_window">
-        <field name="name">Oniad Transaction</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">oniad.transaction</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="oniad_transaction_tree"/>
-        <field name="search_view_id" ref="oniad_transaction_search"/>
     </record>
 
     <record id="oniad_country_state_form_view" model="ir.ui.view">
