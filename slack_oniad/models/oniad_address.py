@@ -1,48 +1,52 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-
-from odoo import api, models, tools
+from odoo import api, models, _
 
 
 class OniadAddress(models.Model):
     _inherit = 'oniad.address'
-    
+
     @api.model
-    def check_vat_error(self, vat, id):
+    def check_vat_error(self, vat, id_item):
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-        slack_log_channel = self.env['ir.config_parameter'].sudo().get_param('slack_log_channel')
-        
+        slack_log_channel = self.env['ir.config_parameter'].sudo().get_param(
+            'slack_log_channel'
+        )
+        item_url = "%s/web?#id=%s&view_type=form&model=oniad.address" % (
+            web_base_url,
+            id_item
+        )
         attachments = [
-            {                    
-                "title": 'El VAT es incorrecto',
-                "text": vat,                        
+            {
+                "title": _('El VAT es incorrecto'),
+                "text": vat,
                 "color": "#ff0000",
-                "fallback": "Ver oniad address %s/web?#id=%s&view_type=form&model=oniad.address" % (web_base_url, id),
+                "fallback": _("Ver oniad address %s") % item_url,
                 "actions": [
                     {
                         "type": "button",
-                        "text": "Ver registro",
-                        "url": "%s/web?#id=%s&view_type=form&model=oniad.address" % (web_base_url, id)
+                        "text": _("Ver registro"),
+                        "url": item_url
                     }
                 ],
-                "fields": [                    
+                "fields": [
                     {
-                        "title": "VAT",
+                        "title": _("VAT"),
                         "value": vat,
                         'short': True,
                     },
                     {
-                        "title": "Id",
-                        "value": id,
+                        "title": _("Id"),
+                        "value": id_item,
                         'short': True,
                     }
-                ],                    
+                ],
             }
-        ]        
+        ]
         vals = {
             'attachments': attachments,
             'model': self._inherit,
             'res_id': self.id,
             'as_user': True,
-            'channel': slack_log_channel,                                                         
-        }                        
+            'channel': slack_log_channel
+        }
         self.env['slack.message'].sudo().create(vals)

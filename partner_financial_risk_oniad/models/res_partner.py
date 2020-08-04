@@ -5,19 +5,19 @@ from odoo import api, models
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
-    
-    @api.one
+
+    @api.multi
     def write(self, vals):
         # need_send_sns
         if 'credit_limit' in vals:
             credit_limit_old = self.credit_limit
         # super
-        return_object = super(ResPartner, self).write(vals)
+        res = super(ResPartner, self).write(vals)
         # need_send_sns
         if 'credit_limit' in vals:
-            if self.credit_limit != credit_limit_old:
-                if self.oniad_address_id:
-                    # Como ha cambiado el credit_limit, enviamos el SNS
-                    self.oniad_address_id.action_credit_limit_send_sns()
+            for item in self:
+                if item.credit_limit != credit_limit_old:
+                    if item.oniad_address_id:
+                        item.oniad_address_id.action_credit_limit_send_sns()
         # return
-        return return_object
+        return res

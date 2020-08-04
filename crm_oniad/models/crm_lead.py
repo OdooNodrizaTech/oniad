@@ -1,40 +1,38 @@
-# -*- coding: utf-8 -*-
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 import logging
+from odoo import api, models, fields, _
+from odoo.exceptions import Warning as UserError
+from datetime import datetime
+import uuid
 _logger = logging.getLogger(__name__)
 
-from odoo import api, models, fields, _
-from odoo.exceptions import Warning
-from datetime import datetime
-
-import uuid
 
 class CrmLead(models.Model):
     _inherit = 'crm.lead'
-    
+
     done_user_id = fields.Many2one(
-        comodel_name='res.users',        
+        comodel_name='res.users',
         string='User done'
     )
     day_deadline = fields.Float(
-        compute='_compute_day_deadline', 
+        compute='_compute_day_deadline',
         string='Days for the planned closing',
         store=True
     )
     website = fields.Char(
         string='Website'
     )
-    marketing_campaign = fields.Boolean( 
+    marketing_campaign = fields.Boolean(
         string='Marketing campaign'
-    )    
+    )
     activities_count = fields.Integer(
         compute='_compute_activities_count',
         string="Activities",
     )
     commercial_activity_type = fields.Selection(
         selection=[
-            ('account','Account'), 
-            ('hunter','Hunter')                          
+            ('account', 'Account'),
+            ('hunter', 'Hunter')
         ],
         string='Commercial activity type'
     )
@@ -50,87 +48,117 @@ class CrmLead(models.Model):
     )
     lead_oniad_type = fields.Selection(
         selection=[
-            ('welcome','Welcome'),
-            ('sleep','Sleep'),
-            ('catchment','Catchment'),
-            ('other','Other')
+            ('welcome', 'Welcome'),
+            ('sleep', 'Sleep'),
+            ('catchment', 'Catchment'),
+            ('other', 'Other')
         ],
         string='Lead type'
-    )                                        
-    
+    )
+
+    @api.multi
     @api.onchange('type')
     def onchange_type(self):
-        if self._origin.id == False:
-            if self.type == 'lead':
-                self.commercial_activity_type = 'hunter'
-                self.lead_oniad_type = 'catchment'
-            else:
-                self.commercial_activity_type = 'account'
-                self.lead_oniad_type = 'other'
+        for item in self:
+            if not item._origin.id:
+                if item.type == 'lead':
+                    item.commercial_activity_type = 'hunter'
+                    item.lead_oniad_type = 'catchment'
+                else:
+                    item.commercial_activity_type = 'account'
+                item.lead_oniad_type = 'other'
 
     @api.model
     def create(self, values):
         allow_create = True
-                                
-        value_type = values.get('type')
-        value_commercial_activity_type = values.get('commercial_activity_type')
-        value_lead_oniad_type = values.get('lead_oniad_type')
-                
-        if value_type == 'lead':
-            if value_commercial_activity_type != 'hunter':
+
+        vt = values.get('type')
+        vcat = values.get('commercial_activity_type')
+        vlot = values.get('lead_oniad_type')
+
+        if vt == 'lead':
+            if vcat != 'hunter':
                 allow_create = False
-                raise Warning(_("An lead must have the type of commercial activity 'Hunter'"))
-                
-            if allow_create and value_lead_oniad_type != 'catchment':
+                raise UserError(
+                    _("An lead must have the type of commercial activity 'Hunter'")
+                )
+
+            if allow_create and vlot != 'catchment':
                 allow_create = False
-                raise Warning(_("An lead must have the type of lead to 'Capture'"))
+                raise UserError(
+                    _("An lead must have the type of lead to 'Capture'")
+                )
         else:
-            if value_commercial_activity_type != 'account':
+            if vcat != 'account':
                 allow_create = False
-                raise Warning(_("A opportunity must have the business type 'Account'"))
-                
-            if allow_create and value_lead_oniad_type == 'catchment':
+                raise UserError(
+                    _("A opportunity must have the business type 'Account'")
+                )
+
+            if allow_create and vlot == 'catchment':
                 allow_create = False
-                raise Warning(_("A opportunity must not have the lead type 'Capture'"))
-    
+                raise UserError(
+                    _("A opportunity must not have the lead type 'Capture'")
+                )
+
         if allow_create:
-            return_val = super(CrmLead, self).create(values)
-            return return_val
-                
+            return super(CrmLead, self).create(values)
+
     @api.multi
     def _compute_activities_count(self):
-        activity_data = self.env['crm.activity.report'].read_group([('lead_id', 'in', self.ids)], ['lead_id'], ['lead_id'])
-        mapped_data = {act['lead_id'][0]: act['lead_id_count'] for act in activity_data}
+        activity_data = self.env['crm.activity.report'].read_group(
+            [('lead_id', 'in', self.ids)],
+            ['lead_id'],
+            ['lead_id']
+        )
+        mapped_data = {
+            act['lead_id'][0]: act['lead_id_count'] for act in activity_data
+        }
         for lead in self:
-            lead.activities_count = mapped_data.get(lead.id, 0)                
-                    
-    @api.one
+            lead.activities_count = mapped_data.get(lead.id, 0)
+
+    @api.multi
     def convert_opportunity_create_partner(self, user_ids=False, team_id=False):
+        self.ensure_one()
         if self.type == 'lead':
-            result_partner_ids = super(CrmLead, self).handle_partner_assignation('create', False)
-            partner_id = result_partner_ids[self.id]
-            return super(CrmLead, self).convert_opportunity(partner_id, user_ids, team_id)
+            partner_ids = super(CrmLead, self).handle_partner_assignation(
+                'create', False
+            )
+            partner_id = partner_ids[self.id]
+            return super(CrmLead, self).convert_opportunity(
+                partner_id,
+                user_ids,
+                team_id
+            )
         else:
             return False
-            
+
     @api.multi
     def _lead_create_contact(self, name, is_company, parent_id=False):
-        return_def = super(CrmLead, self)._lead_create_contact(name, is_company, parent_id)
+        self.ensure_one()
+        return_def = super(CrmLead, self)._lead_create_contact(
+            name,
+            is_company,
+            parent_id
+        )
         return_def.website = self.website
-        return return_def    
-    
+        return return_def
+
     @api.multi
     def action_set_won(self):
         # done_user_id
-        for lead in self:
-            lead.done_user_id = lead.user_id
+        for item in self:
+            item.done_user_id = item.user_id
         # super
-        return super(CrmLead, self).action_set_won()                                                                    
-                
+        return super(CrmLead, self).action_set_won()
+
+    @api.multi
     @api.depends('date_deadline')
     def _compute_day_deadline(self):
-        for lead in self:
-            if lead.date_deadline:
-                current_date = fields.Datetime.from_string(str(datetime.today().strftime("%Y-%m-%d")))
-                date_deadline = fields.Datetime.from_string(lead.date_deadline)        
-                lead.day_deadline = (date_deadline - current_date).days                                                          
+        current_date = fields.Datetime.from_string(
+            str(datetime.today().strftime("%Y-%m-%d"))
+        )
+        for item in self:
+            if item.date_deadline:
+                date_deadline = fields.Datetime.from_string(item.date_deadline)
+                item.day_deadline = (date_deadline - current_date).days

@@ -3,15 +3,25 @@
 {
     "name": "Account OniAd",
     "version": "12.0.1.0.0",
-    "author": "Odoo Nodriza Tech (ONT)",
+    "author": "Odoo Nodriza Tech (ONT), "
+              "Odoo Community Association (OCA)",
     "website": "https://nodrizatech.com/",
     "category": "Tools",
     "license": "AGPL-3",
     "depends": [
         "base",
         "account",
+        "account_payment_mode",  # https://github.com/OCA/bank-payment
+        "account_payment_partner",  # https://github.com/OCA/bank-payment
+        "account_payment_sale",  # https://github.com/OCA/bank-payment
+        "oniad_root",
         "partner_financial_risk_oniad"
     ],
+    "external_dependencies": {
+        "python": [
+            "boto3"
+        ],
+    },
     "data": [
         "data/ir_cron.xml",
         "views/account_invoice_view.xml",

@@ -9,4 +9,4 @@ class ResPartnerCommunicationGeo(models.Model):
 
     name = fields.Char(
         string="Name"
-    )     
+    )

@@ -5,11 +5,11 @@ from odoo import fields, models
 
 class SendinblueEnumeration(models.Model):
     _name = 'sendinblue.enumeration'
-    _description = 'Sendinblue Enumeration'    
-            
-    label = fields.Char(        
+    _description = 'Sendinblue Enumeration'
+
+    label = fields.Char(
         string='Label'
     )
-    value = fields.Integer(        
+    value = fields.Integer(
         string='Value'
-    )               
+    )

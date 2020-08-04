@@ -5,21 +5,21 @@ from odoo import api, fields, models
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
-        
+
     oniad_transaction_id = fields.Many2one(
         comodel_name='oniad.transaction',
         string='Oniad Transaction'
     )
-    
+
     @api.model
     def create(self, values):
-        return_object = super(SaleOrderLine, self).create(values)
+        res = super(SaleOrderLine, self).create(values)
         # Fix
-        if return_object.oniad_transaction_id:
-            return_object.product_id_change()
+        if res.oniad_transaction_id:
+            res.product_id_change()
             # update
-            return_object.price_tax = return_object.oniad_transaction_id.tax
-            return_object.price_unit = return_object.oniad_transaction_id.amount
-            return_object.price_subtotal = return_object.oniad_transaction_id.total                                                                                                                    
+            res.price_tax = res.oniad_transaction_id.tax
+            res.price_unit = res.oniad_transaction_id.amount
+            res.price_subtotal = res.oniad_transaction_id.total
         # return
-        return return_object
+        return res

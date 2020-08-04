@@ -9,4 +9,4 @@ class ResPartnerAgencyActivity(models.Model):
 
     name = fields.Char(
         string="Name"
-    )     
+    )

@@ -3,7 +3,8 @@
 {
     "name": "Crm OniAd",
     "version": "12.0.1.0.0",
-    "author": "Odoo Nodriza Tech (ONT)",
+    "author": "Odoo Nodriza Tech (ONT), "
+              "Odoo Community Association (OCA)",
     "website": "https://nodrizatech.com/",
     "category": "Tools",
     "license": "AGPL-3",
@@ -14,6 +15,7 @@
     "data": [
         "data/crm_lead_source_data.xml",
         "views/crm_lead_view.xml",
+        "security/ir.model.access.csv",
     ],
     "installable": True
 }

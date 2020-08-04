@@ -6,27 +6,27 @@ from odoo import fields, models
 class SurveymonkeyQuestionChoice(models.Model):
     _name = 'surveymonkey.question.choice'
     _description = 'Surveymonkey Question Choice'
-            
-    choice_id = fields.Char(        
+
+    choice_id = fields.Char(
         string='Choice Id'
     )
     surveymonkey_question_id = fields.Many2one(
-        comodel_name='surveymonkey.question',        
+        comodel_name='surveymonkey.question',
         string='Surveymonkey Question'
-    )    
-    position = fields.Text(        
+    )
+    position = fields.Text(
         string='Position'
     )
-    text = fields.Text(        
+    text = fields.Text(
         string='Row Id'
-    )                
-    description = fields.Text(        
+    )
+    description = fields.Text(
         string='Description'
     )
-    datawarehouse_value = fields.Integer(        
+    datawarehouse_value = fields.Integer(
         string='Datawarehouse Value'
     )
     survey_label_id = fields.Many2one(
-        comodel_name='survey.label',        
+        comodel_name='survey.label',
         string='Survey Label Id'
-    )    
+    )
