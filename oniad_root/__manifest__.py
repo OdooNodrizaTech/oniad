@@ -32,10 +32,10 @@
     "data": [
         "data/ir_cron.xml",
         "data/ir_configparameter_data.xml",
+        "views/oniad_root_view.xml",
         "views/account_invoice_view.xml",
         "views/account_payment_view.xml",
         "views/crm_lead_view.xml",
-        "views/oniad_root_view.xml",
         "views/res_partner_view.xml",
         "views/sale_order_view.xml",
         "views/survey_user_input_view.xml",
