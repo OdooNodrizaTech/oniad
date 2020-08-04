@@ -37,9 +37,9 @@
 
     <record id="oniad_campaign_tree" model="ir.ui.view">
         <field name="name">Oniad Campaign</field>
-        <field name="model">oniad.campaign</field>            
+        <field name="model">oniad.campaign</field>
         <field name="arch" type="xml">
-            <tree string="Oniad Campaign"> 
+            <tree string="Oniad Campaign">
                 <field name="name"/>
                 <field name="type"/>
                 <field name="date_start"/>
@@ -49,7 +49,7 @@
                 <field name="spent"/>
                 <field name="oniad_user_id"/>
             </tree>
-        </field>            
+        </field>
     </record>
 
     <record id="oniad_campaign_search" model="ir.ui.view">
@@ -107,6 +107,49 @@
         <field name="search_view_id" ref="oniad_user_search"/>
     </record>
 
+    <record id="oniad_transaction_tree" model="ir.ui.view">
+        <field name="name">Oniad Transaction</field>
+        <field name="model">oniad.transaction</field>
+        <field name="arch" type="xml">
+            <tree string="Oniad Transaction">
+                <field name="oniad_user_id"/>
+                <field name="subject"/>
+                <field name="amount"/>
+                <field name="tax"/>
+                <field name="total"/>
+                <field name="date"/>
+                <field name="account_payment_id"/>
+                <field name="type"/>
+                <field name="actor"/>
+                <field name="medium"/>
+                <field name="create_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="oniad_transaction_search" model="ir.ui.view">
+        <field name="name">oniad_transaction_search</field>
+        <field name="model">oniad.transaction</field>
+        <field name="arch" type="xml">
+            <search string="Onikad Transactions">
+                <field name="oniad_user_id"/>
+                <field name="oniad_address_id"/>
+                <field name="account_invoice_id"/>
+                <field name="sale_order_id"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="oniad_transaction_type_action" model="ir.actions.act_window">
+        <field name="name">Oniad Transaction</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">oniad.transaction</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="oniad_transaction_tree"/>
+        <field name="search_view_id" ref="oniad_transaction_search"/>
+    </record>
+
     <record id="oniad_user_form_view" model="ir.ui.view">
         <field name="name">Oniad User</field>
         <field name="model">oniad.user</field>
@@ -158,16 +201,6 @@
                 </sheet>
             </form>
         </field>
-    </record>
-
-    <record id="oniad_transaction_type_action" model="ir.actions.act_window">
-        <field name="name">Oniad Transaction</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">oniad.transaction</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="oniad_transaction_tree"/>
-        <field name="search_view_id" ref="oniad_transaction_search"/>
     </record>
 
     <record id="oniad_address_form_view" model="ir.ui.view">
@@ -301,39 +334,6 @@
                     </group>
                 </sheet>
             </form>
-        </field>
-    </record>
-
-    <record id="oniad_transaction_tree" model="ir.ui.view">
-        <field name="name">Oniad Transaction</field>
-        <field name="model">oniad.transaction</field>            
-        <field name="arch" type="xml">
-            <tree string="Oniad Transaction"> 
-                <field name="oniad_user_id"/>
-                <field name="subject"/>
-                <field name="amount"/>
-                <field name="tax"/>
-                <field name="total"/>
-                <field name="date"/>
-                <field name="account_payment_id"/>
-                <field name="type"/>
-                <field name="actor"/>
-                <field name="medium"/>
-                <field name="create_date"/>
-            </tree>
-        </field>            
-    </record>
-
-    <record id="oniad_transaction_search" model="ir.ui.view">
-        <field name="name">oniad_transaction_search</field>
-        <field name="model">oniad.transaction</field>
-        <field name="arch" type="xml">
-            <search string="Onikad Transactions">
-                <field name="oniad_user_id"/>
-                <field name="oniad_address_id"/>
-                <field name="account_invoice_id"/>
-                <field name="sale_order_id"/>
-            </search>
         </field>
     </record>
 
