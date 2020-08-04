@@ -1,3 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_surveymonkey_survey_page,access_surveymonkey_survey_page,model_surveymonkey_survey_page,base.group_user,1,0,0,0
 access_surveymonkey_question,access_surveymonkey_question,model_surveymonkey_question,base.group_user,1,0,0,0
 access_surveymonkey_question_row,access_surveymonkey_question_row,model_surveymonkey_question_row,base.group_user,1,0,0,0
