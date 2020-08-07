@@ -8,6 +8,7 @@ class CrmLead(models.Model):
 
     @api.model
     def get_survey_id(self):
+        super(CrmLead, self).get_survey_id()
         survey_id = 0
         if self.lead_oniad_type:
             survey_ids = self.env['survey.survey'].search(
