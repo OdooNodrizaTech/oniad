@@ -11,6 +11,7 @@ class CrmLead(models.Model):
 
     @api.model
     def get_survey_id(self):
+        super(CrmLead, self).get_survey_id()
         survey_id = 0
         if self.lead_oniad_type!=False:            
             survey_survey_ids = self.env['survey.survey'].search(
@@ -23,6 +24,6 @@ class CrmLead(models.Model):
             )
             if len(survey_survey_ids)>0:
                 survey_survey_id = survey_survey_ids[0]
-                survey_id = survey_survey_id.id            
+                survey_id = survey_survey_id.id
                     
         return survey_id
