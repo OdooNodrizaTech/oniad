@@ -1,17 +1,13 @@
 El módulo contiene las funcionalidades para implementar todo lo relativo con la API de Sendinblue
 
 ### odoo.conf
-```
-#sendinblue
-sendinblue_api_key=xxxxx
-```
+- #sendinblue
+- sendinblue_api_key=xxxxx
 
 ### Parámetros de configuración
-```
-oniad_sendinblue_auto_generate_leads_sendinblue_list_id
-oniad_sendinblue_auto_generate_leads_user_id_default
-oniad_sendinblue_auto_generate_leads_tag_ids_default
-```
+- oniad_sendinblue_auto_generate_leads_sendinblue_list_id
+- oniad_sendinblue_auto_generate_leads_user_id_default
+- oniad_sendinblue_auto_generate_leads_tag_ids_default
 
 Dentro del apartado de Configuración > Técnico se añade el apartado "Oniad Sendinblue" con los diferentes submenus:
 

@@ -1,20 +1,16 @@
 El módulo contiene el desarrollo con la API de surveymonkey para obtener sus datos.
 
 ### odoo.conf
-```
-#surveymonkey
-surveymonkey_api_access_token=xxxx
-```
+- #surveymonkey
+- surveymonkey_api_access_token=xxxx
 
 ### Parámetros de sistema
-```
-oniad_surveymonkey_api_version
-oniad_surveymonkey_datawarehouse_survey_ids_need_check
-survey_oniad_datawarehouse_rds_endpoint
-survey_oniad_datawarehouse_rds_user
-survey_oniad_datawarehouse_rds_password
-survey_oniad_datawarehouse_rds_database
-``` 
+- oniad_surveymonkey_api_version
+- oniad_surveymonkey_datawarehouse_survey_ids_need_check
+- survey_oniad_datawarehouse_rds_endpoint
+- survey_oniad_datawarehouse_rds_user
+- survey_oniad_datawarehouse_rds_password
+- survey_oniad_datawarehouse_rds_database 
 
 Existen diferentes crons que realizan diferentes acciones respecto a SurveyMonkey:
 
