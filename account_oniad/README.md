@@ -2,10 +2,8 @@ El módulo contiene el desarrollo para todo lo relacionado con facturas
  
 
 ## odoo.conf
-```
-#docs_oniad_com
-s3_bucket_docs_oniad_com=docs-oniad-com
-``` 
+- #docs_oniad_com
+- s3_bucket_docs_oniad_com=docs-oniad-com
 
 ## crm.lead
 Si existe el valor oniad_user_id > 0 mostrará el link https://platform.oniad.com/backend/admin/supadmin/card/{onioad_user_id} correspondiente
