@@ -1,31 +1,26 @@
 Añade modelos específicos para Oniad
 
 ### Parámetros de configuración:
-```
-oniad_stripe_journal_id
-oniad_credit_product_id
-oniad_service_product_id
-oniad_welcome_lead_template_id
-oniad_account_invoice_journal_id
-oniad_account_invoice_product
-oniad_payment_mode_id_with_credit_limit
-oniad_payment_term_id_default_with_credit_limit
-
-``` 
+- oniad_stripe_journal_id
+- oniad_credit_product_id
+- oniad_service_product_id
+- oniad_welcome_lead_template_id
+- oniad_account_invoice_journal_id
+- oniad_account_invoice_product
+- oniad_payment_mode_id_with_credit_limit
+- oniad_payment_term_id_default_with_credit_limit
 
 ### odoo.conf
-```
-#sqs_oniad
-sqs_oniad_accountmanager_url=https://sqs.eu-west-1.amazonaws.com/534422648921/oniad-odoo_dev-command-oniad-accountmanager
-sqs_oniad_address_url=https://sqs.eu-west-1.amazonaws.com/534422648921/oniad-odoo_dev-command-oniad-address
-sqs_oniad_campaign_url=https://sqs.eu-west-1.amazonaws.com/534422648921/oniad-odoo_dev-command-oniad-campaign
-sqs_oniad_campaign_report_url=https://sqs.eu-west-1.amazonaws.com/534422648921/oniad-odoo_dev-command-oniad-campaign-report
-sqs_oniad_country_url=https://sqs.eu-west-1.amazonaws.com/534422648921/oniad-odoo_dev-command-oniad-country
-sqs_oniad_country_state_url=https://sqs.eu-west-1.amazonaws.com/534422648921/oniad-odoo_dev-command-oniad-country-state
-sqs_oniad_transaction_url=https://sqs.eu-west-1.amazonaws.com/534422648921/oniad-odoo_dev-command-oniad-transaction
-sqs_oniad_user_url=https://sqs.eu-west-1.amazonaws.com/534422648921/oniad-odoo_dev-command-oniad-user
-sqs_oniad_usertag_url=https://sqs.eu-west-1.amazonaws.com/534422648921/oniad-odoo_dev-command-oniad-usertag
-``` 
+- #sqs_oniad
+- sqs_oniad_accountmanager_url=https://sqs.eu-west-1.amazonaws.com/534422648921/oniad-odoo_dev-command-oniad-accountmanager
+- sqs_oniad_address_url=https://sqs.eu-west-1.amazonaws.com/534422648921/oniad-odoo_dev-command-oniad-address
+- sqs_oniad_campaign_url=https://sqs.eu-west-1.amazonaws.com/534422648921/oniad-odoo_dev-command-oniad-campaign
+- sqs_oniad_campaign_report_url=https://sqs.eu-west-1.amazonaws.com/534422648921/oniad-odoo_dev-command-oniad-campaign-report
+- sqs_oniad_country_url=https://sqs.eu-west-1.amazonaws.com/534422648921/oniad-odoo_dev-command-oniad-country
+- sqs_oniad_country_state_url=https://sqs.eu-west-1.amazonaws.com/534422648921/oniad-odoo_dev-command-oniad-country-state
+- sqs_oniad_transaction_url=https://sqs.eu-west-1.amazonaws.com/534422648921/oniad-odoo_dev-command-oniad-transaction
+- sqs_oniad_user_url=https://sqs.eu-west-1.amazonaws.com/534422648921/oniad-odoo_dev-command-oniad-user
+- sqs_oniad_usertag_url=https://sqs.eu-west-1.amazonaws.com/534422648921/oniad-odoo_dev-command-oniad-usertag
 
 Existen URls públicas para usuarios logeados en Odoo:
 
@@ -47,32 +42,6 @@ Descripción:
 Revisa todas las transacciones con fecha <= ultimo día del mes anterior
 Respecto a los resultados anteriores, agrupa los pagos con contacto y genera una factura por contacto con tantas líneas como pagos.
 Para cada línea calculará el importe SIN iva siempre que el contacto esté definido a impuestos
-
-La consulta que se realiza es algo similar a esto:
-```
-SELECT ap.id, ap.amount, ap.communication, ap.partner_type, ap.payment_date, rp.name, rp.vat
-FROM oniad_transaction AS ot
-LEFT JOIN account_payment AS ap ON ot.account_payment_id = ap.id
-LEFT JOIN res_partner AS rp ON ap.partner_id = rp.id
-WHERE ot.account_payment_id IS NOT NULL
-AND ot.id > 94
-AND ot.id NOT IN (1743, 52076, 52270, 52271, 52281)
-AND ot."type" = 'TYPE_CREDIT'
-AND ot.state = 'STATUS_COMPLETED'
-AND ot.actor = 'ACTOR_ONIAD'
-AND ot.medium = 'MEDIUM_STRIPE'
-AND ot.subject IN ('SUBJECT_CHARGE', 'SUBJECT_REFUND')
-AND ap.journal_id = 8
-AND ap.state IN ('posted', 'sent')
-AND ap.payment_type IN ('inbound', 'outbound')
-AND ap.payment_date <= '2020-02-28'
-AND ot.date >= '2020-01-01'
-AND ot.account_payment_id NOT IN (
-SELECT DISTINCT(aipr.payment_id)
-FROM account_invoice_payment_rel AS aipr
-)
-ORDER BY ap.id ASC
-```
 
 ### SQS Oniad Accountmanager 
 Frecuencia: 1 vez cada 5 minutos
