@@ -279,7 +279,16 @@ class AccountInvoice(models.Model):
     @api.multi
     def action_invoice_open(self):
         for item in self:
-            if not item.partner_id.vat:
+            if item.partner_id.vat:
+                continue
+
+            test_condition = (tools.config['test_enable'] and
+                              not self.env.context.get('test_vat'))
+
+            if test_condition:
+                continue
+
+            if item.partner_id.vat:
                 raise UserError(
                     _('It is necessary to define a CIF / NIF '
                       'for the customer of the invoice')
@@ -287,16 +296,15 @@ class AccountInvoice(models.Model):
             elif item.type == "in_invoice" and not item.reference:
                 raise UserError(
                     _('It is necessary to define a supplier '
-                      'reference to validate the purchase invoic')
+                      'reference to validate the purchase invoice')
                 )
-            else:
-                res = super(AccountInvoice, self).action_invoice_open()
-                # action_calculate_margin
-                item.action_calculate_margin()
-                # action_send_sns
-                item.action_send_sns(True)
-                # return
-                return res
+
+        res = super(AccountInvoice, self).action_invoice_open()
+        for item in self:
+            item.action_calculate_margin()
+            item.action_send_sns(True)
+        # return
+        return res
 
     @api.multi
     def action_auto_create_message_slack(self):
