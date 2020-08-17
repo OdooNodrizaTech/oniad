@@ -23,14 +23,15 @@ class ResPartner(models.Model):
     @api.multi
     def write(self, vals):
         allow_write = True
-        # check_dni
-        if self.type == 'contact' and self.parent_id.id == 0:
-            if 'vat' in vals:
-                if not vals['vat']:
-                    vals['vat'] = vals['vat'].strip().replace(' ', '').upper()
-                    if self.country_id and self.country_id.code == 'ES':
-                        if '-' in vals['vat']:
-                            allow_write = False
-                            raise UserError(_('Nif not allow character -'))
+        for item in self:
+            # check_dni
+            if item.type == 'contact' and item.parent_id.id == 0:
+                if 'vat' in vals:
+                    if not vals['vat']:
+                        vals['vat'] = vals['vat'].strip().replace(' ', '').upper()
+                        if item.country_id and item.country_id.code == 'ES':
+                            if '-' in vals['vat']:
+                                allow_write = False
+                                raise UserError(_('Nif not allow character -'))
         if allow_write:
             return super(ResPartner, self).write(vals)
