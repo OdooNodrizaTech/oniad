@@ -1,4 +1,6 @@
+[![Build Status](https://runbot.nodrizatech.com/runbot/badge/35/12.0.svg)](https://runbot.nodrizatech.com/runbot/repo/https-github-com-odoonodrizatech-oniad-35)
 [![Build Status](https://travis-ci.org/OdooNodrizaTech/oniad.svg?branch=12.0)](https://travis-ci.org/OdooNodrizaTech/oniad)
+[![codecov](https://codecov.io/gh/OdooNodrizaTech/oniad/branch/12.0/graph/badge.svg)](https://codecov.io/gh/OdooNodrizaTech/oniad)
 
 oniad
 =========

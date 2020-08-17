@@ -11,7 +11,7 @@ Añade modelos específicos para Oniad
 - oniad_payment_term_id_default_with_credit_limit
 
 ### odoo.conf
-#sqs_oniad
+- #sqs_oniad
 - sqs_oniad_accountmanager_url=https://sqs.eu-west-1.amazonaws.com/534422648921/oniad-odoo_dev-command-oniad-accountmanager
 - sqs_oniad_address_url=https://sqs.eu-west-1.amazonaws.com/534422648921/oniad-odoo_dev-command-oniad-address
 - sqs_oniad_campaign_url=https://sqs.eu-west-1.amazonaws.com/534422648921/oniad-odoo_dev-command-oniad-campaign
