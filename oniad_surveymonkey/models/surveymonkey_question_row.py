@@ -18,7 +18,7 @@ class SurveymonkeyQuestionRow(models.Model):
         string='Position'
     )
     text = fields.Text(
-        string='Row Id'
+        string='Text'
     )
     survey_label_id = fields.Many2one(
         comodel_name='survey.label',
