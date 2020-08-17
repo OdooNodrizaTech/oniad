@@ -27,7 +27,7 @@ class CrmLead(models.Model):
     )
     activities_count = fields.Integer(
         compute='_compute_activities_count',
-        string="Activities",
+        string="Activities Count",
     )
     commercial_activity_type = fields.Selection(
         selection=[
