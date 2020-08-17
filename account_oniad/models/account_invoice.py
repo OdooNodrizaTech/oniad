@@ -268,41 +268,41 @@ class AccountInvoice(models.Model):
     @api.multi
     def write(self, vals):
         # super
+        base_partner_12 = self.env.ref('base.res_partner_12')
         return_object = super(AccountInvoice, self).write(vals)
         # check_if_paid
         if vals.get('state') == 'paid':
             # action_send_sns
-            self.action_send_sns(True)
+            for item in self:
+                if item.partner_id.id != base_partner_12.id:
+                    item.action_send_sns(True)
         # return
         return return_object
 
     @api.multi
     def action_invoice_open(self):
+        base_partner_12 = self.env.ref('base.res_partner_12')
         for item in self:
             if item.partner_id.vat:
                 continue
 
-            test_condition = (tools.config['test_enable'] and
-                              not self.env.context.get('test_vat'))
-
-            if test_condition:
-                continue
-
-            if item.partner_id.vat:
-                raise UserError(
-                    _('It is necessary to define a CIF / NIF '
-                      'for the customer of the invoice')
-                )
-            elif item.type == "in_invoice" and not item.reference:
-                raise UserError(
-                    _('It is necessary to define a supplier '
-                      'reference to validate the purchase invoice')
-                )
+            if item.partner_id.id != base_partner_12.id:
+                if item.partner_id.vat:
+                    raise UserError(
+                        _('It is necessary to define a CIF / NIF '
+                          'for the customer of the invoice')
+                    )
+                elif item.type == "in_invoice" and not item.reference:
+                    raise UserError(
+                        _('It is necessary to define a supplier '
+                          'reference to validate the purchase invoice')
+                    )
 
         res = super(AccountInvoice, self).action_invoice_open()
         for item in self:
             item.action_calculate_margin()
-            item.action_send_sns(True)
+            if item.partner_id.id != base_partner_12.id:
+                item.action_send_sns(True)
         # return
         return res
 
