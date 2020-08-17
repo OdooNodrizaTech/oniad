@@ -28,7 +28,7 @@ class SurveymonkeySurveyPage(models.Model):
     )
     survey_page_id = fields.Many2one(
         comodel_name='survey.page',
-        string='Survey Id'
+        string='Survey Page Id'
     )
 
     @api.model
