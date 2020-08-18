@@ -299,12 +299,12 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def action_invoice_open(self):
-        base_partner_12 = self.env.ref('base.res_partner_12')
+        demo_invoice_equipment_purchase = self.env.ref('demo_invoice_equipment_purchase')
         for item in self:
             if item.partner_id.vat:
                 continue
 
-            if item.partner_id.id != base_partner_12.id:
+            if item.id != demo_invoice_equipment_purchase.id:
                 if item.partner_id.vat:
                     raise UserError(
                         _('It is necessary to define a CIF / NIF '
