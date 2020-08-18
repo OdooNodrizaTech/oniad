@@ -89,6 +89,15 @@ class AccountInvoice(models.Model):
                     AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')
                     s3_bucket = tools.config.get('s3_bucket_docs_oniad_com')
                     # boto3
+                    if not AWS_ACCESS_KEY_ID:
+                        return
+
+                    if not AWS_SECRET_ACCESS_KEY:
+                        return
+
+                    if not AWS_SMS_REGION_NAME:
+                        return
+
                     s3 = boto3.client(
                         's3',
                         region_name=AWS_SMS_REGION_NAME,
@@ -107,7 +116,7 @@ class AccountInvoice(models.Model):
                         )
                     except:
                         _logger.info(
-                            _('Errir al generar el PDF de la factura %s')
+                            _('Error al generar el PDF de la factura %s')
                             % item.id
                         )
 
@@ -135,6 +144,15 @@ class AccountInvoice(models.Model):
                 AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')
                 s3_bucket = tools.config.get('s3_bucket_docs_oniad_com')
                 # boto3
+                if not AWS_ACCESS_KEY_ID:
+                    return
+
+                if not AWS_SECRET_ACCESS_KEY:
+                    return
+
+                if not AWS_SMS_REGION_NAME:
+                    return
+
                 sns = boto3.client(
                     'sns',
                     region_name=AWS_SMS_REGION_NAME,
@@ -268,34 +286,49 @@ class AccountInvoice(models.Model):
     @api.multi
     def write(self, vals):
         # super
+        partner_ids_exclude = [
+            self.env.ref('base.res_partner_1').id,
+            self.env.ref('base.res_partner_12').id
+        ]
         return_object = super(AccountInvoice, self).write(vals)
         # check_if_paid
         if vals.get('state') == 'paid':
             # action_send_sns
-            self.action_send_sns(True)
+            for item in self:
+                if item.partner_id.id not in partner_ids_exclude:
+                    item.action_send_sns(True)
         # return
         return return_object
 
     @api.multi
     def action_invoice_open(self):
-        if not self.partner_id.vat:
-            raise UserError(
-                _('It is necessary to define a CIF / NIF '
-                  'for the customer of the invoice')
-            )
-        elif self.type == "in_invoice" and not self.reference:
-            raise UserError(
-                _('It is necessary to define a supplier '
-                  'reference to validate the purchase invoic')
-            )
-        else:
-            res = super(AccountInvoice, self).action_invoice_open()
-            for account_invoice_item in self:
-                account_invoice_item.action_calculate_margin()
-            # action_send_sns
-            account_invoice_item.action_send_sns(True)
-            # return
-            return res
+        partner_ids_exclude = [
+            self.env.ref('base.res_partner_1').id,
+            self.env.ref('base.res_partner_12').id
+        ]
+        for item in self:
+            if item.partner_id.vat:
+                continue
+
+            if item.partner_id.id not in partner_ids_exclude:
+                if item.partner_id.vat:
+                    raise UserError(
+                        _('It is necessary to define a CIF / NIF '
+                          'for the customer of the invoice')
+                    )
+                elif item.type == "in_invoice" and not item.reference:
+                    raise UserError(
+                        _('It is necessary to define a supplier '
+                          'reference to validate the purchase invoice')
+                    )
+
+        res = super(AccountInvoice, self).action_invoice_open()
+        for item in self:
+            item.action_calculate_margin()
+            if item.partner_id.id not in partner_ids_exclude:
+                item.action_send_sns(True)
+        # return
+        return res
 
     @api.multi
     def action_auto_create_message_slack(self):
