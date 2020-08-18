@@ -286,44 +286,45 @@ class AccountInvoice(models.Model):
     @api.multi
     def write(self, vals):
         # super
+        base_partner_1 = self.env.ref('base.res_partner_1')
         base_partner_12 = self.env.ref('base.res_partner_12')
+        partner_ids_exclude = [base_partner_1.id, base_partner_12.id]
         return_object = super(AccountInvoice, self).write(vals)
         # check_if_paid
         if vals.get('state') == 'paid':
             # action_send_sns
             for item in self:
-                if item.partner_id.id != base_partner_12.id:
+                if item.partner_id.id not in partner_ids_exclude:
                     item.action_send_sns(True)
         # return
         return return_object
 
     @api.multi
     def action_invoice_open(self):
-        demo_invoice_ep = self.env.ref('demo_invoice_equipment_purchase')
+        base_partner_1 = self.env.ref('base.res_partner_1')
         base_partner_12 = self.env.ref('base.res_partner_12')
+        partner_ids_exclude = [base_partner_1.id, base_partner_12.id]
         for item in self:
             if item.partner_id.vat:
                 continue
 
-            if item.id != demo_invoice_ep.id:
-                if item.partner_id.id != base_partner_12.id:
-                    if item.partner_id.vat:
-                        raise UserError(
-                            _('It is necessary to define a CIF / NIF '
-                              'for the customer of the invoice')
-                        )
-                    elif item.type == "in_invoice" and not item.reference:
-                        raise UserError(
-                            _('It is necessary to define a supplier '
-                              'reference to validate the purchase invoice')
-                        )
+            if item.partner_id.id not in partner_ids_exclude:
+                if item.partner_id.vat:
+                    raise UserError(
+                        _('It is necessary to define a CIF / NIF '
+                          'for the customer of the invoice')
+                    )
+                elif item.type == "in_invoice" and not item.reference:
+                    raise UserError(
+                        _('It is necessary to define a supplier '
+                          'reference to validate the purchase invoice')
+                    )
 
         res = super(AccountInvoice, self).action_invoice_open()
         for item in self:
             item.action_calculate_margin()
-            if item.id != demo_invoice_ep.id:
-                if item.partner_id.id != base_partner_12.id:
-                    item.action_send_sns(True)
+            if item.partner_id.id not in partner_ids_exclude:
+                item.action_send_sns(True)
         # return
         return res
 
