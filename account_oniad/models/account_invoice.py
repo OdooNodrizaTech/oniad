@@ -89,6 +89,15 @@ class AccountInvoice(models.Model):
                     AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')
                     s3_bucket = tools.config.get('s3_bucket_docs_oniad_com')
                     # boto3
+                    if not AWS_ACCESS_KEY_ID:
+                        return
+
+                    if not AWS_SECRET_ACCESS_KEY:
+                        return
+
+                    if not AWS_SMS_REGION_NAME:
+                        return
+
                     s3 = boto3.client(
                         's3',
                         region_name=AWS_SMS_REGION_NAME,
@@ -107,7 +116,7 @@ class AccountInvoice(models.Model):
                         )
                     except:
                         _logger.info(
-                            _('Errir al generar el PDF de la factura %s')
+                            _('Error al generar el PDF de la factura %s')
                             % item.id
                         )
 
@@ -135,6 +144,15 @@ class AccountInvoice(models.Model):
                 AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')
                 s3_bucket = tools.config.get('s3_bucket_docs_oniad_com')
                 # boto3
+                if not AWS_ACCESS_KEY_ID:
+                    return
+
+                if not AWS_SECRET_ACCESS_KEY:
+                    return
+
+                if not AWS_SMS_REGION_NAME:
+                    return
+
                 sns = boto3.client(
                     'sns',
                     region_name=AWS_SMS_REGION_NAME,

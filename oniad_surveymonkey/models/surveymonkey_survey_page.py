@@ -8,7 +8,7 @@ class SurveymonkeySurveyPage(models.Model):
     _description = 'Surveymonkey Survey Page'
 
     survey_id = fields.Char(
-        string='Survey Id'
+        string='Id'
     )
     page_id = fields.Char(
         string='Page Id'
