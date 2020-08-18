@@ -286,9 +286,10 @@ class AccountInvoice(models.Model):
     @api.multi
     def write(self, vals):
         # super
-        base_partner_1 = self.env.ref('base.res_partner_1')
-        base_partner_12 = self.env.ref('base.res_partner_12')
-        partner_ids_exclude = [base_partner_1.id, base_partner_12.id]
+        partner_ids_exclude = [
+            self.env.ref('base.res_partner_1').id,
+            self.env.ref('base.res_partner_12').id
+        ]
         return_object = super(AccountInvoice, self).write(vals)
         # check_if_paid
         if vals.get('state') == 'paid':
@@ -301,9 +302,10 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def action_invoice_open(self):
-        base_partner_1 = self.env.ref('base.res_partner_1')
-        base_partner_12 = self.env.ref('base.res_partner_12')
-        partner_ids_exclude = [base_partner_1.id, base_partner_12.id]
+        partner_ids_exclude = [
+            self.env.ref('base.res_partner_1').id,
+            self.env.ref('base.res_partner_12').id
+        ]
         for item in self:
             if item.partner_id.vat:
                 continue
