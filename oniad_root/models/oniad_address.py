@@ -303,6 +303,10 @@ class OniadAddress(models.Model):
         # return
         return action_response
 
+    @api.multi
+    def action_credit_limit_send_sns_multi(self):
+        return super(OniadAddress, self).action_credit_limit_send_sns_multi()
+
     @api.model
     def cron_sqs_oniad_address(self):
         _logger.info('cron_sqs_oniad_address')

@@ -8,8 +8,9 @@
         <field name="priority" eval="20"/>
         <field name="arch" type="xml">            
             <field name="category_id" position="after">
-                <field name="oniad_user_id" invisible="1" />
-                <field name="oniad_user_id_link" widget="url" attrs="{'invisible': [('oniad_user_id','=',0)]}" />                
+                <field name="oniad_user_id" readonly="1" />
+                <field name="oniad_user_id_link" widget="url" attrs="{'invisible': [('oniad_user_id','=',0)]}" />
+                <field name="oniad_address_id" readonly="1" />
             </field>
         </field>
      </record>
