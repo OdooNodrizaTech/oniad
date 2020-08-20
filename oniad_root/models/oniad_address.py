@@ -254,8 +254,12 @@ class OniadAddress(models.Model):
             _logger.info(sns_name)                        
         #return
         return action_response
-            
-    @api.multi    
+
+    @api.multi
+    def action_credit_limit_send_sns_multi(self):
+        return super(OniadAddress, self).action_credit_limit_send_sns_multi()
+
+    @api.multi
     def cron_sqs_oniad_address(self, cr=None, uid=False, context=None):
         _logger.info('cron_sqs_oniad_address')
         
