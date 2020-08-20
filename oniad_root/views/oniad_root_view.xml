@@ -207,7 +207,10 @@
         <field name="name">Oniad Address</field>
         <field name="model">oniad.address</field>
         <field name="arch" type="xml">
-            <form string="Oniad Address">                                                
+            <form string="Oniad Address">
+                <header>
+                    <button name="action_credit_limit_send_sns_multi" string="Send SNS" type="object" />
+                </header>
                 <sheet string="child">
                     <div class="oe_button_box" name="button_box">
                         <button class="oe_stat_button" type="action" name="%(oniad_root.oniad_transaction_type_action)d" icon="fa-bars"  context="{'search_default_oniad_address_id': active_id}">
